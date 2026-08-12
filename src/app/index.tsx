@@ -17,6 +17,10 @@ export default function App() {
           <Text style={styles.title}>Hello World!</Text>
           <Button onPress={handleNavigate} title="Go to Login" />
           <Button onPress={() => router.navigate("/Home")} title="Go to Home" />
+          <Button
+            onPress={() => router.navigate("/notification")}
+            title="Go to Notifications"
+          />
         </View>
       </SafeAreaView>
     </View>

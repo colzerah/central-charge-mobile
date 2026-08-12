@@ -9,7 +9,14 @@ export default function TabLayout() {
         screenOptions={{
           headerShown: true,
         }}
-      />
+      >
+        <Tabs.Screen
+          name="notification/index"
+          options={{
+            title: "Notifications",
+          }}
+        />
+      </Tabs>
     </ThemeProvider>
   );
 }
