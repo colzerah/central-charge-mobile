@@ -1,11 +1,12 @@
-import { DarkTheme, DefaultTheme, Tabs, ThemeProvider } from "expo-router";
+import { DarkTheme, DefaultTheme, ThemeProvider } from "expo-router";
+import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Tabs
+      {/* <Tabs
         screenOptions={{
           headerShown: true,
         }}
@@ -16,7 +17,29 @@ export default function TabLayout() {
             title: "Notifications",
           }}
         />
-      </Tabs>
+      </Tabs> */}
+      <NativeTabs minimizeBehavior="onScrollDown" tabBarRespectsIMEInsets>
+        <NativeTabs.Trigger name="Home">
+          <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+          <NativeTabs.Trigger.Icon
+            sf={{ default: "house", selected: "house.fill" }}
+            md="home"
+            xcasset={{
+              default: "home-outline",
+              selected: "home-filled",
+            }}
+          />
+        </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="notification/index" disabled={false}>
+          <NativeTabs.Trigger.Icon sf="bell.fill" md="notifications" />
+          <NativeTabs.Trigger.Badge>9+</NativeTabs.Trigger.Badge>
+          <NativeTabs.Trigger.Label>Notificações</NativeTabs.Trigger.Label>
+        </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="search" role="search">
+          <NativeTabs.Trigger.Icon md="search" />
+          <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
+        </NativeTabs.Trigger>
+      </NativeTabs>
     </ThemeProvider>
   );
 }
