@@ -1,6 +1,6 @@
-import { AuthState } from "@/dtos/authSliceDTO";
-import { User } from "@/dtos/userDTO";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AuthState } from "~/dtos/authSliceDTO";
+import { User } from "~/dtos/userDTO";
 
 const initialState: AuthState = {
   isAuthenticated: false,
