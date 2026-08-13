@@ -1,3 +1,5 @@
+import { login } from "@/redux/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useRouter } from "expo-router";
 
 import { Button, StyleSheet, Text, View } from "react-native";
@@ -5,11 +7,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { authState, appState } = useAppSelector((state) => state);
 
   function handleNavigate() {
     console.log("Navigating to login page");
     router.navigate("/Login");
   }
+
+  function handleRedux() {
+    console.log("States:", { authState, appState });
+    console.log("States:", authState.isAuthenticated);
+  }
+
+  function handlePressLogin() {
+    dispatch(login());
+    console.log("logou:");
+  }
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -21,6 +36,8 @@ export default function App() {
             onPress={() => router.navigate("/notification")}
             title="Go to Notifications"
           />
+          <Button onPress={handleRedux} title="Test Redux" />
+          <Button onPress={handlePressLogin} title="Login" />
         </View>
       </SafeAreaView>
     </View>
