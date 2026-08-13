@@ -1,14 +1,17 @@
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { login } from "~/redux/authSlice";
 
 import { Button, ButtonText } from "@/components/ui/button";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { requestTeste } from "../service/requests/testeRequest";
 
 export default function App() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAppSelector((state) => state.authState);
 
   function handleNavigate() {
@@ -23,6 +26,26 @@ export default function App() {
   function handlePressLogin() {
     dispatch(login());
     console.log("logou:");
+  }
+
+  async function getDados() {
+    setLoading(true);
+    try {
+      const response = await requestTeste();
+      console.log("Response from requestTeste:", response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
   return (
@@ -48,6 +71,9 @@ export default function App() {
           </Button>
           <Button onPress={handlePressLogin}>
             <ButtonText>Login</ButtonText>
+          </Button>
+          <Button onPress={getDados}>
+            <ButtonText>Request Teste</ButtonText>
           </Button>
         </View>
       </SafeAreaView>
