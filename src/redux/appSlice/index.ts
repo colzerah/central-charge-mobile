@@ -1,5 +1,5 @@
-import { AppState } from "@/dtos/appSliceDTO";
 import { createSlice } from "@reduxjs/toolkit";
+import { AppState } from "~/dtos/appSliceDTO";
 
 const initialState: AppState = {
   home: {

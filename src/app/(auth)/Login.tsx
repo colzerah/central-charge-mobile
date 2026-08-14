@@ -7,9 +7,11 @@ export default function Login() {
       <MapView
         provider={PROVIDER_DEFAULT}
         style={styles.map}
+        showsUserLocation
+        showsMyLocationButton
         initialRegion={{
-          latitude: 20405060,
-          longitude: 20405060,
+          latitude: -23.5505,
+          longitude: -46.6333,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         }}
@@ -24,6 +26,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "90%",
+    height: "100%",
   },
 });
