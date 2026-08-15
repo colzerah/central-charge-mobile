@@ -1,6 +1,12 @@
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import {
+  Inter_400Regular,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  useFonts,
+} from "@expo-google-fonts/inter";
+import { SplashScreen, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { login } from "~/redux/authSlice";
 
 import { Button, ButtonText } from "@/components/ui/button";
@@ -8,11 +14,25 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { requestTeste } from "../service/requests/testeRequest";
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAppSelector((state) => state.authState);
+
+  const [fontsLoaded, fontError] = useFonts({
+    "Inter-Regular": Inter_400Regular,
+    "Inter-SemiBold": Inter_600SemiBold,
+    "Inter-Bold": Inter_700Bold,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) SplashScreen.hideAsync();
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) return null;
 
   function handleNavigate() {
     console.log("Navigating to login page");
@@ -26,6 +46,11 @@ export default function App() {
   function handlePressLogin() {
     dispatch(login());
     console.log("logou:");
+  }
+
+  function handleNavigateMap() {
+    console.log("Navigating to map page");
+    router.navigate("/Map");
   }
 
   async function getDados() {
@@ -74,6 +99,9 @@ export default function App() {
           </Button>
           <Button onPress={getDados}>
             <ButtonText>Request Teste</ButtonText>
+          </Button>
+          <Button onPress={handleNavigateMap}>
+            <ButtonText>Go to Map</ButtonText>
           </Button>
         </View>
       </SafeAreaView>
