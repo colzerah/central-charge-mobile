@@ -85,6 +85,12 @@ export default function App() {
           <Button onPress={() => router.navigate("/Home")}>
             <ButtonText>Go to Home</ButtonText>
           </Button>
+          <Button onPress={() => router.navigate("/menu")}>
+            <ButtonText>Go to Menu</ButtonText>
+          </Button>
+          <Button onPress={() => router.navigate("/recharges")}>
+            <ButtonText>Go to Recargas</ButtonText>
+          </Button>
           <Button
             onPress={() => router.navigate("/notification")}
             // title="Go to Notifications"

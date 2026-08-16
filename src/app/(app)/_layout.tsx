@@ -30,11 +30,34 @@ export default function TabLayout() {
             }}
           />
         </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="menu" role="favorites">
+          <NativeTabs.Trigger.Label>Menu</NativeTabs.Trigger.Label>
+          <NativeTabs.Trigger.Icon
+            sf={{ default: "list.bullet", selected: "list.bullet" }}
+            md="menu"
+            xcasset={{
+              default: "menu-outline",
+              selected: "menu-filled",
+            }}
+          />
+        </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="recharges" role="favorites">
+          <NativeTabs.Trigger.Label>Recargas</NativeTabs.Trigger.Label>
+          <NativeTabs.Trigger.Icon
+            sf={{ default: "bolt.fill", selected: "bolt.fill" }}
+            md="flash_on"
+            xcasset={{
+              default: "flash-outline",
+              selected: "flash-filled",
+            }}
+          />
+        </NativeTabs.Trigger>
         <NativeTabs.Trigger name="notification/index" disabled={false}>
           <NativeTabs.Trigger.Icon sf="bell.fill" md="notifications" />
           <NativeTabs.Trigger.Badge>9+</NativeTabs.Trigger.Badge>
           <NativeTabs.Trigger.Label>Notificações</NativeTabs.Trigger.Label>
         </NativeTabs.Trigger>
+
         <NativeTabs.Trigger name="search" role="search">
           <NativeTabs.Trigger.Icon md="search" />
           <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
