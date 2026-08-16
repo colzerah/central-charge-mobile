@@ -82,7 +82,7 @@ export default function App() {
           <Button onPress={handleNavigate}>
             <ButtonText>Go to Login</ButtonText>
           </Button>
-          <Button onPress={() => router.navigate("/Home")}>
+          <Button onPress={() => router.navigate("/home")}>
             <ButtonText>Go to Home</ButtonText>
           </Button>
           <Button onPress={() => router.navigate("/menu")}>
