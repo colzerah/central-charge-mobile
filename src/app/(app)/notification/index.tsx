@@ -7,11 +7,13 @@ import {
   ChevronRight,
   CreditCard,
   Gift,
+  Trash2,
   Zap,
 } from "lucide-react-native";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Alert,
+  Pressable,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -20,10 +22,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import Animated, {
   Easing,
   Extrapolation,
   interpolate,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -196,6 +204,7 @@ export default function NotificacoesScreen() {
   const pullO = useSharedValue(0);
   const pullScale = useSharedValue(0.5);
   const pullRotate = useSharedValue(0);
+  const [notifs, setNotifs] = useState<Notif[]>(NOTIFS);
 
   useEffect(() => {
     headerO.value = withDelay(80, withTiming(1, { duration: 400 }));
@@ -278,87 +287,116 @@ export default function NotificacoesScreen() {
     }
   };
 
+  const handleDelete = useCallback((id: string) => {
+    setNotifs((prev) => prev.filter((n) => n.id !== id));
+  }, []);
+
+  const handleOpen = useCallback((id: string) => {
+    //  router.push(`/notif/${id}`);
+  }, []);
+
   const unread = NOTIFS.filter((n) => !n.read).length;
 
   return (
-    <View style={styles.root}>
-      <SafeAreaView style={styles.flex}>
-        {/* Header */}
-        <Animated.View style={headerStyle}>
-          <View style={styles.header}>
-            <View style={styles.headerRow}>
-              <View>
-                <Text style={styles.headerTitle}>Notificações</Text>
-                <Text style={styles.headerSubtitle}>
-                  {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
-                </Text>
+    <GestureHandlerRootView style={styles.flex}>
+      <View style={styles.root}>
+        <SafeAreaView style={styles.flex}>
+          {/* Header */}
+          <Animated.View style={headerStyle}>
+            <View style={styles.header}>
+              <View style={styles.headerRow}>
+                <View>
+                  <Text style={styles.headerTitle}>Notificações</Text>
+                  <Text style={styles.headerSubtitle}>
+                    {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.markAllBtn}
+                  onPress={() =>
+                    Alert.alert(
+                      "Tudo certo",
+                      "Todas as notificações foram marcadas como lidas.",
+                    )
+                  }
+                  activeOpacity={0.7}
+                >
+                  <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
+                  <Text style={styles.markAllText}>Marcar todas</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.markAllBtn}
-                onPress={() =>
-                  Alert.alert(
-                    "Tudo certo",
-                    "Todas as notificações foram marcadas como lidas.",
-                  )
-                }
-                activeOpacity={0.7}
-              >
-                <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
-                <Text style={styles.markAllText}>Marcar todas</Text>
-              </TouchableOpacity>
             </View>
-          </View>
-          <Animated.View style={[styles.headerGlow, headerGlowStyle]} />
-        </Animated.View>
-
-        {/* Pull-to-refresh indicator */}
-        <Animated.View
-          style={[styles.pullIndicator, pullIndicatorStyle]}
-          pointerEvents="none"
-        >
-          <View style={styles.pullInner}>
-            <Zap
-              color={C.brand400}
-              size={24}
-              strokeWidth={2.5}
-              fill={C.brand300}
-            />
-          </View>
-        </Animated.View>
-
-        <ScrollView
-          style={styles.flex}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor="transparent"
-              colors={["transparent"]}
-              progressBackgroundColor="transparent"
-            />
-          }
-        >
-          <Animated.View style={listStyle}>
-            {NOTIFS.map((n, i) => (
-              <NotifCard key={n.id} notif={n} index={i} />
-            ))}
-
-            <Text style={styles.endText}>Você está em dia</Text>
+            <Animated.View style={[styles.headerGlow, headerGlowStyle]} />
           </Animated.View>
-        </ScrollView>
-      </SafeAreaView>
-    </View>
+
+          {/* Pull-to-refresh indicator */}
+          <Animated.View
+            style={[styles.pullIndicator, pullIndicatorStyle]}
+            pointerEvents="none"
+          >
+            <View style={styles.pullInner}>
+              <Zap
+                color={C.brand400}
+                size={24}
+                strokeWidth={2.5}
+                fill={C.brand300}
+              />
+            </View>
+          </Animated.View>
+
+          <ScrollView
+            style={styles.flex}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor="transparent"
+                colors={["transparent"]}
+                progressBackgroundColor="transparent"
+              />
+            }
+          >
+            <Animated.View style={listStyle}>
+              {NOTIFS.map((n, i) => (
+                <NotifCard
+                  key={n.id}
+                  notif={n}
+                  index={i}
+                  onDelete={handleDelete}
+                  onOpen={handleOpen}
+                />
+              ))}
+
+              <Text style={styles.endText}>Você está em dia</Text>
+            </Animated.View>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
+    </GestureHandlerRootView>
   );
 }
 
-function NotifCard({ notif, index }: { notif: Notif; index: number }) {
+function NotifCard({
+  notif,
+  index,
+  onDelete,
+  onOpen,
+}: {
+  notif: Notif;
+  index: number;
+  onDelete: (id: string) => void;
+  onOpen: (id: string) => void;
+}) {
   const cardO = useSharedValue(0);
   const cardY = useSharedValue(30);
   const pressed = useSharedValue(0);
+  const translateX = useSharedValue(0);
+  const deleteOpacity = useSharedValue(0);
+  const itemHeight = useSharedValue(1);
 
   useEffect(() => {
     cardO.value = withDelay(250 + index * 50, withTiming(1, { duration: 400 }));
@@ -366,14 +404,49 @@ function NotifCard({ notif, index }: { notif: Notif; index: number }) {
       250 + index * 50,
       withTiming(0, { duration: 500, easing: Easing.out(Easing.ease) }),
     );
+    itemHeight.value = withDelay(
+      250 + index * 50,
+      withTiming(1, { duration: 400 }),
+    );
   }, [index]);
+
+  const pan = Gesture.Pan()
+    .onUpdate((e) => {
+      translateX.value = Math.min(0, e.translationX);
+      deleteOpacity.value = interpolate(
+        translateX.value,
+        [-80, -20],
+        [1, 0],
+        Extrapolation.CLAMP,
+      );
+    })
+    .onEnd((e) => {
+      if (e.translationX < -100) {
+        translateX.value = withTiming(-500, { duration: 250 });
+        itemHeight.value = withDelay(80, withTiming(0, { duration: 250 }));
+        runOnJS(onDelete)(notif.id);
+      } else {
+        translateX.value = withSpring(0, { damping: 18 });
+        deleteOpacity.value = withTiming(0, { duration: 200 });
+      }
+    });
 
   const cardStyle = useAnimatedStyle(() => ({
     opacity: cardO.value,
-    transform: [
-      { translateY: cardY.value },
-      { scale: 1 - pressed.value * 0.03 },
-    ],
+    transform: [{ scale: 1 - pressed.value * 0.03 }],
+  }));
+
+  const swipeStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
+  const containerStyle = useAnimatedStyle(() => ({
+    opacity: itemHeight.value,
+    transform: [{ scale: itemHeight.value }],
+  }));
+
+  const deleteBgStyle = useAnimatedStyle(() => ({
+    opacity: deleteOpacity.value,
   }));
 
   const iconScaleStyle = useAnimatedStyle(() => ({
@@ -391,47 +464,59 @@ function NotifCard({ notif, index }: { notif: Notif; index: number }) {
   const monthLabel = MONTHS[parseInt(notif.month, 10) - 1] || notif.month;
 
   return (
-    <Animated.View style={cardStyle}>
-      <TouchableOpacity
-        style={[styles.card, !notif.read && styles.cardUnread]}
-        activeOpacity={0.85}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={() => Alert.alert(notif.title, notif.message)}
-      >
-        {/* Ícone à esquerda */}
-        <Animated.View style={iconScaleStyle}>
-          <View
-            style={[styles.iconBox, { backgroundColor: bgForType(notif.type) }]}
-          >
-            {iconForType(notif.type)}
-          </View>
+    <Animated.View style={containerStyle}>
+      <View style={styles.swipeWrap}>
+        <Animated.View
+          style={[styles.deleteBg, deleteBgStyle]}
+          pointerEvents="none"
+        >
+          <Trash2 color={C.ink0} size={22} strokeWidth={2.2} />
         </Animated.View>
+        <GestureDetector gesture={pan}>
+          <Animated.View style={swipeStyle}>
+            <Animated.View style={cardStyle}>
+              <Pressable
+                style={[styles.card, !notif.read && styles.cardUnread]}
+                onPressIn={handlePressIn}
+                onPressOut={handlePressOut}
+                onPress={() => onOpen(notif.id)}
+              >
+                <Animated.View style={iconScaleStyle}>
+                  <View
+                    style={[
+                      styles.iconBox,
+                      { backgroundColor: bgForType(notif.type) },
+                    ]}
+                  >
+                    {iconForType(notif.type)}
+                  </View>
+                </Animated.View>
 
-        {/* Conteúdo */}
-        <View style={styles.cardBody}>
-          <View style={styles.cardHeader}>
-            {!notif.read && <View style={styles.unreadDot} />}
-            <Text style={styles.cardTitle} numberOfLines={1}>
-              {notif.title}
-            </Text>
-          </View>
-          <Text style={styles.cardMessage} numberOfLines={2}>
-            {notif.message}
-          </Text>
-        </View>
+                <View style={styles.cardBody}>
+                  <View style={styles.cardHeader}>
+                    {!notif.read && <View style={styles.unreadDot} />}
+                    <Text style={styles.cardTitle} numberOfLines={1}>
+                      {notif.title}
+                    </Text>
+                  </View>
+                  <Text style={styles.cardMessage} numberOfLines={2}>
+                    {notif.message}
+                  </Text>
+                </View>
 
-        {/* Data no canto superior direito */}
-        <View style={styles.dateBox}>
-          <Text style={styles.dateDay}>{notif.day}</Text>
-          <Text style={styles.dateMonth}>{monthLabel}</Text>
-        </View>
+                <View style={styles.dateBox}>
+                  <Text style={styles.dateDay}>{notif.day}</Text>
+                  <Text style={styles.dateMonth}>{monthLabel}</Text>
+                </View>
 
-        {/* Chevron */}
-        <View style={styles.chevron}>
-          <ChevronRight color={C.ink400} size={18} />
-        </View>
-      </TouchableOpacity>
+                <View style={styles.chevron}>
+                  <ChevronRight color={C.ink400} size={18} />
+                </View>
+              </Pressable>
+            </Animated.View>
+          </Animated.View>
+        </GestureDetector>
+      </View>
     </Animated.View>
   );
 }
@@ -614,5 +699,22 @@ const styles = StyleSheet.create({
     color: C.ink500,
     fontFamily: "Inter-SemiBold",
     marginTop: 20,
+  },
+  swipeWrap: {
+    position: "relative",
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  deleteBg: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: C.error,
+    borderRadius: 16,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    paddingRight: 20,
   },
 });
