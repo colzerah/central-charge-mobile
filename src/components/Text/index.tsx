@@ -1,5 +1,5 @@
 import { Text as GlueText } from "@/components/ui/text";
-import { ITextProps } from "./textDto";
+import { ITextProps } from "./TextDto";
 
 const Text = ({
   color = "black",
