@@ -27,6 +27,8 @@
     --ring: 212 212 212;
     --accent: 247 247 247;
     --accent-foreground: 52 52 52;
+    --text-red-500: 255 92 0
+
   }
 
   @media (prefers-color-scheme: dark) {
@@ -110,4 +112,5 @@
   --color-ring: rgb(var(--ring));
   --color-accent: rgb(var(--accent));
   --color-accent-foreground: rgb(var(--accent-foreground));
+
 }

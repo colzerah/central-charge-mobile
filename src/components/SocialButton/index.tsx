@@ -1,15 +1,10 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import Apple from "./apple.svg";
-import Chrome from "./chrome.svg";
-import Facebook from "./facebook.svg";
+import Apple from "./Icons/apple.svg";
+import Chrome from "./Icons/chrome.svg";
+import Facebook from "./Icons/facebook.svg";
 
+import { SocialButtonProps } from "./SocialButtonDTO";
 import { styles } from "./styles";
-
-interface SocialButtonProps {
-  type: "facebook" | "chrome" | "apple";
-  label: string;
-  onPress: () => void;
-}
 
 const SocialButton = ({ type, label, onPress }: SocialButtonProps) => {
   const icon = {

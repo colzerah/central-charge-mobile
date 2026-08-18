@@ -10,8 +10,9 @@ import { useEffect, useState } from "react";
 import { login } from "~/redux/authSlice";
 
 import { Button, ButtonText } from "@/components/ui/button";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Text } from "~/components/Text";
 import { requestTeste } from "../service/requests/testeRequest";
 
 SplashScreen.preventAutoHideAsync();
@@ -68,17 +69,18 @@ export default function App() {
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <Text color="red" title="Loading..." />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text>{`Authenticated: ${isAuthenticated}`}</Text>
+      <Text title={`Authenticated: ${isAuthenticated}`} />
       <SafeAreaView>
+        <Text title="Texte Texto 1" color="red" fontFamily="Inter-Regular" />
         <View style={styles.heroSection}>
-          <Text style={styles.title}>Hello World!</Text>
+          <Text title="Hello World!" color="black" style={styles.title} />
           <Button onPress={handleNavigate}>
             <ButtonText>Go to Login</ButtonText>
           </Button>
