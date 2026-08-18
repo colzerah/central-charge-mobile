@@ -1,4 +1,4 @@
-import { C } from "@/src/theme/index";
+import { C } from "@/src/theme";
 import {
   AlertTriangle,
   BatteryCharging,
@@ -11,6 +11,7 @@ import {
   Zap,
 } from "lucide-react-native";
 import React, { useCallback, useEffect, useState } from "react";
+
 import {
   Alert,
   Pressable,
@@ -39,10 +40,36 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+// NOTIFS,
+//   type Notif,
+//   type NotifType,
+//   iconForType,
+//   bgForType,
 
-type NotifType = "charge" | "alert" | "success" | "info" | "payment" | "gift";
+const MONTHS = [
+  "JAN",
+  "FEV",
+  "MAR",
+  "ABR",
+  "MAI",
+  "JUN",
+  "JUL",
+  "AGO",
+  "SET",
+  "OUT",
+  "NOV",
+  "DEZ",
+];
 
-interface Notif {
+export type NotifType =
+  | "charge"
+  | "alert"
+  | "success"
+  | "info"
+  | "payment"
+  | "gift";
+
+export interface Notif {
   id: string;
   type: NotifType;
   title: string;
@@ -52,7 +79,7 @@ interface Notif {
   read: boolean;
 }
 
-const NOTIFS: Notif[] = [
+export const NOTIFS: Notif[] = [
   {
     id: "1",
     type: "charge",
@@ -145,7 +172,7 @@ const NOTIFS: Notif[] = [
   },
 ];
 
-const iconForType = (type: NotifType): React.ReactNode => {
+export const iconForType = (type: NotifType): React.ReactNode => {
   switch (type) {
     case "charge":
       return <BatteryCharging color={C.brand400} size={22} strokeWidth={2.2} />;
@@ -162,7 +189,7 @@ const iconForType = (type: NotifType): React.ReactNode => {
   }
 };
 
-const bgForType = (type: NotifType): string => {
+export const bgForType = (type: NotifType): string => {
   switch (type) {
     case "charge":
       return C.brand400 + "22";
@@ -179,23 +206,9 @@ const bgForType = (type: NotifType): string => {
   }
 };
 
-const MONTHS = [
-  "JAN",
-  "FEV",
-  "MAR",
-  "ABR",
-  "MAI",
-  "JUN",
-  "JUL",
-  "AGO",
-  "SET",
-  "OUT",
-  "NOV",
-  "DEZ",
-];
-
 export default function NotificacoesScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
+  const [notifs, setNotifs] = useState<Notif[]>(NOTIFS);
   const scrollY = useSharedValue(0);
   const headerO = useSharedValue(0);
   const headerY = useSharedValue(-20);
@@ -204,7 +217,6 @@ export default function NotificacoesScreen() {
   const pullO = useSharedValue(0);
   const pullScale = useSharedValue(0.5);
   const pullRotate = useSharedValue(0);
-  const [notifs, setNotifs] = useState<Notif[]>(NOTIFS);
 
   useEffect(() => {
     headerO.value = withDelay(80, withTiming(1, { duration: 400 }));
@@ -287,15 +299,15 @@ export default function NotificacoesScreen() {
     }
   };
 
+  const unread = notifs.filter((n) => !n.read).length;
+
   const handleDelete = useCallback((id: string) => {
     setNotifs((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
   const handleOpen = useCallback((id: string) => {
-    //  router.push(`/notif/${id}`);
+    // router.push(`/notif/${id}`);
   }, []);
-
-  const unread = NOTIFS.filter((n) => !n.read).length;
 
   return (
     <GestureHandlerRootView style={styles.flex}>
@@ -361,7 +373,7 @@ export default function NotificacoesScreen() {
             }
           >
             <Animated.View style={listStyle}>
-              {NOTIFS.map((n, i) => (
+              {notifs.map((n, i) => (
                 <NotifCard
                   key={n.id}
                   notif={n}
@@ -370,6 +382,13 @@ export default function NotificacoesScreen() {
                   onOpen={handleOpen}
                 />
               ))}
+
+              {notifs.length === 0 && (
+                <View style={styles.emptyWrap}>
+                  <CheckCircle color={C.ink400} size={40} strokeWidth={1.5} />
+                  <Text style={styles.emptyText}>Sem notificações</Text>
+                </View>
+              )}
 
               <Text style={styles.endText}>Você está em dia</Text>
             </Animated.View>
@@ -413,17 +432,19 @@ function NotifCard({
   const pan = Gesture.Pan()
     .onUpdate((e) => {
       translateX.value = Math.min(0, e.translationX);
+      // lixeira aparece imediatamente ao iniciar o gesto
       deleteOpacity.value = interpolate(
         translateX.value,
-        [-80, -20],
+        [-15, 0],
         [1, 0],
         Extrapolation.CLAMP,
       );
     })
     .onEnd((e) => {
-      if (e.translationX < -100) {
-        translateX.value = withTiming(-500, { duration: 250 });
-        itemHeight.value = withDelay(80, withTiming(0, { duration: 250 }));
+      // só confirma se a puxada for forte o suficiente; senão volta
+      if (e.translationX < -140) {
+        translateX.value = withTiming(-600, { duration: 220 });
+        itemHeight.value = withDelay(60, withTiming(0, { duration: 220 }));
         runOnJS(onDelete)(notif.id);
       } else {
         translateX.value = withSpring(0, { damping: 18 });
@@ -449,6 +470,19 @@ function NotifCard({
     opacity: deleteOpacity.value,
   }));
 
+  const deleteIconStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        scale: interpolate(
+          translateX.value,
+          [-160, -120, 0],
+          [1.35, 1, 1],
+          Extrapolation.CLAMP,
+        ),
+      },
+    ],
+  }));
+
   const iconScaleStyle = useAnimatedStyle(() => ({
     transform: [{ scale: 1 + pressed.value * 0.12 }],
   }));
@@ -470,7 +504,9 @@ function NotifCard({
           style={[styles.deleteBg, deleteBgStyle]}
           pointerEvents="none"
         >
-          <Trash2 color={C.ink0} size={22} strokeWidth={2.2} />
+          <Animated.View style={deleteIconStyle}>
+            <Trash2 color={C.ink0} size={24} strokeWidth={2.2} />
+          </Animated.View>
         </Animated.View>
         <GestureDetector gesture={pan}>
           <Animated.View style={swipeStyle}>
@@ -612,16 +648,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: C.ink50,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: C.ink200,
-    paddingHorizontal: 14,
-    paddingVertical: 16,
-    marginHorizontal: 20,
-    marginBottom: 10,
+    borderRadius: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: C.ink200,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
   cardUnread: {
-    borderColor: C.ink300,
     backgroundColor: C.ink100,
   },
   iconBox: {
@@ -700,10 +733,11 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-SemiBold",
     marginTop: 20,
   },
+
+  // Swipe
   swipeWrap: {
     position: "relative",
-    marginHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   deleteBg: {
     position: "absolute",
@@ -712,9 +746,20 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: C.error,
-    borderRadius: 16,
+    borderRadius: 0,
     alignItems: "flex-end",
     justifyContent: "center",
-    paddingRight: 20,
+    paddingRight: 24,
+  },
+  emptyWrap: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 60,
+    gap: 12,
+  },
+  emptyText: {
+    fontSize: 14,
+    color: C.ink500,
+    fontFamily: "Inter-SemiBold",
   },
 });
