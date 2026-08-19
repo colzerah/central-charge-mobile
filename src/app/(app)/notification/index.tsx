@@ -23,11 +23,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  Gesture,
-  GestureDetector,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+import { Gesture } from "react-native-gesture-handler";
 import Animated, {
   Easing,
   Extrapolation,
@@ -310,92 +306,92 @@ export default function NotificacoesScreen() {
   }, []);
 
   return (
-    <GestureHandlerRootView style={styles.flex}>
-      <View style={styles.root}>
-        <SafeAreaView style={styles.flex}>
-          {/* Header */}
-          <Animated.View style={headerStyle}>
-            <View style={styles.header}>
-              <View style={styles.headerRow}>
-                <View>
-                  <Text style={styles.headerTitle}>Notificações</Text>
-                  <Text style={styles.headerSubtitle}>
-                    {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  style={styles.markAllBtn}
-                  onPress={() =>
-                    Alert.alert(
-                      "Tudo certo",
-                      "Todas as notificações foram marcadas como lidas.",
-                    )
-                  }
-                  activeOpacity={0.7}
-                >
-                  <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
-                  <Text style={styles.markAllText}>Marcar todas</Text>
-                </TouchableOpacity>
+    // <GestureHandlerRootView style={styles.flex}>
+    <View style={styles.root}>
+      <SafeAreaView style={styles.flex}>
+        {/* Header */}
+        <Animated.View style={headerStyle}>
+          <View style={styles.header}>
+            <View style={styles.headerRow}>
+              <View>
+                <Text style={styles.headerTitle}>Notificações</Text>
+                <Text style={styles.headerSubtitle}>
+                  {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
+                </Text>
               </View>
+              <TouchableOpacity
+                style={styles.markAllBtn}
+                onPress={() =>
+                  Alert.alert(
+                    "Tudo certo",
+                    "Todas as notificações foram marcadas como lidas.",
+                  )
+                }
+                activeOpacity={0.7}
+              >
+                <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
+                <Text style={styles.markAllText}>Marcar todas</Text>
+              </TouchableOpacity>
             </View>
-            <Animated.View style={[styles.headerGlow, headerGlowStyle]} />
-          </Animated.View>
+          </View>
+          <Animated.View style={[styles.headerGlow, headerGlowStyle]} />
+        </Animated.View>
 
-          {/* Pull-to-refresh indicator */}
-          <Animated.View
-            style={[styles.pullIndicator, pullIndicatorStyle]}
-            pointerEvents="none"
-          >
-            <View style={styles.pullInner}>
-              <Zap
-                color={C.brand400}
-                size={24}
-                strokeWidth={2.5}
-                fill={C.brand300}
+        {/* Pull-to-refresh indicator */}
+        <Animated.View
+          style={[styles.pullIndicator, pullIndicatorStyle]}
+          pointerEvents="none"
+        >
+          <View style={styles.pullInner}>
+            <Zap
+              color={C.brand400}
+              size={24}
+              strokeWidth={2.5}
+              fill={C.brand300}
+            />
+          </View>
+        </Animated.View>
+
+        <ScrollView
+          style={styles.flex}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor="transparent"
+              colors={["transparent"]}
+              progressBackgroundColor="transparent"
+            />
+          }
+        >
+          <Animated.View style={listStyle}>
+            {notifs.map((n, i) => (
+              <NotifCard
+                key={n.id}
+                notif={n}
+                index={i}
+                onDelete={handleDelete}
+                onOpen={handleOpen}
               />
-            </View>
+            ))}
+
+            {notifs.length === 0 && (
+              <View style={styles.emptyWrap}>
+                <CheckCircle color={C.ink400} size={40} strokeWidth={1.5} />
+                <Text style={styles.emptyText}>Sem notificações</Text>
+              </View>
+            )}
+
+            <Text style={styles.endText}>Você está em dia</Text>
           </Animated.View>
-
-          <ScrollView
-            style={styles.flex}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                tintColor="transparent"
-                colors={["transparent"]}
-                progressBackgroundColor="transparent"
-              />
-            }
-          >
-            <Animated.View style={listStyle}>
-              {notifs.map((n, i) => (
-                <NotifCard
-                  key={n.id}
-                  notif={n}
-                  index={i}
-                  onDelete={handleDelete}
-                  onOpen={handleOpen}
-                />
-              ))}
-
-              {notifs.length === 0 && (
-                <View style={styles.emptyWrap}>
-                  <CheckCircle color={C.ink400} size={40} strokeWidth={1.5} />
-                  <Text style={styles.emptyText}>Sem notificações</Text>
-                </View>
-              )}
-
-              <Text style={styles.endText}>Você está em dia</Text>
-            </Animated.View>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
-    </GestureHandlerRootView>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
+    // </GestureHandlerRootView>
   );
 }
 
@@ -508,50 +504,50 @@ function NotifCard({
             <Trash2 color={C.ink0} size={24} strokeWidth={2.2} />
           </Animated.View>
         </Animated.View>
-        <GestureDetector gesture={pan}>
-          <Animated.View style={swipeStyle}>
-            <Animated.View style={cardStyle}>
-              <Pressable
-                style={[styles.card, !notif.read && styles.cardUnread]}
-                onPressIn={handlePressIn}
-                onPressOut={handlePressOut}
-                onPress={() => onOpen(notif.id)}
-              >
-                <Animated.View style={iconScaleStyle}>
-                  <View
-                    style={[
-                      styles.iconBox,
-                      { backgroundColor: bgForType(notif.type) },
-                    ]}
-                  >
-                    {iconForType(notif.type)}
-                  </View>
-                </Animated.View>
+        {/* <GestureDetector gesture={pan}> */}
+        <Animated.View style={swipeStyle}>
+          <Animated.View style={cardStyle}>
+            <Pressable
+              style={[styles.card, !notif.read && styles.cardUnread]}
+              onPressIn={handlePressIn}
+              onPressOut={handlePressOut}
+              onPress={() => onOpen(notif.id)}
+            >
+              <Animated.View style={iconScaleStyle}>
+                <View
+                  style={[
+                    styles.iconBox,
+                    { backgroundColor: bgForType(notif.type) },
+                  ]}
+                >
+                  {iconForType(notif.type)}
+                </View>
+              </Animated.View>
 
-                <View style={styles.cardBody}>
-                  <View style={styles.cardHeader}>
-                    {!notif.read && <View style={styles.unreadDot} />}
-                    <Text style={styles.cardTitle} numberOfLines={1}>
-                      {notif.title}
-                    </Text>
-                  </View>
-                  <Text style={styles.cardMessage} numberOfLines={2}>
-                    {notif.message}
+              <View style={styles.cardBody}>
+                <View style={styles.cardHeader}>
+                  {!notif.read && <View style={styles.unreadDot} />}
+                  <Text style={styles.cardTitle} numberOfLines={1}>
+                    {notif.title}
                   </Text>
                 </View>
+                <Text style={styles.cardMessage} numberOfLines={2}>
+                  {notif.message}
+                </Text>
+              </View>
 
-                <View style={styles.dateBox}>
-                  <Text style={styles.dateDay}>{notif.day}</Text>
-                  <Text style={styles.dateMonth}>{monthLabel}</Text>
-                </View>
+              <View style={styles.dateBox}>
+                <Text style={styles.dateDay}>{notif.day}</Text>
+                <Text style={styles.dateMonth}>{monthLabel}</Text>
+              </View>
 
-                <View style={styles.chevron}>
-                  <ChevronRight color={C.ink400} size={18} />
-                </View>
-              </Pressable>
-            </Animated.View>
+              <View style={styles.chevron}>
+                <ChevronRight color={C.ink400} size={18} />
+              </View>
+            </Pressable>
           </Animated.View>
-        </GestureDetector>
+        </Animated.View>
+        {/* </GestureDetector> */}
       </View>
     </Animated.View>
   );
