@@ -1,6 +1,8 @@
 import LogoAnimated from "@/src/components/LogoAnimated";
 import SocialButton from "@/src/components/SocialButton";
 import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
+import { login } from "@/src/redux/authSlice";
+import { C } from "@/src/theme";
 import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 
@@ -25,21 +27,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const C = {
-  ink0: "#0A0A0B",
-  ink50: "#18181B",
-  ink100: "#27272A",
-  ink200: "#3F3F46",
-  ink300: "#52525B",
-  ink400: "#71717A",
-  ink500: "#A1A1AA",
-  brand300: "#FB923C",
-  brand400: "#F97316",
-  brand500: "#F97316",
-  brand600: "#EA580C",
-  white: "#FFFFFF",
-};
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   useFrameworkReady();
@@ -48,6 +36,8 @@ export default function Login() {
 }
 
 function LoginContent() {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -78,11 +68,14 @@ function LoginContent() {
       );
       return;
     }
+
     setLoading(true);
+
     setTimeout(() => {
       setLoading(false);
-      Alert.alert("Conectado", `Bem-vindo de volta, ${email}`);
     }, 1100);
+
+    dispatch(login());
   };
 
   const handleSocial = (p: string) =>
