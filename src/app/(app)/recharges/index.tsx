@@ -2,7 +2,6 @@ import { C } from "@/src/theme";
 import { BatteryCharging, Clock, TrendingUp, Zap } from "lucide-react-native";
 import React, { useEffect } from "react";
 import {
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,6 +15,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Recharge {
   id: string;
