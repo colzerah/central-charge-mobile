@@ -1,11 +1,13 @@
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import "@/src/global.css";
+
 import {
   Inter_400Regular,
   Inter_600SemiBold,
   Inter_700Bold,
   useFonts,
 } from "@expo-google-fonts/inter";
+
 import {
   DarkTheme,
   DefaultTheme,
@@ -13,8 +15,10 @@ import {
   Stack,
   ThemeProvider,
 } from "expo-router";
+
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
+
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 
@@ -31,17 +35,17 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
-      console.log("fontsLoaded", fontsLoaded, "fontError", fontError);
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) return null;
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <GluestackUIProvider mode="light">
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        {/* <SafeAreaView> */}
         <Provider store={store}>
           <Stack
             screenOptions={{
@@ -49,7 +53,6 @@ export default function RootLayout() {
             }}
           />
         </Provider>
-        {/* </SafeAreaView> */}
       </ThemeProvider>
     </GluestackUIProvider>
   );
