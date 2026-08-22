@@ -5,7 +5,7 @@ export default function Root() {
   const { isAuthenticated } = useAppSelector((state) => state.authState);
 
   if (isAuthenticated) {
-    return <Redirect href="/(app)/(tabs)/home" />;
+    return <Redirect href="/home" />;
   }
 
   return <Redirect href="/login" />;

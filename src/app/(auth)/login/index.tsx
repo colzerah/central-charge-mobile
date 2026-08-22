@@ -145,12 +145,9 @@ function LoginContent() {
 
               <TouchableOpacity
                 style={styles.forgotWrap}
-                onPress={() =>
-                  Alert.alert(
-                    "Recuperar senha",
-                    "Envio de link de recuperação.",
-                  )
-                }
+                onPress={() => {
+                  router.navigate("/home");
+                }}
               >
                 <Text style={styles.forgot}>Esqueci minha senha</Text>
               </TouchableOpacity>
