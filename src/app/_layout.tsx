@@ -1,4 +1,4 @@
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { GluestackUIProvider } from "@/src/components/ui/gluestack-ui-provider";
 import "@/src/global.css";
 
 import {
