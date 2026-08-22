@@ -1,4 +1,4 @@
-import { Text as RNText } from "@/components/ui/text";
+import { Text as RNText } from "@/src/components/ui/text";
 
 export interface ITextProps extends React.ComponentProps<typeof RNText> {
   color?: string;

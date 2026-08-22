@@ -1,4 +1,4 @@
-import { Text as GlueText } from "@/components/ui/text";
+import { Text as GlueText } from "@/src/components/ui/text";
 import { ITextProps } from "./TextDto";
 
 const Text = ({
