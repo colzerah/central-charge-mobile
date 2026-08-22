@@ -1,4 +1,7 @@
+import { logout } from "@/src/redux/authSlice";
+import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
+import { router } from "expo-router";
 import {
   Car,
   ChevronRight,
@@ -30,6 +33,7 @@ import Animated, {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Menu() {
+  const dispatch = useAppDispatch();
   const profileO = useSharedValue(0);
   const profileY = useSharedValue(20);
   const menuO = useSharedValue(0);
@@ -157,6 +161,10 @@ export default function Menu() {
                   label="Central de ajuda"
                 />
                 <MenuItem
+                  onPress={() => {
+                    dispatch(logout());
+                    router.replace("/login");
+                  }}
                   icon={<LogOut color={C.error} size={19} strokeWidth={2.2} />}
                   label="Sair da conta"
                   danger
@@ -184,16 +192,19 @@ function MenuItem({
   label,
   sublabel,
   danger,
+  onPress,
 }: {
   icon: React.ReactNode;
   label: string;
   sublabel?: string;
   danger?: boolean;
+  onPress?: () => void;
 }) {
   return (
     <TouchableOpacity
       style={[styles.menuItem, !danger && styles.menuItemBorder]}
       activeOpacity={0.8}
+      onPress={onPress}
     >
       <View style={[styles.menuIcon, danger && styles.menuIconDanger]}>
         {icon}
