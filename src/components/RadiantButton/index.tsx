@@ -1,10 +1,18 @@
-import { RadiantButton as ButtonRRadix } from "@/src/components/shared/ui/base/radiant-button";
+import { RadiantButton as ButtonIX } from "@/src/components/shared/ui/base/radiant-button";
 import { C } from "@/src/theme";
+import * as icons from "lucide-react-native/icons";
+
 import { Text, View } from "react-native";
 import Icon from "../Icon";
 export interface ButtonProps {
   onPress?: () => void;
-  size?: "default" | "sm" | "lg" | "login";
+  title?: string;
+  w?: number;
+  h?: number;
+  iconName?: keyof typeof icons;
+  rightIcon?: boolean;
+  leftIcon?: boolean;
+  disabled?: boolean;
   variant?:
     | "default"
     | "destructive"
@@ -14,70 +22,69 @@ export interface ButtonProps {
     | "link";
 }
 
-const RadiantButton = ({ onPress, size = "login", variant }: ButtonProps) => {
-  const disabled = true;
-
+const RadiantButton = ({
+  onPress,
+  disabled = false,
+  title = "Lorem",
+  rightIcon,
+  leftIcon,
+  iconName = "ArrowRight",
+  w = 304,
+  h = 56,
+}: ButtonProps) => {
   const defaultTheme = {
-    background: "#000000",
-    backgroundSubtle: "#1a1a1a",
-    foreground: "#ffffff",
-    highlight: "#c084fc",
-    highlightSubtle: "#a855f7",
-  };
-
-  const testeTheme = {
-    background: "#3a2714",
-
-    backgroundSubtle: "#6b441e",
-
-    foreground: C.white,
-
-    highlight: C.brand500,
-
-    highlightSubtle: C.brand700,
-  };
-
-  const testeTheme2 = {
     background: C.brand500,
-
     backgroundSubtle: C.brand700,
-
     foreground: C.white,
-
     highlight: C.brand400,
-
     highlightSubtle: C.brand300,
   };
 
+  const disabledTheme = {
+    background: C.brand500,
+    backgroundSubtle: C.brand700,
+    foreground: C.white,
+    highlight: C.brand400,
+    highlightSubtle: C.brand300,
+  };
+
+  const shadowStyle = {
+    shadowColor: C.brand500,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+    elevation: 8,
+  };
+
   return (
-    <View
-      style={{
-        shadowColor: C.brand500,
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.4,
-        shadowRadius: 14,
-        elevation: 8,
-      }}
-    >
-      <ButtonRRadix
-        theme={testeTheme2}
+    <View style={disabled ? {} : shadowStyle}>
+      <ButtonIX
+        theme={disabled ? disabledTheme : defaultTheme}
         onPress={onPress}
         borderRadius={14}
+        shimmerOpacity={1}
+        showDots={false}
+        glowBlur={100}
+        glowWidth={1}
         style={{
-          backgroundColor: disabled ? C.brand500 : C.ink500,
+          backgroundColor: disabled ? C.ink500 : C.brand500,
+          height: h,
+          width: w,
         }}
-        paddingHorizontal={68}
-        paddingVertical={16}
       >
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-            paddingHorizontal: 28,
-            gap: 14,
+            gap: 8,
           }}
         >
+          {leftIcon && (
+            <View>
+              <Icon name={iconName} size={20} color={C.white} />
+            </View>
+          )}
           <Text
             style={{
               color: C.white,
@@ -86,11 +93,15 @@ const RadiantButton = ({ onPress, size = "login", variant }: ButtonProps) => {
               fontFamily: "Inter-Bold",
             }}
           >
-            Entrares
+            {title}
           </Text>
-          <Icon name="ArrowRight" size={24} color={C.white} />
+          {rightIcon && (
+            <View>
+              <Icon name={iconName} size={20} color={C.white} />
+            </View>
+          )}
         </View>
-      </ButtonRRadix>
+      </ButtonIX>
     </View>
   );
 };
