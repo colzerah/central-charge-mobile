@@ -1,13 +1,16 @@
+import ButtonIcon from "@/src/components/ButtonIcon";
 import { useAppDispatch } from "@/src/redux/store";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function TesteImp() {
   const dispatch = useAppDispatch();
 
   return (
     <View style={styles.root}>
-      <Text>TesteImp</Text>
+      <ButtonIcon disabled />
+      <ButtonIcon variant="outline" />
+      <ButtonIcon variant="solid" />
     </View>
   );
 }
