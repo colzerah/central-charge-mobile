@@ -16,8 +16,9 @@ export const C = {
   warning: "#F59E0B",
   error: "#EF4444",
   info: "#3B82F6",
-
-  disabled: "#A1A1AA",
+  disabled400: "#A1A1AA",
+  disabled500: "#71717A",
+  disabled600: "#27272A",
 };
 
 export const colorDark = {

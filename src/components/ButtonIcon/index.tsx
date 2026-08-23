@@ -4,27 +4,36 @@ import { ActivityIndicator, View } from "react-native";
 import Icon from "../Icon";
 export interface ButtonProps {
   onPress?: () => void;
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link";
+  disabled?: boolean;
+  variant?: "solid" | "outline";
 }
 
-const ButtonIcon = ({ onPress, variant }: ButtonProps) => {
-  const disabled = true;
-
+const ButtonIcon = ({ onPress, variant, disabled }: ButtonProps) => {
   const iconColor = () => {
     if (disabled) {
-      return "gray";
+      return C.disabled500;
     }
 
     if (variant === "outline") {
-      return "red";
+      return C.brand400;
     }
-    return "blue";
+    if (variant === "solid") {
+      return C.white;
+    }
+    return C.white;
+  };
+
+  const backgroundColor = () => {
+    if (disabled) {
+      return C.disabled400;
+    }
+    if (variant === "outline") {
+      return C.ink200;
+    }
+    if (variant === "solid") {
+      return C.brand500;
+    }
+    return C.brand500;
   };
 
   return (
@@ -39,9 +48,6 @@ const ButtonIcon = ({ onPress, variant }: ButtonProps) => {
     >
       <ButtonIX
         onPress={onPress}
-        // width={304}
-        // height={56}
-
         width={56}
         height={56}
         isLoading={false}
@@ -65,7 +71,7 @@ const ButtonIcon = ({ onPress, variant }: ButtonProps) => {
           fontFamily: "Inter-Bold",
         }}
         disabled={disabled}
-        backgroundColor={disabled ? C.brand500 : C.ink500}
+        backgroundColor={backgroundColor()}
       >
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
           <Icon name="ArrowRight" size={24} color={iconColor()} />
