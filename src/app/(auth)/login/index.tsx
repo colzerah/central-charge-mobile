@@ -183,12 +183,12 @@ function LoginContent() {
                 <SocialButton
                   type="chrome"
                   label="Google"
-                  onPress={() => handleSocial("Google")}
+                  onPress={() => router.navigate("/testeImp")}
                 />
                 <SocialButton
                   type="apple"
                   label="Apple"
-                  onPress={() => handleSocial("Apple")}
+                  onPress={() => router.navigate("/testeCol")}
                 />
                 <SocialButton
                   type="facebook"

@@ -1,7 +1,13 @@
 import * as icons from "lucide-react-native/icons";
 import { IconProps } from "./IconDTO";
 
-const Icon = ({ name, color, size, strokeWidth, fill }: IconProps) => {
+const Icon = ({
+  name,
+  color,
+  size,
+  strokeWidth,
+  fill = "transparent",
+}: IconProps) => {
   const LucideIcon = icons[name];
 
   return (

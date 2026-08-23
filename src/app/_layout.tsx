@@ -1,6 +1,3 @@
-import { GluestackUIProvider } from "@/src/components/ui/gluestack-ui-provider";
-import "@/src/global.css";
-
 import {
   Inter_400Regular,
   Inter_600SemiBold,
@@ -44,16 +41,14 @@ export default function RootLayout() {
   }
 
   return (
-    <GluestackUIProvider mode="light">
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Provider store={store}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          />
-        </Provider>
-      </ThemeProvider>
-    </GluestackUIProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Provider store={store}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        />
+      </Provider>
+    </ThemeProvider>
   );
 }
