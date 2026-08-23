@@ -18,13 +18,7 @@ export default function TesteCol() {
   return (
     <>
       <View style={styles.root}>
-        <RadiantButton
-          onPress={() => {}}
-          rightIcon={true}
-          leftIcon={false}
-          title="Entrar"
-          disabled={true}
-        />
+        <RadiantButton />
       </View>
       <View style={[styles.root, { paddingHorizontal: 28 }]}>
         <TouchableOpacity

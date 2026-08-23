@@ -1,26 +1,15 @@
 import { RadiantButton as ButtonIX } from "@/src/components/shared/ui/base/radiant-button";
 import { C } from "@/src/theme";
-import * as icons from "lucide-react-native/icons";
 
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import Icon from "../Icon";
-export interface ButtonProps {
-  onPress?: () => void;
-  title?: string;
-  w?: number;
-  h?: number;
-  iconName?: keyof typeof icons;
-  rightIcon?: boolean;
-  leftIcon?: boolean;
-  disabled?: boolean;
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link";
-}
+import { ButtonProps } from "./RadiantButtonDTO";
+import {
+  defaultTheme,
+  disabledTheme,
+  radiantButtonStyles,
+  shadowStyle,
+} from "./styles";
 
 const RadiantButton = ({
   onPress,
@@ -30,77 +19,47 @@ const RadiantButton = ({
   leftIcon,
   iconName = "ArrowRight",
   w = 304,
-  h = 56,
+  isLoading = false,
 }: ButtonProps) => {
-  const defaultTheme = {
-    background: C.brand500,
-    backgroundSubtle: C.brand700,
-    foreground: C.white,
-    highlight: C.brand400,
-    highlightSubtle: C.brand300,
-  };
+  const deactivate = disabled || isLoading;
 
-  const disabledTheme = {
-    background: C.brand500,
-    backgroundSubtle: C.brand700,
-    foreground: C.white,
-    highlight: C.brand400,
-    highlightSubtle: C.brand300,
-  };
+  const loadingIndicator = (
+    <ActivityIndicator
+      color={C.white}
+      style={radiantButtonStyles.activityIndicator}
+    />
+  );
 
-  const shadowStyle = {
-    shadowColor: C.brand500,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 14,
-    elevation: 8,
-  };
+  const viewChildren = (
+    <View style={radiantButtonStyles.container}>
+      {leftIcon && <Icon name={iconName} size={20} color={C.white} />}
+      <Text style={radiantButtonStyles.text}>{title}</Text>
+      {rightIcon && <Icon name={iconName} size={20} color={C.white} />}
+    </View>
+  );
 
   return (
     <View style={disabled ? {} : shadowStyle}>
       <ButtonIX
+        disabled={deactivate}
         theme={disabled ? disabledTheme : defaultTheme}
         onPress={onPress}
         borderRadius={14}
         shimmerOpacity={1}
         showDots={false}
+        showShimmer={disabled ? false : true}
+        showGlow={disabled ? false : true}
         glowBlur={100}
         glowWidth={1}
-        style={{
-          backgroundColor: disabled ? C.ink500 : C.brand500,
-          height: h,
-          width: w,
-        }}
+        style={[
+          radiantButtonStyles.button,
+          {
+            backgroundColor: disabled ? C.ink500 : C.brand500,
+            width: w,
+          },
+        ]}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-          }}
-        >
-          {leftIcon && (
-            <View>
-              <Icon name={iconName} size={20} color={C.white} />
-            </View>
-          )}
-          <Text
-            style={{
-              color: C.white,
-              fontSize: 17,
-              fontWeight: "700",
-              fontFamily: "Inter-Bold",
-            }}
-          >
-            {title}
-          </Text>
-          {rightIcon && (
-            <View>
-              <Icon name={iconName} size={20} color={C.white} />
-            </View>
-          )}
-        </View>
+        {isLoading ? loadingIndicator : viewChildren}
       </ButtonIX>
     </View>
   );
