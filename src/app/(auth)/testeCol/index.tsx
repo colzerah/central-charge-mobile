@@ -1,15 +1,8 @@
+import Input from "@/src/components/Input";
 import { useAppDispatch } from "@/src/redux/store";
 
-import RadiantButton from "@/src/components/RadiantButton";
 import { C } from "@/src/theme";
-import { ArrowRight } from "lucide-react-native";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function TesteCol() {
   const loading = false;
@@ -18,36 +11,16 @@ export default function TesteCol() {
   return (
     <>
       <View style={styles.root}>
-        <RadiantButton />
-      </View>
-      <View style={[styles.root, { paddingHorizontal: 28 }]}>
-        <TouchableOpacity
-          style={styles.primaryBtn}
-          onPress={() => {}}
-          activeOpacity={0.85}
-          disabled={false}
-        >
-          {loading ? (
-            <ActivityIndicator color={C.white} />
-          ) : (
-            <>
-              <Text style={styles.primaryBtnText}>Entrar</Text>
-              <ArrowRight color={C.white} size={20} strokeWidth={2.2} />
-            </>
-          )}
-        </TouchableOpacity>
+        <Input label="Email" textContentType="emailAddress" />
       </View>
       <View style={styles.root}>
-        {/* <Button
-          onPress={() => {
-            console.log("clicou");
-          }}
-          variant="default"
-          size="login"
-        >
-          <ButtonText className="font-medium">Entrar</ButtonText>
-          <ArrowRight size={20} color={"white"} />
-        </Button> */}
+        <Input label="Password" textContentType="password" />
+      </View>
+      <View style={styles.root}>
+        <Input isInvalid />
+      </View>
+      <View style={styles.root}>
+        <Input isDisabled />
       </View>
     </>
   );
