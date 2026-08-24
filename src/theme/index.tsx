@@ -19,6 +19,14 @@ export const C = {
   disabled400: "#A1A1AA",
   disabled500: "#71717A",
   disabled600: "#27272A",
+
+  borderFocused: "#71717A",
+  border: "#3F3F46",
+  borderError: "#EF4444",
+  borderErrorFocused: "#EF4444",
+  placeholder: "#71717A",
+  placeholderInvalid: "#EF4444",
+  iconColorInvalid: "#EF4444",
 };
 
 export const colorDark = {
