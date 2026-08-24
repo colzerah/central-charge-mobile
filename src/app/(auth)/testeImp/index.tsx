@@ -8,9 +8,9 @@ export default function TesteImp() {
 
   return (
     <View style={styles.root}>
-      <ButtonIcon disabled />
-      <ButtonIcon variant="outline" />
-      <ButtonIcon variant="solid" />
+      <ButtonIcon icon="Star" size="md" />
+      <ButtonIcon variant="outline" icon="Star" size="sm" />
+      <ButtonIcon variant="solid" icon="Star" size="md" />
     </View>
   );
 }
