@@ -1,6 +1,5 @@
 import { useAppDispatch } from "@/src/redux/store";
 
-import ButtonLogin from "@/src/components/Button";
 import RadiantButton from "@/src/components/RadiantButton";
 import { C } from "@/src/theme";
 import { ArrowRight } from "lucide-react-native";
@@ -19,10 +18,7 @@ export default function TesteCol() {
   return (
     <>
       <View style={styles.root}>
-        <ButtonLogin onPress={() => {}} />
-      </View>
-      <View style={styles.root}>
-        <RadiantButton onPress={() => {}} />
+        <RadiantButton />
       </View>
       <View style={[styles.root, { paddingHorizontal: 28 }]}>
         <TouchableOpacity

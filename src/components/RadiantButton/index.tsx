@@ -1,96 +1,66 @@
-import { RadiantButton as ButtonRRadix } from "@/src/components/shared/ui/base/radiant-button";
+import { RadiantButton as ButtonIX } from "@/src/components/shared/ui/base/radiant-button";
 import { C } from "@/src/theme";
-import { Text, View } from "react-native";
+
+import { ActivityIndicator, Text, View } from "react-native";
 import Icon from "../Icon";
-export interface ButtonProps {
-  onPress?: () => void;
-  size?: "default" | "sm" | "lg" | "login";
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link";
-}
+import { ButtonProps } from "./RadiantButtonDTO";
+import {
+  defaultTheme,
+  disabledTheme,
+  radiantButtonStyles,
+  shadowStyle,
+} from "./styles";
 
-const RadiantButton = ({ onPress, size = "login", variant }: ButtonProps) => {
-  const disabled = true;
+const RadiantButton = ({
+  onPress,
+  disabled = false,
+  title = "Lorem",
+  rightIcon,
+  leftIcon,
+  iconName = "ArrowRight",
+  w = 304,
+  isLoading = false,
+}: ButtonProps) => {
+  const deactivate = disabled || isLoading;
 
-  const defaultTheme = {
-    background: "#000000",
-    backgroundSubtle: "#1a1a1a",
-    foreground: "#ffffff",
-    highlight: "#c084fc",
-    highlightSubtle: "#a855f7",
-  };
+  const loadingIndicator = (
+    <ActivityIndicator
+      color={C.white}
+      style={radiantButtonStyles.activityIndicator}
+    />
+  );
 
-  const testeTheme = {
-    background: "#3a2714",
-
-    backgroundSubtle: "#6b441e",
-
-    foreground: C.white,
-
-    highlight: C.brand500,
-
-    highlightSubtle: C.brand700,
-  };
-
-  const testeTheme2 = {
-    background: C.brand500,
-
-    backgroundSubtle: C.brand700,
-
-    foreground: C.white,
-
-    highlight: C.brand400,
-
-    highlightSubtle: C.brand300,
-  };
+  const viewChildren = (
+    <View style={radiantButtonStyles.container}>
+      {leftIcon && <Icon name={iconName} size={20} color={C.white} />}
+      <Text style={radiantButtonStyles.text}>{title}</Text>
+      {rightIcon && <Icon name={iconName} size={20} color={C.white} />}
+    </View>
+  );
 
   return (
-    <View
-      style={{
-        shadowColor: C.brand500,
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.4,
-        shadowRadius: 14,
-        elevation: 8,
-      }}
-    >
-      <ButtonRRadix
-        theme={testeTheme2}
+    <View style={disabled ? {} : shadowStyle}>
+      <ButtonIX
+        disabled={deactivate}
+        theme={disabled ? disabledTheme : defaultTheme}
         onPress={onPress}
         borderRadius={14}
-        style={{
-          backgroundColor: disabled ? C.brand500 : C.ink500,
-        }}
-        paddingHorizontal={68}
-        paddingVertical={16}
+        shimmerOpacity={1}
+        showDots={false}
+        showShimmer={disabled ? false : true}
+        showGlow={disabled ? false : true}
+        glowBlur={100}
+        glowWidth={1}
+        style={[
+          radiantButtonStyles.button,
+          {
+            backgroundColor: disabled ? C.ink500 : C.brand500,
+            width: w,
+          },
+        ]}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingHorizontal: 28,
-            gap: 14,
-          }}
-        >
-          <Text
-            style={{
-              color: C.white,
-              fontSize: 17,
-              fontWeight: "700",
-              fontFamily: "Inter-Bold",
-            }}
-          >
-            Entrares
-          </Text>
-          <Icon name="ArrowRight" size={24} color={C.white} />
-        </View>
-      </ButtonRRadix>
+        {isLoading ? loadingIndicator : viewChildren}
+      </ButtonIX>
     </View>
   );
 };
