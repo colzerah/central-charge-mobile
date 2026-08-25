@@ -6,7 +6,7 @@ import { ButtonIconProps } from "./ButtonIconDTO";
 
 const ButtonIcon = ({
   onPress,
-  variant,
+  variant = "solid",
   disabled,
   icon = "Star",
   size = "md",
