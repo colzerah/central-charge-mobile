@@ -35,7 +35,6 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 // NOTIFS,
 //   type Notif,
 //   type NotifType,
@@ -308,88 +307,88 @@ export default function NotificacoesScreen() {
   return (
     // <GestureHandlerRootView style={styles.flex}>
     <View style={styles.root}>
-      <SafeAreaView style={styles.flex}>
-        {/* Header */}
-        <Animated.View style={headerStyle}>
-          <View style={styles.header}>
-            <View style={styles.headerRow}>
-              <View>
-                <Text style={styles.headerTitle}>Notificações</Text>
-                <Text style={styles.headerSubtitle}>
-                  {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.markAllBtn}
-                onPress={() =>
-                  Alert.alert(
-                    "Tudo certo",
-                    "Todas as notificações foram marcadas como lidas.",
-                  )
-                }
-                activeOpacity={0.7}
-              >
-                <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
-                <Text style={styles.markAllText}>Marcar todas</Text>
-              </TouchableOpacity>
+      {/* <SafeAreaView style={styles.flex}> */}
+      {/* Header */}
+      <Animated.View style={headerStyle}>
+        <View style={styles.header}>
+          <View style={styles.headerRow}>
+            <View>
+              <Text style={styles.headerTitle}>Notificações</Text>
+              <Text style={styles.headerSubtitle}>
+                {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
+              </Text>
             </View>
+            <TouchableOpacity
+              style={styles.markAllBtn}
+              onPress={() =>
+                Alert.alert(
+                  "Tudo certo",
+                  "Todas as notificações foram marcadas como lidas.",
+                )
+              }
+              activeOpacity={0.7}
+            >
+              <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
+              <Text style={styles.markAllText}>Marcar todas</Text>
+            </TouchableOpacity>
           </View>
-          <Animated.View style={[styles.headerGlow, headerGlowStyle]} />
-        </Animated.View>
+        </View>
+        <Animated.View style={[styles.headerGlow, headerGlowStyle]} />
+      </Animated.View>
 
-        {/* Pull-to-refresh indicator */}
-        <Animated.View
-          style={[styles.pullIndicator, pullIndicatorStyle]}
-          pointerEvents="none"
-        >
-          <View style={styles.pullInner}>
-            <Zap
-              color={C.brand400}
-              size={24}
-              strokeWidth={2.5}
-              fill={C.brand300}
+      {/* Pull-to-refresh indicator */}
+      <Animated.View
+        style={[styles.pullIndicator, pullIndicatorStyle]}
+        pointerEvents="none"
+      >
+        <View style={styles.pullInner}>
+          <Zap
+            color={C.brand400}
+            size={24}
+            strokeWidth={2.5}
+            fill={C.brand300}
+          />
+        </View>
+      </Animated.View>
+
+      <ScrollView
+        style={styles.flex}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="transparent"
+            colors={["transparent"]}
+            progressBackgroundColor="transparent"
+          />
+        }
+      >
+        <Animated.View style={listStyle}>
+          {notifs.map((n, i) => (
+            <NotifCard
+              key={n.id}
+              notif={n}
+              index={i}
+              onDelete={handleDelete}
+              onOpen={handleOpen}
             />
-          </View>
+          ))}
+
+          {notifs.length === 0 && (
+            <View style={styles.emptyWrap}>
+              <CheckCircle color={C.ink400} size={40} strokeWidth={1.5} />
+              <Text style={styles.emptyText}>Sem notificações</Text>
+            </View>
+          )}
+
+          <Text style={styles.endText}>Você está em dia</Text>
         </Animated.View>
-
-        <ScrollView
-          style={styles.flex}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor="transparent"
-              colors={["transparent"]}
-              progressBackgroundColor="transparent"
-            />
-          }
-        >
-          <Animated.View style={listStyle}>
-            {notifs.map((n, i) => (
-              <NotifCard
-                key={n.id}
-                notif={n}
-                index={i}
-                onDelete={handleDelete}
-                onOpen={handleOpen}
-              />
-            ))}
-
-            {notifs.length === 0 && (
-              <View style={styles.emptyWrap}>
-                <CheckCircle color={C.ink400} size={40} strokeWidth={1.5} />
-                <Text style={styles.emptyText}>Sem notificações</Text>
-              </View>
-            )}
-
-            <Text style={styles.endText}>Você está em dia</Text>
-          </Animated.View>
-        </ScrollView>
-      </SafeAreaView>
+      </ScrollView>
+      {/* </SafeAreaView> */}
     </View>
     // </GestureHandlerRootView>
   );

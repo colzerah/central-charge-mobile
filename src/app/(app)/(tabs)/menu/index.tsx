@@ -114,6 +114,7 @@ export default function Menu() {
                   icon={<Car color={C.brand400} size={19} strokeWidth={2.2} />}
                   label="Meu veículo"
                   sublabel="Tesla Model 3"
+                  onPress={() => router.push("/(app)/(tabs)/menu/teste")}
                 />
                 <MenuItem
                   icon={
