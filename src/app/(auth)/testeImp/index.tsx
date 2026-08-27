@@ -11,15 +11,10 @@ export default function TesteImp() {
 
   return (
     <View style={styles.root}>
-      <Button title="Teste" iconLeft="ArrowLeft" />
+      <Button title="Teste" iconLeft="ArrowLeft" size="md" variant="link" />
       <ButtonIcon icon="Album" size="md" variant="solid" />
       <DateBadge day={14} month="Abril" />
-      <IconBackground
-        icon="Plane"
-        backgroundColor="red"
-        size="sm"
-        iconColor="red"
-      />
+      <IconBackground icon="Plane" size="sm" />
     </View>
   );
 }

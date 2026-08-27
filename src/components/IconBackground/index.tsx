@@ -5,10 +5,10 @@ import { styles } from "./styles";
 
 const IconBackground = ({
   icon,
-  backgroundColor,
+  backgroundColor = "red",
   size = "sm",
   square = false,
-  iconColor = "white",
+  iconColor = "red",
 }: IconBackgroundProps) => {
   const getSize = () => {
     if (size === "sm") {

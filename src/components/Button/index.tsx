@@ -32,14 +32,14 @@ const Button = ({
     }
     if (size === "md") {
       return {
-        height: isLink ? 20 : 48,
+        height: isLink ? 24 : 48,
         fontSize: 17,
         iconSize: 20,
       };
     }
     if (size === "lg") {
       return {
-        height: isLink ? 20 : 56,
+        height: isLink ? 28 : 56,
         fontSize: 20,
         iconSize: 24,
       };
