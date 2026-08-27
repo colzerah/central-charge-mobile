@@ -1,4 +1,7 @@
+import Button from "@/src/components/Button";
 import ButtonIcon from "@/src/components/ButtonIcon";
+import DateBadge from "@/src/components/DateBadge";
+import IconBackground from "@/src/components/IconBackground";
 import { useAppDispatch } from "@/src/redux/store";
 
 import { StyleSheet, View } from "react-native";
@@ -8,9 +11,15 @@ export default function TesteImp() {
 
   return (
     <View style={styles.root}>
-      <ButtonIcon icon="Star" size="md" />
-      <ButtonIcon variant="outline" icon="Star" size="sm" />
-      <ButtonIcon variant="solid" icon="Star" size="md" />
+      <Button title="Teste" iconLeft="ArrowLeft" />
+      <ButtonIcon icon="Album" size="md" variant="solid" />
+      <DateBadge day={14} month="Abril" />
+      <IconBackground
+        icon="Plane"
+        backgroundColor="red"
+        size="sm"
+        iconColor="red"
+      />
     </View>
   );
 }

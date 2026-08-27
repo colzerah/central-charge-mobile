@@ -3,41 +3,64 @@ import Icon from "../Icon";
 import { IconBackgroundProps } from "./IconBackgroundDTO";
 import { styles } from "./styles";
 
-//padronizar com o button
-
 const IconBackground = ({
   icon,
   backgroundColor,
   size = "sm",
-  square,
+  square = false,
   iconColor = "white",
 }: IconBackgroundProps) => {
-  const sizeMap = {
-    sm: { bgSize: 36, iconSize: 19 },
-    md: { bgSize: 46, iconSize: 24 },
-    lg: { bgSize: 48, iconSize: 22 },
+  const getSize = () => {
+    if (size === "sm") {
+      return {
+        bgSize: 36,
+        iconSize: 19,
+      };
+    }
+    if (size === "md") {
+      return {
+        bgSize: 46,
+        iconSize: 23,
+      };
+    }
+    if (size === "lg") {
+      return {
+        bgSize: 48,
+        iconSize: 24,
+      };
+    }
+
+    throw new Error(`Unsupported IconBackground size: ${size}`);
   };
 
-  const backgroundSize = sizeMap[size].bgSize;
-  const iconSize = sizeMap[size].iconSize;
+  const componentSize = getSize();
+  const borderRadius = square
+    ? componentSize.bgSize / 2 - 6
+    : componentSize.bgSize / 2;
 
   return (
     <View
       style={[
         styles.container,
         {
-          backgroundColor: backgroundColor + "80",
-          width: backgroundSize,
-          height: backgroundSize,
-          borderRadius: square ? backgroundSize / 2 - 6 : backgroundSize / 2,
+          width: componentSize.bgSize,
+          height: componentSize.bgSize,
+          borderRadius,
         },
       ]}
     >
+      <View
+        style={{
+          ...styles.background,
+          backgroundColor,
+          borderRadius,
+        }}
+      />
       <View>
         <Icon
           name={icon}
           color={iconColor}
-          size={iconSize}
+          size={componentSize.iconSize}
           fill="transparent"
         />
       </View>

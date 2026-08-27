@@ -49,8 +49,8 @@ const Button = ({
   const getVariant = () => {
     if (disabled) {
       return {
-        backgroundColor: C.ink500,
-        color: C.white, // veificar os caos em disabled
+        backgroundColor: "transparent",
+        color: C.disabled500 + "40",
       };
     }
     if (isLink) {
@@ -116,7 +116,11 @@ const Button = ({
       >
         <View style={styles.iconView}>
           {iconLeft && (
-            <Icon name={iconLeft} size={getSize()?.iconSize} color={C.white} /> //organizar cores dos icones igual as cores dinamicas do texto
+            <Icon
+              name={iconLeft}
+              size={getSize()?.iconSize}
+              color={getVariant()?.color}
+            />
           )}
           <Text
             style={[
@@ -130,7 +134,11 @@ const Button = ({
             {title}
           </Text>
           {iconRight && (
-            <Icon name={iconRight} size={getSize()?.iconSize} color={C.white} />
+            <Icon
+              name={iconRight}
+              size={getSize()?.iconSize}
+              color={getVariant()?.color}
+            />
           )}
         </View>
       </ButtonIX>

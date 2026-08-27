@@ -3,6 +3,7 @@ import { C } from "@/src/theme";
 import { View } from "react-native";
 import Icon from "../Icon";
 import { ButtonIconProps } from "./ButtonIconDTO";
+import { styles } from "./styles";
 
 const ButtonIcon = ({
   onPress,
@@ -11,9 +12,19 @@ const ButtonIcon = ({
   icon = "Star",
   size = "md",
 }: ButtonIconProps) => {
-  const sizes = {
-    sm: { width: 40, height: 40 },
-    md: { width: 54, height: 54 },
+  const getSizes = () => {
+    if (size === "sm") {
+      return {
+        width: 40,
+        height: 40,
+      };
+    }
+    if (size === "md") {
+      return {
+        width: 54,
+        height: 54,
+      };
+    }
   };
 
   const iconColor = () => {
@@ -42,21 +53,22 @@ const ButtonIcon = ({
     return C.brand500;
   };
 
-  //ajustar padronizar como o button
+  const disabledOpacity = { opacity: disabled ? 0.5 : 1 };
+  const borderRadius = size === "sm" ? 20 : 14;
 
   return (
     <View>
       <ButtonIX
-        style={{ opacity: disabled ? 0.5 : 1 }}
+        style={disabledOpacity}
+        width={getSizes()?.width}
+        height={getSizes()?.height}
+        borderRadius={borderRadius}
         onPress={onPress}
-        width={sizes[size].width}
-        height={sizes[size].height}
-        borderRadius={size === "sm" ? 20 : 14}
-        withPressAnimation
         disabled={disabled}
+        withPressAnimation
         backgroundColor={backgroundColor()}
       >
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <View style={styles.iconView}>
           <Icon
             name={icon}
             size={size === "sm" ? 18 : 22}
