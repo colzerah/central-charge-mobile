@@ -11,4 +11,5 @@ export interface ButtonProps {
   iconLeft?: keyof typeof icons;
   iconRight?: keyof typeof icons;
   variant?: "solid" | "link";
+  loadingText?: string;
 }

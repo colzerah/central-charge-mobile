@@ -3,11 +3,7 @@ import Icon from "../Icon";
 import { IconBackgroundProps } from "./IconBackgroundDTO";
 import { styles } from "./styles";
 
-const sizeMap = {
-  sm: { bgSize: 36, iconSize: 19 },
-  md: { bgSize: 46, iconSize: 24 },
-  lg: { bgSize: 48, iconSize: 22 },
-} as const;
+//padronizar com o button
 
 const IconBackground = ({
   icon,
@@ -16,6 +12,12 @@ const IconBackground = ({
   square,
   iconColor = "white",
 }: IconBackgroundProps) => {
+  const sizeMap = {
+    sm: { bgSize: 36, iconSize: 19 },
+    md: { bgSize: 46, iconSize: 24 },
+    lg: { bgSize: 48, iconSize: 22 },
+  };
+
   const backgroundSize = sizeMap[size].bgSize;
   const iconSize = sizeMap[size].iconSize;
 

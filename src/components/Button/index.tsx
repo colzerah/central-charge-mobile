@@ -16,25 +16,30 @@ const Button = ({
   iconLeft,
   iconRight,
   size = "md",
+  loadingText = "Carregando...",
 }: ButtonProps) => {
+  const isLink = variant === "link";
+  const isAndroid = Platform.OS === "android";
+  const borderRadius = isLink ? 0 : 14;
+
   const getSize = () => {
     if (size === "sm") {
       return {
-        height: 40,
+        height: isLink ? 20 : 40,
         fontSize: 14,
         iconSize: 16,
       };
     }
     if (size === "md") {
       return {
-        height: 48,
+        height: isLink ? 20 : 48,
         fontSize: 17,
         iconSize: 20,
       };
     }
     if (size === "lg") {
       return {
-        height: 56,
+        height: isLink ? 20 : 56,
         fontSize: 20,
         iconSize: 24,
       };
@@ -42,32 +47,37 @@ const Button = ({
   };
 
   const getVariant = () => {
-    if (variant === "link") {
+    if (disabled) {
+      return {
+        backgroundColor: C.ink500,
+        color: C.white, // veificar os caos em disabled
+      };
+    }
+    if (isLink) {
       return {
         backgroundColor: "transparent",
         color: C.brand500,
       };
     }
+
     return {
       backgroundColor: C.brand500,
       color: C.white,
     };
   };
 
-  const isLink = variant === "link";
-
   const getBoxShadow = () => {
     if (!shadowBox) {
       return {};
     }
-    if (Platform.OS === "android") {
+    if (isAndroid) {
       return {
         elevation: 12,
         boxShadow: `0px 6px 14px ${C.brand500}66`,
         borderRadius: 14,
       };
     }
-    if (Platform.OS === "ios") {
+    if (!isAndroid) {
       return {
         shadowColor: C.brand500,
         shadowOffset: { width: 0, height: 6 },
@@ -88,25 +98,25 @@ const Button = ({
   return (
     <View style={getBoxShadow()}>
       <ButtonIX
-        onPress={onPress}
-        width={w}
-        height={isLink ? 20 : getSize()?.height}
         isLoading={isLoading}
+        loadingText={loadingText}
+        disabled={disabled}
+        width={w}
+        onPress={onPress}
+        loadingTextColor={C.white}
         loadingTextBackgroundColor={C.brand300}
+        loadingTextStyle={styles.loadingText}
+        borderRadius={borderRadius}
+        height={getSize()?.height}
+        loadingTextSize={getSize()?.fontSize}
+        backgroundColor={getVariant()?.backgroundColor}
         renderLoadingIndicator={() => activityIndicator}
         showLoadingIndicator={true}
-        loadingText="Carregando..."
-        loadingTextColor={C.white}
-        loadingTextSize={getSize()?.fontSize}
-        borderRadius={isLink ? 0 : 14}
         withPressAnimation
-        loadingTextStyle={styles.loadingText}
-        disabled={disabled}
-        backgroundColor={disabled ? C.ink500 : getVariant()?.backgroundColor}
       >
         <View style={styles.iconView}>
-          {iconLeft && !isLink && (
-            <Icon name={iconLeft} size={getSize()?.iconSize} color={C.white} />
+          {iconLeft && (
+            <Icon name={iconLeft} size={getSize()?.iconSize} color={C.white} /> //organizar cores dos icones igual as cores dinamicas do texto
           )}
           <Text
             style={[
@@ -119,7 +129,7 @@ const Button = ({
           >
             {title}
           </Text>
-          {iconRight && !isLink && (
+          {iconRight && (
             <Icon name={iconRight} size={getSize()?.iconSize} color={C.white} />
           )}
         </View>

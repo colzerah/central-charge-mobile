@@ -42,6 +42,8 @@ const ButtonIcon = ({
     return C.brand500;
   };
 
+  //ajustar padronizar como o button
+
   return (
     <View>
       <ButtonIX

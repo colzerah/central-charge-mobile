@@ -3,6 +3,8 @@ import { C } from "~/theme";
 import { DateBadgeProps } from "./DateBadgeDTO";
 import { styles } from "./styles";
 
+// refatorar com os padroes do button
+
 const DateBadge = ({ day, month, bg = true }: DateBadgeProps) => {
   const formattedMonth = month.toUpperCase().slice(0, 3);
   return (
