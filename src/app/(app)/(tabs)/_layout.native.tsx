@@ -1,15 +1,17 @@
-import { StackAwareTabBar } from "@/src/components/shared/ui/base/stack-aware-tabs";
+import TabBar from "@/src/components/TabBar";
+import { C } from "@/src/theme";
 import { Tabs } from "expo-router";
 
 import { Bell, MapPin, Menu, QrCode, Zap } from "lucide-react-native";
 
-export default function TabIOSLayout() {
+export default function TabLayout() {
   return (
     <Tabs
-      tabBar={(props) => <StackAwareTabBar {...props} />}
+      tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
         headerShown: false,
-        headerTitle: "Glow UI",
+        headerTitle: "TabBar",
+        sceneStyle: { backgroundColor: C.ink0 },
       }}
     >
       <Tabs.Screen
@@ -17,7 +19,7 @@ export default function TabIOSLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ focused }) => (
-            <MapPin size={20} color={focused ? "#FFFFFF" : "#B9B9B9"} />
+            <MapPin size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
         }}
       />
@@ -26,7 +28,7 @@ export default function TabIOSLayout() {
         options={{
           title: "Recargas",
           tabBarIcon: ({ focused }) => (
-            <Zap size={20} color={focused ? "#FFFFFF" : "#B9B9B9"} />
+            <Zap size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
         }}
       />
@@ -36,7 +38,7 @@ export default function TabIOSLayout() {
           title: "Scan",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <QrCode size={20} color={focused ? "#FFFFFF" : "#B9B9B9"} />
+            <QrCode size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
         }}
       />
@@ -45,7 +47,7 @@ export default function TabIOSLayout() {
         options={{
           title: "Notificações",
           tabBarIcon: ({ focused }) => (
-            <Bell size={20} color={focused ? "#FFFFFF" : "#B9B9B9"} />
+            <Bell size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
         }}
       />
@@ -54,7 +56,7 @@ export default function TabIOSLayout() {
         options={{
           title: "Menu",
           tabBarIcon: ({ focused }) => (
-            <Menu size={20} color={focused ? "#FFFFFF" : "#B9B9B9"} />
+            <Menu size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
         }}
       />

@@ -29,14 +29,14 @@ import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 
 import { C } from "@/src/theme";
-import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import type { TabBarProps } from "./types";
+import type { BottomTabBarProps } from "expo-router/js-tabs";
+import type { TabBarProps } from "./TabBarDTO";
 
-const SPACING = 10;
+import { tabStyles } from "./styles";
+
 const SCALE_UP = 2.2;
 
-const AnimatedBlurView =
-  Animated.createAnimatedComponent<BlurViewProps>(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const TabButton: React.FC<TabBarProps> & React.FunctionComponent<TabBarProps> =
   memo(
@@ -98,13 +98,13 @@ const TabButton: React.FC<TabBarProps> & React.FunctionComponent<TabBarProps> =
           onLongPress={onLongPress}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
-          style={styles.tabButton}
+          style={tabStyles.tabButton}
           activeOpacity={1}
         >
-          <Animated.View style={[styles.iconContainer, animatedStyle]}>
+          <Animated.View style={[tabStyles.iconContainer, animatedStyle]}>
             {icon?.({
               focused: isFocused || isDragActive,
-              color: isFocused || isDragActive ? "#fff" : "#6b7280",
+              color: isFocused || isDragActive ? C.white : "#6b7280",
               size: 28,
             })}
           </Animated.View>
@@ -113,7 +113,7 @@ const TabButton: React.FC<TabBarProps> & React.FunctionComponent<TabBarProps> =
     },
   );
 
-export const StackAwareTabBar: React.FC<BottomTabBarProps> &
+export const TabBar: React.FC<BottomTabBarProps> &
   React.FunctionComponent<BottomTabBarProps> = memo(
   (props: BottomTabBarProps): JSX.Element & React.ReactNode => {
     const router = useRouter();
@@ -200,11 +200,17 @@ export const StackAwareTabBar: React.FC<BottomTabBarProps> &
           target: route.key,
           canPreventDefault: true,
         });
-        if (state.index !== index && !event.defaultPrevented) {
+        const isFocused = state.index === index;
+        const hasNestedHistory =
+          route.state?.index !== undefined && route.state.index > 0;
+        if (isFocused && hasNestedHistory) {
+          event.preventDefault();
+          router.back();
+        } else if (!isFocused && !event.defaultPrevented) {
           navigation.navigate(route.name);
         }
       },
-      [state, navigation],
+      [state, navigation, router],
     );
 
     const panGesture: PanGesture = Gesture.Pan()
@@ -272,11 +278,13 @@ export const StackAwareTabBar: React.FC<BottomTabBarProps> &
     });
 
     return (
-      <View style={styles.container}>
-        <View style={styles.wrapper}>
-          <Animated.View style={[styles.backButtonContainer, backButtonStyle]}>
+      <View style={tabStyles.container}>
+        <View style={tabStyles.wrapper}>
+          <Animated.View
+            style={[tabStyles.backButtonContainer, backButtonStyle]}
+          >
             <TouchableOpacity
-              style={styles.backButton}
+              style={tabStyles.backButton}
               onPress={handleBackPress}
               activeOpacity={0.7}
             >
@@ -298,7 +306,7 @@ export const StackAwareTabBar: React.FC<BottomTabBarProps> &
 
           <GestureDetector gesture={composedGesture}>
             <View
-              style={styles.tabBar}
+              style={tabStyles.tabBar}
               onLayout={(event) => {
                 tabBarWidth.value = event.nativeEvent.layout.width;
               }}
@@ -318,7 +326,13 @@ export const StackAwareTabBar: React.FC<BottomTabBarProps> &
                     target: route.key,
                     canPreventDefault: true,
                   });
-                  if (!isFocused && !event.defaultPrevented) {
+                  const hasNestedHistory =
+                    route.state?.index !== undefined &&
+                    route.state.index > 0;
+                  if (isFocused && hasNestedHistory) {
+                    event.preventDefault();
+                    router.back();
+                  } else if (!isFocused && !event.defaultPrevented) {
                     navigation.navigate(route.name);
                   }
                 };
@@ -349,75 +363,4 @@ export const StackAwareTabBar: React.FC<BottomTabBarProps> &
   },
 );
 
-export default memo(StackAwareTabBar);
-
-const styles = StyleSheet.create({
-  tabBar: {
-    flexDirection: "row",
-    backgroundColor: "#101010",
-    // backgroundColor: "rgba(249, 115, 22, 0.3)",
-    borderWidth: 0.2,
-    borderColor: C.white,
-    borderRadius: 50,
-    paddingVertical: 15,
-    maxWidth: 240,
-    paddingHorizontal: SPACING * 2,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  tabButton: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  iconContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  label: {
-    fontSize: 11,
-    fontWeight: "600",
-    marginTop: 2,
-  },
-  container: {
-    position: "absolute",
-    bottom: 30,
-    left: "22%",
-    // paddingBottom: 20,
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  wrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  backButtonContainer: {
-    position: "absolute",
-    left: -SPACING / 2 - 50,
-  },
-  backButton: {
-    width: 46,
-    height: 46,
-    borderRadius: 25,
-    borderWidth: 0.4,
-    backgroundColor: "#ffffff",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-});
+export default memo(TabBar);

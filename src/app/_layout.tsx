@@ -13,14 +13,17 @@ import {
   ThemeProvider,
 } from "expo-router";
 
+import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import { C } from "../theme";
 
 SplashScreen.preventAutoHideAsync();
+SystemUI.setBackgroundColorAsync(C.ink0);
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -48,6 +51,7 @@ export default function RootLayout() {
           <Stack
             screenOptions={{
               headerShown: false,
+              contentStyle: { backgroundColor: C.ink0 },
             }}
           />
         </Provider>

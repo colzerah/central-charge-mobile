@@ -11,6 +11,11 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: { warnAfter: 128 },
+      immutableCheck: { warnAfter: 128 },
+    }),
 });
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();

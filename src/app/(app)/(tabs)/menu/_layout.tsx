@@ -6,6 +6,14 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
       }}
-    />
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen
+        name="teste"
+        options={{
+          animation: "ios_from_right",
+        }}
+      />
+    </Stack>
   );
 }

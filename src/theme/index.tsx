@@ -12,6 +12,7 @@ export const C = {
   brand600: "#EA580C",
   brand700: "#C2410C",
   white: "#FFFFFF",
+  black: "#000000",
   success: "#22C55E",
   warning: "#F59E0B",
   error: "#EF4444",
@@ -27,6 +28,8 @@ export const C = {
   placeholder: "#71717A",
   placeholderInvalid: "#EF4444",
   iconColorInvalid: "#EF4444",
+
+  tabBackgroud: "#101010",
 };
 
 export const colorDark = {
