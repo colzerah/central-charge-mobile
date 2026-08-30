@@ -1,28 +1,12 @@
+import MenuList from "@/src/components/MenuList";
 import { logout } from "@/src/redux/authSlice";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
+import { MENU_CONTA, MENU_PREFERENCIA, MENU_SUPORTE } from "@/src/utils/enum";
 import { router } from "expo-router";
-import {
-  Car,
-  ChevronRight,
-  CreditCard,
-  Gift,
-  Globe,
-  HelpCircle,
-  LogOut,
-  Settings,
-  Shield,
-  User,
-  Zap,
-} from "lucide-react-native";
-import React, { useEffect } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { User, Zap } from "lucide-react-native";
+import { useEffect } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -60,6 +44,8 @@ export default function Menu() {
   const menuStyle = useAnimatedStyle(() => ({
     opacity: menuO.value,
     transform: [{ translateY: menuY.value }],
+    marginTop: 25,
+    gap: 25,
   }));
 
   return (
@@ -108,68 +94,32 @@ export default function Menu() {
 
             {/* Menu */}
             <Animated.View style={menuStyle}>
-              <Text style={styles.sectionTitle}>Conta</Text>
-              <View style={styles.menuGroup}>
-                <MenuItem
-                  icon={<Car color={C.brand400} size={19} strokeWidth={2.2} />}
-                  label="Meu veículo"
-                  sublabel="Tesla Model 3"
-                />
-                <MenuItem
-                  icon={
-                    <CreditCard
-                      color={C.brand400}
-                      size={19}
-                      strokeWidth={2.2}
-                    />
+              <MenuList
+                title="Conta"
+                items={MENU_CONTA}
+                onPress={(e) => {
+                  if (e === "Pagamentos") {
+                    router.navigate("/menu/teste");
                   }
-                  label="Pagamentos"
-                  sublabel="Visa •••• 4242"
-                />
-                <MenuItem
-                  icon={<Gift color={C.brand400} size={19} strokeWidth={2.2} />}
-                  label="Indicações"
-                  sublabel="Convide amigos"
-                />
-              </View>
+                }}
+              />
 
-              <Text style={styles.sectionTitle}>Preferências</Text>
-              <View style={styles.menuGroup}>
-                <MenuItem
-                  icon={
-                    <Settings color={C.ink300} size={19} strokeWidth={2.2} />
-                  }
-                  label="Configurações"
-                />
-                <MenuItem
-                  icon={<Globe color={C.ink300} size={19} strokeWidth={2.2} />}
-                  label="Idioma"
-                  sublabel="Português"
-                />
-                <MenuItem
-                  icon={<Shield color={C.ink300} size={19} strokeWidth={2.2} />}
-                  label="Privacidade"
-                />
-              </View>
+              <MenuList
+                title="Preferências"
+                items={MENU_PREFERENCIA}
+                onPress={(e) => console.log(e)}
+              />
 
-              <Text style={styles.sectionTitle}>Suporte</Text>
-              <View style={styles.menuGroup}>
-                <MenuItem
-                  icon={
-                    <HelpCircle color={C.ink300} size={19} strokeWidth={2.2} />
-                  }
-                  label="Central de ajuda"
-                />
-                <MenuItem
-                  onPress={() => {
+              <MenuList
+                title="Suporte"
+                items={MENU_SUPORTE}
+                onPress={(e) => {
+                  if (e === "Sair da conta") {
                     dispatch(logout());
                     router.replace("/login");
-                  }}
-                  icon={<LogOut color={C.error} size={19} strokeWidth={2.2} />}
-                  label="Sair da conta"
-                  danger
-                />
-              </View>
+                  }
+                }}
+              />
             </Animated.View>
           </ScrollView>
         </SafeAreaView>
@@ -184,39 +134,6 @@ function StatItem({ value, label }: { value: string; label: string }) {
       <Text style={styles.statValue}>{value}</Text>
       <Text style={styles.statLabel}>{label}</Text>
     </View>
-  );
-}
-
-function MenuItem({
-  icon,
-  label,
-  sublabel,
-  danger,
-  onPress,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  sublabel?: string;
-  danger?: boolean;
-  onPress?: () => void;
-}) {
-  return (
-    <TouchableOpacity
-      style={[styles.menuItem, !danger && styles.menuItemBorder]}
-      activeOpacity={0.8}
-      onPress={onPress}
-    >
-      <View style={[styles.menuIcon, danger && styles.menuIconDanger]}>
-        {icon}
-      </View>
-      <View style={styles.menuText}>
-        <Text style={[styles.menuLabel, danger && styles.menuLabelDanger]}>
-          {label}
-        </Text>
-        {sublabel && <Text style={styles.menuSublabel}>{sublabel}</Text>}
-      </View>
-      <ChevronRight color={C.ink400} size={17} />
-    </TouchableOpacity>
   );
 }
 
