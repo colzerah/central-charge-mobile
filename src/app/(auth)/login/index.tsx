@@ -1,6 +1,7 @@
 import LogoAnimated from "@/src/components/LogoAnimated";
 import SocialButton from "@/src/components/SocialButton";
 import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
+import { usePermissions } from "@/src/hooks/usePermissions";
 import { login } from "@/src/redux/authSlice";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
@@ -12,6 +13,7 @@ import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   ScrollView,
   StyleSheet,
@@ -38,9 +40,10 @@ export default function Login() {
 
 function LoginContent() {
   const dispatch = useAppDispatch();
+  const { localization, allowLocationAccess } = usePermissions();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("charge@gmail.com");
+  const [password, setPassword] = useState("1234");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -52,7 +55,12 @@ function LoginContent() {
     formO.value = withDelay(600, withTiming(1, { duration: 600 }));
     formY.value = withDelay(600, withTiming(0, { duration: 700 }));
     socialO.value = withDelay(850, withTiming(1, { duration: 600 }));
+    getPermissions();
   }, []);
+
+  const getPermissions = () => {
+    localization();
+  };
 
   const formStyle = useAnimatedStyle(() => ({
     opacity: formO.value,
@@ -67,6 +75,22 @@ function LoginContent() {
         "Campos obrigatórios",
         "Preencha e-mail e senha para entrar.",
       );
+      return;
+    }
+
+    if (!allowLocationAccess) {
+      Alert.alert(
+        "Permissoes Obrigatorias",
+        "Para poder continaur acessar o apicativo aceita as permissoes de coordenadas",
+        [
+          { text: "Agora não", style: "cancel" },
+          {
+            text: "Abrir configurações",
+            onPress: () => Linking.openSettings(),
+          },
+        ],
+      );
+      //continuar isso aqui verificar novamente se a perissao foi concedida e continuar o login
       return;
     }
 
