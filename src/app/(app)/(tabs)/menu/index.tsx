@@ -1,4 +1,5 @@
 import MenuList from "@/src/components/MenuList";
+import { useModal } from "@/src/hooks/useModal";
 import { logout } from "@/src/redux/authSlice";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
@@ -18,6 +19,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Menu() {
   const dispatch = useAppDispatch();
+  const { openModal, closeModal } = useModal();
   const profileO = useSharedValue(0);
   const profileY = useSharedValue(20);
   const menuO = useSharedValue(0);
@@ -107,7 +109,15 @@ export default function Menu() {
               <MenuList
                 title="Preferências"
                 items={MENU_PREFERENCIA}
-                onPress={(e) => console.log(e)}
+                onPress={(e) => {
+                  if (e === "Configurações") {
+                    openModal({
+                      title: "teste de modal",
+                      subTitle: "testando subtitle",
+                      type: "SUCESS",
+                    });
+                  }
+                }}
               />
 
               <MenuList

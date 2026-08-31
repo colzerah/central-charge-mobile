@@ -30,6 +30,7 @@ export const C = {
   iconColorInvalid: "#EF4444",
 
   tabBackgroud: "#101010",
+  pressableOpacity: "rgb(210, 230, 255)",
 };
 
 export const colorDark = {

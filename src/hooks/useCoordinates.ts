@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as Location from "expo-location";
+import { usePermissions } from "./usePermissions";
 
 export type Coordinates = {
   latitude: number;
@@ -18,24 +19,22 @@ type UseCoordinatesResult = {
 };
 
 export function useCoordinates(): UseCoordinatesResult {
+  const { allowLocationAccess } = usePermissions();
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const subscriptionRef = useRef<Location.LocationSubscription | null>(null);
 
   useEffect(() => {
+    if (!allowLocationAccess) {
+      setErrorMsg("Permissão de localização negada");
+      setIsLoading(false);
+      return;
+    }
+
     let isMounted = true;
 
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        if (isMounted) {
-          setErrorMsg("Permissão de localização negada");
-          setIsLoading(false);
-        }
-        return;
-      }
-
       subscriptionRef.current = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
@@ -70,7 +69,7 @@ export function useCoordinates(): UseCoordinatesResult {
       subscriptionRef.current?.remove();
       subscriptionRef.current = null;
     };
-  }, []);
+  }, [allowLocationAccess]);
 
   return { coordinates, errorMsg, isLoading };
 }
