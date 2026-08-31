@@ -18,7 +18,7 @@ const RadiantButton = ({
   rightIcon,
   leftIcon,
   iconName = "ArrowRight",
-  w = 304,
+  w = "100%",
   isLoading = false,
 }: ButtonProps) => {
   const deactivate = disabled || isLoading;
@@ -32,9 +32,13 @@ const RadiantButton = ({
 
   const viewChildren = (
     <View style={radiantButtonStyles.container}>
-      {leftIcon && <Icon name={iconName} size={20} color={C.white} />}
+      {leftIcon && (
+        <Icon name={iconName} size={20} color={C.white} strokeWidth={2.2} />
+      )}
       <Text style={radiantButtonStyles.text}>{title}</Text>
-      {rightIcon && <Icon name={iconName} size={20} color={C.white} />}
+      {rightIcon && (
+        <Icon name={iconName} size={20} color={C.white} strokeWidth={2.2} />
+      )}
     </View>
   );
 
@@ -44,13 +48,14 @@ const RadiantButton = ({
         disabled={deactivate}
         theme={disabled ? disabledTheme : defaultTheme}
         onPress={onPress}
+        borderWidth={4}
         borderRadius={14}
         shimmerOpacity={1}
         showDots={false}
         showShimmer={disabled ? false : true}
         showGlow={disabled ? false : true}
         glowBlur={100}
-        glowWidth={1}
+        glowWidth={10}
         style={[
           radiantButtonStyles.button,
           {

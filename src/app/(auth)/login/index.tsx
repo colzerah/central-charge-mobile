@@ -6,11 +6,9 @@ import { login } from "@/src/redux/authSlice";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
 import { router } from "expo-router";
-import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 
 import {
-  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Linking,
@@ -18,18 +16,23 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
 import Animated, {
+  Extrapolation,
+  interpolate,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,
 } from "react-native-reanimated";
 
+import Divider from "@/src/components/Divider";
+import Input from "@/src/components/Input";
+import RadiantButton from "@/src/components/RadiantButton";
+import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login() {
@@ -44,12 +47,13 @@ function LoginContent() {
 
   const [email, setEmail] = useState("charge@gmail.com");
   const [password, setPassword] = useState("1234");
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const formO = useSharedValue(0);
   const formY = useSharedValue(30);
   const socialO = useSharedValue(0);
+
+  const { progress: keyboardProgress } = useReanimatedKeyboardAnimation();
 
   useEffect(() => {
     formO.value = withDelay(600, withTiming(1, { duration: 600 }));
@@ -68,6 +72,31 @@ function LoginContent() {
   }));
 
   const socialStyle = useAnimatedStyle(() => ({ opacity: socialO.value }));
+
+  const logoStyle = useAnimatedStyle(() => {
+    const progress = keyboardProgress.value;
+
+    return {
+      opacity: 1 - progress,
+      transform: [{ scale: 1 - progress * 0.5 }],
+      marginTop: interpolate(progress, [0, 1], [0, -220], Extrapolation.CLAMP),
+    };
+  });
+
+  const socialCollapseStyle = useAnimatedStyle(() => {
+    const progress = keyboardProgress.value;
+
+    return {
+      opacity: 1 - progress,
+      transform: [{ scale: 1 - progress * 0.5 }],
+      marginBottom: interpolate(
+        progress,
+        [0, 1],
+        [0, -130],
+        Extrapolation.CLAMP,
+      ),
+    };
+  });
 
   const handleLogin = () => {
     if (!email || !password) {
@@ -121,51 +150,26 @@ function LoginContent() {
             showsVerticalScrollIndicator={false}
           >
             {/* Logo animado */}
-            <LogoAnimated />
+            <Animated.View style={logoStyle}>
+              <LogoAnimated />
+            </Animated.View>
 
             {/* Formulário */}
             <Animated.View style={[styles.section, formStyle]}>
-              <Field label="E-mail">
-                <View style={styles.inputWrap}>
-                  <Mail color={C.brand500} size={20} style={styles.inputIcon} />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="voce@exemplo.com"
-                    placeholderTextColor={C.ink400}
-                    value={email}
-                    onChangeText={setEmail}
-                    autoCapitalize="none"
-                    keyboardType="email-address"
-                    textContentType="emailAddress"
-                  />
-                </View>
-              </Field>
+              <Input
+                label="E-mail"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+                value={email}
+                onChange={setEmail}
+              />
 
-              <Field label="Senha">
-                <View style={styles.inputWrap}>
-                  <Lock color={C.brand500} size={20} style={styles.inputIcon} />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="••••••••"
-                    placeholderTextColor={C.ink400}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={!showPassword}
-                    textContentType="password"
-                  />
-                  <TouchableOpacity
-                    onPress={() => setShowPassword((s) => !s)}
-                    style={styles.eyeBtn}
-                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                  >
-                    {showPassword ? (
-                      <EyeOff color={C.ink400} size={20} />
-                    ) : (
-                      <Eye color={C.ink400} size={20} />
-                    )}
-                  </TouchableOpacity>
-                </View>
-              </Field>
+              <Input
+                label="Senha"
+                textContentType="password"
+                value={password}
+                onChange={setPassword}
+              />
 
               <TouchableOpacity
                 style={styles.forgotWrap}
@@ -176,50 +180,41 @@ function LoginContent() {
                 <Text style={styles.forgot}>Esqueci minha senha</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.primaryBtn}
+              <RadiantButton
+                w={"100%"}
+                isLoading={loading}
+                iconName="ArrowRight"
+                rightIcon
+                title="Entrar"
                 onPress={handleLogin}
-                activeOpacity={0.85}
-                disabled={loading}
-              >
-                {loading ? (
-                  <ActivityIndicator color={C.white} />
-                ) : (
-                  <>
-                    <Text style={styles.primaryBtnText}>Entrar</Text>
-                    <ArrowRight color={C.white} size={20} strokeWidth={2.2} />
-                  </>
-                )}
-              </TouchableOpacity>
+              />
             </Animated.View>
 
             {/* Divisor */}
             <Animated.View
               style={[styles.section, { marginTop: 28 }, socialStyle]}
             >
-              <View style={styles.dividerRow}>
-                <View style={styles.divider} />
-                <Text style={styles.dividerText}>ou continue com</Text>
-                <View style={styles.divider} />
-              </View>
+              <Animated.View style={socialCollapseStyle}>
+                <Divider title="ou continue com" />
 
-              <View style={styles.socialRow}>
-                <SocialButton
-                  type="chrome"
-                  label="Google"
-                  onPress={() => router.navigate("/testeImp")}
-                />
-                <SocialButton
-                  type="apple"
-                  label="Apple"
-                  onPress={() => router.navigate("/testeCol")}
-                />
-                <SocialButton
-                  type="facebook"
-                  label="Facebook"
-                  onPress={() => handleSocial("Facebook")}
-                />
-              </View>
+                <View style={styles.socialRow}>
+                  <SocialButton
+                    type="chrome"
+                    label="Google"
+                    onPress={() => router.navigate("/testeImp")}
+                  />
+                  <SocialButton
+                    type="apple"
+                    label="Apple"
+                    onPress={() => router.navigate("/testeCol")}
+                  />
+                  <SocialButton
+                    type="facebook"
+                    label="Facebook"
+                    onPress={() => handleSocial("Facebook")}
+                  />
+                </View>
+              </Animated.View>
 
               <View style={styles.footer}>
                 <Text style={styles.footerText}>Ainda não tem conta? </Text>
@@ -341,7 +336,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
   },
   field: {
-    marginBottom: 18,
+    marginBottom: 14,
   },
   label: {
     fontSize: 13,
@@ -455,7 +450,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 32,
+    marginTop: 22,
   },
   footerText: {
     fontSize: 14,

@@ -1,14 +1,16 @@
 import { C } from "@/src/theme";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react-native";
+import { pressableOpacity } from "@/src/utils/pressable";
+import { Lock, Mail } from "lucide-react-native";
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
+import Icon from "../Icon";
 import { InputProps } from "./InputDTO";
 import { inputStyles } from "./styles";
 
 const Input = ({
   onChange,
   value,
-  w = "90%",
+  w = "100%",
   label,
   placeholder,
   enterKeyHint = "next",
@@ -19,7 +21,9 @@ const Input = ({
   isDisabled,
 }: InputProps) => {
   const [focused, setFocused] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(
+    textContentType === "password" ? true : false,
+  );
 
   const placeHolderText = () => {
     if (placeholder) {
@@ -142,17 +146,32 @@ const Input = ({
           textContentType={textContentType}
         />
         {textContentType === "password" && (
-          <TouchableOpacity
+          <Pressable
             onPress={() => setShowPassword((s) => !s)}
-            style={inputStyles.eyeBtn}
+            style={({ pressed }) => [
+              inputStyles.eyeBtn,
+              {
+                opacity: pressableOpacity(pressed),
+              },
+            ]}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             {showPassword ? (
-              <EyeOff color={getIconColor(true)} size={getSize()?.iconSize} />
+              <Icon
+                name="Eye"
+                color={getIconColor(true)}
+                size={getSize()?.iconSize}
+              />
             ) : (
-              <Eye color={getIconColor(true)} size={getSize()?.iconSize} />
+              <Icon
+                name="EyeOff"
+                color={getIconColor(true)}
+                size={getSize()?.iconSize}
+              />
+              // <EyeOff color={getIconColor(true)} size={getSize()?.iconSize} />
+              // <Eye color={getIconColor(true)} size={getSize()?.iconSize} />
             )}
-          </TouchableOpacity>
+          </Pressable>
         )}
       </View>
     </View>
