@@ -4,11 +4,19 @@ import { C } from "@/src/theme";
 
 export const defaultTheme = {
   background: C.brand500,
-  backgroundSubtle: C.brand700,
+  backgroundSubtle: C.brand500,
   foreground: C.white,
-  highlight: C.brand400,
+  highlight: C.brand700,
   highlightSubtle: C.brand300,
 };
+
+// export const defaultTheme2 = {
+//   background: C.brand500,
+//   backgroundSubtle: C.brand700,
+//   foreground: C.white,
+//   highlight: C.brand400,
+//   highlightSubtle: C.brand300,
+// };
 
 export const disabledTheme = {
   background: C.disabled500,

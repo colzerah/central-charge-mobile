@@ -17,12 +17,12 @@ export const C = {
 export const styles = StyleSheet.create({
   logoWrap: {
     alignItems: "center",
-    marginTop: 56,
-    marginBottom: 36,
+    marginTop: 44,
+    marginBottom: 16,
   },
   logoContainer: {
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     alignItems: "center",
     justifyContent: "center",
   },
