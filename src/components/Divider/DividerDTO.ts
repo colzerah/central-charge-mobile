@@ -1,4 +1,8 @@
 export interface DividerProps {
   title?: string;
-  type?: "HORIZONTAL" | "VERTICAL";
+  type?: "horizontal" | "vertical";
+  mt?: number;
+  mb?: number;
+  ml?: number;
+  mr?: number;
 }

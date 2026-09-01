@@ -1,7 +1,8 @@
+import Divider from "@/src/components/Divider";
 import RechargeCard from "@/src/components/RechargeCard";
 import { useAppDispatch } from "@/src/redux/store";
 
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function TesteImp() {
   const dispatch = useAppDispatch();
@@ -20,6 +21,20 @@ export default function TesteImp() {
         cost={1550.5}
         tagTitle="Concluído"
       />
+      <View
+        style={{
+          height: 70,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ color: "white" }}>A</Text>
+
+        <Divider type="vertical" ml={100} mr={100} />
+
+        <Text style={{ color: "white" }}>B</Text>
+      </View>
+
       <RechargeCard
         title="Estação Pocotó"
         variant="danger"
@@ -28,6 +43,9 @@ export default function TesteImp() {
         cost={0}
         tagTitle="Cancelado"
       />
+
+      <Divider title="Alooooo" />
+
       <RechargeCard
         title="Estação Aeroporto"
         variant="info"
