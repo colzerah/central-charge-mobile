@@ -10,6 +10,7 @@ const Divider = ({
   mb,
   ml,
   mr,
+  h,
 }: DividerProps) => {
   const isVertical = type === "vertical";
 
@@ -17,12 +18,12 @@ const Divider = ({
     <View
       style={
         isVertical
-          ? { width: 1, height: "100%", marginLeft: ml, marginRight: mr }
+          ? { width: 1, marginLeft: ml, marginRight: mr }
           : { width: "100%" }
       }
     >
       {isVertical ? (
-        <DividerVertical />
+        <DividerVertical h={h} />
       ) : (
         <DividerHorizontal title={title} mt={mt} mb={mb} />
       )}

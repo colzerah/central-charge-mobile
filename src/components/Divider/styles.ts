@@ -10,9 +10,7 @@ export const dividerStyles = StyleSheet.create({
     flexDirection: "column",
   },
   dividerVertical: {
-    flex: 1,
     width: 1,
-    height: "100%",
     backgroundColor: C.ink200,
   },
   divider: {

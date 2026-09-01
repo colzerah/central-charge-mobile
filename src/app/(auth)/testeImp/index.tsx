@@ -30,9 +30,13 @@ export default function TesteImp() {
       >
         <Text style={{ color: "white" }}>A</Text>
 
-        <Divider type="vertical" ml={100} mr={100} />
+        <Divider type="vertical" ml={70} mr={70} h={40} />
 
         <Text style={{ color: "white" }}>B</Text>
+
+        <Divider type="vertical" ml={70} mr={70} h={40} />
+
+        <Text style={{ color: "white" }}>C</Text>
       </View>
 
       <RechargeCard

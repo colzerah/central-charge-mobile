@@ -1,3 +1,5 @@
+import { DimensionValue } from "react-native";
+
 export interface DividerProps {
   title?: string;
   type?: "horizontal" | "vertical";
@@ -5,4 +7,5 @@ export interface DividerProps {
   mb?: number;
   ml?: number;
   mr?: number;
+  h?: DimensionValue;
 }
