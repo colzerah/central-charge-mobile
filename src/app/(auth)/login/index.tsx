@@ -32,6 +32,7 @@ import Animated, {
 import Divider from "@/src/components/Divider";
 import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
+import Skeleton from "@/src/components/Skeleton";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -156,29 +157,39 @@ function LoginContent() {
 
             {/* Formulário */}
             <Animated.View style={[styles.section, formStyle]}>
-              <Input
-                label="E-mail"
-                textContentType="emailAddress"
-                keyboardType="email-address"
-                value={email}
-                onChange={setEmail}
-              />
+              <Skeleton isLoading={!loading} mb={8}>
+                <Input
+                  isLoading={loading}
+                  label="E-mail"
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  value={email}
+                  onChange={setEmail}
+                />
+              </Skeleton>
+              <Skeleton isLoading={!loading}>
+                <Input
+                  isLoading={loading}
+                  label="Senha"
+                  textContentType="password"
+                  value={password}
+                  onChange={setPassword}
+                />
+              </Skeleton>
 
-              <Input
-                label="Senha"
-                textContentType="password"
-                value={password}
-                onChange={setPassword}
-              />
-
-              <TouchableOpacity
-                style={styles.forgotWrap}
-                onPress={() => {
-                  router.navigate("/home");
-                }}
-              >
-                <Text style={styles.forgot}>Esqueci minha senha</Text>
-              </TouchableOpacity>
+              {/* <Skeleton isLoading={loading}> */}
+              <View style={styles.forgotWrap}>
+                <Skeleton isLoading={!loading}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      router.navigate("/home");
+                    }}
+                  >
+                    <Text style={styles.forgot}>Esqueci minha senha</Text>
+                  </TouchableOpacity>
+                </Skeleton>
+              </View>
+              {/* </Skeleton> */}
 
               <RadiantButton
                 w={"100%"}
@@ -198,21 +209,27 @@ function LoginContent() {
                 <Divider title="ou continue com" />
 
                 <View style={styles.socialRow}>
-                  <SocialButton
-                    type="chrome"
-                    label="Google"
-                    onPress={() => router.navigate("/testeImp")}
-                  />
-                  <SocialButton
-                    type="apple"
-                    label="Apple"
-                    onPress={() => router.navigate("/testeCol")}
-                  />
-                  <SocialButton
-                    type="facebook"
-                    label="Facebook"
-                    onPress={() => handleSocial("Facebook")}
-                  />
+                  <Skeleton isLoading={!loading}>
+                    <SocialButton
+                      type="chrome"
+                      label="Google"
+                      onPress={() => router.navigate("/testeImp")}
+                    />
+                  </Skeleton>
+                  <Skeleton isLoading={!loading}>
+                    <SocialButton
+                      type="apple"
+                      label="Apple"
+                      onPress={() => router.navigate("/testeCol")}
+                    />
+                  </Skeleton>
+                  <Skeleton isLoading={!loading}>
+                    <SocialButton
+                      type="facebook"
+                      label="Facebook"
+                      onPress={() => handleSocial("Facebook")}
+                    />
+                  </Skeleton>
                 </View>
               </Animated.View>
 
