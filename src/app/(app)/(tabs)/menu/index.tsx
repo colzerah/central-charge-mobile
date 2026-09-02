@@ -1,4 +1,5 @@
 import MenuList from "@/src/components/MenuList";
+import MenuStatCard from "@/src/components/MenuStatCard";
 import { useModal } from "@/src/hooks/useModal";
 import { logout } from "@/src/redux/authSlice";
 import { useAppDispatch } from "@/src/redux/store";
@@ -86,12 +87,30 @@ export default function Menu() {
             </Animated.View>
 
             {/* Estatísticas */}
-            <Animated.View style={[styles.statsRow, profileStyle]}>
-              <StatItem value="1.248" label="kWh total" />
-              <View style={styles.statDivider} />
-              <StatItem value="47" label="recargas" />
-              <View style={styles.statDivider} />
-              <StatItem value="8.2" label="tCO₂ evitado" />
+            <Animated.View style={profileStyle}>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginTop: 12,
+                }}
+              >
+                <MenuStatCard
+                  stats={[
+                    {
+                      value: "1.248",
+                      label: "kWh total",
+                    },
+                    {
+                      value: "47",
+                      label: "recargas",
+                    },
+                    {
+                      value: "8.2",
+                      label: "tCO₂ evitado",
+                    },
+                  ]}
+                />
+              </View>
             </Animated.View>
 
             {/* Menu */}

@@ -1,85 +1,149 @@
-import { Button as ButtonRadix } from "@/src/components/shared/ui/base/button";
+import { Button as ButtonIX } from "@/src/components/shared/ui/base/button";
 import { C } from "@/src/theme";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Platform, Text, View } from "react-native";
 import Icon from "../Icon";
-export interface ButtonProps {
-  onPress?: () => void;
+import { ButtonProps } from "./ButtonDTO";
+import { styles } from "./styles";
 
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link";
-}
+const Button = ({
+  onPress,
+  variant = "solid",
+  disabled,
+  isLoading,
+  shadowBox = false,
+  w = 300,
+  title,
+  iconLeft,
+  iconRight,
+  size = "md",
+  loadingText = "Carregando...",
+}: ButtonProps) => {
+  const isLink = variant === "link";
+  const isAndroid = Platform.OS === "android";
+  const borderRadius = isLink ? 0 : 14;
 
-const ButtonLogin = ({ onPress, variant }: ButtonProps) => {
-  const disabled = false;
-
-  const size = {
-    md: {
-      width: 304,
-      height: 56,
-    },
+  const getSize = () => {
+    if (size === "sm") {
+      return {
+        height: isLink ? 20 : 40,
+        fontSize: 14,
+        iconSize: 16,
+      };
+    }
+    if (size === "md") {
+      return {
+        height: isLink ? 24 : 48,
+        fontSize: 17,
+        iconSize: 20,
+      };
+    }
+    if (size === "lg") {
+      return {
+        height: isLink ? 28 : 56,
+        fontSize: 20,
+        iconSize: 24,
+      };
+    }
   };
 
-  return (
-    <View
-      style={{
+  const getVariant = () => {
+    if (disabled) {
+      return {
+        backgroundColor: "transparent",
+        color: C.disabled500 + "40",
+      };
+    }
+    if (isLink) {
+      return {
+        backgroundColor: "transparent",
+        color: C.brand500,
+      };
+    }
+
+    return {
+      backgroundColor: C.brand500,
+      color: C.white,
+    };
+  };
+
+  const getBoxShadow = () => {
+    if (!shadowBox) {
+      return {};
+    }
+    if (isAndroid) {
+      return {
+        elevation: 12,
+        boxShadow: `0px 6px 14px ${C.brand500}66`,
+        borderRadius: 14,
+      };
+    }
+    if (!isAndroid) {
+      return {
         shadowColor: C.brand500,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.4,
         shadowRadius: 14,
-        elevation: 8,
-      }}
-    >
-      <ButtonRadix
-        onPress={onPress}
-        // width={304}
-        // height={56}
+        elevation: 12,
+      };
+    }
+  };
 
-        width={56}
-        height={56}
-        isLoading={false}
-        loadingTextBackgroundColor={C.brand300}
-        renderLoadingIndicator={() => (
-          <ActivityIndicator
-            color={C.white}
-            style={{ width: 18, height: 18, marginRight: 6 }}
-          />
-        )}
-        showLoadingIndicator={true}
-        loadingText="Carregando..."
-        loadingTextColor={C.white}
-        loadingTextSize={17}
-        borderRadius={14}
-        withPressAnimation
-        loadingTextStyle={{
-          color: C.white,
-          fontSize: 17,
-          fontWeight: "700",
-          fontFamily: "Inter-Bold",
-        }}
+  const activityIndicator = (
+    <ActivityIndicator
+      color={!isLink ? C.white : C.brand300}
+      style={{ width: 18, height: 18, marginRight: 6 }}
+    />
+  );
+
+  return (
+    <View style={getBoxShadow()}>
+      <ButtonIX
+        isLoading={isLoading}
+        loadingText={isLink ? "" : loadingText}
         disabled={disabled}
-        backgroundColor={disabled ? C.brand500 : C.ink500}
+        width={w}
+        onPress={onPress}
+        loadingTextColor={!isLink ? C.white : undefined}
+        loadingTextBackgroundColor={!isLink ? C.brand300 : "transparent"}
+        loadingTextStyle={styles.loadingText}
+        borderRadius={borderRadius}
+        height={getSize()?.height}
+        loadingTextSize={getSize()?.fontSize}
+        backgroundColor={getVariant()?.backgroundColor}
+        renderLoadingIndicator={() => activityIndicator}
+        showLoadingIndicator={true}
+        withPressAnimation
       >
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          {/* <Text
-            style={{
-              color: C.white,
-              fontSize: 17,
-              fontWeight: "700",
-              fontFamily: "Inter-Bold",
-            }}
+        <View style={styles.iconView}>
+          {iconLeft && (
+            <Icon
+              name={iconLeft}
+              size={getSize()?.iconSize}
+              color={getVariant()?.color}
+            />
+          )}
+          <Text
+            style={[
+              styles.titleText,
+              {
+                color: getVariant()?.color,
+                fontSize: getSize()?.fontSize,
+              },
+            ]}
           >
-            Entrar
-          </Text> */}
-          <Icon name="ArrowRight" size={24} color={C.white} />
+            {title}
+          </Text>
+          {iconRight && (
+            <Icon
+              name={iconRight}
+              size={getSize()?.iconSize}
+              color={getVariant()?.color}
+            />
+          )}
         </View>
-      </ButtonRadix>
+      </ButtonIX>
     </View>
   );
 };
 
-export default ButtonLogin;
+export default Button;

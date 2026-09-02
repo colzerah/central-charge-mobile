@@ -5,7 +5,13 @@ export const dividerStyles = StyleSheet.create({
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+  },
+  dividerColumn: {
+    flexDirection: "column",
+  },
+  dividerVertical: {
+    width: 1,
+    backgroundColor: C.ink200,
   },
   divider: {
     flex: 1,

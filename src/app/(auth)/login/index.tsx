@@ -16,7 +16,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -29,6 +28,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import Button from "@/src/components/Button";
 import Divider from "@/src/components/Divider";
 import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
@@ -48,7 +48,7 @@ function LoginContent() {
 
   const [email, setEmail] = useState("charge@gmail.com");
   const [password, setPassword] = useState("1234");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const formO = useSharedValue(0);
   const formY = useSharedValue(30);
@@ -180,20 +180,23 @@ function LoginContent() {
               {/* <Skeleton isLoading={loading}> */}
               <View style={styles.forgotWrap}>
                 <Skeleton isLoading={!loading}>
-                  <TouchableOpacity
+                  <Button
+                    title="Esqueci minha senha"
+                    variant="link"
+                    size="sm"
+                    w={150}
+                    isLoading={!loading}
                     onPress={() => {
                       router.navigate("/home");
                     }}
-                  >
-                    <Text style={styles.forgot}>Esqueci minha senha</Text>
-                  </TouchableOpacity>
+                  />
                 </Skeleton>
               </View>
               {/* </Skeleton> */}
 
               <RadiantButton
                 w={"100%"}
-                isLoading={loading}
+                isLoading={!loading}
                 iconName="ArrowRight"
                 rightIcon
                 title="Entrar"
@@ -203,10 +206,10 @@ function LoginContent() {
 
             {/* Divisor */}
             <Animated.View
-              style={[styles.section, { marginTop: 28 }, socialStyle]}
+              style={[styles.section, { marginTop: 20 }, socialStyle]}
             >
               <Animated.View style={socialCollapseStyle}>
-                <Divider title="ou continue com" />
+                <Divider title="ou continue com" mb={10} />
 
                 <View style={styles.socialRow}>
                   <Skeleton isLoading={!loading}>
@@ -235,11 +238,14 @@ function LoginContent() {
 
               <View style={styles.footer}>
                 <Text style={styles.footerText}>Ainda não tem conta? </Text>
-                <TouchableOpacity
+                <Button
+                  title="Criar conta"
+                  variant="link"
+                  size="sm"
+                  isLoading={!loading}
+                  w={70}
                   onPress={() => Alert.alert("Cadastro", "Tela de cadastro")}
-                >
-                  <Text style={styles.footerLink}>Criar conta</Text>
-                </TouchableOpacity>
+                />
               </View>
             </Animated.View>
           </ScrollView>
@@ -387,9 +393,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   forgotWrap: {
-    alignSelf: "flex-end",
-    marginBottom: 22,
+    marginBottom: 10,
     marginTop: 4,
+    alignItems: "flex-end",
   },
   forgot: {
     fontSize: 13,

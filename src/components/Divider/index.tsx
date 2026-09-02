@@ -1,19 +1,56 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { DividerProps } from "./DividerDTO";
-import { dividerStyles } from "./styles";
+import DividerHorizontal from "./DividerHorizontal";
+import DividerVertical from "./DividerVertical";
 
-const Divider = ({ title, type = "VERTICAL" }: DividerProps) => {
-  //usar o type para divisao de hor e vert
-  //coloca 3 tamanhos de divider sm, lg e md
-  //colocar atributos de mt e mb dinamico para o divider conseguir afastar outros componenters
+const Divider = ({
+  title,
+  type = "horizontal",
+  mt,
+  mb,
+  ml,
+  mr,
+  h,
+}: DividerProps) => {
+  const isVertical = type === "vertical";
 
   return (
-    <View style={dividerStyles.dividerRow}>
-      <View style={dividerStyles.divider} />
-      {/* <Text style={dividerStyles.dividerText}>ou continue com</Text> */}
-      {title && <Text style={dividerStyles.dividerText}>{title}</Text>}
-      <View style={dividerStyles.divider} />
+    <View
+      style={
+        isVertical
+          ? { width: 1, marginLeft: ml, marginRight: mr }
+          : { width: "100%" }
+      }
+    >
+      {isVertical ? (
+        <DividerVertical h={h} />
+      ) : (
+        <DividerHorizontal title={title} mt={mt} mb={mb} />
+      )}
     </View>
+    // <View
+    //   style={[
+    //     dividerStyles.dividerRow,
+    //     isVertical && dividerStyles.dividerColumn,
+    //     { marginTop: mt, marginBottom: mb },
+    //   ]}
+    // >
+    //   <View
+    //     style={[
+    //       dividerStyles.divider,
+    //       isVertical && dividerStyles.dividerVertical,
+    //     ]}
+    //   />
+    //   {title && !isVertical && (
+    //     <Text style={dividerStyles.dividerText}>{title}</Text>
+    //   )}
+    //   <View
+    //     style={[
+    //       dividerStyles.divider,
+    //       isVertical && dividerStyles.dividerVertical,
+    //     ]}
+    //   />
+    // </View>
   );
 };
 

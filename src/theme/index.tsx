@@ -18,7 +18,7 @@ export const C = {
   error: "#EF4444",
   info: "#3B82F6",
   disabled400: "#A1A1AA",
-  disabled500: "#71717A",
+  disabled500: "#1a1a1a",
   disabled600: "#27272A",
 
   borderFocused: "#71717A",

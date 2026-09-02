@@ -1,19 +1,36 @@
 import { Button as ButtonIX } from "@/src/components/shared/ui/base/button";
 import { C } from "@/src/theme";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import Icon from "../Icon";
-export interface ButtonProps {
-  onPress?: () => void;
-  disabled?: boolean;
-  variant?: "solid" | "outline";
-}
+import { ButtonIconProps } from "./ButtonIconDTO";
+import { styles } from "./styles";
 
-const ButtonIcon = ({ onPress, variant, disabled }: ButtonProps) => {
+const ButtonIcon = ({
+  onPress,
+  variant = "solid",
+  disabled,
+  icon = "Star",
+  size = "md",
+}: ButtonIconProps) => {
+  const getSizes = () => {
+    if (size === "sm") {
+      return {
+        width: 40,
+        height: 40,
+      };
+    }
+    if (size === "md") {
+      return {
+        width: 54,
+        height: 54,
+      };
+    }
+  };
+
   const iconColor = () => {
     if (disabled) {
-      return C.disabled500;
+      return C.white;
     }
-
     if (variant === "outline") {
       return C.brand400;
     }
@@ -25,10 +42,10 @@ const ButtonIcon = ({ onPress, variant, disabled }: ButtonProps) => {
 
   const backgroundColor = () => {
     if (disabled) {
-      return C.disabled400;
+      return C.disabled500;
     }
     if (variant === "outline") {
-      return C.ink200;
+      return C.ink100 + "80";
     }
     if (variant === "solid") {
       return C.brand500;
@@ -36,45 +53,27 @@ const ButtonIcon = ({ onPress, variant, disabled }: ButtonProps) => {
     return C.brand500;
   };
 
+  const disabledOpacity = { opacity: disabled ? 0.5 : 1 };
+  const borderRadius = size === "sm" ? 20 : 14;
+
   return (
-    <View
-      style={{
-        shadowColor: C.brand500,
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.4,
-        shadowRadius: 14,
-        elevation: 8,
-      }}
-    >
+    <View>
       <ButtonIX
+        style={disabledOpacity}
+        width={getSizes()?.width}
+        height={getSizes()?.height}
+        borderRadius={borderRadius}
         onPress={onPress}
-        width={56}
-        height={56}
-        isLoading={false}
-        loadingTextBackgroundColor={C.brand300}
-        renderLoadingIndicator={() => (
-          <ActivityIndicator
-            color={C.white}
-            style={{ width: 18, height: 18, marginRight: 6 }}
-          />
-        )}
-        showLoadingIndicator={true}
-        loadingText="Carregando..."
-        loadingTextColor={C.white}
-        loadingTextSize={17}
-        borderRadius={14}
-        withPressAnimation
-        loadingTextStyle={{
-          color: C.white,
-          fontSize: 17,
-          fontWeight: "700",
-          fontFamily: "Inter-Bold",
-        }}
         disabled={disabled}
+        withPressAnimation
         backgroundColor={backgroundColor()}
       >
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          <Icon name="ArrowRight" size={24} color={iconColor()} />
+        <View style={styles.iconView}>
+          <Icon
+            name={icon}
+            size={size === "sm" ? 18 : 22}
+            color={iconColor()}
+          />
         </View>
       </ButtonIX>
     </View>
