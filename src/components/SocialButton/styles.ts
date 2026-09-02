@@ -16,12 +16,14 @@ export const C = {
 
 export const styles = StyleSheet.create({
   socialBtn: {
-    flex: 1,
     backgroundColor: C.ink50,
     borderWidth: 1.5,
     borderColor: C.ink200,
     borderRadius: 14,
+    height: 88,
+    width: 110,
     paddingVertical: 14,
+
     alignItems: "center",
   },
   socialIcon: {

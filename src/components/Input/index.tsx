@@ -21,6 +21,9 @@ const Input = ({
   isDisabled,
 }: InputProps) => {
   const [focused, setFocused] = useState(false);
+  const [skeletonHeight, setSkeletonHeight] = useState<number | undefined>(
+    undefined,
+  );
   const [showPassword, setShowPassword] = useState(
     textContentType === "password" ? true : false,
   );
@@ -105,7 +108,16 @@ const Input = ({
   };
 
   return (
-    <View style={[inputStyles.field, { width: w }]}>
+    // <Skeleton
+    //   w={w}
+    //   h={skeletonHeight ?? getSize()?.inputHeight}
+    //   br={14}
+    //   isLoading={isLoading}
+    // >
+    <View
+      style={[inputStyles.field, { width: w }]}
+      onLayout={(e) => setSkeletonHeight(e.nativeEvent.layout.height)}
+    >
       {label && <Text style={inputStyles.label}>{label}</Text>}
       <View
         style={[
@@ -168,13 +180,12 @@ const Input = ({
                 color={getIconColor(true)}
                 size={getSize()?.iconSize}
               />
-              // <EyeOff color={getIconColor(true)} size={getSize()?.iconSize} />
-              // <Eye color={getIconColor(true)} size={getSize()?.iconSize} />
             )}
           </Pressable>
         )}
       </View>
     </View>
+    // </Skeleton>
   );
 };
 
