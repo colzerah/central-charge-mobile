@@ -90,7 +90,7 @@ const Button = ({
 
   const activityIndicator = (
     <ActivityIndicator
-      color={C.white}
+      color={!isLink ? C.white : C.brand300}
       style={{ width: 18, height: 18, marginRight: 6 }}
     />
   );
@@ -99,12 +99,12 @@ const Button = ({
     <View style={getBoxShadow()}>
       <ButtonIX
         isLoading={isLoading}
-        loadingText={loadingText}
+        loadingText={isLink ? "" : loadingText}
         disabled={disabled}
         width={w}
         onPress={onPress}
-        loadingTextColor={C.white}
-        loadingTextBackgroundColor={C.brand300}
+        loadingTextColor={!isLink ? C.white : undefined}
+        loadingTextBackgroundColor={!isLink ? C.brand300 : "transparent"}
         loadingTextStyle={styles.loadingText}
         borderRadius={borderRadius}
         height={getSize()?.height}
