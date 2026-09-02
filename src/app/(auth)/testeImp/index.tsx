@@ -1,62 +1,28 @@
-import Divider from "@/src/components/Divider";
-import RechargeCard from "@/src/components/RechargeCard";
+import MenuStatCard from "@/src/components/MenuStatCard";
 import { useAppDispatch } from "@/src/redux/store";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function TesteImp() {
   const dispatch = useAppDispatch();
 
   return (
     <View style={styles.root}>
-      {/* <Button title="Teste" iconLeft="ArrowLeft" size="md" variant="link" />
-      <ButtonIcon icon="Album" size="md" variant="solid" />
-      <DateBadge day={14} month="Abril" />
-      <IconBackground icon="Plane" size="sm" /> */}
-      <RechargeCard
-        title="Estação Centro"
-        variant="success"
-        duration={38}
-        kwh={24.5}
-        cost={1550.5}
-        tagTitle="Concluído"
-      />
-      <View
-        style={{
-          height: 70,
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: "white" }}>A</Text>
-
-        <Divider type="vertical" ml={70} mr={70} h={40} />
-
-        <Text style={{ color: "white" }}>B</Text>
-
-        <Divider type="vertical" ml={70} mr={70} h={40} />
-
-        <Text style={{ color: "white" }}>C</Text>
-      </View>
-
-      <RechargeCard
-        title="Estação Pocotó"
-        variant="danger"
-        duration={0}
-        kwh={0}
-        cost={0}
-        tagTitle="Cancelado"
-      />
-
-      <Divider title="Alooooo" />
-
-      <RechargeCard
-        title="Estação Aeroporto"
-        variant="info"
-        duration={0}
-        kwh={0}
-        cost={0}
-        tagTitle="Agendado"
+      <MenuStatCard
+        stats={[
+          {
+            value: "1.248",
+            label: "kWh total",
+          },
+          {
+            value: "47",
+            label: "recargas",
+          },
+          {
+            value: "8.2",
+            label: "tCO₂ evitado",
+          },
+        ]}
       />
     </View>
   );
