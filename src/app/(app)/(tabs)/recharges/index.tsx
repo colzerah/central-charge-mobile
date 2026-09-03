@@ -1,15 +1,9 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import RechargeCard from "@/src/components/RechargeCard";
 import SummaryCard from "@/src/components/SummaryCard";
 import { C } from "@/src/theme";
-import { BatteryCharging } from "lucide-react-native";
 import { useEffect } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -20,51 +14,97 @@ import Animated, {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Recharge {
-  id: string;
-  station: string;
-  date: string;
-  duration: string;
-  energy: string;
-  cost: string;
-  status: "completed" | "active" | "scheduled";
+  id: number;
+  title: string;
+  duration?: number;
+  variant?: "default" | "info" | "danger" | "success" | "warning";
+  kwh?: number;
+  cost: number;
+  tagTitle: string;
+  onPress?: () => void;
+  date: Date;
 }
 
 const RECHARGES: Recharge[] = [
   {
-    id: "1",
-    station: "Estação Centro",
-    date: "14 Ago, 14:32",
-    duration: "38 min",
-    energy: "24.5 kWh",
-    cost: "R$ 21,80",
-    status: "completed",
+    id: 1,
+    title: "Estação Centro",
+    date: new Date("2023-08-14T14:32:00"),
+    duration: 38,
+    kwh: 24.5,
+    cost: 21.8,
+    variant: "success",
+    tagTitle: "Concluído",
   },
   {
-    id: "2",
-    station: "Estação Shopping",
-    date: "12 Ago, 09:15",
-    duration: "52 min",
-    energy: "35.2 kWh",
-    cost: "R$ 32,38",
-    status: "completed",
+    id: 2,
+    title: "Estação Shopping",
+    date: new Date("2023-08-12T09:15:00"),
+    duration: 52,
+    kwh: 35.2,
+    cost: 32.38,
+    variant: "success",
+    tagTitle: "Concluído",
   },
   {
-    id: "3",
-    station: "Estação Norte",
-    date: "10 Ago, 18:44",
-    duration: "25 min",
-    energy: "18.0 kWh",
-    cost: "R$ 14,22",
-    status: "completed",
+    id: 3,
+    title: "Estação Norte",
+    date: new Date("2023-08-10T18:44:00"),
+    duration: 25,
+    kwh: 18.0,
+    cost: 14.22,
+    variant: "success",
+    tagTitle: "Concluído",
   },
   {
-    id: "4",
-    station: "Estação Aeroporto",
-    date: "16 Ago, 08:00",
-    duration: "—",
-    energy: "—",
-    cost: "R$ 0,00",
-    status: "scheduled",
+    id: 4,
+    title: "Estação Aeroporto",
+    date: new Date("2023-08-16T08:00:00"),
+    duration: 0,
+    kwh: 0,
+    cost: 0,
+    variant: "info",
+    tagTitle: "Agendado",
+  },
+  {
+    id: 5,
+    title: "Estação Norte",
+    date: new Date("2023-08-10T18:44:00"),
+    duration: 25,
+    kwh: 18.0,
+    cost: 14.22,
+    variant: "success",
+    tagTitle: "Concluído",
+  },
+  {
+    id: 6,
+    title: "Estação Norte",
+    date: new Date("2023-08-10T18:44:00"),
+    duration: 25,
+    kwh: 18.0,
+    cost: 14.22,
+    variant: "success",
+    tagTitle: "Concluído",
+  },
+  {
+    id: 7,
+    title: "Estação Norte",
+    date: new Date("2023-08-10T18:44:00"),
+    duration: 25,
+    kwh: 18.0,
+    cost: 14.22,
+    variant: "warning",
+    tagTitle: "Pendente",
+  },
+  {
+    id: 8,
+    title: "Estação Norte",
+    date: new Date("2023-08-10T18:44:00"),
+    duration: 0,
+    kwh: 0,
+    cost: 0,
+    variant: "danger",
+    tagTitle: "Error",
   },
 ];
 
@@ -94,104 +134,41 @@ export default function RecargasScreen() {
             <Text style={styles.headerSubtitle}>Histórico e agendamentos</Text>
           </View>
 
+          <View style={styles.summaryRow}>
+            <SummaryCard icon="Zap" value="1.248 kWh" label="Total carregado" />
+            <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
+            <SummaryCard
+              icon="TrendingUp"
+              value="R$ 1.089"
+              label="Gasto total"
+            />
+          </View>
           <ScrollView
             style={styles.flex}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 100 }}
           >
-            {/* Cards de resumo */}
-            <View style={styles.summaryRow}>
-              <SummaryCard
-                icon="Zap"
-                value="1.248 kWh"
-                label="Total carregado"
-              />
-              <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
-              <SummaryCard
-                icon="TrendingUp"
-                value="R$ 1.089"
-                label="Gasto total"
-              />
-            </View>
-
             <Animated.View style={contentStyle}>
               <Text style={styles.sectionTitle}>Histórico recente</Text>
-              {RECHARGES.map((r) => (
-                <RechargeCard key={r.id} recharge={r} />
-              ))}
+              <View style={{ marginHorizontal: 20, marginBottom: 12, gap: 12 }}>
+                {RECHARGES.map((r) => (
+                  <RechargeCard
+                    key={r.id}
+                    title={r.title}
+                    duration={r.duration}
+                    kwh={r.kwh}
+                    cost={r.cost}
+                    variant={r.variant}
+                    tagTitle={r.tagTitle}
+                    date={r.date}
+                  />
+                ))}
+              </View>
             </Animated.View>
           </ScrollView>
         </SafeAreaView>
       </View>
     </BackgroundGradient>
-  );
-}
-
-// function SummaryCard({
-//   icon,
-//   value,
-//   label,
-// }: {
-//   icon: React.ReactNode;
-//   value: string;
-//   label: string;
-// }) {
-//   return (
-//     <View style={styles.summaryCard}>
-//       <View style={styles.summaryIcon}>{icon}</View>
-//       <Text style={styles.summaryValue}>{value}</Text>
-//       <Text style={styles.summaryLabel}>{label}</Text>
-//     </View>
-//   );
-// }
-
-function RechargeCard({ recharge }: { recharge: Recharge }) {
-  const statusColor =
-    recharge.status === "completed"
-      ? C.success
-      : recharge.status === "active"
-        ? C.warning
-        : C.info;
-  const statusLabel =
-    recharge.status === "completed"
-      ? "Concluída"
-      : recharge.status === "active"
-        ? "Em curso"
-        : "Agendada";
-
-  return (
-    <TouchableOpacity style={styles.rechargeCard} activeOpacity={0.8}>
-      <View
-        style={[styles.rechargeIcon, { backgroundColor: statusColor + "20" }]}
-      >
-        <BatteryCharging color={statusColor} size={22} strokeWidth={2.2} />
-      </View>
-      <View style={styles.rechargeInfo}>
-        <Text style={styles.rechargeStation}>{recharge.station}</Text>
-        <Text style={styles.rechargeDate}>{recharge.date}</Text>
-        <View style={styles.rechargeStats}>
-          <Text style={styles.rechargeStat}>{recharge.duration}</Text>
-          <Text style={styles.rechargeDot}>•</Text>
-          <Text style={styles.rechargeStat}>{recharge.energy}</Text>
-        </View>
-      </View>
-      <View style={styles.rechargeRight}>
-        <Text style={styles.rechargeCost}>{recharge.cost}</Text>
-        <View
-          style={[
-            styles.rechargeStatus,
-            { backgroundColor: statusColor + "20" },
-          ]}
-        >
-          <View
-            style={[styles.rechargeStatusDot, { backgroundColor: statusColor }]}
-          />
-          <Text style={[styles.rechargeStatusText, { color: statusColor }]}>
-            {statusLabel}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 }
 
@@ -217,37 +194,6 @@ const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 24,
   },
-  // summaryCard: {
-  //   flex: 1,
-  //   backgroundColor: C.ink50,
-  //   borderRadius: 16,
-  //   borderWidth: 1.5,
-  //   borderColor: C.ink200,
-  //   padding: 14,
-  //   alignItems: "center",
-  // },
-  // summaryIcon: {
-  //   width: 36,
-  //   height: 36,
-  //   borderRadius: 18,
-  //   backgroundColor: C.ink100,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   marginBottom: 8,
-  // },
-  // summaryValue: {
-  //   fontSize: 15,
-  //   fontWeight: "700",
-  //   color: C.white,
-  //   fontFamily: "Inter-Bold",
-  // },
-  // summaryLabel: {
-  //   fontSize: 10,
-  //   color: C.ink400,
-  //   fontFamily: "Inter-Regular",
-  //   marginTop: 2,
-  //   textAlign: "center",
-  // },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",
@@ -255,66 +201,5 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-Bold",
     paddingHorizontal: 20,
     marginBottom: 14,
-  },
-  rechargeCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: C.ink50,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: C.ink200,
-    padding: 16,
-    marginHorizontal: 20,
-    marginBottom: 12,
-  },
-  rechargeIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  rechargeInfo: { flex: 1, marginLeft: 14 },
-  rechargeStation: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: C.white,
-    fontFamily: "Inter-Bold",
-  },
-  rechargeDate: {
-    fontSize: 12,
-    color: C.ink400,
-    fontFamily: "Inter-Regular",
-    marginTop: 2,
-  },
-  rechargeStats: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    marginTop: 6,
-  },
-  rechargeStat: { fontSize: 12, color: C.ink300, fontFamily: "Inter-SemiBold" },
-  rechargeDot: { fontSize: 12, color: C.ink400 },
-  rechargeRight: { alignItems: "flex-end" },
-  rechargeCost: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: C.brand400,
-    fontFamily: "Inter-Bold",
-    marginBottom: 6,
-  },
-  rechargeStatus: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  rechargeStatusDot: { width: 6, height: 6, borderRadius: 3 },
-  rechargeStatusText: {
-    fontSize: 10,
-    fontWeight: "600",
-    fontFamily: "Inter-SemiBold",
   },
 });

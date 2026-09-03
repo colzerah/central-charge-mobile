@@ -17,6 +17,7 @@ const RechargeCard = ({
   cost,
   tagTitle,
   onPress,
+  date,
 }: RechargeCardProps) => {
   const getVariant = () => {
     if (variant === "success") {
@@ -66,10 +67,10 @@ const RechargeCard = ({
         <Text style={styles.rechargeStation}>{title}</Text>
         <View style={styles.rechargeDateInfo}>
           <Text style={styles.rechargeDate}>
-            {convertDateToDayAndMonthShort(new Date())}
+            {convertDateToDayAndMonthShort(date)}
           </Text>
           <Text style={styles.rechargeDate}>
-            , {convertHourAndMinute(new Date())}
+            , {convertHourAndMinute(date)}
           </Text>
         </View>
         <View style={styles.rechargeStats}>
