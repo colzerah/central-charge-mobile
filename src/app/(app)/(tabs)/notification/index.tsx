@@ -1,3 +1,4 @@
+import BackgroundGradient from "@/src/components/BackgroundGradient";
 import { C } from "@/src/theme";
 import {
   AlertTriangle,
@@ -305,7 +306,8 @@ export default function NotificacoesScreen() {
   }, []);
 
   return (
-    // <GestureHandlerRootView style={styles.flex}>
+    <BackgroundGradient>
+    {/* <GestureHandlerRootView style={styles.flex}> */}
     <View style={styles.root}>
       {/* <SafeAreaView style={styles.flex}> */}
       {/* Header */}
@@ -390,7 +392,8 @@ export default function NotificacoesScreen() {
       </ScrollView>
       {/* </SafeAreaView> */}
     </View>
-    // </GestureHandlerRootView>
+    {/* </GestureHandlerRootView> */}
+    </BackgroundGradient>
   );
 }
 
@@ -553,7 +556,7 @@ function NotifCard({
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: C.ink0 },
+  root: { flex: 1 },
   flex: { flex: 1 },
 
   // Header

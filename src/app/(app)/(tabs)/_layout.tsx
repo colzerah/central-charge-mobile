@@ -5,6 +5,7 @@ export default function TabsLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        contentStyle: { backgroundColor: "transparent" },
       }}
     />
   );

@@ -1,3 +1,4 @@
+import BackgroundGradient from "@/src/components/BackgroundGradient";
 import MapPin from "@/src/components/MapPin";
 import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { C } from "@/src/theme";
@@ -30,6 +31,7 @@ export default function Home() {
   };
 
   return (
+    <BackgroundGradient>
     <View style={styles.container}>
       <MapView
         ref={mapRef}
@@ -94,6 +96,7 @@ export default function Home() {
         <LocateFixed color={C.brand500} size={22} />
       </Pressable>
     </View>
+    </BackgroundGradient>
   );
 }
 

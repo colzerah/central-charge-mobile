@@ -1,6 +1,5 @@
 import { useAppSelector } from "@/src/redux/store";
 import { Redirect, Stack } from "expo-router";
-import { C } from "@/src/theme";
 
 export default function AppLayout() {
   const { isAuthenticated } = useAppSelector((state) => state.authState);
@@ -13,7 +12,7 @@ export default function AppLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: C.ink0 },
+        contentStyle: { backgroundColor: "transparent" },
       }}
     />
   );

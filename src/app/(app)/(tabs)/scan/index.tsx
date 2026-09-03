@@ -1,9 +1,12 @@
+import BackgroundGradient from "@/src/components/BackgroundGradient";
 import { ScrollView, Text } from "react-native";
 
 export default function Scan() {
   return (
-    <ScrollView>
-      <Text>oioio</Text>
-    </ScrollView>
+    <BackgroundGradient>
+      <ScrollView>
+        <Text>oioio</Text>
+      </ScrollView>
+    </BackgroundGradient>
   );
 }

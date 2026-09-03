@@ -17,8 +17,6 @@ export const C = {
 export const styles = StyleSheet.create({
   logoWrap: {
     alignItems: "center",
-    marginTop: 44,
-    marginBottom: 16,
   },
   logoContainer: {
     width: 140,

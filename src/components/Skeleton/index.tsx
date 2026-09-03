@@ -19,15 +19,7 @@ interface SkeletonProps {
   styles?: ViewStyle;
 }
 
-const Skeleton = ({
-  h,
-  w,
-  br,
-  mb,
-  isLoading = false,
-  children,
-  styles,
-}: SkeletonProps) => {
+const Skeleton = ({ isLoading = false, children, styles }: SkeletonProps) => {
   const [size, setSize] = useState<{
     width: number;
     height: number;
@@ -64,14 +56,14 @@ const Skeleton = ({
     <Shimmer
       isLoading={isLoading}
       style={{
-        width: w ?? size?.width,
-        height: h ?? size?.height,
-        borderRadius: br ?? childStyle.borderRadius ?? 14,
+        width: size?.width,
+        height: size?.height,
+        borderRadius: childStyle.borderRadius ?? 14,
         margin: childStyle.margin,
         marginHorizontal: childStyle.marginHorizontal,
         marginVertical: childStyle.marginVertical,
         marginTop: childStyle.marginTop,
-        marginBottom: mb ?? childStyle.marginBottom,
+        marginBottom: childStyle.marginBottom,
         marginLeft: childStyle.marginLeft,
         marginRight: childStyle.marginRight,
         alignSelf: childStyle.alignSelf,

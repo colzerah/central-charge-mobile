@@ -11,7 +11,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         headerTitle: "TabBar",
-        sceneStyle: { backgroundColor: C.ink0 },
+        sceneStyle: { backgroundColor: "transparent" },
       }}
     >
       <Tabs.Screen

@@ -1,3 +1,4 @@
+import BackgroundGradient from "@/src/components/BackgroundGradient";
 import { C } from "@/src/theme";
 import { BatteryCharging, Clock, TrendingUp, Zap } from "lucide-react-native";
 import React, { useEffect } from "react";
@@ -84,6 +85,7 @@ export default function RecargasScreen() {
   }));
 
   return (
+    <BackgroundGradient>
     <View style={styles.root}>
       <SafeAreaView style={styles.flex}>
         <View style={styles.header}>
@@ -126,6 +128,7 @@ export default function RecargasScreen() {
         </ScrollView>
       </SafeAreaView>
     </View>
+    </BackgroundGradient>
   );
 }
 
@@ -198,7 +201,7 @@ function RechargeCard({ recharge }: { recharge: Recharge }) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: C.ink0 },
+  root: { flex: 1 },
   flex: { flex: 1 },
   header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 },
   headerTitle: {

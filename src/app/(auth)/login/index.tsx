@@ -1,12 +1,12 @@
+import BackgroundGradient from "@/src/components/BackgroundGradient";
 import LogoAnimated from "@/src/components/LogoAnimated";
 import SocialButton from "@/src/components/SocialButton";
 import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
 import { usePermissions } from "@/src/hooks/usePermissions";
-import { login } from "@/src/redux/authSlice";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Alert,
@@ -33,6 +33,7 @@ import Divider from "@/src/components/Divider";
 import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
 import Skeleton from "@/src/components/Skeleton";
+import { login } from "@/src/redux/authSlice";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -48,7 +49,7 @@ function LoginContent() {
 
   const [email, setEmail] = useState("charge@gmail.com");
   const [password, setPassword] = useState("1234");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const formO = useSharedValue(0);
   const formY = useSharedValue(30);
@@ -57,6 +58,7 @@ function LoginContent() {
   const { progress: keyboardProgress } = useReanimatedKeyboardAnimation();
 
   useEffect(() => {
+    console.log("CAIU");
     formO.value = withDelay(600, withTiming(1, { duration: 600 }));
     formY.value = withDelay(600, withTiming(0, { duration: 700 }));
     socialO.value = withDelay(850, withTiming(1, { duration: 600 }));
@@ -85,6 +87,7 @@ function LoginContent() {
   });
 
   const socialCollapseStyle = useAnimatedStyle(() => {
+    console.log("CAIU2");
     const progress = keyboardProgress.value;
 
     return {
@@ -127,18 +130,18 @@ function LoginContent() {
     setLoading(true);
 
     setTimeout(() => {
+      dispatch(login());
+      router.replace("/home");
       setLoading(false);
-    }, 1100);
-
-    dispatch(login());
-    router.replace("/home");
+    }, 1000);
   };
 
   const handleSocial = (p: string) =>
     Alert.alert("Login social", `Entrar com ${p}`);
 
   return (
-    <View style={styles.root}>
+    <BackgroundGradient>
+      <View style={styles.root}>
       <SafeAreaView style={styles.flex}>
         <KeyboardAvoidingView
           style={styles.flex}
@@ -152,14 +155,28 @@ function LoginContent() {
           >
             {/* Logo animado */}
             <Animated.View style={logoStyle}>
-              <LogoAnimated />
+              <View
+                style={{
+                  marginTop: 44,
+                  marginBottom: 16,
+                  height: 220,
+                  alignItems: "center",
+                }}
+              >
+                {loading ? (
+                  <Skeleton isLoading styles={{ width: 240, height: 220 }}>
+                    <View />
+                  </Skeleton>
+                ) : (
+                  <LogoAnimated />
+                )}
+              </View>
             </Animated.View>
 
             {/* Formulário */}
             <Animated.View style={[styles.section, formStyle]}>
-              <Skeleton isLoading={!loading} mb={8}>
+              <Skeleton isLoading={loading} styles={{ marginBottom: 14 }}>
                 <Input
-                  isLoading={loading}
                   label="E-mail"
                   textContentType="emailAddress"
                   keyboardType="email-address"
@@ -167,9 +184,8 @@ function LoginContent() {
                   onChange={setEmail}
                 />
               </Skeleton>
-              <Skeleton isLoading={!loading}>
+              <Skeleton isLoading={loading}>
                 <Input
-                  isLoading={loading}
                   label="Senha"
                   textContentType="password"
                   value={password}
@@ -177,26 +193,23 @@ function LoginContent() {
                 />
               </Skeleton>
 
-              {/* <Skeleton isLoading={loading}> */}
               <View style={styles.forgotWrap}>
-                <Skeleton isLoading={!loading}>
+                <Skeleton isLoading={loading}>
                   <Button
                     title="Esqueci minha senha"
                     variant="link"
                     size="sm"
                     w={150}
-                    isLoading={!loading}
                     onPress={() => {
                       router.navigate("/home");
                     }}
                   />
                 </Skeleton>
               </View>
-              {/* </Skeleton> */}
 
               <RadiantButton
                 w={"100%"}
-                isLoading={!loading}
+                isLoading={loading}
                 iconName="ArrowRight"
                 rightIcon
                 title="Entrar"
@@ -205,28 +218,29 @@ function LoginContent() {
             </Animated.View>
 
             {/* Divisor */}
-            <Animated.View
-              style={[styles.section, { marginTop: 20 }, socialStyle]}
-            >
+            <Animated.View style={[styles.section, socialStyle]}>
               <Animated.View style={socialCollapseStyle}>
-                <Divider title="ou continue com" mb={10} />
-
+                <View style={{ marginTop: 22, marginBottom: 22 }}>
+                  <Skeleton isLoading={loading}>
+                    <Divider title="ou continue com" />
+                  </Skeleton>
+                </View>
                 <View style={styles.socialRow}>
-                  <Skeleton isLoading={!loading}>
+                  <Skeleton isLoading={loading}>
                     <SocialButton
                       type="chrome"
                       label="Google"
                       onPress={() => router.navigate("/testeImp")}
                     />
                   </Skeleton>
-                  <Skeleton isLoading={!loading}>
+                  <Skeleton isLoading={loading}>
                     <SocialButton
                       type="apple"
                       label="Apple"
                       onPress={() => router.navigate("/testeCol")}
                     />
                   </Skeleton>
-                  <Skeleton isLoading={!loading}>
+                  <Skeleton isLoading={loading}>
                     <SocialButton
                       type="facebook"
                       label="Facebook"
@@ -235,45 +249,44 @@ function LoginContent() {
                   </Skeleton>
                 </View>
               </Animated.View>
+              <View style={{ marginTop: 18, alignItems: "center" }}>
+                <Skeleton
+                  isLoading={loading}
+                  styles={{
+                    flex: 1,
+                    flexDirection: "row",
 
-              <View style={styles.footer}>
-                <Text style={styles.footerText}>Ainda não tem conta? </Text>
-                <Button
-                  title="Criar conta"
-                  variant="link"
-                  size="sm"
-                  isLoading={!loading}
-                  w={70}
-                  onPress={() => Alert.alert("Cadastro", "Tela de cadastro")}
-                />
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <View style={styles.footer}>
+                    <Text style={styles.footerText}>Ainda não tem conta?</Text>
+                    <Button
+                      title="Criar conta"
+                      variant="link"
+                      size="sm"
+                      w={84}
+                      onPress={() =>
+                        Alert.alert("Cadastro", "Tela de cadastro")
+                      }
+                    />
+                  </View>
+                </Skeleton>
               </View>
             </Animated.View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
-    </View>
-  );
-}
-
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
-      {children}
-    </View>
+      </View>
+    </BackgroundGradient>
   );
 }
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: C.ink0,
+    backgroundColor: "transparent",
   },
   flex: { flex: 1 },
   scroll: {
@@ -393,8 +406,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   forgotWrap: {
-    marginBottom: 10,
-    marginTop: 4,
+    marginBottom: 16,
+    marginTop: 16,
     alignItems: "flex-end",
   },
   forgot: {
@@ -473,7 +486,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
   },
   footerText: {
     fontSize: 14,
