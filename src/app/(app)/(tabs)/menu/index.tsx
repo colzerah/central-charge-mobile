@@ -1,3 +1,4 @@
+import BackgroundGradient from "@/src/components/BackgroundGradient";
 import MenuList from "@/src/components/MenuList";
 import MenuStatCard from "@/src/components/MenuStatCard";
 import { useModal } from "@/src/hooks/useModal";
@@ -52,122 +53,107 @@ export default function Menu() {
   }));
 
   return (
-    <>
-      {/* <Stack.Title>Search</Stack.Title> */}
-      {/* <Stack.SearchBar
-        placement="stacked"
-        placeholder="Search"
-        onChangeText={() => {}}
-      /> */}
-      <View style={styles.root}>
-        <SafeAreaView style={styles.flex}>
-          <ScrollView
-            style={styles.flex}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 100 }}
-          >
-            {/* Perfil */}
-            <Animated.View style={[styles.profileCard, profileStyle]}>
-              <View style={styles.profileAvatar}>
-                <User color={C.brand400} size={32} strokeWidth={2} />
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={styles.profileName}>Carlos Andrade</Text>
-                <Text style={styles.profileEmail}>carlos@voltcharge.com</Text>
-                <View style={styles.profileBadge}>
-                  <Zap
-                    color={C.brand300}
-                    size={12}
-                    strokeWidth={2.5}
-                    fill={C.brand400}
-                  />
-                  <Text style={styles.profileBadgeText}>Membro Premium</Text>
-                </View>
-              </View>
-            </Animated.View>
-
-            {/* Estatísticas */}
-            <Animated.View style={profileStyle}>
-              <View
-                style={{
-                  marginHorizontal: 20,
-                  marginTop: 12,
-                }}
-              >
-                <MenuStatCard
-                  stats={[
-                    {
-                      value: "1.248",
-                      label: "kWh total",
-                    },
-                    {
-                      value: "47",
-                      label: "recargas",
-                    },
-                    {
-                      value: "8.2",
-                      label: "tCO₂ evitado",
-                    },
-                  ]}
+    <BackgroundGradient>
+    <View style={styles.root}>
+      <SafeAreaView style={styles.flex}>
+        <ScrollView
+          style={styles.flex}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        >
+          {/* Perfil */}
+          <Animated.View style={[styles.profileCard, profileStyle]}>
+            <View style={styles.profileAvatar}>
+              <User color={C.brand400} size={32} strokeWidth={2} />
+            </View>
+            <View style={styles.profileInfo}>
+              <Text style={styles.profileName}>Carlos Andrade</Text>
+              <Text style={styles.profileEmail}>carlos@voltcharge.com</Text>
+              <View style={styles.profileBadge}>
+                <Zap
+                  color={C.brand300}
+                  size={12}
+                  strokeWidth={2.5}
+                  fill={C.brand400}
                 />
+                <Text style={styles.profileBadgeText}>Membro Premium</Text>
               </View>
-            </Animated.View>
+            </View>
+          </Animated.View>
 
-            {/* Menu */}
-            <Animated.View style={menuStyle}>
-              <MenuList
-                title="Conta"
-                items={MENU_CONTA}
-                onPress={(e) => {
-                  if (e === "Pagamentos") {
-                    router.navigate("/menu/teste");
-                  }
-                }}
+          {/* Estatísticas */}
+          <Animated.View style={profileStyle}>
+            <View
+              style={{
+                marginHorizontal: 20,
+                marginTop: 12,
+              }}
+            >
+              <MenuStatCard
+                stats={[
+                  {
+                    value: "1.248",
+                    label: "kWh total",
+                  },
+                  {
+                    value: "47",
+                    label: "recargas",
+                  },
+                  {
+                    value: "8.2",
+                    label: "tCO₂ evitado",
+                  },
+                ]}
               />
+            </View>
+          </Animated.View>
 
-              <MenuList
-                title="Preferências"
-                items={MENU_PREFERENCIA}
-                onPress={(e) => {
-                  if (e === "Configurações") {
-                    openModal({
-                      title: "teste de modal",
-                      subTitle: "testando subtitle",
-                      type: "SUCESS",
-                    });
-                  }
-                }}
-              />
+          {/* Menu */}
+          <Animated.View style={menuStyle}>
+            <MenuList
+              title="Conta"
+              items={MENU_CONTA}
+              onPress={(e) => {
+                if (e === "Pagamentos") {
+                  router.navigate("/menu-teste");
+                }
+              }}
+            />
 
-              <MenuList
-                title="Suporte"
-                items={MENU_SUPORTE}
-                onPress={(e) => {
-                  if (e === "Sair da conta") {
-                    dispatch(logout());
-                    router.replace("/login");
-                  }
-                }}
-              />
-            </Animated.View>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
-    </>
-  );
-}
+            <MenuList
+              title="Preferências"
+              items={MENU_PREFERENCIA}
+              onPress={(e) => {
+                if (e === "Configurações") {
+                  openModal({
+                    title: "teste de modal",
+                    subTitle: "testando subtitle",
+                    type: "SUCESS",
+                  });
+                }
+              }}
+            />
 
-function StatItem({ value, label }: { value: string; label: string }) {
-  return (
-    <View style={styles.statItem}>
-      <Text style={styles.statValue}>{value}</Text>
-      <Text style={styles.statLabel}>{label}</Text>
+            <MenuList
+              title="Suporte"
+              items={MENU_SUPORTE}
+              onPress={(e) => {
+                if (e === "Sair da conta") {
+                  dispatch(logout());
+                  router.replace("/login");
+                }
+              }}
+            />
+          </Animated.View>
+        </ScrollView>
+      </SafeAreaView>
     </View>
+    </BackgroundGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: C.ink0 },
+  root: { flex: 1 },
   flex: { flex: 1 },
   profileCard: {
     flexDirection: "row",

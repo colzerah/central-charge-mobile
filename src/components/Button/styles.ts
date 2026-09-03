@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     fontFamily: "Inter-Bold",
   },
   titleText: {
-    fontWeight: "700",
+    fontWeight: "900",
     fontFamily: "Inter-Bold",
   },
 });

@@ -1,10 +1,10 @@
 import { C } from "@/src/theme";
 import { Text, View } from "react-native";
 
-import Icon from "../Icon";
 import { MenuItem } from "./MenuItem";
 import { menuStyles } from "./styles";
 
+import IconBackground from "../IconBackground";
 import { MenuPros } from "./MenuDTO";
 
 const MenuList = ({ title, items, onPress }: MenuPros) => {
@@ -29,11 +29,14 @@ const MenuList = ({ title, items, onPress }: MenuPros) => {
             key={`${menu.label}-${idx}`}
             danger={menu.variant === "DANGER"}
             icon={
-              <Icon
-                name={menu.icon}
-                size={19}
+              <IconBackground
+                icon={menu.icon}
+                square
                 strokeWidth={2.2}
-                color={getIconColor(menu.variant)}
+                backgroundColor={
+                  menu.variant === "DANGER" ? C.error + "15" : C.ink100
+                }
+                iconColor={getIconColor(menu.variant)}
               />
             }
             label={menu.label}

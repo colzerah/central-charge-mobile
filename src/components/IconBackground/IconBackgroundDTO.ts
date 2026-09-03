@@ -6,4 +6,5 @@ export interface IconBackgroundProps {
   backgroundColor?: string;
   iconColor?: string;
   square?: boolean;
+  strokeWidth?: number;
 }

@@ -32,11 +32,11 @@ export const menuStyles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 10,
-    backgroundColor: C.ink100,
+    // backgroundColor: C.ink100,
     alignItems: "center",
     justifyContent: "center",
   },
-  menuIconDanger: { backgroundColor: C.error + "15" },
+  menuIconDanger: {},
   menuText: { flex: 1, marginLeft: 12 },
   menuLabel: {
     fontSize: 14,

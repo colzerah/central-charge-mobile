@@ -1,3 +1,4 @@
+import BackgroundGradient from "@/src/components/BackgroundGradient";
 import Input from "@/src/components/Input";
 import { useAppDispatch } from "@/src/redux/store";
 
@@ -9,7 +10,7 @@ export default function TesteCol() {
   const dispatch = useAppDispatch();
 
   return (
-    <>
+    <BackgroundGradient>
       <View style={styles.root}>
         <Input label="Email" textContentType="emailAddress" />
       </View>
@@ -22,7 +23,7 @@ export default function TesteCol() {
       <View style={styles.root}>
         <Input isDisabled />
       </View>
-    </>
+    </BackgroundGradient>
   );
 }
 
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: C.ink0,
   },
   container: {},
   flex: { flex: 1 },

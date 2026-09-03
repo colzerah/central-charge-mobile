@@ -20,8 +20,8 @@ import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { Provider } from "react-redux";
-import { store } from "../redux/store";
 import { ModalProvider } from "../providers/modal-provider";
+import { store } from "../redux/store";
 import { C } from "../theme";
 
 SplashScreen.preventAutoHideAsync();
@@ -49,13 +49,15 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
           <Provider store={store}>
             <ModalProvider>
               <Stack
                 screenOptions={{
                   headerShown: false,
-                  contentStyle: { backgroundColor: C.ink0 },
+                  contentStyle: { backgroundColor: "transparent" },
                 }}
               />
             </ModalProvider>

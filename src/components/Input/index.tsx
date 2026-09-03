@@ -108,14 +108,8 @@ const Input = ({
   };
 
   return (
-    // <Skeleton
-    //   w={w}
-    //   h={skeletonHeight ?? getSize()?.inputHeight}
-    //   br={14}
-    //   isLoading={isLoading}
-    // >
     <View
-      style={[inputStyles.field, { width: w }]}
+      style={{ width: w }}
       onLayout={(e) => setSkeletonHeight(e.nativeEvent.layout.height)}
     >
       {label && <Text style={inputStyles.label}>{label}</Text>}
@@ -185,7 +179,6 @@ const Input = ({
         )}
       </View>
     </View>
-    // </Skeleton>
   );
 };
 

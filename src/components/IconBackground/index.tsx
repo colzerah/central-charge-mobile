@@ -9,6 +9,7 @@ const IconBackground = ({
   size = "sm",
   square = false,
   iconColor = "red",
+  strokeWidth,
 }: IconBackgroundProps) => {
   const getSize = () => {
     if (size === "sm") {
@@ -62,6 +63,7 @@ const IconBackground = ({
           color={iconColor}
           size={componentSize.iconSize}
           fill="transparent"
+          strokeWidth={strokeWidth}
         />
       </View>
     </View>

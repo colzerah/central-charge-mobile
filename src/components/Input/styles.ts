@@ -2,9 +2,6 @@ import { C } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
 export const inputStyles = StyleSheet.create({
-  field: {
-    marginBottom: 18,
-  },
   label: {
     fontSize: 13,
     fontWeight: "600",
