@@ -1,7 +1,8 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import SummaryCard from "@/src/components/SummaryCard";
 import { C } from "@/src/theme";
-import { BatteryCharging, Clock, TrendingUp, Zap } from "lucide-react-native";
-import React, { useEffect } from "react";
+import { BatteryCharging } from "lucide-react-native";
+import { useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -86,69 +87,63 @@ export default function RecargasScreen() {
 
   return (
     <BackgroundGradient>
-    <View style={styles.root}>
-      <SafeAreaView style={styles.flex}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Recargas</Text>
-          <Text style={styles.headerSubtitle}>Histórico e agendamentos</Text>
-        </View>
-
-        <ScrollView
-          style={styles.flex}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100 }}
-        >
-          {/* Cards de resumo */}
-          <View style={styles.summaryRow}>
-            <SummaryCard
-              icon={<Zap color={C.brand400} size={20} strokeWidth={2.2} />}
-              value="1.248 kWh"
-              label="Total carregado"
-            />
-            <SummaryCard
-              icon={<Clock color={C.brand400} size={20} strokeWidth={2.2} />}
-              value="42h 15min"
-              label="Tempo total"
-            />
-            <SummaryCard
-              icon={
-                <TrendingUp color={C.brand400} size={20} strokeWidth={2.2} />
-              }
-              value="R$ 1.089"
-              label="Gasto total"
-            />
+      <View style={styles.root}>
+        <SafeAreaView style={styles.flex}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Recargas</Text>
+            <Text style={styles.headerSubtitle}>Histórico e agendamentos</Text>
           </View>
 
-          <Animated.View style={contentStyle}>
-            <Text style={styles.sectionTitle}>Histórico recente</Text>
-            {RECHARGES.map((r) => (
-              <RechargeCard key={r.id} recharge={r} />
-            ))}
-          </Animated.View>
-        </ScrollView>
-      </SafeAreaView>
-    </View>
+          <ScrollView
+            style={styles.flex}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}
+          >
+            {/* Cards de resumo */}
+            <View style={styles.summaryRow}>
+              <SummaryCard
+                icon="Zap"
+                value="1.248 kWh"
+                label="Total carregado"
+              />
+              <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
+              <SummaryCard
+                icon="TrendingUp"
+                value="R$ 1.089"
+                label="Gasto total"
+              />
+            </View>
+
+            <Animated.View style={contentStyle}>
+              <Text style={styles.sectionTitle}>Histórico recente</Text>
+              {RECHARGES.map((r) => (
+                <RechargeCard key={r.id} recharge={r} />
+              ))}
+            </Animated.View>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
     </BackgroundGradient>
   );
 }
 
-function SummaryCard({
-  icon,
-  value,
-  label,
-}: {
-  icon: React.ReactNode;
-  value: string;
-  label: string;
-}) {
-  return (
-    <View style={styles.summaryCard}>
-      <View style={styles.summaryIcon}>{icon}</View>
-      <Text style={styles.summaryValue}>{value}</Text>
-      <Text style={styles.summaryLabel}>{label}</Text>
-    </View>
-  );
-}
+// function SummaryCard({
+//   icon,
+//   value,
+//   label,
+// }: {
+//   icon: React.ReactNode;
+//   value: string;
+//   label: string;
+// }) {
+//   return (
+//     <View style={styles.summaryCard}>
+//       <View style={styles.summaryIcon}>{icon}</View>
+//       <Text style={styles.summaryValue}>{value}</Text>
+//       <Text style={styles.summaryLabel}>{label}</Text>
+//     </View>
+//   );
+// }
 
 function RechargeCard({ recharge }: { recharge: Recharge }) {
   const statusColor =
@@ -222,37 +217,37 @@ const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 24,
   },
-  summaryCard: {
-    flex: 1,
-    backgroundColor: C.ink50,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: C.ink200,
-    padding: 14,
-    alignItems: "center",
-  },
-  summaryIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: C.ink100,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-  summaryValue: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: C.white,
-    fontFamily: "Inter-Bold",
-  },
-  summaryLabel: {
-    fontSize: 10,
-    color: C.ink400,
-    fontFamily: "Inter-Regular",
-    marginTop: 2,
-    textAlign: "center",
-  },
+  // summaryCard: {
+  //   flex: 1,
+  //   backgroundColor: C.ink50,
+  //   borderRadius: 16,
+  //   borderWidth: 1.5,
+  //   borderColor: C.ink200,
+  //   padding: 14,
+  //   alignItems: "center",
+  // },
+  // summaryIcon: {
+  //   width: 36,
+  //   height: 36,
+  //   borderRadius: 18,
+  //   backgroundColor: C.ink100,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   marginBottom: 8,
+  // },
+  // summaryValue: {
+  //   fontSize: 15,
+  //   fontWeight: "700",
+  //   color: C.white,
+  //   fontFamily: "Inter-Bold",
+  // },
+  // summaryLabel: {
+  //   fontSize: 10,
+  //   color: C.ink400,
+  //   fontFamily: "Inter-Regular",
+  //   marginTop: 2,
+  //   textAlign: "center",
+  // },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",

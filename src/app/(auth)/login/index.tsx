@@ -142,142 +142,144 @@ function LoginContent() {
   return (
     <BackgroundGradient>
       <View style={styles.root}>
-      <SafeAreaView style={styles.flex}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          enabled
-        >
-          <ScrollView
-            contentContainerStyle={styles.scroll}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
+        <SafeAreaView style={styles.flex}>
+          <KeyboardAvoidingView
+            style={styles.flex}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            enabled
           >
-            {/* Logo animado */}
-            <Animated.View style={logoStyle}>
-              <View
-                style={{
-                  marginTop: 44,
-                  marginBottom: 16,
-                  height: 220,
-                  alignItems: "center",
-                }}
-              >
-                {loading ? (
-                  <Skeleton isLoading styles={{ width: 240, height: 220 }}>
-                    <View />
-                  </Skeleton>
-                ) : (
-                  <LogoAnimated />
-                )}
-              </View>
-            </Animated.View>
-
-            {/* Formulário */}
-            <Animated.View style={[styles.section, formStyle]}>
-              <Skeleton isLoading={loading} styles={{ marginBottom: 14 }}>
-                <Input
-                  label="E-mail"
-                  textContentType="emailAddress"
-                  keyboardType="email-address"
-                  value={email}
-                  onChange={setEmail}
-                />
-              </Skeleton>
-              <Skeleton isLoading={loading}>
-                <Input
-                  label="Senha"
-                  textContentType="password"
-                  value={password}
-                  onChange={setPassword}
-                />
-              </Skeleton>
-
-              <View style={styles.forgotWrap}>
-                <Skeleton isLoading={loading}>
-                  <Button
-                    title="Esqueci minha senha"
-                    variant="link"
-                    size="sm"
-                    w={150}
-                    onPress={() => {
-                      router.navigate("/home");
-                    }}
-                  />
-                </Skeleton>
-              </View>
-
-              <RadiantButton
-                w={"100%"}
-                isLoading={loading}
-                iconName="ArrowRight"
-                rightIcon
-                title="Entrar"
-                onPress={handleLogin}
-              />
-            </Animated.View>
-
-            {/* Divisor */}
-            <Animated.View style={[styles.section, socialStyle]}>
-              <Animated.View style={socialCollapseStyle}>
-                <View style={{ marginTop: 22, marginBottom: 22 }}>
-                  <Skeleton isLoading={loading}>
-                    <Divider title="ou continue com" />
-                  </Skeleton>
-                </View>
-                <View style={styles.socialRow}>
-                  <Skeleton isLoading={loading}>
-                    <SocialButton
-                      type="chrome"
-                      label="Google"
-                      onPress={() => router.navigate("/testeImp")}
-                    />
-                  </Skeleton>
-                  <Skeleton isLoading={loading}>
-                    <SocialButton
-                      type="apple"
-                      label="Apple"
-                      onPress={() => router.navigate("/testeCol")}
-                    />
-                  </Skeleton>
-                  <Skeleton isLoading={loading}>
-                    <SocialButton
-                      type="facebook"
-                      label="Facebook"
-                      onPress={() => handleSocial("Facebook")}
-                    />
-                  </Skeleton>
-                </View>
-              </Animated.View>
-              <View style={{ marginTop: 18, alignItems: "center" }}>
-                <Skeleton
-                  isLoading={loading}
-                  styles={{
-                    flex: 1,
-                    flexDirection: "row",
-
-                    justifyContent: "center",
+            <ScrollView
+              contentContainerStyle={styles.scroll}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {/* Logo animado */}
+              <Animated.View style={logoStyle}>
+                <View
+                  style={{
+                    marginTop: 44,
+                    marginBottom: 16,
+                    height: 220,
                     alignItems: "center",
                   }}
                 >
-                  <View style={styles.footer}>
-                    <Text style={styles.footerText}>Ainda não tem conta?</Text>
+                  {loading ? (
+                    <Skeleton isLoading styles={{ width: 240, height: 220 }}>
+                      <View />
+                    </Skeleton>
+                  ) : (
+                    <LogoAnimated />
+                  )}
+                </View>
+              </Animated.View>
+
+              {/* Formulário */}
+              <Animated.View style={[styles.section, formStyle]}>
+                <Skeleton isLoading={loading} styles={{ marginBottom: 14 }}>
+                  <Input
+                    label="E-mail"
+                    textContentType="emailAddress"
+                    keyboardType="email-address"
+                    value={email}
+                    onChange={setEmail}
+                  />
+                </Skeleton>
+                <Skeleton isLoading={loading}>
+                  <Input
+                    label="Senha"
+                    textContentType="password"
+                    value={password}
+                    onChange={setPassword}
+                  />
+                </Skeleton>
+
+                <View style={styles.forgotWrap}>
+                  <Skeleton isLoading={loading}>
                     <Button
-                      title="Criar conta"
+                      title="Esqueci minha senha"
                       variant="link"
                       size="sm"
-                      w={84}
-                      onPress={() =>
-                        Alert.alert("Cadastro", "Tela de cadastro")
-                      }
+                      w={150}
+                      onPress={() => {
+                        router.navigate("/home");
+                      }}
                     />
+                  </Skeleton>
+                </View>
+
+                <RadiantButton
+                  w={"100%"}
+                  isLoading={loading}
+                  iconName="ArrowRight"
+                  rightIcon
+                  title="Entrar"
+                  onPress={handleLogin}
+                />
+              </Animated.View>
+
+              {/* Divisor */}
+              <Animated.View style={[styles.section, socialStyle]}>
+                <Animated.View style={socialCollapseStyle}>
+                  <View style={{ marginTop: 22, marginBottom: 22 }}>
+                    <Skeleton isLoading={loading}>
+                      <Divider title="ou continue com" />
+                    </Skeleton>
                   </View>
-                </Skeleton>
-              </View>
-            </Animated.View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+                  <View style={styles.socialRow}>
+                    <Skeleton isLoading={loading}>
+                      <SocialButton
+                        type="chrome"
+                        label="Google"
+                        onPress={() => router.navigate("/testeImp")}
+                      />
+                    </Skeleton>
+                    <Skeleton isLoading={loading}>
+                      <SocialButton
+                        type="apple"
+                        label="Apple"
+                        onPress={() => router.navigate("/testeCol")}
+                      />
+                    </Skeleton>
+                    <Skeleton isLoading={loading}>
+                      <SocialButton
+                        type="facebook"
+                        label="Facebook"
+                        onPress={() => handleSocial("Facebook")}
+                      />
+                    </Skeleton>
+                  </View>
+                </Animated.View>
+                <View style={{ marginTop: 18, alignItems: "center" }}>
+                  <Skeleton
+                    isLoading={loading}
+                    styles={{
+                      flex: 1,
+                      flexDirection: "row",
+
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={styles.footer}>
+                      <Text style={styles.footerText}>
+                        Ainda não tem conta?
+                      </Text>
+                      <Button
+                        title="Criar conta"
+                        variant="link"
+                        size="sm"
+                        w={84}
+                        onPress={() =>
+                          Alert.alert("Cadastro", "Tela de cadastro")
+                        }
+                      />
+                    </View>
+                  </Skeleton>
+                </View>
+              </Animated.View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
       </View>
     </BackgroundGradient>
   );
