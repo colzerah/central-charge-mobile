@@ -1,5 +1,7 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import SummaryCard from "@/src/components/SummaryCard";
+import NotificationCard from "@/src/components/NotificationCard";
+import { MOCK_NOTIFICATIONS } from "@/src/components/NotificationCard/mock";
+import { Notification } from "@/src/components/NotificationCard/NotificationCardDTO";
 import { useAppDispatch } from "@/src/redux/store";
 
 import { StyleSheet, View } from "react-native";
@@ -7,12 +9,26 @@ import { StyleSheet, View } from "react-native";
 export default function TesteImp() {
   const dispatch = useAppDispatch();
 
+  const handleOpen = (notification: Notification) => {
+    console.log("Abrindo notificação:", notification);
+  };
+
+  const handleDelete = (notification: Notification) => {
+    console.log("Excluindo notificação:", notification);
+  };
+
   return (
     <BackgroundGradient>
       <View style={styles.root}>
-        <SummaryCard icon="Zap" value="1.248 kWh" label="Total carregado" />
-        <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
-        <SummaryCard icon="TrendingUp" value="R$ 1.089" label="Gasto total" />
+        {MOCK_NOTIFICATIONS.map((notification, index) => (
+          <NotificationCard
+            key={notification.id}
+            notification={notification}
+            index={index}
+            onPress={handleOpen}
+            onDelete={handleDelete}
+          />
+        ))}
       </View>
     </BackgroundGradient>
   );
@@ -21,9 +37,9 @@ export default function TesteImp() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    // flexDirection: "column",
+    // alignItems: "center",
+    // justifyContent: "center",
     gap: 10,
   },
 });
