@@ -17,8 +17,13 @@ export interface Notification {
 }
 
 export interface NotificationCardProps {
-  notification: Notification;
-  index?: number;
-  onPress?: (notification: Notification) => void;
-  onDelete?: (notification: Notification) => void;
+  type: NotificationType;
+  title: string;
+  message: string;
+  day: number;
+  month: string;
+  read: boolean;
+  animationDelay?: number;
+  onPress?: () => void;
+  onDelete?: () => void;
 }

@@ -3,14 +3,14 @@ import { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-    Extrapolation,
-    interpolate,
-    runOnJS,
-    useAnimatedStyle,
-    useSharedValue,
-    withDelay,
-    withSpring,
-    withTiming,
+  Extrapolation,
+  interpolate,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 import DateBadge from "@/src/components/DateBadge";
@@ -25,13 +25,16 @@ import { NotificationCardProps } from "./NotificationCardDTO";
 
 import { styles } from "./styles";
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-
 const NotificationCard = ({
-  notification,
-  index = 0,
+  type,
+  title,
+  message,
+  day,
+  month,
+  read,
   onPress,
   onDelete,
+  animationDelay = 0,
 }: NotificationCardProps) => {
   const cardOpacity = useSharedValue(0);
   const cardTranslateY = useSharedValue(30);
@@ -45,22 +48,20 @@ const NotificationCard = ({
 
   // Animação de entrada
   useEffect(() => {
-    const delay = 250 + index * 50;
-
     cardOpacity.value = withDelay(
-      delay,
+      animationDelay,
       withTiming(1, {
         duration: 400,
       }),
     );
 
     cardTranslateY.value = withDelay(
-      delay,
+      animationDelay,
       withTiming(0, {
         duration: 500,
       }),
     );
-  }, [index]);
+  }, [animationDelay]);
 
   // Gesture de swipe
   const panGesture = Gesture.Pan()
@@ -91,7 +92,7 @@ const NotificationCard = ({
         );
 
         if (onDelete) {
-          runOnJS(onDelete)(notification);
+          runOnJS(onDelete)();
         }
 
         return;
@@ -180,10 +181,6 @@ const NotificationCard = ({
     });
   };
 
-  const handlePress = () => {
-    onPress?.(notification);
-  };
-
   return (
     <Animated.View style={[styles.container, containerStyle]}>
       <View style={styles.swipeWrap}>
@@ -200,20 +197,18 @@ const NotificationCard = ({
         <GestureDetector gesture={panGesture}>
           <Animated.View style={swipeStyle}>
             <Animated.View style={cardStyle}>
-              <AnimatedPressable
-                onPress={handlePress}
+              <Pressable
+                onPress={onPress}
                 onPressIn={handlePressIn}
                 onPressOut={handlePressOut}
-                style={[styles.card, !notification.read && styles.cardUnread]}
+                style={[styles.card, !read && styles.cardUnread]}
               >
                 {/* Icon */}
                 <Animated.View style={iconScaleStyle}>
                   <IconBackground
-                    icon={getNotificationIcon(notification.type)}
+                    icon={getNotificationIcon(type)}
                     size="md"
-                    backgroundColor={getNotificationIconBackground(
-                      notification.type,
-                    )}
+                    backgroundColor={getNotificationIconBackground(type)}
                     iconColor={C.brand400}
                   />
                 </Animated.View>
@@ -221,26 +216,26 @@ const NotificationCard = ({
                 {/* Conteúdo */}
                 <View style={styles.cardBody}>
                   <View style={styles.cardHeader}>
-                    {!notification.read && <View style={styles.unreadDot} />}
+                    {!read && <View style={styles.unreadDot} />}
 
                     <Text style={styles.cardTitle} numberOfLines={1}>
-                      {notification.title}
+                      {title}
                     </Text>
                   </View>
 
                   <Text style={styles.cardMessage} numberOfLines={2}>
-                    {notification.message}
+                    {message}
                   </Text>
                 </View>
 
                 {/* Data */}
-                <DateBadge day={notification.day} month={notification.month} />
+                <DateBadge day={day} month={month} />
 
                 {/* Chevron */}
                 <View style={styles.chevron}>
                   <ChevronRight color={C.ink400} size={18} />
                 </View>
-              </AnimatedPressable>
+              </Pressable>
             </Animated.View>
           </Animated.View>
         </GestureDetector>
