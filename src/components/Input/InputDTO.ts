@@ -1,3 +1,4 @@
+import * as icons from "lucide-react-native/icons";
 import { DimensionValue } from "react-native";
 
 export interface InputProps {
@@ -10,6 +11,7 @@ export interface InputProps {
   size?: "sm" | "md" | "lg";
   isInvalid?: boolean;
   isDisabled?: boolean;
+  variant?: "default" | "outline";
   keyboardType?:
     | "default"
     | "number-pad"
@@ -18,4 +20,7 @@ export interface InputProps {
     | "email-address"
     | "phone-pad";
   textContentType?: "none" | "emailAddress" | "password";
+  leftIcon?: keyof typeof icons;
+  iconColor?: string;
+  iconBg?: string;
 }

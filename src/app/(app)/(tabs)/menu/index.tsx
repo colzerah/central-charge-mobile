@@ -114,8 +114,12 @@ export default function Menu() {
                 title="Conta"
                 items={MENU_CONTA}
                 onPress={(e) => {
+                  console.log("item clicado", e);
                   if (e === "Pagamentos") {
                     router.navigate("/menu-teste");
+                  }
+                  if (e === "Meu veículo") {
+                    router.navigate("/veiculos");
                   }
                 }}
               />

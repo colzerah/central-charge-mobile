@@ -6,11 +6,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
     paddingHorizontal: 8,
-    paddingVertical: 4,
     borderRadius: 8,
   },
   text: {
-    fontSize: 10,
     fontWeight: "600",
     fontFamily: "Inter-SemiBold",
   },

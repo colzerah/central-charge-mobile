@@ -4,6 +4,7 @@ import { Lock, Mail } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import Icon from "../Icon";
+import IconBackground from "../IconBackground";
 import { InputProps } from "./InputDTO";
 import { inputStyles } from "./styles";
 
@@ -19,6 +20,10 @@ const Input = ({
   keyboardType,
   textContentType = "none",
   isDisabled,
+  variant = "default",
+  leftIcon,
+  iconColor,
+  iconBg,
 }: InputProps) => {
   const [focused, setFocused] = useState(false);
   const [skeletonHeight, setSkeletonHeight] = useState<number | undefined>(
@@ -104,7 +109,25 @@ const Input = ({
     if (eyes) {
       return C.ink400;
     }
+    if (iconColor) {
+      return iconColor;
+    }
     return C.brand500;
+  };
+
+  const getIconBgColor = () => {
+    if (iconBg) {
+      return iconBg;
+    }
+    return "transparent";
+  };
+
+  const getBackgroundColor = () => {
+    if (variant === "outline") {
+      return C.ink100;
+    }
+
+    return "transparent";
   };
 
   return (
@@ -116,7 +139,11 @@ const Input = ({
       <View
         style={[
           inputStyles.inputWrap,
-          { height: getSize()?.inputHeight, ...getFocused() },
+          {
+            height: getSize()?.inputHeight,
+            ...getFocused(),
+            backgroundColor: getBackgroundColor(),
+          },
         ]}
       >
         {textContentType === "emailAddress" && (
@@ -134,6 +161,21 @@ const Input = ({
             style={inputStyles.inputIcon}
           />
         )}
+        {leftIcon &&
+          textContentType !== "password" &&
+          textContentType !== "emailAddress" && (
+            <View style={inputStyles.inputIcon}>
+              <IconBackground
+                icon={leftIcon}
+                square
+                backgroundColor={getIconBgColor()}
+                iconColor={getIconColor()}
+
+                // color={getIconColor()}
+                // size={getSize()?.iconSize}
+              />
+            </View>
+          )}
         <TextInput
           secureTextEntry={showPassword}
           editable={!isDisabled} // disabled
