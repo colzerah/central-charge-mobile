@@ -1,10 +1,8 @@
-import { Dialog } from "@/src/components/shared/ui/organisms/dialog";
 import { C } from "@/src/theme";
 import {
   AlertTriangle,
   CheckCircle2,
   Info,
-  X,
   XCircle,
 } from "lucide-react-native";
 import {
@@ -15,7 +13,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import Modal from "../components/Modal";
 
 export type ModalType = "SUCESS" | "INFO" | "WARNING" | "ERRO";
 
@@ -59,13 +58,16 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     [isOpen, openModal, closeModal],
   );
 
-  const { icon: Icon, color } = MODAL_VISUALS[content.type];
-
   return (
     <ModalContext.Provider value={contextValue}>
       {children}
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        modalType={content.type}
+      />
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      {/* <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Backdrop>
           <Dialog.Content>
             <View style={styles.card}>
@@ -92,7 +94,7 @@ export function ModalProvider({ children }: { children: ReactNode }) {
             </View>
           </Dialog.Content>
         </Dialog.Backdrop>
-      </Dialog>
+      </Dialog> */}
     </ModalContext.Provider>
   );
 }
