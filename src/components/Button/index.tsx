@@ -17,6 +17,7 @@ const Button = ({
   iconRight,
   size = "md",
   loadingText = "Carregando...",
+  colorScheme = "primary",
 }: ButtonProps) => {
   const isLink = variant === "link";
   const isAndroid = Platform.OS === "android";
@@ -57,6 +58,27 @@ const Button = ({
       return {
         backgroundColor: "transparent",
         color: C.brand500,
+      };
+    }
+
+    if (colorScheme === "danger") {
+      return {
+        backgroundColor: C.error,
+        color: C.white,
+      };
+    }
+
+    if (colorScheme === "success") {
+      return {
+        backgroundColor: C.success,
+        color: C.white,
+      };
+    }
+
+    if (colorScheme === "warning") {
+      return {
+        backgroundColor: C.warning,
+        color: C.white,
       };
     }
 

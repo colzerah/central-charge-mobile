@@ -1,10 +1,3 @@
-import { C } from "@/src/theme";
-import {
-  AlertTriangle,
-  CheckCircle2,
-  Info,
-  XCircle,
-} from "lucide-react-native";
 import {
   createContext,
   useCallback,
@@ -13,15 +6,17 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { StyleSheet } from "react-native";
 import Modal from "../components/Modal";
 
-export type ModalType = "SUCESS" | "INFO" | "WARNING" | "ERRO";
+export type ModalType = "SUCCESS" | "INFO" | "WARNING" | "ERROR";
 
 export type OpenModalParams = {
   title: string;
   subTitle?: string;
   type: ModalType;
+  onPress?: () => void;
+  titleButton?: string;
+  titleButtonCancel?: string;
 };
 
 type ModalContextValue = {
@@ -32,18 +27,15 @@ type ModalContextValue = {
 
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
 
-const MODAL_VISUALS: Record<ModalType, { icon: typeof Info; color: string }> = {
-  SUCESS: { icon: CheckCircle2, color: C.success },
-  INFO: { icon: Info, color: C.info },
-  WARNING: { icon: AlertTriangle, color: C.warning },
-  ERRO: { icon: XCircle, color: C.error },
-};
-
 export function ModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<OpenModalParams>({
     title: "",
+    subTitle: "",
     type: "INFO",
+    onPress: () => {},
+    titleButton: "",
+    titleButtonCancel: "",
   });
 
   const openModal = useCallback((params: OpenModalParams) => {
@@ -65,36 +57,12 @@ export function ModalProvider({ children }: { children: ReactNode }) {
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         modalType={content.type}
+        title={content.title}
+        subTitle={content.subTitle}
+        onPress={content.onPress}
+        titleButton={content.titleButton}
+        titleButtonCancel={content.titleButtonCancel}
       />
-
-      {/* <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <Dialog.Backdrop>
-          <Dialog.Content>
-            <View style={styles.card}>
-              <Dialog.Close asChild>
-                <Pressable
-                  style={styles.closeButton}
-                  hitSlop={12}
-                  onPress={() => closeModal()}
-                >
-                  <X size={18} color={C.ink400} />
-                </Pressable>
-              </Dialog.Close>
-
-              <View
-                style={[styles.iconWrapper, { backgroundColor: `${color}20` }]}
-              >
-                <Icon size={32} color={color} />
-              </View>
-
-              <Text style={styles.title}>{content.title}</Text>
-              {!!content.subTitle && (
-                <Text style={styles.subTitle}>{content.subTitle}</Text>
-              )}
-            </View>
-          </Dialog.Content>
-        </Dialog.Backdrop>
-      </Dialog> */}
     </ModalContext.Provider>
   );
 }
@@ -106,43 +74,3 @@ export function useModal(): ModalContextValue {
   }
   return context;
 }
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: C.ink50,
-    borderRadius: 20,
-    borderWidth: 1.5,
-    borderColor: C.ink200,
-    paddingVertical: 28,
-    paddingHorizontal: 24,
-    alignItems: "center",
-  },
-  closeButton: {
-    position: "absolute",
-    top: 12,
-    right: 12,
-    padding: 4,
-  },
-  iconWrapper: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: C.white,
-    fontFamily: "Inter-Bold",
-    textAlign: "center",
-  },
-  subTitle: {
-    fontSize: 14,
-    color: C.ink400,
-    fontFamily: "Inter-Regular",
-    textAlign: "center",
-    marginTop: 8,
-  },
-});
