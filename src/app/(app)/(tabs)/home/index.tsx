@@ -1,16 +1,17 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import MapPin from "@/src/components/MapPin";
+import AnimatedMapMarker from "@/src/components/MapPin/AnimatedMapMarker";
 import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { C } from "@/src/theme";
 import { pressableOpacity } from "@/src/utils/pressable";
 import { LocateFixed } from "lucide-react-native";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import MapView, { PROVIDER_DEFAULT } from "react-native-maps";
 
 export default function Home() {
   const mapRef = useRef<MapView>(null);
   const { coordinates } = useCoordinates();
+  const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
 
   useEffect(() => {
     console.log("coordinates", coordinates);
@@ -32,70 +33,76 @@ export default function Home() {
 
   return (
     <BackgroundGradient>
-    <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        provider={PROVIDER_DEFAULT}
-        style={styles.map}
-        showsUserLocation={!!coordinates}
-        initialRegion={{
-          latitude: 37.785834,
-          longitude: -122.406417,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005,
-        }}
-      >
-        <Marker
-          title="TESTE DE TITILO"
-          description="TESTE DE DESCRICAO"
-          coordinate={{
-            latitude: 37.78669,
-            longitude: -122.406192,
+      <View style={styles.container}>
+        <MapView
+          ref={mapRef}
+          provider={PROVIDER_DEFAULT}
+          style={styles.map}
+          showsUserLocation={!!coordinates}
+          initialRegion={{
+            latitude: 37.785834,
+            longitude: -122.406417,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
           }}
-          tracksViewChanges={false}
         >
-          <MapPin variant="AVAILABLE" />
-        </Marker>
-        <Marker
-          coordinate={{
-            latitude: 37.786563,
-            longitude: -122.407061,
-          }}
-          tracksViewChanges={false}
+          <AnimatedMapMarker
+            variant="AVAILABLE"
+            selected={selectedMarkerId === "1"}
+            title="TESTE DE TITILO"
+            description="TESTE DE DESCRICAO"
+            coordinate={{
+              latitude: 37.78669,
+              longitude: -122.406192,
+            }}
+            tappable
+            onPress={(e) => {
+              console.log("e", e);
+              setSelectedMarkerId("1");
+            }}
+            opacity={1}
+            // titleVisibility="visible"
+          />
+          <AnimatedMapMarker
+            variant="BROKEN"
+            selected={selectedMarkerId === "3"}
+            coordinate={{
+              latitude: 37.786563,
+              longitude: -122.407061,
+            }}
+            onPress={() => setSelectedMarkerId("3")}
+          />
+          <AnimatedMapMarker
+            variant="OCCUPIED"
+            selected={selectedMarkerId === "2"}
+            coordinate={{
+              latitude: 37.785537,
+              longitude: -122.407587,
+            }}
+            onPress={() => setSelectedMarkerId("2")}
+          />
+          <AnimatedMapMarker
+            variant="OCCUPIED"
+            selected={selectedMarkerId === "4"}
+            coordinate={{
+              latitude: 37.785511,
+              longitude: -122.404926,
+            }}
+            onPress={() => setSelectedMarkerId("4")}
+          />
+        </MapView>
+        <Pressable
+          style={({ pressed }) => [
+            styles.locateButton,
+            {
+              opacity: pressableOpacity(pressed),
+            },
+          ]}
+          onPress={handleFindMyLocation}
         >
-          <MapPin variant="BROKEN" />
-        </Marker>
-        <Marker
-          coordinate={{
-            latitude: 37.785537,
-            longitude: -122.407587,
-          }}
-          tracksViewChanges={false}
-        >
-          <MapPin variant="OCCUPIED" />
-        </Marker>
-        <Marker
-          coordinate={{
-            latitude: 37.785511,
-            longitude: -122.404926,
-          }}
-          tracksViewChanges={false}
-        >
-          <MapPin variant="OCCUPIED" />
-        </Marker>
-      </MapView>
-      <Pressable
-        style={({ pressed }) => [
-          styles.locateButton,
-          {
-            opacity: pressableOpacity(pressed),
-          },
-        ]}
-        onPress={handleFindMyLocation}
-      >
-        <LocateFixed color={C.brand500} size={22} />
-      </Pressable>
-    </View>
+          <LocateFixed color={C.brand500} size={22} />
+        </Pressable>
+      </View>
     </BackgroundGradient>
   );
 }

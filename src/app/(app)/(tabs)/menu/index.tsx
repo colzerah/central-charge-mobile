@@ -133,7 +133,7 @@ export default function Menu() {
                     //   title: "Ops! Algo deu errado",
                     //   subTitle:
                     //     "Não foi possível concluir a operação. Tente novamente em instantes.",
-                    //   type: "ERRO",
+                    //   type: "ERROR",
                     // });
                     // openModal({
                     //   title: "Atenção",

@@ -13,6 +13,7 @@ import {
   ThemeProvider,
 } from "expo-router";
 
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
@@ -53,14 +54,16 @@ export default function RootLayout() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <Provider store={store}>
-            <ModalProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  contentStyle: { backgroundColor: "transparent" },
-                }}
-              />
-            </ModalProvider>
+            <BottomSheetModalProvider>
+              <ModalProvider>
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                    contentStyle: { backgroundColor: "transparent" },
+                  }}
+                />
+              </ModalProvider>
+            </BottomSheetModalProvider>
           </Provider>
         </ThemeProvider>
       </KeyboardProvider>
