@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "center",
     paddingRight: 24,
+    // height: "95%",
   },
 
   card: {

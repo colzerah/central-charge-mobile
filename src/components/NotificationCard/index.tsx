@@ -1,4 +1,3 @@
-import { ChevronRight, Trash2 } from "lucide-react-native";
 import { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -23,6 +22,7 @@ import { getNotificationIcon } from "./utils";
 
 import { NotificationCardProps } from "./NotificationCardDTO";
 
+import Icon from "../Icon";
 import { styles } from "./styles";
 
 const NotificationCard = ({
@@ -99,7 +99,7 @@ const NotificationCard = ({
       }
 
       translateX.value = withSpring(0, {
-        damping: 18,
+        damping: 100,
       });
 
       deleteOpacity.value = withTiming(0, {
@@ -108,15 +108,13 @@ const NotificationCard = ({
     });
 
   // Animação do card
+
   const cardStyle = useAnimatedStyle(() => ({
     opacity: cardOpacity.value,
 
     transform: [
       {
         translateY: cardTranslateY.value,
-      },
-      {
-        scale: 1 - pressed.value * 0.03,
       },
     ],
   }));
@@ -190,7 +188,7 @@ const NotificationCard = ({
           style={[styles.deleteBackground, deleteBackgroundStyle]}
         >
           <Animated.View style={deleteIconStyle}>
-            <Trash2 color={C.ink0} size={24} strokeWidth={2.2} />
+            <Icon name="Trash2" color={C.ink0} size={24} strokeWidth={2.2} />
           </Animated.View>
         </Animated.View>
 
@@ -233,7 +231,7 @@ const NotificationCard = ({
 
                 {/* Chevron */}
                 <View style={styles.chevron}>
-                  <ChevronRight color={C.ink400} size={18} />
+                  <Icon name="ChevronRight" color={C.ink400} size={18} />
                 </View>
               </Pressable>
             </Animated.View>
