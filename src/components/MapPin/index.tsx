@@ -31,7 +31,7 @@ const MapPin = ({ variant }: MapPinProps) => {
         <Icon
           name={getVariant().icon}
           color={C.white}
-          size={20}
+          size={16}
           strokeWidth={2.2}
         />
       </View>

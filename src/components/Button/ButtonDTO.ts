@@ -11,5 +11,6 @@ export interface ButtonProps {
   iconLeft?: keyof typeof icons;
   iconRight?: keyof typeof icons;
   variant?: "solid" | "link";
+  colorScheme?: "primary" | "secondary" | "success" | "danger" | "warning";
   loadingText?: string;
 }

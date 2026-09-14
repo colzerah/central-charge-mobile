@@ -33,6 +33,7 @@ import Divider from "@/src/components/Divider";
 import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
 import Skeleton from "@/src/components/Skeleton";
+import { useAuth } from "@/src/hooks/useAuth";
 import { login } from "@/src/redux/authSlice";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -45,6 +46,7 @@ export default function Login() {
 
 function LoginContent() {
   const dispatch = useAppDispatch();
+  const { signIn } = useAuth();
   const { localization, allowLocationAccess } = usePermissions();
 
   const [email, setEmail] = useState("charge@gmail.com");
@@ -136,8 +138,10 @@ function LoginContent() {
     }, 1000);
   };
 
-  const handleSocial = (p: string) =>
+  const handleSocial = (p: string) => {
+    signIn({ user: p, password: "social" });
     Alert.alert("Login social", `Entrar com ${p}`);
+  };
 
   return (
     <BackgroundGradient>

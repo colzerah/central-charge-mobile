@@ -1,40 +1,40 @@
+import { BlurView } from "expo-blur";
 import React, {
   createContext,
-  useContext,
-  useState,
   useCallback,
+  useContext,
   useEffect,
+  useState,
 } from "react";
 import {
   Modal,
   Pressable,
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
   PressableProps,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import Animated, {
+  Easing,
+  Extrapolation,
+  interpolate,
+  LinearTransition,
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
-  interpolate,
-  Easing,
-  Extrapolation,
-  LinearTransition,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
-import { BlurView } from "expo-blur";
+import { scheduleOnRN } from "react-native-worklets";
 import type {
+  DialogBackdropProps,
   DialogCloseProps,
   DialogComponent,
+  DialogContentProps,
   DialogProps,
   DialogTriggerProps,
-  DialogContentProps,
-  DialogBackdropProps,
   ExtendedDialogContextType,
 } from "./types";
-import { scheduleOnRN } from "react-native-worklets";
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 const DialogContext = createContext<ExtendedDialogContextType | undefined>(
@@ -94,7 +94,9 @@ export const Dialog: DialogComponent = ({
   );
 
   return (
-    <DialogContext.Provider value={contextValue}>{children}</DialogContext.Provider>
+    <DialogContext.Provider value={contextValue}>
+      {children}
+    </DialogContext.Provider>
   );
 };
 
@@ -356,7 +358,7 @@ Dialog.Backdrop = DialogBackdrop;
 
 const styles = StyleSheet.create({
   backdrop: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
   modalContainer: {
     flex: 1,
