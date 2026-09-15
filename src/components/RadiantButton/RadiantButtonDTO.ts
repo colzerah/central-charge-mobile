@@ -10,4 +10,5 @@ export interface ButtonProps {
   rightIcon?: boolean;
   leftIcon?: boolean;
   disabled?: boolean;
+  active?: boolean;
 }

@@ -26,6 +26,7 @@ interface IAnimatedMeshGradient {
   readonly blur?: number;
   readonly contrast?: number;
   readonly animated?: boolean;
+  readonly active?: boolean;
   readonly style?: StyleProp<ViewStyle>;
   readonly width?: number;
   readonly height?: number;

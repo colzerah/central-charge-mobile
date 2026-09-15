@@ -31,6 +31,7 @@ interface IRadiantButton {
   readonly glowWidth?: number;
   readonly breathingEnabled?: boolean;
   readonly glowBandWidth?: number;
+  readonly active?: boolean;
 }
 
 export type { IRadiantButton, IAnimatedRadianButtonTheme };

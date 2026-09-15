@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -21,12 +21,18 @@ const AnimatedMapMarker = ({
 }: AnimatedMapMarkerProps) => {
   const scale = useSharedValue(1);
   const [tracksViewChanges, setTracksViewChanges] = useState(false);
+  const isFirstRender = useRef(true);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     setTracksViewChanges(true);
     scale.value = withTiming(selected ? 1.25 : 1, { duration: 180 }, (finished) => {
       if (finished) runOnJS(setTracksViewChanges)(false);

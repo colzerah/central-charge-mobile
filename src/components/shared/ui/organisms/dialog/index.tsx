@@ -122,7 +122,7 @@ const DialogBackdrop: React.FC<DialogBackdropProps> = ({
   backgroundColor = "rgba(0, 0, 0, 0.5)",
   blurType = "dark",
 }) => {
-  const { animationProgress } = useDialogContext();
+  const { animationProgress, isOpen, isAnimating } = useDialogContext();
 
   const backdropAnimatedStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
@@ -149,6 +149,8 @@ const DialogBackdrop: React.FC<DialogBackdropProps> = ({
       ),
     };
   });
+
+  if (!isOpen && !isAnimating) return null;
 
   return (
     <Animated.View style={[styles.backdrop, backdropAnimatedStyle]}>

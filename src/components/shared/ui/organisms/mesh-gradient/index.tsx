@@ -31,6 +31,7 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
     blur = 0.4,
     contrast = 1,
     animated = true,
+    active = true,
     style,
     width: paramsWidth = Dimensions.get("window").width,
     height: paramsHeight = Dimensions.get("window").height,
@@ -47,7 +48,7 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
 
     const time = useFrameTime({
       fpsLock: performance?.fpsLock ?? DEFAULT_PERFORMANCE.fpsLock,
-      animated,
+      animated: animated && active,
       speed,
     });
 
@@ -140,13 +141,25 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
         onLayout={onLayout}
       >
         {children}
-        <Animated.View style={canvasWrapperStyle}>
-          <Canvas style={StyleSheet.absoluteFill}>
-            <Fill>
-              <Shader source={shader} uniforms={uniforms} />
-            </Fill>
-          </Canvas>
-        </Animated.View>
+        {active ? (
+          <Animated.View style={canvasWrapperStyle}>
+            <Canvas style={StyleSheet.absoluteFill}>
+              <Fill>
+                <Shader source={shader} uniforms={uniforms} />
+              </Fill>
+            </Canvas>
+          </Animated.View>
+        ) : (
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                zIndex: -9999,
+                backgroundColor: `rgb(${Math.round(safeColors[0].r * 255)}, ${Math.round(safeColors[0].g * 255)}, ${Math.round(safeColors[0].b * 255)})`,
+              },
+            ]}
+          />
+        )}
       </View>
     );
   },
