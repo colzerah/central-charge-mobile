@@ -1,7 +1,10 @@
+import { useIsFocused } from "expo-router";
 import { AnimatedMeshGradient } from "../shared/ui/organisms/mesh-gradient";
 import { IMeshGradientColor } from "../shared/ui/organisms/mesh-gradient/types";
 
 const BackgroundGradient = ({ children }: { children: React.ReactNode }) => {
+  const isFocused = useIsFocused();
+
   const colors: IMeshGradientColor[] = [
     { r: 10 / 255, g: 10 / 255, b: 11 / 255 }, // ink0   #0A0A0B
     { r: 24 / 255, g: 24 / 255, b: 27 / 255 }, // ink50  #18181B
@@ -16,6 +19,7 @@ const BackgroundGradient = ({ children }: { children: React.ReactNode }) => {
       noise={0.3}
       blur={2}
       animated={true}
+      active={isFocused}
       colors={colors}
     >
       {children}

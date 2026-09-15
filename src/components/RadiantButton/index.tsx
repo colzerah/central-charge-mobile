@@ -20,6 +20,7 @@ const RadiantButton = ({
   iconName = "ArrowRight",
   w = "100%",
   isLoading = false,
+  active = true,
 }: ButtonProps) => {
   const deactivate = disabled || isLoading;
 
@@ -48,6 +49,7 @@ const RadiantButton = ({
         disabled={deactivate}
         theme={disabled ? disabledTheme : defaultTheme}
         onPress={onPress}
+        active={active}
         borderWidth={4}
         borderRadius={14}
         shimmerOpacity={1}

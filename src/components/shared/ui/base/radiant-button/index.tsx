@@ -20,6 +20,7 @@ import {
   type LayoutChangeEvent,
 } from "react-native";
 import Animated, {
+  cancelAnimation,
   Easing,
   interpolate,
   useAnimatedStyle,
@@ -59,6 +60,7 @@ export const RadiantButton: React.FC<IRadiantButton> &
     glowWidth = 0.7,
     breathingEnabled = true,
     glowBandWidth = 0.15,
+    active = true,
   }: IRadiantButton | React.ComponentProps<typeof RadiantButton>):
     | (React.JSX.Element & React.ReactNode & React.ReactElement)
     | null => {
@@ -115,7 +117,12 @@ export const RadiantButton: React.FC<IRadiantButton> &
     }, [showDots, dotSpacing, dotRadius, dotOpacity]);
 
     useEffect(() => {
-      if (disabled) return;
+      if (disabled || !active) {
+        cancelAnimation(progress);
+        cancelAnimation(shimmerAngle);
+        cancelAnimation(breathe);
+        return;
+      }
 
       progress.value = withRepeat<number>(
         withTiming(1, { duration, easing: Easing.linear }),
@@ -144,7 +151,13 @@ export const RadiantButton: React.FC<IRadiantButton> &
           true,
         );
       }
-    }, [disabled, duration, showShimmer, showGlow, breathingEnabled]);
+
+      return () => {
+        cancelAnimation(progress);
+        cancelAnimation(shimmerAngle);
+        cancelAnimation(breathe);
+      };
+    }, [disabled, active, duration, showShimmer, showGlow, breathingEnabled]);
     const handleLayout = <T extends LayoutChangeEvent>(e: T) => {
       const { width: w, height: h } = e.nativeEvent.layout;
       if (w !== layout.width || h !== layout.height) {
@@ -252,7 +265,7 @@ export const RadiantButton: React.FC<IRadiantButton> &
             style,
           ]}
         >
-          {hasLayout && innerClip && (
+          {hasLayout && innerClip && active && (
             <Canvas
               style={{
                 ...StyleSheet.absoluteFill,

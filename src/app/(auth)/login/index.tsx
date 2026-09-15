@@ -5,7 +5,7 @@ import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
 import { usePermissions } from "@/src/hooks/usePermissions";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
-import { router } from "expo-router";
+import { router, useIsFocused } from "expo-router";
 import { useEffect, useState } from "react";
 
 import {
@@ -48,6 +48,7 @@ function LoginContent() {
   const dispatch = useAppDispatch();
   const { signIn } = useAuth();
   const { localization, allowLocationAccess } = usePermissions();
+  const isFocused = useIsFocused();
 
   const [email, setEmail] = useState("charge@gmail.com");
   const [password, setPassword] = useState("1234");
@@ -218,6 +219,7 @@ function LoginContent() {
                   rightIcon
                   title="Entrar"
                   onPress={handleLogin}
+                  active={isFocused}
                 />
               </Animated.View>
 
