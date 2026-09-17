@@ -34,7 +34,6 @@ import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
 import Skeleton from "@/src/components/Skeleton";
 import { useAuth } from "@/src/hooks/useAuth";
-import { login } from "@/src/redux/authSlice";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -46,13 +45,14 @@ export default function Login() {
 
 function LoginContent() {
   const dispatch = useAppDispatch();
-  const { signIn } = useAuth();
+  const { signIn, isAuthLoading } = useAuth();
   const { localization, allowLocationAccess } = usePermissions();
   const isFocused = useIsFocused();
 
-  const [email, setEmail] = useState("charge@gmail.com");
-  const [password, setPassword] = useState("1234");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("user@example.com");
+  const [password, setPassword] = useState("12345678");
+  const [emailInvalid, setEmailInvalid] = useState(false);
+  const [passwordInvalid, setPasswordInvalid] = useState(false);
 
   const formO = useSharedValue(0);
   const formY = useSharedValue(30);
@@ -61,7 +61,6 @@ function LoginContent() {
   const { progress: keyboardProgress } = useReanimatedKeyboardAnimation();
 
   useEffect(() => {
-    console.log("CAIU");
     formO.value = withDelay(600, withTiming(1, { duration: 600 }));
     formY.value = withDelay(600, withTiming(0, { duration: 700 }));
     socialO.value = withDelay(850, withTiming(1, { duration: 600 }));
@@ -90,7 +89,6 @@ function LoginContent() {
   });
 
   const socialCollapseStyle = useAnimatedStyle(() => {
-    console.log("CAIU2");
     const progress = keyboardProgress.value;
 
     return {
@@ -105,12 +103,16 @@ function LoginContent() {
     };
   });
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    console.log(password);
     if (!email || !password) {
       Alert.alert(
         "Campos obrigatórios",
         "Preencha e-mail e senha para entrar.",
       );
+      if (!email) setEmailInvalid(true);
+
+      if (!password) setPasswordInvalid(true);
       return;
     }
 
@@ -130,17 +132,11 @@ function LoginContent() {
       return;
     }
 
-    setLoading(true);
-
-    setTimeout(() => {
-      dispatch(login());
-      router.replace("/home");
-      setLoading(false);
-    }, 1000);
+    await signIn({ login: email, password: password });
   };
 
   const handleSocial = (p: string) => {
-    signIn({ user: p, password: "social" });
+    signIn({ login: p, password: "social" });
     Alert.alert("Login social", `Entrar com ${p}`);
   };
 
@@ -168,7 +164,7 @@ function LoginContent() {
                     alignItems: "center",
                   }}
                 >
-                  {loading ? (
+                  {isAuthLoading ? (
                     <Skeleton isLoading styles={{ width: 240, height: 220 }}>
                       <View />
                     </Skeleton>
@@ -180,26 +176,31 @@ function LoginContent() {
 
               {/* Formulário */}
               <Animated.View style={[styles.section, formStyle]}>
-                <Skeleton isLoading={loading} styles={{ marginBottom: 14 }}>
+                <Skeleton
+                  isLoading={isAuthLoading}
+                  styles={{ marginBottom: 14 }}
+                >
                   <Input
                     label="E-mail"
                     textContentType="emailAddress"
                     keyboardType="email-address"
                     value={email}
                     onChange={setEmail}
+                    isInvalid={emailInvalid}
                   />
                 </Skeleton>
-                <Skeleton isLoading={loading}>
+                <Skeleton isLoading={isAuthLoading}>
                   <Input
                     label="Senha"
                     textContentType="password"
                     value={password}
                     onChange={setPassword}
+                    isInvalid={passwordInvalid}
                   />
                 </Skeleton>
 
                 <View style={styles.forgotWrap}>
-                  <Skeleton isLoading={loading}>
+                  <Skeleton isLoading={isAuthLoading}>
                     <Button
                       title="Esqueci minha senha"
                       variant="link"
@@ -214,7 +215,7 @@ function LoginContent() {
 
                 <RadiantButton
                   w={"100%"}
-                  isLoading={loading}
+                  isLoading={isAuthLoading}
                   iconName="ArrowRight"
                   rightIcon
                   title="Entrar"
@@ -227,26 +228,26 @@ function LoginContent() {
               <Animated.View style={[styles.section, socialStyle]}>
                 <Animated.View style={socialCollapseStyle}>
                   <View style={{ marginTop: 22, marginBottom: 22 }}>
-                    <Skeleton isLoading={loading}>
+                    <Skeleton isLoading={isAuthLoading}>
                       <Divider title="ou continue com" />
                     </Skeleton>
                   </View>
                   <View style={styles.socialRow}>
-                    <Skeleton isLoading={loading}>
+                    <Skeleton isLoading={isAuthLoading}>
                       <SocialButton
                         type="chrome"
                         label="Google"
                         onPress={() => router.navigate("/testeImp")}
                       />
                     </Skeleton>
-                    <Skeleton isLoading={loading}>
+                    <Skeleton isLoading={isAuthLoading}>
                       <SocialButton
                         type="apple"
                         label="Apple"
                         onPress={() => router.navigate("/testeCol")}
                       />
                     </Skeleton>
-                    <Skeleton isLoading={loading}>
+                    <Skeleton isLoading={isAuthLoading}>
                       <SocialButton
                         type="facebook"
                         label="Facebook"
@@ -257,7 +258,7 @@ function LoginContent() {
                 </Animated.View>
                 <View style={{ marginTop: 18, alignItems: "center" }}>
                   <Skeleton
-                    isLoading={loading}
+                    isLoading={isAuthLoading}
                     styles={{
                       flex: 1,
                       flexDirection: "row",

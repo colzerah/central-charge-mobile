@@ -19,18 +19,21 @@ const auth = createSlice({
     addToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
-    loading: (state, action: PayloadAction<boolean>) => {
+    addloading: (state, action: PayloadAction<boolean>) => {
       state.isAuthLoading = action.payload;
     },
-    login: (state) => {
+
+    addIsAuthenticated: (state) => {
       state.isAuthenticated = true;
     },
-    logout: () => {
-      return initialState;
+
+    addlogout: (state) => {
+      state = initialState;
     },
   },
 });
 
-export const { login, logout, addUser, addToken } = auth.actions;
+export const { addlogout, addUser, addToken, addloading, addIsAuthenticated } =
+  auth.actions;
 
 export default auth.reducer;

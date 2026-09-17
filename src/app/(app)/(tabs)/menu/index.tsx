@@ -1,8 +1,8 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import MenuList from "@/src/components/MenuList";
 import MenuStatCard from "@/src/components/MenuStatCard";
+import { useAuth } from "@/src/hooks/useAuth";
 import { useModal } from "@/src/hooks/useModal";
-import { logout } from "@/src/redux/authSlice";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
 import { MENU_CONTA, MENU_PREFERENCIA, MENU_SUPORTE } from "@/src/utils/enum";
@@ -21,6 +21,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Menu() {
   const dispatch = useAppDispatch();
+  const { signOut } = useAuth();
   const { openModal, closeModal } = useModal();
   const profileO = useSharedValue(0);
   const profileY = useSharedValue(20);
@@ -161,8 +162,7 @@ export default function Menu() {
                 items={MENU_SUPORTE}
                 onPress={(e) => {
                   if (e === "Sair da conta") {
-                    dispatch(logout());
-                    router.replace("/login");
+                    signOut();
                   }
                 }}
               />
