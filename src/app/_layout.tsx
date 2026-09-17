@@ -21,6 +21,7 @@ import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { Provider } from "react-redux";
+import { useAuthBootstrap } from "../hooks/useAuth";
 import { ModalProvider } from "../providers/modal-provider";
 import { store } from "../redux/store";
 import { C } from "../theme";
@@ -29,7 +30,23 @@ SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync(C.ink0);
 
 export default function RootLayout() {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <KeyboardProvider>
+        <Provider store={store}>
+          <AppReady />
+        </Provider>
+      </KeyboardProvider>
+    </GestureHandlerRootView>
+  );
+}
+
+// Fica visível na splash screen até as fontes carregarem E a sessão
+// persistida (AsyncStorage) ser lida, para nunca desenhar (app) ou
+// (auth) com base num estado ainda incompleto.
+function AppReady() {
   const colorScheme = useColorScheme();
+  const { isAuthenticated } = useAuthBootstrap();
 
   const [fontsLoaded, fontError] = useFonts({
     "Inter-Regular": Inter_400Regular,
@@ -37,36 +54,37 @@ export default function RootLayout() {
     "Inter-Bold": Inter_700Bold,
   });
 
+  const isReady = (fontsLoaded || !!fontError) && isAuthenticated !== null;
+
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if (isReady) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [isReady]);
 
-  if (!fontsLoaded && !fontError) {
+  if (!isReady) {
     return null;
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <KeyboardProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Provider store={store}>
-            <BottomSheetModalProvider>
-              <ModalProvider>
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                    contentStyle: { backgroundColor: "transparent" },
-                  }}
-                />
-              </ModalProvider>
-            </BottomSheetModalProvider>
-          </Provider>
-        </ThemeProvider>
-      </KeyboardProvider>
-    </GestureHandlerRootView>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <BottomSheetModalProvider>
+        <ModalProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "transparent" },
+            }}
+          >
+            <Stack.Protected guard={!!isAuthenticated}>
+              <Stack.Screen name="(app)" />
+            </Stack.Protected>
+            <Stack.Protected guard={isAuthenticated === false}>
+              <Stack.Screen name="(auth)" />
+            </Stack.Protected>
+          </Stack>
+        </ModalProvider>
+      </BottomSheetModalProvider>
+    </ThemeProvider>
   );
 }
