@@ -1,15 +1,10 @@
-import { useAppSelector } from "@/src/redux/store";
-import { Redirect, Stack } from "expo-router";
+import { Stack } from "expo-router";
 
 import Header from "@/src/components/Header";
 
+// Este grupo só é montado quando autenticado: o Stack.Protected em
+// src/app/_layout.tsx já garante isso, então não precisa checar de novo aqui.
 export default function AppLayout() {
-  const { isAuthenticated } = useAppSelector((state) => state.authState);
-
-  if (!isAuthenticated) {
-    return <Redirect href="/login" />;
-  }
-
   return (
     <Stack
       screenOptions={{

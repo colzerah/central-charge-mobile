@@ -3,7 +3,7 @@ import { AuthState } from "~/dtos/authSliceDTO";
 import { User } from "~/dtos/userDTO";
 
 const initialState: AuthState = {
-  isAuthenticated: false,
+  isAuthenticated: null,
   isAuthLoading: false,
   token: null,
   user: {} as User,
@@ -23,13 +23,11 @@ const auth = createSlice({
       state.isAuthLoading = action.payload;
     },
 
-    addIsAuthenticated: (state) => {
-      state.isAuthenticated = true;
+    addIsAuthenticated: (state, action: PayloadAction<boolean>) => {
+      state.isAuthenticated = action.payload;
     },
 
-    addlogout: (state) => {
-      state = initialState;
-    },
+    addlogout: () => ({ ...initialState, isAuthenticated: false }),
   },
 });
 

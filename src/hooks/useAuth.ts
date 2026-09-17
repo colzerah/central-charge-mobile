@@ -16,9 +16,7 @@ interface SignInParams {
 
 export function useAuth() {
   const dispatch = useAppDispatch();
-  const { isAuthLoading, isAuthenticated } = useAppSelector(
-    (state) => state.authState,
-  );
+  const { isAuthLoading } = useAppSelector((state) => state.authState);
 
   const signIn = useCallback(async ({ login, password }: SignInParams) => {
     try {
@@ -48,7 +46,7 @@ export function useAuth() {
       );
 
       await AsyncStorage.setItem("@isAuthenticated", "true");
-      dispatch(addIsAuthenticated());
+      dispatch(addIsAuthenticated(true));
 
       router.replace("/home");
     } catch (err) {
@@ -60,20 +58,35 @@ export function useAuth() {
   }, []);
 
   const signOut = useCallback(async () => {
-    await AsyncStorage.setItem("@isAuthenticated", "false");
+    await AsyncStorage.multiRemove(["@isAuthenticated", "@token"]);
     dispatch(addlogout());
     router.replace("/login");
   }, []);
 
+  return { isAuthLoading, signIn, signOut };
+}
+
+// Roda uma única vez na inicialização do app, antes da splash screen
+// sumir, para restaurar a sessão persistida e decidir se o usuário
+// entra em (app) ou (auth). Ver src/app/_layout.tsx.
+// isAuthenticated fica null até essa leitura terminar — não dá pra
+// usar só true/false aqui, senão não teríamos como distinguir
+// "ainda não sei" de "sei que não está logado".
+export function useAuthBootstrap() {
+  const dispatch = useAppDispatch();
+  const { isAuthenticated } = useAppSelector((state) => state.authState);
+
   useEffect(() => {
     (async () => {
-      const isAuthenticated = await AsyncStorage.getItem("@isAuthenticated");
-      if (isAuthenticated === "true") {
-        dispatch(addIsAuthenticated());
-        router.replace("/home");
-      }
+      const storedIsAuthenticated =
+        await AsyncStorage.getItem("@isAuthenticated");
+      dispatch(
+        storedIsAuthenticated === "true"
+          ? addIsAuthenticated(true)
+          : addIsAuthenticated(false),
+      );
     })();
-  }, [isAuthenticated]);
+  }, []);
 
-  return { isAuthLoading, signIn, signOut };
+  return { isAuthenticated };
 }
