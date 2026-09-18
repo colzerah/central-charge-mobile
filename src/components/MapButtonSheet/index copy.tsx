@@ -1,4 +1,3 @@
-import { C } from "@/src/theme";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -15,12 +14,9 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { G, Path } from "react-native-svg";
-
-import Button from "../Button";
-import ButtonIcon from "../ButtonIcon";
 import {
   APPLE_PATH,
   APPLE_VIEW_BOX,
@@ -30,6 +26,9 @@ import {
   BUTTON_RADIUS,
   CLOSE_SIZE,
   COLORS,
+  CONTENT_BOTTOM_PADDING,
+  CONTENT_HORIZONTAL_PADDING,
+  CONTENT_TOP_PADDING,
   DEFAULT_DESCRIPTION,
   DEFAULT_PRIMARY_LABEL,
   DEFAULT_SECONDARY_LABEL,
@@ -38,17 +37,22 @@ import {
   GOOGLE_PATH,
   GOOGLE_VIEW_BOX,
   SHEET_BOTTOM_GAP,
+  SHEET_CORNER_RADIUS,
+  SHEET_HORIZONTAL_MARGIN,
+  SPARKLE_PATH,
+  SPARKLE_VIEW_BOX,
   TILE_SIZE,
 } from "./const";
 import type { IGlyph, IMapButtonSheet, IMapButtonSheetRef } from "./types";
 
-// `minimize`/`restore` exist on the modal instance at runtime but aren't
-// part of the package's public ref type (only `present`/`dismiss`/etc. are),
-// so the base type doesn't know about them.
-type BottomSheetModalHandle = BottomSheetModal & {
-  minimize: () => void;
-  restore: () => void;
-};
+const SparkleGlyph: React.FC<IGlyph> = ({
+  size = 32,
+  color = COLORS.ink,
+}: IGlyph) => (
+  <Svg width={size} height={size} viewBox={SPARKLE_VIEW_BOX}>
+    <Path fill={color} d={SPARKLE_PATH} />
+  </Svg>
+);
 
 const AppleGlyph: React.FC<IGlyph> = ({
   size = 22,
@@ -67,6 +71,20 @@ const GoogleGlyph: React.FC<IGlyph> = ({
     <G transform={GOOGLE_GROUP_TRANSFORM}>
       <Path fill={color} d={GOOGLE_PATH} />
     </G>
+  </Svg>
+);
+
+const CloseGlyph: React.FC<IGlyph> = ({
+  size = 20,
+  color = COLORS.closeMark,
+}: IGlyph) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M6 6L18 18M18 6L6 18"
+      stroke={color}
+      strokeWidth={2.4}
+      strokeLinecap="round"
+    />
   </Svg>
 );
 
@@ -101,21 +119,10 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
       [],
     );
 
-    // Trocar de aba não deve descartar a folha: `dismiss()` fecha de vez e
-    // esquece o snap point, então ao voltar pra tela não havia mais nada
-    // pra reabrir. `minimize()`/`restore()` fazem a mesma animação de
-    // fechar/abrir, mas guardam o índice — assim a folha volta a expandir
-    // exatamente de onde parou.
     useFocusEffect(
       useCallback(() => {
-        if (openOnFocus) {
-          sheetRef.current?.present();
-        } else {
-          (sheetRef.current as BottomSheetModalHandle | null)?.restore();
-        }
-
-        return () =>
-          (sheetRef.current as BottomSheetModalHandle | null)?.minimize();
+        if (openOnFocus) sheetRef.current?.present();
+        return () => sheetRef.current?.dismiss();
       }, [openOnFocus]),
     );
 
@@ -138,6 +145,8 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
       },
       [onClose],
     );
+
+    const handlePressOut = useCallback((): void => setPressedKey(null), []);
 
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
@@ -173,23 +182,94 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
       >
         <BottomSheetView style={styles.content}>
           <View style={styles.header}>
+            <View style={styles.tile}>
+              <SparkleGlyph />
+            </View>
+
             {hideCloseButton ? null : (
-              <ButtonIcon
-                icon="CircleX"
-                size="sm"
-                variant="outline"
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Close"
+                hitSlop={12}
                 onPress={handleClose}
-              />
+                onPressIn={() => setPressedKey("close")}
+                onPressOut={handlePressOut}
+                style={[
+                  styles.close,
+                  pressedKey === "close" ? styles.closePressed : null,
+                ]}
+              >
+                <CloseGlyph />
+              </Pressable>
             )}
           </View>
 
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
 
-          <View style={styles.providers}>
-            <Button title={"Ver rota"} w={164} size="sm" />
-            <ButtonIcon icon="Star" size="sm" />
-          </View>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={primaryLabel}
+            onPress={onPrimaryPress}
+            onPressIn={() => setPressedKey("primary")}
+            onPressOut={handlePressOut}
+            style={[
+              styles.primary,
+              pressedKey === "primary" ? styles.primaryPressed : null,
+            ]}
+          >
+            <Text style={styles.primaryLabel} numberOfLines={1}>
+              {primaryLabel}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={secondaryLabel}
+            onPress={onSecondaryPress}
+            onPressIn={() => setPressedKey("secondary")}
+            onPressOut={handlePressOut}
+            style={[
+              styles.secondary,
+              pressedKey === "secondary" ? styles.surfacePressed : null,
+            ]}
+          >
+            <Text style={styles.secondaryLabel} numberOfLines={1}>
+              {secondaryLabel}
+            </Text>
+          </Pressable>
+
+          {hideProviders ? null : (
+            <View style={styles.providers}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Continue with Apple"
+                onPress={onApplePress}
+                onPressIn={() => setPressedKey("apple")}
+                onPressOut={handlePressOut}
+                style={[
+                  styles.provider,
+                  pressedKey === "apple" ? styles.surfacePressed : null,
+                ]}
+              >
+                <AppleGlyph />
+              </Pressable>
+
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Continue with Google"
+                onPress={onGooglePress}
+                onPressIn={() => setPressedKey("google")}
+                onPressOut={handlePressOut}
+                style={[
+                  styles.provider,
+                  pressedKey === "google" ? styles.surfacePressed : null,
+                ]}
+              >
+                <GoogleGlyph />
+              </Pressable>
+            </View>
+          )}
         </BottomSheetView>
       </BottomSheetModal>
     );
@@ -198,8 +278,8 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
 
 const styles = StyleSheet.create({
   sheet: {
-    marginHorizontal: 10,
-    shadowColor: C.black,
+    marginHorizontal: SHEET_HORIZONTAL_MARGIN,
+    shadowColor: "#000000",
     shadowOpacity: 0.16,
     shadowRadius: 28,
     shadowOffset: { width: 0, height: 8 },
@@ -207,19 +287,19 @@ const styles = StyleSheet.create({
   },
 
   background: {
-    backgroundColor: C.ink50,
-    borderRadius: 32,
-    borderWidth: 2,
-    borderColor: C.border,
+    backgroundColor: COLORS.sheet,
+    borderRadius: SHEET_CORNER_RADIUS,
   },
   content: {
     alignSelf: "stretch",
-    paddingHorizontal: 24,
-    paddingTop: 26,
-    paddingBottom: 26,
+    paddingHorizontal: CONTENT_HORIZONTAL_PADDING,
+    paddingTop: CONTENT_TOP_PADDING,
+    paddingBottom: CONTENT_BOTTOM_PADDING,
   },
   header: {
-    alignItems: "flex-end",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
   },
   tile: {
     width: TILE_SIZE,
@@ -233,12 +313,12 @@ const styles = StyleSheet.create({
     width: CLOSE_SIZE,
     height: CLOSE_SIZE,
     borderRadius: CLOSE_SIZE / 2,
-    // backgroundColor: COLORS.close,
+    backgroundColor: COLORS.close,
     alignItems: "center",
     justifyContent: "center",
   },
   closePressed: {
-    backgroundColor: C.borderFocused,
+    backgroundColor: COLORS.closePressed,
   },
   title: {
     alignSelf: "stretch",
@@ -247,14 +327,14 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     fontWeight: "700",
     letterSpacing: -0.6,
-    color: C.white,
+    color: COLORS.ink,
   },
   description: {
     alignSelf: "stretch",
     marginTop: 8,
     fontSize: 15.5,
     lineHeight: 21,
-    color: C.ink500,
+    color: COLORS.muted,
   },
   primary: {
     alignSelf: "stretch",
@@ -296,8 +376,6 @@ const styles = StyleSheet.create({
   },
   providers: {
     flexDirection: "row",
-    // alignItems: "center",
-    justifyContent: "flex-end",
     gap: BUTTON_GAP,
     marginTop: BUTTON_GAP,
   },

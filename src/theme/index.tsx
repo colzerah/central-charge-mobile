@@ -6,6 +6,7 @@ export const C = {
   ink300: "#52525B",
   ink400: "#71717A",
   ink500: "#A1A1AA",
+
   brand300: "#FB923C",
   brand400: "#F97316",
   brand500: "#F97316",
