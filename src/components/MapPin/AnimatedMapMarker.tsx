@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -19,28 +18,24 @@ const AnimatedMapMarker = ({
   selected = false,
   ...markerProps
 }: AnimatedMapMarkerProps) => {
-  const scale = useSharedValue(1);
-  const [tracksViewChanges, setTracksViewChanges] = useState(false);
-  const isFirstRender = useRef(true);
+  const scale = useSharedValue(selected ? 1.25 : 1);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-
-    setTracksViewChanges(true);
-    scale.value = withTiming(selected ? 1.25 : 1, { duration: 180 }, (finished) => {
-      if (finished) runOnJS(setTracksViewChanges)(false);
-    });
+    scale.value = withTiming(selected ? 1.25 : 1, { duration: 180 });
   }, [selected]);
 
   return (
-    <Marker {...markerProps} tracksViewChanges={tracksViewChanges}>
+    // tracksViewChanges is kept always true: toggling it back to false after
+    // the scale animation is what freezes this marker's touch area on
+    // Android (react-native-maps takes a static snapshot for the "false"
+    // state, and re-arming it reliably requires another marker to force a
+    // redraw). With only a handful of markers the always-live view has no
+    // noticeable performance cost.
+    <Marker {...markerProps} tracksViewChanges>
       <Animated.View style={animatedStyle}>
         <MapPin variant={variant} />
       </Animated.View>

@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 
 import Header from "@/src/components/Header";
+import { C } from "@/src/theme";
 
 // Este grupo só é montado quando autenticado: o Stack.Protected em
 // src/app/_layout.tsx já garante isso, então não precisa checar de novo aqui.
@@ -9,7 +10,7 @@ export default function AppLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: "transparent" },
+        contentStyle: { backgroundColor: C.ink0 },
       }}
     >
       <Stack.Screen

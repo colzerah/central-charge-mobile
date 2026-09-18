@@ -73,7 +73,7 @@ function AppReady() {
           <Stack
             screenOptions={{
               headerShown: false,
-              contentStyle: { backgroundColor: "transparent" },
+              contentStyle: { backgroundColor: C.ink0 },
             }}
           >
             <Stack.Protected guard={!!isAuthenticated}>
