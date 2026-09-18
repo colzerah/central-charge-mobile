@@ -1,4 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import Button from "@/src/components/Button";
 import NotificationCard from "@/src/components/NotificationCard";
 import { MOCK_NOTIFICATIONS } from "@/src/components/NotificationCard/mock";
 import { useAppDispatch } from "@/src/redux/store";
@@ -33,6 +34,8 @@ export default function TesteImp() {
             onDelete={() => handleDelete(notification.id)}
           />
         ))}
+        <Button title="Clique aqui" variant="outline" colorScheme="primary" />
+        <Button title="Clique aqui" variant="link" colorScheme="danger" />
       </View>
     </BackgroundGradient>
   );

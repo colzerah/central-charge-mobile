@@ -22,6 +22,7 @@ const Button = ({
   const isLink = variant === "link";
   const isAndroid = Platform.OS === "android";
   const borderRadius = isLink ? 0 : 14;
+  const isOutline = variant === "outline";
 
   const getSize = () => {
     if (size === "sm") {
@@ -60,8 +61,13 @@ const Button = ({
         color: C.brand500,
       };
     }
-
     if (colorScheme === "danger") {
+      if (variant === "outline") {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.error,
+        };
+      }
       return {
         backgroundColor: C.error,
         color: C.white,
@@ -69,6 +75,12 @@ const Button = ({
     }
 
     if (colorScheme === "success") {
+      if (variant === "outline") {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.success,
+        };
+      }
       return {
         backgroundColor: C.success,
         color: C.white,
@@ -76,10 +88,24 @@ const Button = ({
     }
 
     if (colorScheme === "warning") {
+      if (variant === "outline") {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.warning,
+        };
+      }
       return {
         backgroundColor: C.warning,
         color: C.white,
       };
+    }
+    if (colorScheme === "primary") {
+      if (variant === "outline") {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.brand500,
+        };
+      }
     }
 
     return {
@@ -120,6 +146,10 @@ const Button = ({
   return (
     <View style={getBoxShadow()}>
       <ButtonIX
+        style={{
+          borderWidth: isOutline ? 1 : 0,
+          borderColor: getVariant()?.color,
+        }}
         isLoading={isLoading}
         loadingText={isLink ? "" : loadingText}
         disabled={disabled}
