@@ -8,6 +8,7 @@ import {
   ViewStyle,
 } from "react-native";
 import { Canvas, Shader, Skia, Fill, vec } from "@shopify/react-native-skia";
+import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
@@ -61,6 +62,20 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
       }
       return result.slice(0, 4);
     }, [colors]);
+
+    // Static approximation of the mesh, rendered as a plain LinearGradient.
+    // It paints synchronously with layout (no GPU surface/shader compile
+    // round-trip like the Skia canvas below), so it's what's actually on
+    // screen for the frame or two before the animated canvas takes over —
+    // matching colors means that handoff is invisible instead of a flash.
+    const gradientColors = useMemo(
+      () =>
+        safeColors.map(
+          (c) =>
+            `rgb(${Math.round(c.r * 255)}, ${Math.round(c.g * 255)}, ${Math.round(c.b * 255)})`,
+        ) as [string, string, ...string[]],
+      [safeColors],
+    );
 
     const uniforms = useDerivedValue(() => {
       return {
@@ -124,7 +139,14 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
             style,
             { width: width.value, height: height.value },
           ]}
-        />
+        >
+          <LinearGradient
+            colors={gradientColors}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+        </View>
       );
     }
 
@@ -133,33 +155,32 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
         style={[
           styles.container,
           style,
-          {
-            width: paramsWidth,
-            height: paramsHeight,
-          },
+          { width: paramsWidth, height: paramsHeight },
         ]}
         onLayout={onLayout}
       >
+        <LinearGradient
+          colors={gradientColors}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[StyleSheet.absoluteFill, styles.staticGradient]}
+        />
+
         {children}
-        {active ? (
-          <Animated.View style={canvasWrapperStyle}>
-            <Canvas style={StyleSheet.absoluteFill}>
-              <Fill>
-                <Shader source={shader} uniforms={uniforms} />
-              </Fill>
-            </Canvas>
-          </Animated.View>
-        ) : (
-          <View
-            style={[
-              StyleSheet.absoluteFill,
-              {
-                zIndex: -9999,
-                backgroundColor: `rgb(${Math.round(safeColors[0].r * 255)}, ${Math.round(safeColors[0].g * 255)}, ${Math.round(safeColors[0].b * 255)})`,
-              },
-            ]}
-          />
-        )}
+
+        {/* Always mounted once the shader compiles — unmounting this on
+            blur/focus (e.g. via `active`) forces Skia to recreate the GPU
+            surface each time the screen refocuses, which visibly pops
+            against the static gradient above. useFrameTime already stops
+            advancing the animation while `active` is false, so leaving the
+            canvas mounted costs nothing extra and avoids that pop. */}
+        <Animated.View style={canvasWrapperStyle}>
+          <Canvas style={StyleSheet.absoluteFill}>
+            <Fill>
+              <Shader source={shader} uniforms={uniforms} />
+            </Fill>
+          </Canvas>
+        </Animated.View>
       </View>
     );
   },
@@ -168,6 +189,9 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
 const styles = StyleSheet.create({
   container: {
     overflow: "hidden",
+  },
+  staticGradient: {
+    zIndex: -10000,
   },
 });
 
