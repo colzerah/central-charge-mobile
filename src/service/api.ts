@@ -26,3 +26,16 @@ api.interceptors.response.use((config) => {
   console.log("interceptorRES", config);
   return config;
 });
+
+// isso evitaria o response.data.data
+
+// api.interceptors.response.use(
+//   (response) => {
+//     // Retorna apenas os dados úteis da resposta
+//     return response.data;
+//   },
+//   (error) => {
+//     // Mantém o tratamento de erro padrão
+//     return Promise.reject(error);
+//   },
+// );

@@ -54,7 +54,7 @@ const ButtonIcon = ({
   };
 
   const disabledOpacity = { opacity: disabled ? 0.5 : 1 };
-  const borderRadius = size === "sm" ? 20 : 14;
+  // const borderRadius = size === "sm" ? 14 : 14;
 
   return (
     <View>
@@ -62,7 +62,7 @@ const ButtonIcon = ({
         style={disabledOpacity}
         width={getSizes()?.width}
         height={getSizes()?.height}
-        borderRadius={borderRadius}
+        borderRadius={14}
         onPress={onPress}
         disabled={disabled}
         withPressAnimation
