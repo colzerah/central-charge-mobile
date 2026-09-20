@@ -8,6 +8,7 @@ import { styles } from "./styles";
 const ButtonIcon = ({
   onPress,
   variant = "solid",
+  square,
   disabled,
   icon = "Star",
   size = "md",
@@ -54,7 +55,7 @@ const ButtonIcon = ({
   };
 
   const disabledOpacity = { opacity: disabled ? 0.5 : 1 };
-  const borderRadius = size === "sm" ? 20 : 14;
+  const RoundBorderRadius = size === "sm" ? 20 : 30;
 
   return (
     <View>
@@ -62,7 +63,7 @@ const ButtonIcon = ({
         style={disabledOpacity}
         width={getSizes()?.width}
         height={getSizes()?.height}
-        borderRadius={borderRadius}
+        borderRadius={square ? 14 : RoundBorderRadius}
         onPress={onPress}
         disabled={disabled}
         withPressAnimation
