@@ -55,16 +55,16 @@ const Button = ({
         color: C.disabled500 + "40",
       };
     }
-    if (isLink) {
-      return {
-        backgroundColor: "transparent",
-        color: C.brand500,
-      };
-    }
     if (colorScheme === "danger") {
-      if (variant === "outline") {
+      if (isOutline) {
         return {
           backgroundColor: C.ink100 + "80",
+          color: C.error,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
           color: C.error,
         };
       }
@@ -75,9 +75,15 @@ const Button = ({
     }
 
     if (colorScheme === "success") {
-      if (variant === "outline") {
+      if (isOutline) {
         return {
           backgroundColor: C.ink100 + "80",
+          color: C.success,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
           color: C.success,
         };
       }
@@ -88,9 +94,15 @@ const Button = ({
     }
 
     if (colorScheme === "warning") {
-      if (variant === "outline") {
+      if (isOutline) {
         return {
           backgroundColor: C.ink100 + "80",
+          color: C.warning,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
           color: C.warning,
         };
       }
@@ -100,9 +112,15 @@ const Button = ({
       };
     }
     if (colorScheme === "primary") {
-      if (variant === "outline") {
+      if (isOutline) {
         return {
           backgroundColor: C.ink100 + "80",
+          color: C.brand500,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
           color: C.brand500,
         };
       }

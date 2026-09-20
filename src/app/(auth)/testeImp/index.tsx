@@ -1,7 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import ButtonIcon from "@/src/components/ButtonIcon";
-import NotificationCard from "@/src/components/NotificationCard";
-import { MOCK_NOTIFICATIONS } from "@/src/components/NotificationCard/mock";
+import Button from "@/src/components/Button";
 import { useAppDispatch } from "@/src/redux/store";
 
 import { StyleSheet, View } from "react-native";
@@ -20,7 +18,7 @@ export default function TesteImp() {
   return (
     <BackgroundGradient>
       <View style={styles.root}>
-        {MOCK_NOTIFICATIONS.map((notification, index) => (
+        {/* {MOCK_NOTIFICATIONS.map((notification, index) => (
           <NotificationCard
             key={notification.id}
             type={notification.type}
@@ -33,9 +31,59 @@ export default function TesteImp() {
             onPress={() => handleOpen(notification.id)}
             onDelete={() => handleDelete(notification.id)}
           />
-        ))}
-        <ButtonIcon icon="Plus" size="sm" square />
-        <ButtonIcon icon="Star" size="md" square />
+        ))} */}
+        <Button title="Clique aqui" size="md" colorScheme="primary" />
+        <Button title="Clique aqui" size="md" colorScheme="danger" />
+        <Button title="Clique aqui" size="md" colorScheme="warning" />
+        <Button title="Clique aqui" size="md" colorScheme="success" />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="primary"
+          variant="outline"
+        />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="danger"
+          variant="outline"
+        />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="warning"
+          variant="outline"
+        />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="success"
+          variant="outline"
+        />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="primary"
+          variant="link"
+        />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="danger"
+          variant="link"
+        />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="warning"
+          variant="link"
+        />
+        <Button
+          title="Clique aqui"
+          size="md"
+          colorScheme="success"
+          variant="link"
+        />
       </View>
     </BackgroundGradient>
   );
