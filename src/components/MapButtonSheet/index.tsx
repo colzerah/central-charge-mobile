@@ -1,96 +1,43 @@
-import { C } from "@/src/theme";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
   type BottomSheetBackdropProps,
 } from "@gorhom/bottom-sheet";
-import { useFocusEffect } from "expo-router";
-import React, {
+import {
   forwardRef,
   memo,
   useCallback,
   useImperativeHandle,
   useMemo,
   useRef,
-  useState,
 } from "react";
-import { StyleSheet, Text, View } from "react-native";
+
+import { useFocusEffect } from "expo-router";
+
+import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Svg, { G, Path } from "react-native-svg";
 
 import Button from "../Button";
 import ButtonIcon from "../ButtonIcon";
+import CardPlug from "../CardItems/CardPlug";
+import Tag from "../Tag";
 import {
-  APPLE_PATH,
-  APPLE_VIEW_BOX,
-  BACKDROP_OPACITY,
-  BUTTON_GAP,
-  BUTTON_HEIGHT,
-  BUTTON_RADIUS,
-  CLOSE_SIZE,
-  COLORS,
-  DEFAULT_DESCRIPTION,
-  DEFAULT_PRIMARY_LABEL,
-  DEFAULT_SECONDARY_LABEL,
-  DEFAULT_TITLE,
-  GOOGLE_GROUP_TRANSFORM,
-  GOOGLE_PATH,
-  GOOGLE_VIEW_BOX,
-  SHEET_BOTTOM_GAP,
-  TILE_SIZE,
-} from "./const";
-import type { IGlyph, IMapButtonSheet, IMapButtonSheetRef } from "./types";
+  BottomSheetModalHandle,
+  MapButtonSheetProps,
+  MapButtonSheetRef,
+} from "./MapButtronSheetDTO";
+import { mapButtonSheetStyles } from "./styles";
 
-// `minimize`/`restore` exist on the modal instance at runtime but aren't
-// part of the package's public ref type (only `present`/`dismiss`/etc. are),
-// so the base type doesn't know about them.
-type BottomSheetModalHandle = BottomSheetModal & {
-  minimize: () => void;
-  restore: () => void;
-};
-
-const AppleGlyph: React.FC<IGlyph> = ({
-  size = 22,
-  color = COLORS.ink,
-}: IGlyph) => (
-  <Svg width={size} height={size} viewBox={APPLE_VIEW_BOX}>
-    <Path fill={color} d={APPLE_PATH} />
-  </Svg>
-);
-
-const GoogleGlyph: React.FC<IGlyph> = ({
-  size = 18,
-  color = COLORS.ink,
-}: IGlyph) => (
-  <Svg width={size} height={size} viewBox={GOOGLE_VIEW_BOX}>
-    <G transform={GOOGLE_GROUP_TRANSFORM}>
-      <Path fill={color} d={GOOGLE_PATH} />
-    </G>
-  </Svg>
-);
-
-const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
+const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
   function MapButtonSheet(
-    {
-      title = DEFAULT_TITLE,
-      description = DEFAULT_DESCRIPTION,
-      primaryLabel = DEFAULT_PRIMARY_LABEL,
-      secondaryLabel = DEFAULT_SECONDARY_LABEL,
-      hideProviders = false,
-      hideCloseButton = false,
-      openOnFocus = false,
-      onPrimaryPress,
-      onSecondaryPress,
-      onApplePress,
-      onGooglePress,
-      onClose,
-    }: IMapButtonSheet,
+    { openOnFocus = false, onClose, selectedMarket }: MapButtonSheetProps,
     ref,
   ) {
+    const { name, variant, plugs = [], qtdPlugs, adress } = selectedMarket;
+
     const sheetRef = useRef<BottomSheetModal>(null);
     const insets = useSafeAreaInsets();
-    const [pressedKey, setPressedKey] = useState<string | null>(null);
 
     useImperativeHandle(
       ref,
@@ -101,11 +48,6 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
       [],
     );
 
-    // Trocar de aba não deve descartar a folha: `dismiss()` fecha de vez e
-    // esquece o snap point, então ao voltar pra tela não havia mais nada
-    // pra reabrir. `minimize()`/`restore()` fazem a mesma animação de
-    // fechar/abrir, mas guardam o índice — assim a folha volta a expandir
-    // exatamente de onde parou.
     useFocusEffect(
       useCallback(() => {
         if (openOnFocus) {
@@ -123,15 +65,6 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
       sheetRef.current?.dismiss();
     }, []);
 
-    // `onDismiss` alone only fires once the closing animation finishes, so
-    // anything driven by it (e.g. shrinking the map marker) visibly lags
-    // behind the sheet. `onAnimate` fires the instant a close starts —
-    // swipe-to-close, backdrop tap, or `dismiss()` — so it drives `onClose`
-    // immediately instead. It's still paired with `onDismiss` below: the
-    // library skips `onAnimate` when the target index matches the last
-    // *settled* index, which can happen if you close before an in-flight
-    // open animation ever settles — `onDismiss` has no such guard and always
-    // fires once the sheet is actually closed, so it catches that case.
     const handleAnimate = useCallback(
       (_fromIndex: number, toIndex: number): void => {
         if (toIndex === -1) onClose?.();
@@ -145,17 +78,27 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
           {...props}
           appearsOnIndex={0}
           disappearsOnIndex={-1}
-          opacity={BACKDROP_OPACITY}
+          opacity={0.4}
           pressBehavior="close"
         />
       ),
       [],
     );
 
-    const bottomInset = useMemo(
-      () => insets.bottom - 16 + SHEET_BOTTOM_GAP,
-      [insets.bottom],
-    );
+    const bottomInset = useMemo(() => insets.bottom - 16 + 1, [insets.bottom]);
+
+    const renderTag = useMemo(() => {
+      console.log("variant", variant);
+      if (variant === "BROKEN") {
+        return <Tag title="Indisponível" size="md" dot type="danger" />;
+      }
+
+      if (variant === "OCCUPIED") {
+        return <Tag title="Ocupado" size="md" dot type="warning" />;
+      }
+
+      return <Tag title="Disponivel" size="md" dot type="success" />;
+    }, [variant]);
 
     return (
       <BottomSheetModal
@@ -168,27 +111,60 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
         onDismiss={onClose}
         backdropComponent={renderBackdrop}
         handleComponent={null}
-        backgroundStyle={styles.background}
-        style={styles.sheet}
+        backgroundStyle={mapButtonSheetStyles.background}
+        style={mapButtonSheetStyles.sheet}
       >
-        <BottomSheetView style={styles.content}>
-          <View style={styles.header}>
-            {hideCloseButton ? null : (
-              <ButtonIcon
-                icon="CircleX"
-                size="sm"
-                variant="outline"
-                onPress={handleClose}
-              />
-            )}
+        <BottomSheetView style={mapButtonSheetStyles.content}>
+          <View style={mapButtonSheetStyles.header}>
+            <View style={mapButtonSheetStyles.headerRow}>
+              <View style={mapButtonSheetStyles.tagView}>{renderTag}</View>
+              <View style={mapButtonSheetStyles.row}>
+                <ButtonIcon
+                  icon="Star"
+                  size="sm"
+                  variant="outline"
+                  onPress={() => console.log("favoritar")}
+                />
+                <ButtonIcon
+                  icon="CircleX"
+                  size="sm"
+                  variant="outline"
+                  onPress={handleClose}
+                />
+              </View>
+            </View>
           </View>
 
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.description}>{description}</Text>
-
-          <View style={styles.providers}>
-            <Button title={"Ver rota"} w={164} size="sm" />
-            <ButtonIcon icon="Star" size="sm" />
+          <Text style={mapButtonSheetStyles.title}>{name}</Text>
+          <Text style={mapButtonSheetStyles.description}>
+            {adress} · 1,2 km
+          </Text>
+          <View style={mapButtonSheetStyles.viewSubTitle}>
+            <Text style={mapButtonSheetStyles.subTitle}>PLUGS NESTE PONTO</Text>
+            <Text style={mapButtonSheetStyles.subTitle}>
+              {qtdPlugs} conectores
+            </Text>
+          </View>
+          <View style={mapButtonSheetStyles.viewPlug}>
+            {plugs.map((item) => (
+              <CardPlug
+                key={item.id}
+                title={item.title}
+                titleSmall={item.titleSmall}
+                titleKw={"60.0 kW"}
+                plugName={item.plugName}
+                plugStatus={item.status}
+              />
+            ))}
+          </View>
+          <View style={mapButtonSheetStyles.providers}>
+            <Button title={"Ir"} w={164} size="sm" iconLeft="MapPinCheck" />
+            <Button
+              title={"Ver detalhes"}
+              w={164}
+              size="sm"
+              iconRight="ArrowBigRight"
+            />
           </View>
         </BottomSheetView>
       </BottomSheetModal>
@@ -196,122 +172,5 @@ const MapButtonSheet = forwardRef<IMapButtonSheetRef, IMapButtonSheet>(
   },
 );
 
-const styles = StyleSheet.create({
-  sheet: {
-    marginHorizontal: 10,
-    shadowColor: C.black,
-    shadowOpacity: 0.16,
-    shadowRadius: 28,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 16,
-  },
-
-  background: {
-    backgroundColor: C.ink50,
-    borderRadius: 32,
-    borderWidth: 2,
-    borderColor: C.border,
-  },
-  content: {
-    alignSelf: "stretch",
-    paddingHorizontal: 24,
-    paddingTop: 26,
-    paddingBottom: 26,
-  },
-  header: {
-    alignItems: "flex-end",
-  },
-  tile: {
-    width: TILE_SIZE,
-    height: TILE_SIZE,
-    borderRadius: 90,
-    backgroundColor: COLORS.tile,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  close: {
-    width: CLOSE_SIZE,
-    height: CLOSE_SIZE,
-    borderRadius: CLOSE_SIZE / 2,
-    // backgroundColor: COLORS.close,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  closePressed: {
-    backgroundColor: C.borderFocused,
-  },
-  title: {
-    alignSelf: "stretch",
-    marginTop: 22,
-    fontSize: 26,
-    lineHeight: 32,
-    fontWeight: "700",
-    letterSpacing: -0.6,
-    color: C.white,
-  },
-  description: {
-    alignSelf: "stretch",
-    marginTop: 8,
-    fontSize: 15.5,
-    lineHeight: 21,
-    color: C.ink500,
-  },
-  primary: {
-    alignSelf: "stretch",
-    marginTop: 20,
-    height: BUTTON_HEIGHT,
-    borderRadius: BUTTON_RADIUS,
-    backgroundColor: COLORS.primary,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-  },
-  primaryPressed: {
-    backgroundColor: COLORS.primaryPressed,
-  },
-  primaryLabel: {
-    fontSize: 17,
-    fontWeight: "700",
-    letterSpacing: -0.3,
-    color: COLORS.primaryLabel,
-  },
-  secondary: {
-    alignSelf: "stretch",
-    marginTop: BUTTON_GAP,
-    height: BUTTON_HEIGHT,
-    borderRadius: BUTTON_RADIUS,
-    backgroundColor: COLORS.surface,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-  },
-  secondaryLabel: {
-    fontSize: 17,
-    fontWeight: "600",
-    letterSpacing: -0.3,
-    color: COLORS.ink,
-  },
-  surfacePressed: {
-    backgroundColor: COLORS.surfacePressed,
-  },
-  providers: {
-    flexDirection: "row",
-    // alignItems: "center",
-    justifyContent: "flex-end",
-    gap: BUTTON_GAP,
-    marginTop: BUTTON_GAP,
-  },
-  provider: {
-    flex: 1,
-    height: BUTTON_HEIGHT,
-    borderRadius: BUTTON_RADIUS,
-    backgroundColor: COLORS.surface,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-  },
-});
-
-export type { IGlyph, IMapButtonSheet, IMapButtonSheetRef } from "./types";
 export { MapButtonSheet };
 export default memo(MapButtonSheet);

@@ -13,6 +13,7 @@ export const C = {
   brand600: "#EA580C",
   brand700: "#C2410C",
   white: "#FFFFFF",
+  surface: "#EFEFEF",
   black: "#000000",
   success: "#22C55E",
   warning: "#F59E0B",
