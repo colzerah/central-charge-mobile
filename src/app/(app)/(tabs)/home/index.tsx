@@ -1,7 +1,9 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import MapButtonSheet, {
-  IMapButtonSheetRef,
-} from "@/src/components/MapButtonSheet";
+import MapButtonSheet from "@/src/components/MapButtonSheet";
+import {
+  MapButtonSheetRef,
+  Plugs,
+} from "@/src/components/MapButtonSheet/MapButtronSheetDTO";
 import AnimatedMapMarker from "@/src/components/MapPin/AnimatedMapMarker";
 import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { C } from "@/src/theme";
@@ -15,55 +17,117 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-
-interface MockMarketsInterface {
+export interface MarketsInterface {
   id: number;
   name: string;
+  adress: string;
   variant: "BROKEN" | "AVAILABLE" | "OCCUPIED";
   coordinate: {
     latitude: number;
     longitude: number;
   };
+  qtdPlugs: number;
+  plugs: Plugs[];
 }
 
 const mockMarkets = [
   {
     id: 1,
-    name: "Market 1",
+    name: "Post Ipiranga · Ceilândia",
+    adress: "QNN 22, Ceilândia Sul",
     variant: "BROKEN",
+    qtdPlugs: 2,
     coordinate: {
       latitude: 37.786563,
       longitude: -122.407061,
     },
+    plugs: [
+      {
+        id: 1,
+        titleSmall: "TESLA-S",
+        title: "ISO 8000",
+        plugName: "TESLA-S",
+        status: "BROKEN",
+      },
+      {
+        id: 2,
+        titleSmall: "TESLA-S",
+        title: "ISO 8000",
+        plugName: "TESLA-S",
+        status: "BROKEN",
+      },
+    ],
   },
   {
     id: 2,
-    name: "Market 2",
+    name: "Dia a Dia · Ceilândia",
+    adress: "QNM 14, Ceilândia Norte",
+    distance: "1.2",
+    qndPlugs: 1,
     variant: "AVAILABLE",
     coordinate: {
       latitude: 37.78669,
       longitude: -122.406192,
     },
+    qtdPlugs: 1,
+    plugs: [
+      {
+        id: 1,
+        titleSmall: "CSS",
+        title: "ISO 167",
+        plugName: "CSS",
+        status: "AVAILABLE",
+      },
+    ],
   },
   {
     id: 3,
-    name: "Market 3",
+    name: "Post do Balaio - Taguatinga",
+    adress: "QNL 20, Taguatinga Norte",
     variant: "OCCUPIED",
     coordinate: {
       latitude: 37.785537,
       longitude: -122.407587,
     },
+    qtdPlugs: 1,
+    plugs: [
+      {
+        id: 1,
+        titleSmall: "TYP1",
+        title: "ISO 167",
+        plugName: "TYP1",
+        status: "OCCUPIED",
+      },
+    ],
   },
   {
     id: 4,
-    name: "Market 4",
-    variant: "OCCUPIED",
+    name: "Post da Zona Leste",
+    adress: "QD 100, Val paraiso",
+    variant: "AVAILABLE",
     coordinate: {
       latitude: 37.785511,
       longitude: -122.404926,
     },
+    qtdPlugs: 2,
+    plugs: [
+      {
+        id: 1,
+        titleSmall: "TYP2",
+        title: "ISO 167",
+        plugName: "TYP2",
+        status: "OCCUPIED",
+      },
+      {
+        id: 2,
+        titleSmall: "TYP2",
+        title: "ISO 167",
+        plugName: "TYP2",
+        status: "AVAILABLE",
+      },
+    ],
   },
-] as MockMarketsInterface[];
+] as MarketsInterface[];
 
 const INITIAL_REGION = {
   latitude: 37.785834,
@@ -72,15 +136,13 @@ const INITIAL_REGION = {
   longitudeDelta: 0.005,
 };
 
-// Fração da altura da tela (0 = topo) onde o marker selecionado deve ficar
-// visível, acima da área que o bottom sheet cobre.
-const MARKER_FOCUS_SCREEN_RATIO = 0.32;
-
 export default function Home() {
   const mapRef = useRef<MapView>(null);
   const { coordinates } = useCoordinates();
-  const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
-  const sheetRef = useRef<IMapButtonSheetRef>(null);
+  const [selectedMarker, setSelectedMarker] = useState<MarketsInterface>(
+    {} as MarketsInterface,
+  );
+  const sheetRef = useRef<MapButtonSheetRef>(null);
   const regionRef = useRef(INITIAL_REGION);
 
   // MapKit/Google Maps paints its own light placeholder before tiles load,
@@ -121,8 +183,7 @@ export default function Home() {
 
     mapRef.current?.animateToRegion(
       {
-        latitude:
-          coordinate.latitude - (0.5 - MARKER_FOCUS_SCREEN_RATIO) * latitudeDelta,
+        latitude: coordinate.latitude - (0.5 - 0.32) * latitudeDelta,
         longitude: coordinate.longitude,
         latitudeDelta,
         longitudeDelta,
@@ -131,9 +192,11 @@ export default function Home() {
     );
   };
 
-  const handlePressMarket = (event: MarkerPressEvent, idItem: number) => {
-    console.log("teste", idItem);
-    setSelectedMarkerId(idItem);
+  const handlePressMarket = (
+    event: MarkerPressEvent,
+    item: MarketsInterface,
+  ) => {
+    setSelectedMarker(item);
     focusMarkerAboveSheet(event.nativeEvent.coordinate);
     sheetRef.current?.present();
   };
@@ -153,69 +216,20 @@ export default function Home() {
           initialRegion={INITIAL_REGION}
         >
           {mockMarkets.map((item) => {
-            console.log("id", item.id);
-            console.log(selectedMarkerId);
             return (
               <AnimatedMapMarker
                 key={item.id}
                 variant={item.variant}
-                selected={selectedMarkerId === item.id}
-                // title={item.name}
-                // description=""
+                selected={selectedMarker?.id === item.id}
                 coordinate={{
                   latitude: item.coordinate.latitude,
                   longitude: item.coordinate.longitude,
                 }}
-                onPress={(e) => handlePressMarket(e, item.id)}
+                onPress={(e) => handlePressMarket(e, item)}
                 opacity={1}
-                // titleVisibility="hidden"
               />
             );
           })}
-          {/* <AnimatedMapMarker
-            variant="AVAILABLE"
-            selected={selectedMarkerId === "1"}
-            title="TESTE DE TITILO"
-            description="TESTE DE DESCRICAO"
-            coordinate={{
-              latitude: 37.78669,
-              longitude: -122.406192,
-            }}
-            tappable
-            onPress={(e) => {
-              console.log("e", e);
-              setSelectedMarkerId("1");
-            }}
-            opacity={1}
-            // titleVisibility="visible"
-          />
-          <AnimatedMapMarker
-            variant="BROKEN"
-            selected={selectedMarkerId === "3"}
-            coordinate={{
-              latitude: 37.786563,
-              longitude: -122.407061,
-            }}
-            onPress={(e) => handlePressMarket(e)}
-          />
-          <AnimatedMapMarker
-            variant="OCCUPIED"
-            selected={selectedMarkerId === "2"}
-            coordinate={{
-              latitude: 37.785537,
-              longitude: -122.407587,
-            }}
-            onPress={() => setSelectedMarkerId("2")}
-          />
-          <AnimatedMapMarker
-            variant="OCCUPIED"
-            selected={selectedMarkerId === "4"}
-            coordinate={{
-              latitude: 37.785511,
-              longitude: -122.404926,
-            }}
-            onPress={() => setSelectedMarkerId("4")}
-          /> */}
         </MapView>
         <Animated.View
           pointerEvents="none"
@@ -245,12 +259,9 @@ export default function Home() {
         </Pressable>
       </View>
       <MapButtonSheet
+        selectedMarket={selectedMarker}
         ref={sheetRef}
-        onPrimaryPress={() => sheetRef.current?.dismiss()}
-        onSecondaryPress={() => console.log("Continue with Email")}
-        onApplePress={() => console.log("Continue with Apple")}
-        onGooglePress={() => console.log("Continue with Google")}
-        onClose={() => setSelectedMarkerId(null)}
+        onClose={() => setSelectedMarker({} as MarketsInterface)}
       />
     </BackgroundGradient>
   );

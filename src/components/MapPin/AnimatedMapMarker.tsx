@@ -35,6 +35,15 @@ const AnimatedMapMarker = ({
     // state, and re-arming it reliably requires another marker to force a
     // redraw). With only a handful of markers the always-live view has no
     // noticeable performance cost.
+    //
+    // The scale animation itself is only visible on iOS. On Android, under
+    // the New Architecture, react-native-maps' marker snapshot tracker only
+    // ever captures this child view once at mount and never re-snapshots it
+    // afterwards — confirmed by forcing a full remount (different `key`) on
+    // selection change, which still produced zero visual change. No JS-side
+    // animation technique (Reanimated, classic Animated, or manual rAF+
+    // setState) can work around that: it's a native-side limitation of this
+    // combination of react-native-maps + Fabric, not something fixable here.
     <Marker {...markerProps} tracksViewChanges>
       <Animated.View style={animatedStyle}>
         <MapPin variant={variant} />

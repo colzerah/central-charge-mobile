@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "explaining-code": {
+      "source": "patricio0312rev/skills",
+      "sourceType": "github",
+      "skillPath": "foundation/explaining-code/SKILL.md",
+      "computedHash": "11f8806500fc4ef18ec6aeec7905f4c0b6e7ee31a48b3b8ae6edd0de2ee1c94a"
+    },
+    "icon-set-generator": {
+      "source": "jezweb/claude-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/design-assets/skills/icon-set-generator/SKILL.md",
+      "computedHash": "c19878b239a5957bb927f646ab2dfa8e3fbf6ca41665d42775f5b74222888585"
+    }
+  }
+}
