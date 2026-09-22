@@ -1,89 +1,42 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import Button from "@/src/components/Button";
+import TabNavigation from "@/src/components/TabNavigation/";
+import { Tabs } from "@/src/components/TabNavigation/TabNavigationDTO";
 import { useAppDispatch } from "@/src/redux/store";
+import { useState } from "react";
+import { Text } from "react-native";
 
 import { StyleSheet, View } from "react-native";
 
 export default function TesteImp() {
   const dispatch = useAppDispatch();
 
-  const handleOpen = (id: string) => {
-    console.log("Abrindo notificação:", id);
-  };
+  const TABS = [
+    { value: "recargas", label: "Recargas", icon: "Zap" },
+    { value: "notificacoes", label: "Notificações", icon: "Bell" },
+  ] as Tabs[];
 
-  const handleDelete = (id: string) => {
-    console.log("Excluindo notificação:", id);
-  };
-
+  const [tab, setTab] = useState<string>("recargas");
   return (
     <BackgroundGradient>
       <View style={styles.root}>
-        {/* {MOCK_NOTIFICATIONS.map((notification, index) => (
-          <NotificationCard
-            key={notification.id}
-            type={notification.type}
-            title={notification.title}
-            message={notification.message}
-            day={notification.day}
-            month={notification.month}
-            read={notification.read}
-            animationDelay={index * 50}
-            onPress={() => handleOpen(notification.id)}
-            onDelete={() => handleDelete(notification.id)}
-          />
-        ))} */}
-        <Button title="Clique aqui" size="md" colorScheme="primary" />
-        <Button title="Clique aqui" size="md" colorScheme="danger" />
-        <Button title="Clique aqui" size="md" colorScheme="warning" />
-        <Button title="Clique aqui" size="md" colorScheme="success" />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="primary"
-          variant="outline"
+        <TabNavigation
+          items={TABS}
+          value={tab}
+          onPress={(e) => {
+            console.log(e);
+            setTab(e);
+          }}
         />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="danger"
-          variant="outline"
-        />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="warning"
-          variant="outline"
-        />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="success"
-          variant="outline"
-        />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="primary"
-          variant="link"
-        />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="danger"
-          variant="link"
-        />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="warning"
-          variant="link"
-        />
-        <Button
-          title="Clique aqui"
-          size="md"
-          colorScheme="success"
-          variant="link"
-        />
+        {tab === "recargas" && (
+          <View>
+            <Text style={{ color: "white" }}>Tela de Recargas</Text>
+          </View>
+        )}
+        {tab === "notificacoes" && (
+          <View>
+            <Text style={{ color: "white" }}>Tela de Notificações</Text>
+          </View>
+        )}
       </View>
     </BackgroundGradient>
   );
@@ -92,6 +45,7 @@ export default function TesteImp() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    marginTop: 50,
     // flexDirection: "column",
     // alignItems: "center",
     // justifyContent: "center",
