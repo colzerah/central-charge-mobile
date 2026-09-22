@@ -1,31 +1,42 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import MenuStatCard from "@/src/components/MenuStatCard";
+import TabNavigation from "@/src/components/TabNavigation/";
+import { Tabs } from "@/src/components/TabNavigation/TabNavigationDTO";
 import { useAppDispatch } from "@/src/redux/store";
+import { useState } from "react";
+import { Text } from "react-native";
 
 import { StyleSheet, View } from "react-native";
 
 export default function TesteImp() {
   const dispatch = useAppDispatch();
 
+  const TABS = [
+    { value: "recargas", label: "Recargas", icon: "Zap" },
+    { value: "notificacoes", label: "Notificações", icon: "Bell" },
+  ] as Tabs[];
+
+  const [tab, setTab] = useState<string>("recargas");
   return (
     <BackgroundGradient>
       <View style={styles.root}>
-        <MenuStatCard
-          stats={[
-            {
-              value: "1.248",
-              label: "kWh total",
-            },
-            {
-              value: "47",
-              label: "recargas",
-            },
-            {
-              value: "8.2",
-              label: "tCO₂ evitado",
-            },
-          ]}
+        <TabNavigation
+          items={TABS}
+          value={tab}
+          onPress={(e) => {
+            console.log(e);
+            setTab(e);
+          }}
         />
+        {tab === "recargas" && (
+          <View>
+            <Text style={{ color: "white" }}>Tela de Recargas</Text>
+          </View>
+        )}
+        {tab === "notificacoes" && (
+          <View>
+            <Text style={{ color: "white" }}>Tela de Notificações</Text>
+          </View>
+        )}
       </View>
     </BackgroundGradient>
   );
@@ -34,8 +45,10 @@ export default function TesteImp() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
+    marginTop: 50,
+    // flexDirection: "column",
+    // alignItems: "center",
+    // justifyContent: "center",
+    gap: 10,
   },
 });

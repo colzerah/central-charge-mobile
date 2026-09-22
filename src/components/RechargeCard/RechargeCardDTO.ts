@@ -6,4 +6,5 @@ export interface RechargeCardProps {
   cost: number;
   tagTitle: string;
   onPress?: () => void;
+  date: Date;
 }

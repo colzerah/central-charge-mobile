@@ -22,7 +22,7 @@ export default function AuthLayout() {
       <Stack.Screen
         name="testeImp"
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTitle: "Pagina Teste Imp",
           headerBackTitle: "Voltar",
         }}
