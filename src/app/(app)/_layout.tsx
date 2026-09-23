@@ -52,6 +52,15 @@ export default function AppLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="scan-code"
+        options={{
+          headerShown: true,
+          header: () => (
+            <Header title="Código Manual" subtitle="Inserir manualmente" />
+          ),
+        }}
+      />
     </Stack>
   );
 }

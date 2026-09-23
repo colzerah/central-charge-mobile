@@ -11,6 +11,7 @@ export interface InputProps {
   size?: "sm" | "md" | "lg";
   isInvalid?: boolean;
   isDisabled?: boolean;
+  isFocused?: boolean;
   variant?: "default" | "outline";
   keyboardType?:
     | "default"

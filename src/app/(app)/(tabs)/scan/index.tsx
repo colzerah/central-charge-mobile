@@ -1,12 +1,23 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import Button from "@/src/components/Button";
 import Icon from "@/src/components/Icon";
 import { C } from "@/src/theme";
 import { pressableOpacity } from "@/src/utils/pressable";
-import { BarcodeScanningResult, CameraView, useCameraPermissions } from "expo-camera";
-import { useIsFocused } from "expo-router";
+import {
+  BarcodeScanningResult,
+  CameraView,
+  useCameraPermissions,
+} from "expo-camera";
+import { router, useIsFocused } from "expo-router";
 import { useRef } from "react";
-import { Alert, Linking, Pressable, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Alert,
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 const SCAN_BOX_SIZE = 280;
 
@@ -36,11 +47,13 @@ export default function Scan() {
 
   return (
     <BackgroundGradient>
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Escanear carregador</Text>
-        <Text style={styles.subtitle}>
-          Aponte a câmera para o QR code ou código de barras do carregador
-        </Text>
+      <View style={styles.container}>
+        <View style={styles.viewTitle}>
+          <Text style={styles.title}>Escanear carregador</Text>
+          <Text style={styles.subtitle}>
+            Aponte a câmera para o QR code ou código de barras do carregador
+          </Text>
+        </View>
 
         <View style={styles.scanBox}>
           {permission?.granted ? (
@@ -71,7 +84,14 @@ export default function Scan() {
             </Pressable>
           )}
         </View>
-      </SafeAreaView>
+        <View style={styles.buttonView}>
+          <Button
+            title="Digitar o Código"
+            w={320}
+            onPress={() => router.push("/scan-code")}
+          />
+        </View>
+      </View>
     </BackgroundGradient>
   );
 }
@@ -80,17 +100,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
     paddingHorizontal: 28,
   },
+  viewTitle: {
+    alignItems: "center",
+    marginTop: 120,
+  },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     color: C.white,
     fontFamily: "Inter-Bold",
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 18,
     color: C.ink400,
     fontFamily: "Inter-Regular",
     textAlign: "center",
@@ -104,6 +128,7 @@ const styles = StyleSheet.create({
     borderColor: C.brand400,
     overflow: "hidden",
     backgroundColor: C.ink50,
+    marginBottom: 100,
   },
   permissionBox: {
     flex: 1,
@@ -123,5 +148,8 @@ const styles = StyleSheet.create({
     color: C.brand400,
     fontFamily: "Inter-SemiBold",
     textAlign: "center",
+  },
+  buttonView: {
+    marginBottom: 120,
   },
 });
