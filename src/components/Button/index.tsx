@@ -22,6 +22,7 @@ const Button = ({
   const isLink = variant === "link";
   const isAndroid = Platform.OS === "android";
   const borderRadius = isLink ? 0 : 14;
+  const isOutline = variant === "outline";
 
   const getSize = () => {
     if (size === "sm") {
@@ -54,14 +55,19 @@ const Button = ({
         color: C.disabled500 + "40",
       };
     }
-    if (isLink) {
-      return {
-        backgroundColor: "transparent",
-        color: C.brand500,
-      };
-    }
-
     if (colorScheme === "danger") {
+      if (isOutline) {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.error,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
+          color: C.error,
+        };
+      }
       return {
         backgroundColor: C.error,
         color: C.white,
@@ -69,6 +75,18 @@ const Button = ({
     }
 
     if (colorScheme === "success") {
+      if (isOutline) {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.success,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
+          color: C.success,
+        };
+      }
       return {
         backgroundColor: C.success,
         color: C.white,
@@ -76,10 +94,36 @@ const Button = ({
     }
 
     if (colorScheme === "warning") {
+      if (isOutline) {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.warning,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
+          color: C.warning,
+        };
+      }
       return {
         backgroundColor: C.warning,
         color: C.white,
       };
+    }
+    if (colorScheme === "primary") {
+      if (isOutline) {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.brand500,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
+          color: C.brand500,
+        };
+      }
     }
 
     return {
@@ -120,6 +164,10 @@ const Button = ({
   return (
     <View style={getBoxShadow()}>
       <ButtonIX
+        style={{
+          borderWidth: isOutline ? 1 : 0,
+          borderColor: getVariant()?.color,
+        }}
         isLoading={isLoading}
         loadingText={isLink ? "" : loadingText}
         disabled={disabled}
