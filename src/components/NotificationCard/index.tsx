@@ -16,7 +16,7 @@ import DateBadge from "@/src/components/DateBadge";
 import IconBackground from "@/src/components/IconBackground";
 import { C } from "@/src/theme";
 
-import { getNotificationIconBackground } from "./utils";
+import { getIconColor, getNotificationIconBackground } from "./utils";
 
 import { getNotificationIcon } from "./utils";
 
@@ -207,7 +207,7 @@ const NotificationCard = ({
                     icon={getNotificationIcon(type)}
                     size="md"
                     backgroundColor={getNotificationIconBackground(type)}
-                    iconColor={C.brand400}
+                    iconColor={getIconColor(type)}
                   />
                 </Animated.View>
 

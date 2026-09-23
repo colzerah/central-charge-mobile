@@ -1,41 +1,29 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import { Tabs } from "@/src/components/TabNavigation/TabNavigationDTO";
 import { C } from "@/src/theme";
 import {
   AlertTriangle,
   BatteryCharging,
   Bell,
   CheckCircle,
-  ChevronRight,
   CreditCard,
   Gift,
-  Trash2,
-  Zap,
 } from "lucide-react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
+import TabNavigation from "@/src/components/TabNavigation";
+import Notifications from "@/src/components/Views/Notification";
+import { StyleSheet, View } from "react-native";
 import {
-  Alert,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { Gesture } from "react-native-gesture-handler";
-import Animated, {
   Easing,
   Extrapolation,
   interpolate,
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withSequence,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
+import Recharges from "../recharges";
 // NOTIFS,
 //   type Notif,
 //   type NotifType,
@@ -214,6 +202,13 @@ export default function NotificacoesScreen() {
   const pullScale = useSharedValue(0.5);
   const pullRotate = useSharedValue(0);
 
+  const TABS = [
+    { value: "notificacoes", label: "Notificações", icon: "Bell" },
+    { value: "recargas", label: "Recargas", icon: "Zap" },
+  ] as Tabs[];
+
+  const [tab, setTab] = useState<string>("notificacoes");
+
   useEffect(() => {
     headerO.value = withDelay(80, withTiming(1, { duration: 400 }));
     headerY.value = withDelay(
@@ -227,15 +222,26 @@ export default function NotificacoesScreen() {
     );
   }, []);
 
-  const headerStyle = useAnimatedStyle(() => ({
-    opacity: headerO.value,
-    transform: [{ translateY: headerY.value }],
-  }));
+  // const headerStyle = useAnimatedStyle(() => ({
+  //   opacity: headerO.value,
+  //   transform: [{ translateY: headerY.value }],
+  // }));
 
-  const listStyle = useAnimatedStyle(() => ({
-    opacity: listO.value,
-    transform: [{ translateY: listY.value }],
-  }));
+  // const listStyle = useAnimatedStyle(() => ({
+  //   opacity: listO.value,
+  //   transform: [{ translateY: listY.value }],
+  // }));
+  // const headerGlowStyle = useAnimatedStyle(() => {
+  //   const glow = interpolate(
+  //     scrollY.value,
+  //     [-100, 0, 40],
+  //     [0.6, 0, 0],
+  //     Extrapolation.CLAMP,
+  //   );
+  //   return {
+  //     opacity: glow,
+  //   };
+  // });
 
   const pullIndicatorStyle = useAnimatedStyle(() => {
     const showPull = interpolate(
@@ -253,310 +259,74 @@ export default function NotificacoesScreen() {
     };
   });
 
-  const headerGlowStyle = useAnimatedStyle(() => {
-    const glow = interpolate(
-      scrollY.value,
-      [-100, 0, 40],
-      [0.6, 0, 0],
-      Extrapolation.CLAMP,
-    );
-    return {
-      opacity: glow,
-    };
-  });
+  // const onRefresh = useCallback(() => {
+  //   setRefreshing(true);
+  //   pullRotate.value = 0;
+  //   pullRotate.value = withTiming(360, {
+  //     duration: 1000,
+  //     easing: Easing.linear,
+  //   });
+  //   pullScale.value = withSequence(
+  //     withSpring(1.1, { damping: 12 }),
+  //     withTiming(1, { duration: 300 }),
+  //   );
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //     pullO.value = withTiming(0, { duration: 300 });
+  //     pullScale.value = withTiming(0.5, { duration: 300 });
+  //   }, 1200);
+  // }, []);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    pullRotate.value = 0;
-    pullRotate.value = withTiming(360, {
-      duration: 1000,
-      easing: Easing.linear,
-    });
-    pullScale.value = withSequence(
-      withSpring(1.1, { damping: 12 }),
-      withTiming(1, { duration: 300 }),
-    );
-    setTimeout(() => {
-      setRefreshing(false);
-      pullO.value = withTiming(0, { duration: 300 });
-      pullScale.value = withTiming(0.5, { duration: 300 });
-    }, 1200);
-  }, []);
+  // const handleScroll = (event: any) => {
+  //   const y = event.nativeEvent.contentOffset.y;
+  //   scrollY.value = y;
+  //   if (y < 0 && !refreshing) {
+  //     pullO.value = withTiming(1, { duration: 200 });
+  //     const stretch = Math.min(Math.abs(y), 100);
+  //     pullScale.value = withTiming(0.5 + (stretch / 100) * 0.6, {
+  //       duration: 100,
+  //     });
+  //   }
+  // };
 
-  const handleScroll = (event: any) => {
-    const y = event.nativeEvent.contentOffset.y;
-    scrollY.value = y;
-    if (y < 0 && !refreshing) {
-      pullO.value = withTiming(1, { duration: 200 });
-      const stretch = Math.min(Math.abs(y), 100);
-      pullScale.value = withTiming(0.5 + (stretch / 100) * 0.6, {
-        duration: 100,
-      });
-    }
-  };
+  // const unread = notifs.filter((n) => !n.read).length;
 
-  const unread = notifs.filter((n) => !n.read).length;
+  // const handleDelete = useCallback((id: string) => {
+  //   setNotifs((prev) => prev.filter((n) => n.id !== id));
+  // }, []);
 
-  const handleDelete = useCallback((id: string) => {
-    setNotifs((prev) => prev.filter((n) => n.id !== id));
-  }, []);
-
-  const handleOpen = useCallback((id: string) => {
-    // router.push(`/notif/${id}`);
-  }, []);
+  // const handleOpen = useCallback((id: string) => {
+  //   // router.push(`/notif/${id}`);
+  // }, []);
 
   return (
     <BackgroundGradient>
-    {/* <GestureHandlerRootView style={styles.flex}> */}
-    <View style={styles.root}>
-      {/* <SafeAreaView style={styles.flex}> */}
-      {/* Header */}
-      <Animated.View style={headerStyle}>
-        <View style={styles.header}>
-          <View style={styles.headerRow}>
-            <View>
-              <Text style={styles.headerTitle}>Notificações</Text>
-              <Text style={styles.headerSubtitle}>
-                {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={styles.markAllBtn}
-              onPress={() =>
-                Alert.alert(
-                  "Tudo certo",
-                  "Todas as notificações foram marcadas como lidas.",
-                )
-              }
-              activeOpacity={0.7}
-            >
-              <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
-              <Text style={styles.markAllText}>Marcar todas</Text>
-            </TouchableOpacity>
+      <View style={styles.root}>
+        <TabNavigation
+          items={TABS}
+          value={tab}
+          onPress={(e) => {
+            console.log(e);
+            setTab(e);
+          }}
+        />
+        {tab === "notificacoes" && (
+          <View style={{ flex: 1, marginTop: 50 }}>
+            <Notifications />
           </View>
-        </View>
-        <Animated.View style={[styles.headerGlow, headerGlowStyle]} />
-      </Animated.View>
-
-      {/* Pull-to-refresh indicator */}
-      <Animated.View
-        style={[styles.pullIndicator, pullIndicatorStyle]}
-        pointerEvents="none"
-      >
-        <View style={styles.pullInner}>
-          <Zap
-            color={C.brand400}
-            size={24}
-            strokeWidth={2.5}
-            fill={C.brand300}
-          />
-        </View>
-      </Animated.View>
-
-      <ScrollView
-        style={styles.flex}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            tintColor="transparent"
-            colors={["transparent"]}
-            progressBackgroundColor="transparent"
-          />
-        }
-      >
-        <Animated.View style={listStyle}>
-          {notifs.map((n, i) => (
-            <NotifCard
-              key={n.id}
-              notif={n}
-              index={i}
-              onDelete={handleDelete}
-              onOpen={handleOpen}
-            />
-          ))}
-
-          {notifs.length === 0 && (
-            <View style={styles.emptyWrap}>
-              <CheckCircle color={C.ink400} size={40} strokeWidth={1.5} />
-              <Text style={styles.emptyText}>Sem notificações</Text>
-            </View>
-          )}
-
-          <Text style={styles.endText}>Você está em dia</Text>
-        </Animated.View>
-      </ScrollView>
-      {/* </SafeAreaView> */}
-    </View>
-    {/* </GestureHandlerRootView> */}
+        )}
+        {tab === "recargas" && (
+          <View style={{ marginTop: 50 }}>
+            <Recharges />
+          </View>
+        )}
+      </View>
     </BackgroundGradient>
   );
 }
 
-function NotifCard({
-  notif,
-  index,
-  onDelete,
-  onOpen,
-}: {
-  notif: Notif;
-  index: number;
-  onDelete: (id: string) => void;
-  onOpen: (id: string) => void;
-}) {
-  const cardO = useSharedValue(0);
-  const cardY = useSharedValue(30);
-  const pressed = useSharedValue(0);
-  const translateX = useSharedValue(0);
-  const deleteOpacity = useSharedValue(0);
-  const itemHeight = useSharedValue(1);
-
-  useEffect(() => {
-    cardO.value = withDelay(250 + index * 50, withTiming(1, { duration: 400 }));
-    cardY.value = withDelay(
-      250 + index * 50,
-      withTiming(0, { duration: 500, easing: Easing.out(Easing.ease) }),
-    );
-    itemHeight.value = withDelay(
-      250 + index * 50,
-      withTiming(1, { duration: 400 }),
-    );
-  }, [index]);
-
-  const pan = Gesture.Pan()
-    .onUpdate((e) => {
-      translateX.value = Math.min(0, e.translationX);
-      // lixeira aparece imediatamente ao iniciar o gesto
-      deleteOpacity.value = interpolate(
-        translateX.value,
-        [-15, 0],
-        [1, 0],
-        Extrapolation.CLAMP,
-      );
-    })
-    .onEnd((e) => {
-      // só confirma se a puxada for forte o suficiente; senão volta
-      if (e.translationX < -140) {
-        translateX.value = withTiming(-600, { duration: 220 });
-        itemHeight.value = withDelay(60, withTiming(0, { duration: 220 }));
-        runOnJS(onDelete)(notif.id);
-      } else {
-        translateX.value = withSpring(0, { damping: 18 });
-        deleteOpacity.value = withTiming(0, { duration: 200 });
-      }
-    });
-
-  const cardStyle = useAnimatedStyle(() => ({
-    opacity: cardO.value,
-    transform: [{ scale: 1 - pressed.value * 0.03 }],
-  }));
-
-  const swipeStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
-
-  const containerStyle = useAnimatedStyle(() => ({
-    opacity: itemHeight.value,
-    transform: [{ scale: itemHeight.value }],
-  }));
-
-  const deleteBgStyle = useAnimatedStyle(() => ({
-    opacity: deleteOpacity.value,
-  }));
-
-  const deleteIconStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        scale: interpolate(
-          translateX.value,
-          [-160, -120, 0],
-          [1.35, 1, 1],
-          Extrapolation.CLAMP,
-        ),
-      },
-    ],
-  }));
-
-  const iconScaleStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: 1 + pressed.value * 0.12 }],
-  }));
-
-  const handlePressIn = () => {
-    pressed.value = withTiming(1, { duration: 120 });
-  };
-
-  const handlePressOut = () => {
-    pressed.value = withTiming(0, { duration: 150 });
-  };
-
-  const monthLabel = MONTHS[parseInt(notif.month, 10) - 1] || notif.month;
-
-  return (
-    <Animated.View style={containerStyle}>
-      <View style={styles.swipeWrap}>
-        <Animated.View
-          style={[styles.deleteBg, deleteBgStyle]}
-          pointerEvents="none"
-        >
-          <Animated.View style={deleteIconStyle}>
-            <Trash2 color={C.ink0} size={24} strokeWidth={2.2} />
-          </Animated.View>
-        </Animated.View>
-        {/* <GestureDetector gesture={pan}> */}
-        <Animated.View style={swipeStyle}>
-          <Animated.View style={cardStyle}>
-            <Pressable
-              style={[styles.card, !notif.read && styles.cardUnread]}
-              onPressIn={handlePressIn}
-              onPressOut={handlePressOut}
-              onPress={() => onOpen(notif.id)}
-            >
-              <Animated.View style={iconScaleStyle}>
-                <View
-                  style={[
-                    styles.iconBox,
-                    { backgroundColor: bgForType(notif.type) },
-                  ]}
-                >
-                  {iconForType(notif.type)}
-                </View>
-              </Animated.View>
-
-              <View style={styles.cardBody}>
-                <View style={styles.cardHeader}>
-                  {!notif.read && <View style={styles.unreadDot} />}
-                  <Text style={styles.cardTitle} numberOfLines={1}>
-                    {notif.title}
-                  </Text>
-                </View>
-                <Text style={styles.cardMessage} numberOfLines={2}>
-                  {notif.message}
-                </Text>
-              </View>
-
-              <View style={styles.dateBox}>
-                <Text style={styles.dateDay}>{notif.day}</Text>
-                <Text style={styles.dateMonth}>{monthLabel}</Text>
-              </View>
-
-              <View style={styles.chevron}>
-                <ChevronRight color={C.ink400} size={18} />
-              </View>
-            </Pressable>
-          </Animated.View>
-        </Animated.View>
-        {/* </GestureDetector> */}
-      </View>
-    </Animated.View>
-  );
-}
-
 const styles = StyleSheet.create({
-  root: { flex: 1 },
+  root: { flex: 1, marginTop: 50 },
   flex: { flex: 1 },
 
   // Header

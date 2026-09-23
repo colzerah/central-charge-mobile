@@ -1,9 +1,10 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import TabNavigation from "@/src/components/TabNavigation/";
+import TabNavigation from "@/src/components/TabNavigation";
 import { Tabs } from "@/src/components/TabNavigation/TabNavigationDTO";
+import Notifications from "@/src/components/Views/Notification";
+import Recharges from "@/src/components/Views/Recharges";
 import { useAppDispatch } from "@/src/redux/store";
 import { useState } from "react";
-import { Text } from "react-native";
 
 import { StyleSheet, View } from "react-native";
 
@@ -29,12 +30,12 @@ export default function TesteImp() {
         />
         {tab === "recargas" && (
           <View>
-            <Text style={{ color: "white" }}>Tela de Recargas</Text>
+            <Recharges />
           </View>
         )}
         {tab === "notificacoes" && (
           <View>
-            <Text style={{ color: "white" }}>Tela de Notificações</Text>
+            <Notifications />
           </View>
         )}
       </View>
@@ -49,6 +50,6 @@ const styles = StyleSheet.create({
     // flexDirection: "column",
     // alignItems: "center",
     // justifyContent: "center",
-    gap: 10,
+    gap: 50,
   },
 });

@@ -44,3 +44,23 @@ export const getNotificationIconBackground = (
       return C.brand300;
   }
 };
+
+export const getIconColor = (type: NotificationType): string => {
+  switch (type) {
+    case "charge":
+    case "payment":
+      return C.brand400;
+
+    case "alert":
+      return C.error;
+
+    case "success":
+      return C.success;
+
+    case "info":
+      return C.info;
+
+    case "gift":
+      return C.brand300;
+  }
+};
