@@ -18,6 +18,7 @@ import { useFocusEffect } from "expo-router";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { openNavigation } from "@/src/utils/openNavigation";
 import Button from "../Button";
 import ButtonIcon from "../ButtonIcon";
 import CardPlug from "../CardItems/CardPlug";
@@ -34,7 +35,14 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
     { openOnFocus = false, onClose, selectedMarket }: MapButtonSheetProps,
     ref,
   ) {
-    const { name, variant, plugs = [], qtdPlugs, adress } = selectedMarket;
+    const {
+      name,
+      variant,
+      plugs = [],
+      qtdPlugs,
+      adress,
+      coordinate,
+    } = selectedMarket;
 
     const sheetRef = useRef<BottomSheetModal>(null);
     const insets = useSafeAreaInsets();
@@ -158,7 +166,15 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
             ))}
           </View>
           <View style={mapButtonSheetStyles.providers}>
-            <Button title={"Ir"} w={164} size="sm" iconLeft="MapPinCheck" />
+            <Button
+              title={"Ir"}
+              w={164}
+              size="sm"
+              iconLeft="MapPinCheck"
+              onPress={() =>
+                coordinate && openNavigation({ ...coordinate, label: name })
+              }
+            />
             <Button
               title={"Ver detalhes"}
               w={164}

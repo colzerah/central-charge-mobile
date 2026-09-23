@@ -38,8 +38,8 @@ const mockMarkets = [
     variant: "BROKEN",
     qtdPlugs: 2,
     coordinate: {
-      latitude: 37.786563,
-      longitude: -122.407061,
+      latitude: -15.829452,
+      longitude: -48.107312,
     },
     plugs: [
       {
@@ -66,8 +66,8 @@ const mockMarkets = [
     qndPlugs: 1,
     variant: "AVAILABLE",
     coordinate: {
-      latitude: 37.78669,
-      longitude: -122.406192,
+      latitude: -15.836911,
+      longitude: -48.113987,
     },
     qtdPlugs: 1,
     plugs: [
@@ -86,8 +86,8 @@ const mockMarkets = [
     adress: "QNL 20, Taguatinga Norte",
     variant: "OCCUPIED",
     coordinate: {
-      latitude: 37.785537,
-      longitude: -122.407587,
+      latitude: -15.831204,
+      longitude: -48.116842,
     },
     qtdPlugs: 1,
     plugs: [
@@ -106,8 +106,8 @@ const mockMarkets = [
     adress: "QD 100, Val paraiso",
     variant: "AVAILABLE",
     coordinate: {
-      latitude: 37.785511,
-      longitude: -122.404926,
+      latitude: -15.838426,
+      longitude: -48.104615,
     },
     qtdPlugs: 2,
     plugs: [
@@ -130,10 +130,10 @@ const mockMarkets = [
 ] as MarketsInterface[];
 
 const INITIAL_REGION = {
-  latitude: 37.785834,
-  longitude: -122.406417,
-  latitudeDelta: 0.005,
-  longitudeDelta: 0.005,
+  latitude: -15.832652,
+  longitude: -48.110097,
+  latitudeDelta: 0.02,
+  longitudeDelta: 0.02,
 };
 
 export default function Home() {
