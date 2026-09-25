@@ -23,6 +23,7 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { Provider } from "react-redux";
 import { useAuthBootstrap } from "../hooks/useAuth";
 import { ModalProvider } from "../providers/modal-provider";
+import { ToastProvider } from "../providers/toast-provider";
 import { store } from "../redux/store";
 import { C } from "../theme";
 
@@ -68,23 +69,25 @@ function AppReady() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <BottomSheetModalProvider>
-        <ModalProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: C.ink0 },
-            }}
-          >
-            <Stack.Protected guard={!!isAuthenticated}>
-              <Stack.Screen name="(app)" />
-            </Stack.Protected>
-            <Stack.Protected guard={isAuthenticated === false}>
-              <Stack.Screen name="(auth)" />
-            </Stack.Protected>
-          </Stack>
-        </ModalProvider>
-      </BottomSheetModalProvider>
+      <ToastProvider>
+        <BottomSheetModalProvider>
+          <ModalProvider>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: C.ink0 },
+              }}
+            >
+              <Stack.Protected guard={!!isAuthenticated}>
+                <Stack.Screen name="(app)" />
+              </Stack.Protected>
+              <Stack.Protected guard={isAuthenticated === false}>
+                <Stack.Screen name="(auth)" />
+              </Stack.Protected>
+            </Stack>
+          </ModalProvider>
+        </BottomSheetModalProvider>
+      </ToastProvider>
     </ThemeProvider>
   );
 }
