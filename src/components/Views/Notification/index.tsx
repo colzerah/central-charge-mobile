@@ -1,7 +1,7 @@
 import NotificationCard from "@/src/components/NotificationCard";
 import { C } from "@/src/theme";
 import { CheckCircle, Zap } from "lucide-react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   Alert,
@@ -17,7 +17,6 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withSequence,
   withSpring,
   withTiming,
@@ -44,36 +43,9 @@ const Notifications = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [notifs, setNotifs] = useState<NotificationProps[]>(NOTIFICATION_MOCK);
   const scrollY = useSharedValue(0);
-  const headerO = useSharedValue(0);
-  const headerY = useSharedValue(-20);
-  const listO = useSharedValue(0);
-  const listY = useSharedValue(24);
   const pullO = useSharedValue(0);
   const pullScale = useSharedValue(0.5);
   const pullRotate = useSharedValue(0);
-
-  useEffect(() => {
-    headerO.value = withDelay(80, withTiming(1, { duration: 400 }));
-    headerY.value = withDelay(
-      80,
-      withTiming(0, { duration: 500, easing: Easing.out(Easing.ease) }),
-    );
-    listO.value = withDelay(200, withTiming(1, { duration: 500 }));
-    listY.value = withDelay(
-      200,
-      withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
-    );
-  }, []);
-
-  const headerStyle = useAnimatedStyle(() => ({
-    opacity: headerO.value,
-    transform: [{ translateY: headerY.value }],
-  }));
-
-  const listStyle = useAnimatedStyle(() => ({
-    opacity: listO.value,
-    transform: [{ translateY: listY.value }],
-  }));
 
   const pullIndicatorStyle = useAnimatedStyle(() => {
     const showPull = interpolate(
@@ -145,34 +117,29 @@ const Notifications = () => {
 
   return (
     <View style={notificationStyles.root}>
-      <Animated.View style={headerStyle}>
-        <View style={notificationStyles.header}>
-          <View style={notificationStyles.headerRow}>
-            <View>
-              <Text style={notificationStyles.headerTitle}>Notificações</Text>
-              <Text style={notificationStyles.headerSubtitle}>
-                {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={notificationStyles.markAllBtn}
-              onPress={() =>
-                Alert.alert(
-                  "Tudo certo",
-                  "Todas as notificações foram marcadas como lidas.",
-                )
-              }
-              activeOpacity={0.7}
-            >
-              <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
-              <Text style={notificationStyles.markAllText}>Marcar todas</Text>
-            </TouchableOpacity>
+      <View style={notificationStyles.header}>
+        <View style={notificationStyles.headerRow}>
+          <View>
+            <Text style={notificationStyles.headerTitle}>Notificações</Text>
+            <Text style={notificationStyles.headerSubtitle}>
+              {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
+            </Text>
           </View>
+          <TouchableOpacity
+            style={notificationStyles.markAllBtn}
+            onPress={() =>
+              Alert.alert(
+                "Tudo certo",
+                "Todas as notificações foram marcadas como lidas.",
+              )
+            }
+            activeOpacity={0.7}
+          >
+            <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
+            <Text style={notificationStyles.markAllText}>Marcar todas</Text>
+          </TouchableOpacity>
         </View>
-        <Animated.View
-          style={[notificationStyles.headerGlow, headerGlowStyle]}
-        />
-      </Animated.View>
+      </View>
 
       {/* Pull-to-refresh indicator */}
       <Animated.View
@@ -205,7 +172,7 @@ const Notifications = () => {
           />
         }
       >
-        <Animated.View style={listStyle}>
+        <View>
           {notifs.map((n, i) => (
             <NotificationCard
               key={n.id}
@@ -215,7 +182,6 @@ const Notifications = () => {
               day={Number(n.day)}
               month={MONTHS[Number(n.month) - 1] || n.month}
               read={n.read}
-              animationDelay={250 + i * 50}
               onDelete={() => handleDelete(n.id)}
               onPress={() => handleOpen(n.id)}
             />
@@ -229,7 +195,7 @@ const Notifications = () => {
           )}
 
           <Text style={notificationStyles.endText}>Você está em dia</Text>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

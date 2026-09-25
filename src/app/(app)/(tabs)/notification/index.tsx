@@ -9,26 +9,12 @@ import {
   CreditCard,
   Gift,
 } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import TabNavigation from "@/src/components/TabNavigation";
 import Notifications from "@/src/components/Views/Notification";
 import { StyleSheet, View } from "react-native";
-import {
-  Easing,
-  Extrapolation,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from "react-native-reanimated";
 import Recharges from "../recharges";
-// NOTIFS,
-//   type Notif,
-//   type NotifType,
-//   iconForType,
-//   bgForType,
 
 const MONTHS = [
   "JAN",
@@ -191,113 +177,13 @@ export const bgForType = (type: NotifType): string => {
 };
 
 export default function NotificacoesScreen() {
-  const [refreshing, setRefreshing] = React.useState(false);
-  const [notifs, setNotifs] = useState<Notif[]>(NOTIFS);
-  const scrollY = useSharedValue(0);
-  const headerO = useSharedValue(0);
-  const headerY = useSharedValue(-20);
-  const listO = useSharedValue(0);
-  const listY = useSharedValue(24);
-  const pullO = useSharedValue(0);
-  const pullScale = useSharedValue(0.5);
-  const pullRotate = useSharedValue(0);
+  const [visitedTabs, setVisitedTabs] = useState<string[]>(["notificacoes"]);
+  const [tab, setTab] = useState<string>("notificacoes");
 
   const TABS = [
     { value: "notificacoes", label: "Notificações", icon: "Bell" },
     { value: "recargas", label: "Recargas", icon: "Zap" },
   ] as Tabs[];
-
-  const [tab, setTab] = useState<string>("notificacoes");
-
-  useEffect(() => {
-    headerO.value = withDelay(80, withTiming(1, { duration: 400 }));
-    headerY.value = withDelay(
-      80,
-      withTiming(0, { duration: 500, easing: Easing.out(Easing.ease) }),
-    );
-    listO.value = withDelay(200, withTiming(1, { duration: 500 }));
-    listY.value = withDelay(
-      200,
-      withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
-    );
-  }, []);
-
-  // const headerStyle = useAnimatedStyle(() => ({
-  //   opacity: headerO.value,
-  //   transform: [{ translateY: headerY.value }],
-  // }));
-
-  // const listStyle = useAnimatedStyle(() => ({
-  //   opacity: listO.value,
-  //   transform: [{ translateY: listY.value }],
-  // }));
-  // const headerGlowStyle = useAnimatedStyle(() => {
-  //   const glow = interpolate(
-  //     scrollY.value,
-  //     [-100, 0, 40],
-  //     [0.6, 0, 0],
-  //     Extrapolation.CLAMP,
-  //   );
-  //   return {
-  //     opacity: glow,
-  //   };
-  // });
-
-  const pullIndicatorStyle = useAnimatedStyle(() => {
-    const showPull = interpolate(
-      scrollY.value,
-      [-80, -20, 0],
-      [1, 0.5, 0],
-      Extrapolation.CLAMP,
-    );
-    return {
-      opacity: pullO.value * showPull,
-      transform: [
-        { scale: pullScale.value },
-        { rotate: `${pullRotate.value}deg` },
-      ],
-    };
-  });
-
-  // const onRefresh = useCallback(() => {
-  //   setRefreshing(true);
-  //   pullRotate.value = 0;
-  //   pullRotate.value = withTiming(360, {
-  //     duration: 1000,
-  //     easing: Easing.linear,
-  //   });
-  //   pullScale.value = withSequence(
-  //     withSpring(1.1, { damping: 12 }),
-  //     withTiming(1, { duration: 300 }),
-  //   );
-  //   setTimeout(() => {
-  //     setRefreshing(false);
-  //     pullO.value = withTiming(0, { duration: 300 });
-  //     pullScale.value = withTiming(0.5, { duration: 300 });
-  //   }, 1200);
-  // }, []);
-
-  // const handleScroll = (event: any) => {
-  //   const y = event.nativeEvent.contentOffset.y;
-  //   scrollY.value = y;
-  //   if (y < 0 && !refreshing) {
-  //     pullO.value = withTiming(1, { duration: 200 });
-  //     const stretch = Math.min(Math.abs(y), 100);
-  //     pullScale.value = withTiming(0.5 + (stretch / 100) * 0.6, {
-  //       duration: 100,
-  //     });
-  //   }
-  // };
-
-  // const unread = notifs.filter((n) => !n.read).length;
-
-  // const handleDelete = useCallback((id: string) => {
-  //   setNotifs((prev) => prev.filter((n) => n.id !== id));
-  // }, []);
-
-  // const handleOpen = useCallback((id: string) => {
-  //   // router.push(`/notif/${id}`);
-  // }, []);
 
   return (
     <BackgroundGradient>
@@ -306,17 +192,31 @@ export default function NotificacoesScreen() {
           items={TABS}
           value={tab}
           onPress={(e) => {
-            console.log(e);
             setTab(e);
+            setVisitedTabs((previous) =>
+              previous.includes(e) ? previous : [...previous, e],
+            );
           }}
         />
-        {tab === "notificacoes" && (
-          <View style={{ flex: 1, marginTop: 50 }}>
+        {visitedTabs.includes("notificacoes") && (
+          <View
+            style={{
+              flex: 1,
+              marginTop: 50,
+              display: tab === "notificacoes" ? "flex" : "none",
+            }}
+          >
             <Notifications />
           </View>
         )}
-        {tab === "recargas" && (
-          <View style={{ marginTop: 50 }}>
+        {visitedTabs.includes("recargas") && (
+          <View
+            style={{
+              flex: 1,
+              marginTop: 50,
+              display: tab === "recargas" ? "flex" : "none",
+            }}
+          >
             <Recharges />
           </View>
         )}
@@ -327,207 +227,4 @@ export default function NotificacoesScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, marginTop: 50 },
-  flex: { flex: 1 },
-
-  // Header
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 14,
-    paddingBottom: 14,
-    backgroundColor: C.ink50,
-    borderBottomWidth: 1,
-    borderBottomColor: C.ink200,
-  },
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  headerTitle: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: C.white,
-    fontFamily: "Inter-Bold",
-    letterSpacing: -0.3,
-  },
-  headerSubtitle: {
-    fontSize: 13,
-    color: C.ink400,
-    fontFamily: "Inter-Regular",
-    marginTop: 2,
-  },
-  headerGlow: {
-    position: "absolute",
-    bottom: -1,
-    left: 0,
-    right: 0,
-    height: 3,
-    backgroundColor: C.brand400,
-    shadowColor: C.brand400,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-  },
-  markAllBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    backgroundColor: C.ink100,
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderWidth: 1.5,
-    borderColor: C.ink200,
-  },
-  markAllText: {
-    fontSize: 12,
-    color: C.brand400,
-    fontWeight: "600",
-    fontFamily: "Inter-SemiBold",
-  },
-
-  // Pull indicator
-  pullIndicator: {
-    position: "absolute",
-    top: 130,
-    left: 0,
-    right: 0,
-    alignItems: "center",
-    zIndex: 10,
-  },
-  pullInner: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: C.ink50,
-    borderWidth: 2,
-    borderColor: C.brand400,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: C.brand500,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-
-  // Card
-  card: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: C.ink50,
-    borderRadius: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: C.ink200,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-  },
-  cardUnread: {
-    backgroundColor: C.ink100,
-  },
-  iconBox: {
-    width: 46,
-    height: 46,
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  cardBody: {
-    flex: 1,
-    marginLeft: 12,
-    marginRight: 8,
-  },
-  cardHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  unreadDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    backgroundColor: C.brand400,
-    shadowColor: C.brand400,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.6,
-    shadowRadius: 4,
-  },
-  cardTitle: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: C.white,
-    fontFamily: "Inter-Bold",
-    flexShrink: 1,
-  },
-  cardMessage: {
-    fontSize: 12,
-    color: C.ink400,
-    fontFamily: "Inter-Regular",
-    marginTop: 4,
-    lineHeight: 17,
-  },
-  dateBox: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: C.ink100,
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-    minWidth: 42,
-  },
-  dateDay: {
-    fontSize: 13,
-    fontWeight: "700",
-    color: C.ink300,
-    fontFamily: "Inter-Bold",
-    lineHeight: 15,
-  },
-  dateMonth: {
-    fontSize: 8,
-    fontWeight: "600",
-    color: C.ink500,
-    fontFamily: "Inter-SemiBold",
-    lineHeight: 10,
-  },
-  chevron: {
-    marginLeft: 6,
-  },
-
-  // End text
-  endText: {
-    textAlign: "center",
-    fontSize: 12,
-    color: C.ink500,
-    fontFamily: "Inter-SemiBold",
-    marginTop: 20,
-  },
-
-  // Swipe
-  swipeWrap: {
-    position: "relative",
-    marginBottom: 0,
-  },
-  deleteBg: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: C.error,
-    borderRadius: 0,
-    alignItems: "flex-end",
-    justifyContent: "center",
-    paddingRight: 24,
-  },
-  emptyWrap: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 60,
-    gap: 12,
-  },
-  emptyText: {
-    fontSize: 14,
-    color: C.ink500,
-    fontFamily: "Inter-SemiBold",
-  },
 });

@@ -1,34 +1,10 @@
 import RechargeCard from "@/src/components/RechargeCard";
 import SummaryCard from "@/src/components/SummaryCard";
-import { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from "react-native-reanimated";
 import { RECHARGES_MOCK } from "./RechargesDTO";
 import { rechargesStyles } from "./styles";
 
 const Recharges = () => {
-  const contentO = useSharedValue(0);
-  const contentY = useSharedValue(24);
-
-  useEffect(() => {
-    contentO.value = withDelay(100, withTiming(1, { duration: 500 }));
-    contentY.value = withDelay(
-      100,
-      withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
-    );
-  }, []);
-
-  const contentStyle = useAnimatedStyle(() => ({
-    opacity: contentO.value,
-    transform: [{ translateY: contentY.value }],
-  }));
-
   return (
     <View style={rechargesStyles.root}>
       <View style={rechargesStyles.header}>
@@ -48,7 +24,7 @@ const Recharges = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <Animated.View style={contentStyle}>
+        <View>
           <Text style={rechargesStyles.sectionTitle}>Histórico recente</Text>
           <View style={rechargesStyles.sectionView}>
             {RECHARGES_MOCK.map((recharge) => (
@@ -64,7 +40,7 @@ const Recharges = () => {
               />
             ))}
           </View>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

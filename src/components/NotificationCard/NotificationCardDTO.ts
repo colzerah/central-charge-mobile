@@ -23,7 +23,6 @@ export interface NotificationCardProps {
   day: number;
   month: string;
   read: boolean;
-  animationDelay?: number;
   onPress?: () => void;
   onDelete?: () => void;
 }
