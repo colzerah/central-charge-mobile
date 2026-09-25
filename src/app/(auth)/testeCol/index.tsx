@@ -1,42 +1,62 @@
-import { useRef } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import MapButtonSheet from "@/src/components/MapButtonSheet";
-import type { IMapButtonSheetRef } from "@/src/components/MapButtonSheet";
+import Button from "@/src/components/Button";
+import { useToast } from "@/src/providers/toast-provider";
+
 import { useAppDispatch } from "@/src/redux/store";
+import { View } from "react-native";
 
 export default function TesteCol() {
   const dispatch = useAppDispatch();
-  const sheetRef = useRef<IMapButtonSheetRef>(null);
+  const { openToast } = useToast();
+
+  const handlePressSucess = () => {
+    openToast({
+      title: "Success",
+      subTitle: "Your changes have been saved.",
+      type: "SUCCESS",
+    });
+  };
+
+  const handlePressError = () => {
+    openToast({
+      title: "Connection lost",
+      subTitle: "Something went wrong. Please try again.",
+      type: "ERROR",
+    });
+  };
+
+  const handlePressInfo = () => {
+    openToast({
+      title: "New version available",
+      subTitle: "Restart the app to update.",
+      type: "INFO",
+    });
+  };
+
+  const handlePressWarning = () => {
+    openToast({
+      title: "New version available",
+      subTitle: "Restart the app to update.",
+      type: "WARNING",
+    });
+  };
 
   return (
-    <BackgroundGradient>
-      <Pressable style={styles.trigger} onPress={() => sheetRef.current?.present()}>
-        <Text style={styles.triggerText}>Abrir cadastro</Text>
-      </Pressable>
-
-      <MapButtonSheet
-        ref={sheetRef}
-        onPrimaryPress={() => sheetRef.current?.dismiss()}
-        onSecondaryPress={() => console.log("Continue with Email")}
-        onApplePress={() => console.log("Continue with Apple")}
-        onGooglePress={() => console.log("Continue with Google")}
-      />
-    </BackgroundGradient>
+    <>
+      <BackgroundGradient>
+        <View style={{ marginBottom: 40, marginTop: 40 }}>
+          <Button title="Success" onPress={handlePressSucess} />
+        </View>
+        <View style={{ marginBottom: 40 }}>
+          <Button title="Error" onPress={handlePressError} />
+        </View>
+        <View style={{ marginBottom: 40 }}>
+          <Button title="Info" onPress={handlePressInfo} />
+        </View>
+        <View style={{ marginBottom: 40 }}>
+          <Button title="Warning" onPress={handlePressWarning} />
+        </View>
+      </BackgroundGradient>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  trigger: {
-    alignSelf: "center",
-    marginTop: 200,
-    paddingHorizontal: 24,
-    paddingVertical: 14,
-    borderRadius: 14,
-    backgroundColor: "#ffffff",
-  },
-  triggerText: {
-    fontWeight: "700",
-    color: "#111111",
-  },
-});

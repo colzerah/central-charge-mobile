@@ -1,7 +1,8 @@
 import { C } from "@/src/theme";
 import { pressableOpacity } from "@/src/utils/pressable";
 import { Lock, Mail } from "lucide-react-native";
-import { useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useRef, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import Icon from "../Icon";
 import IconBackground from "../IconBackground";
@@ -20,17 +21,28 @@ const Input = ({
   keyboardType,
   textContentType = "none",
   isDisabled,
+  isFocused,
   variant = "default",
   leftIcon,
   iconColor,
   iconBg,
 }: InputProps) => {
+  const inputRef = useRef<TextInput>(null);
   const [focused, setFocused] = useState(false);
   const [skeletonHeight, setSkeletonHeight] = useState<number | undefined>(
     undefined,
   );
   const [showPassword, setShowPassword] = useState(
     textContentType === "password" ? true : false,
+  );
+
+  // Foca o input sempre que a tela ganha foco (inclusive ao voltar para ela)
+  useFocusEffect(
+    useCallback(() => {
+      if (!isFocused || isDisabled) return;
+      const timeout = setTimeout(() => inputRef.current?.focus(), 100);
+      return () => clearTimeout(timeout);
+    }, [isFocused, isDisabled]),
   );
 
   const placeHolderText = () => {
@@ -177,6 +189,7 @@ const Input = ({
             </View>
           )}
         <TextInput
+          ref={inputRef}
           secureTextEntry={showPassword}
           editable={!isDisabled} // disabled
           enterKeyHint={enterKeyHint}

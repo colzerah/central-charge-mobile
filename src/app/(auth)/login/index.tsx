@@ -46,7 +46,7 @@ export default function Login() {
 function LoginContent() {
   const dispatch = useAppDispatch();
   const { signIn, isAuthLoading } = useAuth();
-  const { localization, allowLocationAccess } = usePermissions();
+  const { localization, camera, allowLocationAccess } = usePermissions();
   const isFocused = useIsFocused();
 
   const [email, setEmail] = useState("user@example.com");
@@ -67,8 +67,9 @@ function LoginContent() {
     getPermissions();
   }, []);
 
-  const getPermissions = () => {
-    localization();
+  const getPermissions = async () => {
+    await localization();
+    await camera();
   };
 
   const formStyle = useAnimatedStyle(() => ({
