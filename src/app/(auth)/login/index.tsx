@@ -3,6 +3,7 @@ import LogoAnimated from "@/src/components/LogoAnimated";
 import SocialButton from "@/src/components/SocialButton";
 import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
 import { usePermissions } from "@/src/hooks/usePermissions";
+import { useToast } from "@/src/hooks/useToast";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
 import { router, useIsFocused } from "expo-router";
@@ -53,6 +54,7 @@ function LoginContent() {
   const [password, setPassword] = useState("12345678");
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [passwordInvalid, setPasswordInvalid] = useState(false);
+  const { openToast } = useToast();
 
   const formO = useSharedValue(0);
   const formY = useSharedValue(30);
@@ -107,13 +109,32 @@ function LoginContent() {
   const handleLogin = async () => {
     console.log(password);
     if (!email || !password) {
-      Alert.alert(
-        "Campos obrigatórios",
-        "Preencha e-mail e senha para entrar.",
-      );
-      if (!email) setEmailInvalid(true);
+      // Alert.alert(
+      //   "Campos obrigatórios",
+      //   "Preencha e-mail e senha para entrar.",
+      // );
+      openToast({
+        title: "Campos Obrigatórios",
+        subTitle: "Preencha e-mail e senha para entrar.",
+        type: "ERROR",
+      });
+      if (!email) {
+        openToast({
+          title: "E-mail inválido",
+          subTitle: "Verifique se o e-mail está correto",
+          type: "ERROR",
+        });
+        setEmailInvalid(true);
+      }
 
-      if (!password) setPasswordInvalid(true);
+      if (!password) {
+        openToast({
+          title: "Senha inválida",
+          subTitle: "Verifique se a senha está correta",
+          type: "ERROR",
+        });
+        setPasswordInvalid(true);
+      }
       return;
     }
 

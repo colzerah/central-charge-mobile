@@ -58,7 +58,7 @@ Join our community of developers creating universal apps.
 ## A Fazer
 
 - Falta criar um utils ou funcaoi que faz a soma da distancia de onde estou até meu ponto
-- Implementar o TabNavigation na Tela de Recargas, e fazer a troca de visualçização da tela de recargas e notificação
-- Passar o botão outlined nos modais que tem 2 botões.
-- Adicionar modal de confirmação quando clicar no sair da página de menu.
-- adicionar os toast na tela de login para mostra erros de request
+- Implementar o TabNavigation na Tela de Recargas, e fazer a troca de visualçização da tela de recargas e notificação \* FEITO
+- Passar o botão outlined nos modais que tem 2 botões. \* FEITO
+- Adicionar modal de confirmação quando clicar no sair da página de menu. \* FEITO
+- adicionar os toast na tela de login para mostra erros de request \* FEITO
