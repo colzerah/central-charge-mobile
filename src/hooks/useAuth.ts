@@ -10,6 +10,8 @@ import {
   addUser,
 } from "../redux/authSlice";
 import { requestLogin, requestLoginMe } from "../service/requests/authRequests";
+import { getAuthErrorMessage } from "../utils/authError";
+
 interface SignInParams {
   login: string;
   password: string;
@@ -53,10 +55,10 @@ export function useAuth() {
       router.replace("/home");
     } catch (err) {
       console.log("Erro Login", err);
+      const errorMessage = getAuthErrorMessage(err);
       //chamaria o toast de erro
       openToast({
-        title: "Credenciais Inválidas",
-        subTitle: "Verifique email e senha",
+        ...errorMessage,
         type: "ERROR",
       });
     } finally {
