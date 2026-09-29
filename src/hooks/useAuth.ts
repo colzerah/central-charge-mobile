@@ -1,3 +1,4 @@
+import { useToast } from "@/src/hooks/useToast";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -17,6 +18,7 @@ interface SignInParams {
 export function useAuth() {
   const dispatch = useAppDispatch();
   const { isAuthLoading } = useAppSelector((state) => state.authState);
+  const { openToast } = useToast();
 
   const signIn = useCallback(async ({ login, password }: SignInParams) => {
     try {
@@ -52,6 +54,11 @@ export function useAuth() {
     } catch (err) {
       console.log("Erro Login", err);
       //chamaria o toast de erro
+      openToast({
+        title: "Credenciais Inválidas",
+        subTitle: "Verifique email e senha",
+        type: "ERROR",
+      });
     } finally {
       dispatch(addloading(false));
     }

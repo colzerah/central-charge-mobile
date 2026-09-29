@@ -118,23 +118,10 @@ function LoginContent() {
         subTitle: "Preencha e-mail e senha para entrar.",
         type: "ERROR",
       });
-      if (!email) {
-        openToast({
-          title: "E-mail inválido",
-          subTitle: "Verifique se o e-mail está correto",
-          type: "ERROR",
-        });
-        setEmailInvalid(true);
-      }
+      if (!email) setEmailInvalid(true);
 
-      if (!password) {
-        openToast({
-          title: "Senha inválida",
-          subTitle: "Verifique se a senha está correta",
-          type: "ERROR",
-        });
-        setPasswordInvalid(true);
-      }
+      if (!password) setPasswordInvalid(true);
+
       return;
     }
 
