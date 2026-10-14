@@ -5,8 +5,8 @@ interface requestLoginParams {
   password: string;
 }
 
-interface RequestLoginResponse {
-  success: true;
+export interface RequestLoginResponse {
+  success: boolean;
   message: string;
   data: {
     token: string;
@@ -21,7 +21,7 @@ interface RequestLoginResponse {
   };
 }
 
-interface RequestLoginMeResponse {
+export interface RequestLoginMeResponse {
   success: boolean;
   message: string;
   data: {
