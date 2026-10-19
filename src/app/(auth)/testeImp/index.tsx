@@ -1,5 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import ProfileAvatar from "@/src/components/ProfileAvatar";
+import ProfileCard from "@/src/components/ProfileCard";
 import { useAppDispatch } from "@/src/redux/store";
 
 import { StyleSheet, View } from "react-native";
@@ -10,9 +10,11 @@ export default function TesteImp() {
   return (
     <BackgroundGradient>
       <View style={styles.root}>
-        <ProfileAvatar
-          name="Ruan Carlos Belmiro Gomes"
-          imageURI={require("../../../../assets/images/react-logo.png")}
+        <ProfileCard
+          name="User Teste"
+          imageURI=""
+          email="teste@gmail.com"
+          premium
         />
       </View>
     </BackgroundGradient>
