@@ -9,9 +9,6 @@ export const notificationStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 14,
     paddingBottom: 14,
-    backgroundColor: C.ink50,
-    borderBottomWidth: 1,
-    borderBottomColor: C.ink200,
   },
   headerRow: {
     flexDirection: "row",

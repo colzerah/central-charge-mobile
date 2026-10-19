@@ -177,12 +177,12 @@ export const bgForType = (type: NotifType): string => {
 };
 
 export default function NotificacoesScreen() {
-  const [visitedTabs, setVisitedTabs] = useState<string[]>(["notificacoes"]);
-  const [tab, setTab] = useState<string>("notificacoes");
+  const [visitedTabs, setVisitedTabs] = useState<string[]>(["recargas"]);
+  const [tab, setTab] = useState<string>("recargas");
 
   const TABS = [
-    { value: "notificacoes", label: "Notificações", icon: "Bell" },
     { value: "recargas", label: "Recargas", icon: "Zap" },
+    { value: "notificacoes", label: "Notificações", icon: "Bell" },
   ] as Tabs[];
 
   return (
@@ -198,17 +198,6 @@ export default function NotificacoesScreen() {
             );
           }}
         />
-        {visitedTabs.includes("notificacoes") && (
-          <View
-            style={{
-              flex: 1,
-              marginTop: 50,
-              display: tab === "notificacoes" ? "flex" : "none",
-            }}
-          >
-            <Notifications />
-          </View>
-        )}
         {visitedTabs.includes("recargas") && (
           <View
             style={{
@@ -218,6 +207,17 @@ export default function NotificacoesScreen() {
             }}
           >
             <Recharges />
+          </View>
+        )}
+        {visitedTabs.includes("notificacoes") && (
+          <View
+            style={{
+              flex: 1,
+              marginTop: 50,
+              display: tab === "notificacoes" ? "flex" : "none",
+            }}
+          >
+            <Notifications />
           </View>
         )}
       </View>
