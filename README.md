@@ -64,6 +64,6 @@ Join our community of developers creating universal apps.
 - adicionar os toast na tela de login para mostra erros de request \* FEITO
 - trocar o header de notificações para ficar parecido com o de recargas. \* FEITO
 - na tela de notificações, exibir primeiro sempre o menu de recargas. \* FEITO
-- componente de avatar.
+- componente de avatar. \* FEITO
 - componente card profile.
 - criar componente de select (Procurar lib).
