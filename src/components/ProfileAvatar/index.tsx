@@ -7,7 +7,9 @@ import { styles } from "./styles";
 
 const ProfileAvatar = ({ imageURI, name }: ProfileAvatarProps) => {
   const size = 64;
+  const SIZE_AVATAR = size / 2;
   const borderWidth = 3;
+
   return (
     <View
       style={[
@@ -21,26 +23,30 @@ const ProfileAvatar = ({ imageURI, name }: ProfileAvatarProps) => {
       <GradientAvatar
         token={name}
         size={size}
-        rounding={size / 2}
+        rounding={SIZE_AVATAR}
+        style={{ backgroundColor: "red" }}
         palette={[C.brand400]}
       />
-      {!imageURI && (
-        <View style={styles.profileAvatar}>
-          <User color={C.brand400} size={32} strokeWidth={2} />
-        </View>
-      )}
-      <Image
-        source={typeof imageURI === "string" ? { uri: imageURI } : imageURI}
-        style={[
-          styles.imageStyles,
-          {
-            width: size - borderWidth * 2,
-            height: size - borderWidth * 2,
-            borderRadius: size / 2,
-          },
-        ]}
-        resizeMode="cover"
-      />
+
+      <View style={[styles.profileAvatar, { borderRadius: SIZE_AVATAR }]}>
+        {!imageURI && <User color={C.brand400} size={32} strokeWidth={2} />}
+        {imageURI && (
+          <Image
+            source={typeof imageURI === "string" ? { uri: imageURI } : imageURI}
+            style={[
+              styles.imageStyles,
+              {
+                width: 60,
+                height: 60,
+                // width: size - borderWidth * 2,
+                // height: size - borderWidth * 2,
+                borderRadius: SIZE_AVATAR,
+              },
+            ]}
+            resizeMode="cover"
+          />
+        )}
+      </View>
     </View>
   );
 };

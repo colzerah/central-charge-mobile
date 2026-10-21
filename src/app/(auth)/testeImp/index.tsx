@@ -11,9 +11,9 @@ export default function TesteImp() {
     <BackgroundGradient>
       <View style={styles.root}>
         <ProfileCard
-          name="User Teste"
-          // imageURI=""
-          imageURI={require("../../../../assets/images/react-logo.png")}
+          name="Roberto"
+          imageURI="https://dnm.nflximg.net/api/v6/s0XAg4q_jvYbSSbLvySyUsliNSg/AAAAQdGpNjgjM-EGLMKSpGta3L5C8BmTIuG4UlIJGNHfWOoOS0L4RihZkkcdmPOjKujYSDvN7PLxk9vYZR1_ME1jI7f8BFUrNQzARKVwe9tuf8Exj4S3J2dqYIvAH2NgV-CiXpkefheq3i-c_AhQKzjm_fC9Kk0.jpg?r=5f2"
+          // imageURI={require("../../../../assets/images/react-logo.png")}
           email="teste@gmail.com"
           premium
         />
