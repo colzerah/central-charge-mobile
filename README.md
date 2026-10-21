@@ -62,3 +62,5 @@ Join our community of developers creating universal apps.
 - Passar o botão outlined nos modais que tem 2 botões.
 - Adicionar modal de confirmação quando clicar no sair da página de menu.
 - adicionar os toast na tela de login para mostra erros de request
+- tela de menu colocar dados reis do usuario pegando do redux em user
+- criar componente de dropdronw para a tela de cadastro de veiculos
