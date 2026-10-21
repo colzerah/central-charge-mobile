@@ -1,14 +1,8 @@
 import { Text, View } from "react-native";
 import ProfileAvatar from "../ProfileAvatar";
 import Tag from "../Tag";
+import { ProfileCardProps } from "./ProfileCardDTO";
 import { styles } from "./styles";
-
-interface ProfileCardProps {
-  name: string;
-  imageURI: string;
-  email?: string;
-  premium?: boolean;
-}
 
 const ProfileCard = ({ name, email, imageURI, premium }: ProfileCardProps) => {
   return (

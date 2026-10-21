@@ -12,7 +12,8 @@ export default function TesteImp() {
       <View style={styles.root}>
         <ProfileCard
           name="User Teste"
-          imageURI=""
+          // imageURI=""
+          imageURI={require("../../../../assets/images/react-logo.png")}
           email="teste@gmail.com"
           premium
         />

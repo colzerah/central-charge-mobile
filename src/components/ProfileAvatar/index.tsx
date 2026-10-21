@@ -1,3 +1,5 @@
+import { C } from "@/src/theme";
+import { User } from "lucide-react-native";
 import { Image, View } from "react-native";
 import { GradientAvatar } from "../shared/ui/base/gradient-avatar";
 import { ProfileAvatarProps } from "./ProfileAvatarDTO";
@@ -16,7 +18,17 @@ const ProfileAvatar = ({ imageURI, name }: ProfileAvatarProps) => {
         },
       ]}
     >
-      <GradientAvatar token={name} size={size} rounding={size / 2} />
+      <GradientAvatar
+        token={name}
+        size={size}
+        rounding={size / 2}
+        palette={[C.brand400]}
+      />
+      {!imageURI && (
+        <View style={styles.profileAvatar}>
+          <User color={C.brand400} size={32} strokeWidth={2} />
+        </View>
+      )}
       <Image
         source={typeof imageURI === "string" ? { uri: imageURI } : imageURI}
         style={[
