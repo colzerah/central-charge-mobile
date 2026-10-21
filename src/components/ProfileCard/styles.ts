@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     marginBottom: 2,
   },
   profileTag: {
-    width: 110,
+    width: 120,
     marginTop: 2,
   },
 });

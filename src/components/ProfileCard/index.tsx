@@ -13,7 +13,7 @@ const ProfileCard = ({ name, email, imageURI, premium }: ProfileCardProps) => {
         <Text style={styles.profileEmail}>{email}</Text>
         {premium && (
           <View style={styles.profileTag}>
-            <Tag title="Membro Premium" type="warning" size="sm" dot />
+            <Tag title="Membro Premium" type="warning" size="sm" zap />
           </View>
         )}
       </View>

@@ -1,7 +1,8 @@
 import { C } from "@/src/theme";
+import { Zap } from "lucide-react-native";
 import { Text, View } from "react-native";
 import { styles } from "./styles";
-import { TagProps } from "./TagDTO";
+import type { TagProps } from "./TagDTO";
 
 //padronizar com o button
 
@@ -11,6 +12,7 @@ const Tag = ({
   size = "sm",
   border,
   dot,
+  zap,
 }: TagProps) => {
   const typeMap = {
     default: C.brand400,
@@ -46,7 +48,11 @@ const Tag = ({
         },
       ]}
     >
-      {dot && <View style={[styles.dot, { backgroundColor: textColor }]} />}
+      {dot ? (
+        <View style={[styles.dot, { backgroundColor: textColor }]} />
+      ) : zap ? (
+        <Zap color={textColor} size={12} strokeWidth={2} fill={textColor} />
+      ) : null}
       <Text
         style={[styles.text, { color: textColor, fontSize: fontSize[size] }]}
       >
