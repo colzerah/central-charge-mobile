@@ -65,5 +65,7 @@ Join our community of developers creating universal apps.
 - trocar o header de notificações para ficar parecido com o de recargas. \* FEITO
 - na tela de notificações, exibir primeiro sempre o menu de recargas. \* FEITO
 - componente de avatar. \* FEITO
-- componente card profile.
+- componente card profile. \* FEITO
+- arrumar o value(tem que ser numérico) de summarycard. (quebrando o escopo), maximo de caracteres.
+- criar tela de criar conta.
 - criar componente de select (Procurar lib).

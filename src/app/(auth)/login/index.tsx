@@ -285,9 +285,7 @@ function LoginContent() {
                         variant="link"
                         size="sm"
                         w={84}
-                        onPress={() =>
-                          Alert.alert("Cadastro", "Tela de cadastro")
-                        }
+                        onPress={() => router.navigate("./criarConta")}
                       />
                     </View>
                   </Skeleton>
