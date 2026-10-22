@@ -61,6 +61,18 @@ export default function AppLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="pin-detalhes"
+        options={{
+          headerShown: true,
+          header: () => (
+            <Header
+              title="Detalhes da estação"
+              // subtitle="Adicione um carro à sua conta"
+            />
+          ),
+        }}
+      />
     </Stack>
   );
 }

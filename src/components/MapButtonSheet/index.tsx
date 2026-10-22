@@ -13,7 +13,7 @@ import {
   useRef,
 } from "react";
 
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -162,6 +162,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
                 titleKw={"60.0 kW"}
                 plugName={item.plugName}
                 plugStatus={item.status}
+                borderActive
               />
             ))}
           </View>
@@ -180,6 +181,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
               w={164}
               size="sm"
               iconRight="ArrowBigRight"
+              onPress={() => router.navigate("/pin-detalhes")}
             />
           </View>
         </BottomSheetView>

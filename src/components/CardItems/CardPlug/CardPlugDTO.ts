@@ -2,7 +2,7 @@ export interface CardPlugProps {
   title: string;
   titleSmall: string;
   titleKw: string;
-  plugName:
+  plugName?:
     | "CEE-BLAU"
     | "CEE-ROOT"
     | "CHADEMO"
@@ -12,5 +12,6 @@ export interface CardPlugProps {
     | "TYP1-CSS"
     | "TYP1"
     | "TYP2";
-  plugStatus: "BROKEN" | "AVAILABLE" | "OCCUPIED";
+  plugStatus?: "BROKEN" | "AVAILABLE" | "OCCUPIED";
+  borderActive?: boolean;
 }
