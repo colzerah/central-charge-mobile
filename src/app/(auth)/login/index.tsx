@@ -194,7 +194,10 @@ function LoginContent() {
                     textContentType="emailAddress"
                     keyboardType="email-address"
                     value={email}
-                    onChange={setEmail}
+                    onChange={(t) => {
+                      setEmail(t);
+                      setEmailInvalid(false);
+                    }}
                     isInvalid={emailInvalid}
                   />
                 </Skeleton>
@@ -203,7 +206,10 @@ function LoginContent() {
                     label="Senha"
                     textContentType="password"
                     value={password}
-                    onChange={setPassword}
+                    onChange={(t) => {
+                      setPassword(t);
+                      setPasswordInvalid(false);
+                    }}
                     isInvalid={passwordInvalid}
                   />
                 </Skeleton>
