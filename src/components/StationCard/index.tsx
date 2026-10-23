@@ -15,9 +15,9 @@ const StationCard = ({
   };
 
   const labelStatus = {
-    BROKEN: "Disponível",
-    AVAILABLE: "Ocupado",
-    OCCUPIED: "Indisponível",
+    BROKEN: "Indisponível",
+    AVAILABLE: "Disponível",
+    OCCUPIED: "Ocupado",
   };
 
   return (

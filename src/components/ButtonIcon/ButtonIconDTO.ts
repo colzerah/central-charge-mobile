@@ -6,5 +6,6 @@ export interface ButtonIconProps {
   square?: boolean;
   variant?: "solid" | "outline";
   icon: keyof typeof icons;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
+  border?: boolean;
 }
