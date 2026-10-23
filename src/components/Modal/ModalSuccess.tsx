@@ -32,7 +32,12 @@ const ModalSuccess = ({
       <View style={modalStyles.viewButton}>
         <View style={modalStyles.viewRow}>
           <Dialog.Close asChild>
-            <Button title={titleButtonCancel} w={140} colorScheme="success" />
+            <Button
+              title={titleButtonCancel}
+              w={140}
+              colorScheme="success"
+              variant="outline"
+            />
           </Dialog.Close>
           <Button
             title={titleButton}

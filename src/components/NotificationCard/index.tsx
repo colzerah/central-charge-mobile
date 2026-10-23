@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -16,7 +15,7 @@ import DateBadge from "@/src/components/DateBadge";
 import IconBackground from "@/src/components/IconBackground";
 import { C } from "@/src/theme";
 
-import { getNotificationIconBackground } from "./utils";
+import { getIconColor, getNotificationIconBackground } from "./utils";
 
 import { getNotificationIcon } from "./utils";
 
@@ -34,34 +33,13 @@ const NotificationCard = ({
   read,
   onPress,
   onDelete,
-  animationDelay = 0,
 }: NotificationCardProps) => {
-  const cardOpacity = useSharedValue(0);
-  const cardTranslateY = useSharedValue(30);
-
   const pressed = useSharedValue(0);
 
   const translateX = useSharedValue(0);
   const deleteOpacity = useSharedValue(0);
 
   const itemHeight = useSharedValue(1);
-
-  // Animação de entrada
-  useEffect(() => {
-    cardOpacity.value = withDelay(
-      animationDelay,
-      withTiming(1, {
-        duration: 400,
-      }),
-    );
-
-    cardTranslateY.value = withDelay(
-      animationDelay,
-      withTiming(0, {
-        duration: 500,
-      }),
-    );
-  }, [animationDelay]);
 
   // Gesture de swipe
   const panGesture = Gesture.Pan()
@@ -106,18 +84,6 @@ const NotificationCard = ({
         duration: 200,
       });
     });
-
-  // Animação do card
-
-  const cardStyle = useAnimatedStyle(() => ({
-    opacity: cardOpacity.value,
-
-    transform: [
-      {
-        translateY: cardTranslateY.value,
-      },
-    ],
-  }));
 
   // Movimento horizontal
   const swipeStyle = useAnimatedStyle(() => ({
@@ -194,7 +160,7 @@ const NotificationCard = ({
 
         <GestureDetector gesture={panGesture}>
           <Animated.View style={swipeStyle}>
-            <Animated.View style={cardStyle}>
+            <View>
               <Pressable
                 onPress={onPress}
                 onPressIn={handlePressIn}
@@ -207,7 +173,7 @@ const NotificationCard = ({
                     icon={getNotificationIcon(type)}
                     size="md"
                     backgroundColor={getNotificationIconBackground(type)}
-                    iconColor={C.brand400}
+                    iconColor={getIconColor(type)}
                   />
                 </Animated.View>
 
@@ -234,7 +200,7 @@ const NotificationCard = ({
                   <Icon name="ChevronRight" color={C.ink400} size={18} />
                 </View>
               </Pressable>
-            </Animated.View>
+            </View>
           </Animated.View>
         </GestureDetector>
       </View>

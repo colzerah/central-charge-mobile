@@ -1,42 +1,22 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import TabNavigation from "@/src/components/TabNavigation/";
-import { Tabs } from "@/src/components/TabNavigation/TabNavigationDTO";
+import ProfileCard from "@/src/components/ProfileCard";
 import { useAppDispatch } from "@/src/redux/store";
-import { useState } from "react";
-import { Text } from "react-native";
 
 import { StyleSheet, View } from "react-native";
 
 export default function TesteImp() {
   const dispatch = useAppDispatch();
 
-  const TABS = [
-    { value: "recargas", label: "Recargas", icon: "Zap" },
-    { value: "notificacoes", label: "Notificações", icon: "Bell" },
-  ] as Tabs[];
-
-  const [tab, setTab] = useState<string>("recargas");
   return (
     <BackgroundGradient>
       <View style={styles.root}>
-        <TabNavigation
-          items={TABS}
-          value={tab}
-          onPress={(e) => {
-            console.log(e);
-            setTab(e);
-          }}
+        <ProfileCard
+          name="Roberto"
+          imageURI="https://dnm.nflximg.net/api/v6/s0XAg4q_jvYbSSbLvySyUsliNSg/AAAAQdGpNjgjM-EGLMKSpGta3L5C8BmTIuG4UlIJGNHfWOoOS0L4RihZkkcdmPOjKujYSDvN7PLxk9vYZR1_ME1jI7f8BFUrNQzARKVwe9tuf8Exj4S3J2dqYIvAH2NgV-CiXpkefheq3i-c_AhQKzjm_fC9Kk0.jpg?r=5f2"
+          // imageURI={require("../../../../assets/images/react-logo.png")}
+          email="teste@gmail.com"
+          premium
         />
-        {tab === "recargas" && (
-          <View>
-            <Text style={{ color: "white" }}>Tela de Recargas</Text>
-          </View>
-        )}
-        {tab === "notificacoes" && (
-          <View>
-            <Text style={{ color: "white" }}>Tela de Notificações</Text>
-          </View>
-        )}
       </View>
     </BackgroundGradient>
   );
@@ -49,6 +29,6 @@ const styles = StyleSheet.create({
     // flexDirection: "column",
     // alignItems: "center",
     // justifyContent: "center",
-    gap: 10,
+    gap: 50,
   },
 });

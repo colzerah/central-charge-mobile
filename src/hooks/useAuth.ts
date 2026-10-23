@@ -1,3 +1,4 @@
+import { useToast } from "@/src/hooks/useToast";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -8,7 +9,16 @@ import {
   addlogout,
   addUser,
 } from "../redux/authSlice";
-import { requestLogin, requestLoginMe } from "../service/requests/authRequests";
+import {
+  requestLogin,
+  requestLoginMe,
+  RequestLoginMeResponse,
+  RequestLoginResponse,
+} from "../service/requests/authRequests";
+import { getAuthErrorMessage } from "../utils/authError";
+import { LOCALHOST } from "../utils/env";
+import { userMeMock, userMock } from "../utils/mocks";
+
 interface SignInParams {
   login: string;
   password: string;
@@ -17,14 +27,22 @@ interface SignInParams {
 export function useAuth() {
   const dispatch = useAppDispatch();
   const { isAuthLoading } = useAppSelector((state) => state.authState);
+  const { openToast } = useToast();
 
   const signIn = useCallback(async ({ login, password }: SignInParams) => {
     try {
       dispatch(addloading(true));
-      const response = await requestLogin({
-        email: login,
-        password: password,
-      });
+      let response: RequestLoginResponse | null = null;
+      if (LOCALHOST) {
+        console.log(1, "aqui faço as tratativas para o localhost");
+        response = userMock;
+      } else {
+        console.log(2, "CAIU AQUI");
+        response = await requestLogin({
+          email: login,
+          password: password,
+        });
+      }
 
       if (!response.success) {
         //mensagem que vai ser enviada para a mensagem de erro no catch para ser usado no toast
@@ -32,7 +50,12 @@ export function useAuth() {
       }
 
       await AsyncStorage.setItem("@token", response.data.token);
-      const responseMe = await requestLoginMe();
+      let responseMe: RequestLoginMeResponse | null = null;
+      if (LOCALHOST) {
+        responseMe = userMeMock;
+      } else {
+        responseMe = await requestLoginMe();
+      }
       const { id, name, email, created_at } = responseMe.data;
 
       dispatch(
@@ -51,7 +74,12 @@ export function useAuth() {
       router.replace("/home");
     } catch (err) {
       console.log("Erro Login", err);
+      const errorMessage = getAuthErrorMessage(err);
       //chamaria o toast de erro
+      openToast({
+        ...errorMessage,
+        type: "ERROR",
+      });
     } finally {
       dispatch(addloading(false));
     }

@@ -162,7 +162,16 @@ export default function Menu() {
                 items={MENU_SUPORTE}
                 onPress={(e) => {
                   if (e === "Sair da conta") {
-                    signOut();
+                    openModal({
+                      title: "Realmente deseja sair do aplicativo?",
+                      type: "SUCCESS",
+                      titleButton: "Sim",
+                      // titleButtonCancel: "Não",
+                      onPress: () => {
+                        closeModal();
+                        signOut();
+                      },
+                    });
                   }
                 }}
               />

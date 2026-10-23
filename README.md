@@ -64,3 +64,14 @@ Join our community of developers creating universal apps.
 - adicionar os toast na tela de login para mostra erros de request
 - tela de menu colocar dados reis do usuario pegando do redux em user
 - criar componente de dropdronw para a tela de cadastro de veiculos
+- Implementar o TabNavigation na Tela de Recargas, e fazer a troca de visualçização da tela de recargas e notificação \* FEITO
+- Passar o botão outlined nos modais que tem 2 botões. \* FEITO
+- Adicionar modal de confirmação quando clicar no sair da página de menu. \* FEITO
+- adicionar os toast na tela de login para mostra erros de request \* FEITO
+- trocar o header de notificações para ficar parecido com o de recargas. \* FEITO
+- na tela de notificações, exibir primeiro sempre o menu de recargas. \* FEITO
+- componente de avatar. \* FEITO
+- componente card profile. \* FEITO
+- arrumar o value(tem que ser numérico) de summarycard. (quebrando o escopo), maximo de caracteres.
+- criar tela de criar conta.
+- criar componente de select (Procurar lib).

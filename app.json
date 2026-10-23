@@ -57,6 +57,14 @@
           "recordAudioAndroid": false,
           "barcodeScannerEnabled": true
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permitir que o $(PRODUCT_NAME) acesse suas fotos para definir sua foto de perfil.",
+          "cameraPermission": "Permitir que o $(PRODUCT_NAME) acesse sua câmera para tirar uma foto de perfil.",
+          "microphonePermission": false
+        }
       ]
     ],
     "experiments": {
