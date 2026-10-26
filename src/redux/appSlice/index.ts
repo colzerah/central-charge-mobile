@@ -1,9 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { MarketsInterface } from "@/src/app/(app)/(tabs)/home";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState } from "~/dtos/appSliceDTO";
 
 const initialState: AppState = {
   home: {
     listPins: [],
+    values: {
+      pinSelected: null,
+    },
   },
   notifications: {
     listNotifications: [],
@@ -13,9 +17,16 @@ const initialState: AppState = {
 const app = createSlice({
   name: "appState",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    addPinSelected: (
+      state,
+      action: PayloadAction<MarketsInterface | undefined>,
+    ) => {
+      state.home.values.pinSelected = action.payload ? action.payload : null;
+    },
+  },
 });
 
-export const {} = app.actions;
+export const { addPinSelected } = app.actions;
 
 export default app.reducer;

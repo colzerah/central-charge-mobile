@@ -1,5 +1,9 @@
+import { ANIMATION_DURATION, ANIMATION_EASING } from "@gorhom/bottom-sheet";
 import { useEffect } from "react";
 import Animated, {
+  Extrapolation,
+  interpolate,
+  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -8,24 +12,56 @@ import { Marker, MapMarkerProps } from "react-native-maps";
 import MapPin from ".";
 import { MapPinProps } from "./MapPinDTO";
 
+const SELECTED_SCALE = 1.25;
+
 type AnimatedMapMarkerProps = MapMarkerProps &
   MapPinProps & {
     selected?: boolean;
+    // animatedIndex do sheet (-1 fechado, 0 aberto): o pin cresce e encolhe
+    // no mesmo frame que o sheet abre e fecha
+    sheetAnimatedIndex?: SharedValue<number>;
   };
 
 const AnimatedMapMarker = ({
   variant,
   selected = false,
+  sheetAnimatedIndex,
   ...markerProps
 }: AnimatedMapMarkerProps) => {
-  const scale = useSharedValue(selected ? 1.25 : 1);
+  const selectedProgress = useSharedValue(selected ? 1 : 0);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    const sheetProgress = sheetAnimatedIndex
+      ? interpolate(
+          sheetAnimatedIndex.value,
+          [-1, 0],
+          [0, 1],
+          Extrapolation.CLAMP,
+        )
+      : 1;
+
+    return {
+      transform: [
+        {
+          scale:
+            1 + (SELECTED_SCALE - 1) * selectedProgress.value * sheetProgress,
+        },
+      ],
+    };
+  });
 
   useEffect(() => {
-    scale.value = withTiming(selected ? 1.25 : 1, { duration: 180 });
+    const target = selected ? 1 : 0;
+    const isSheetOpen = !sheetAnimatedIndex || sheetAnimatedIndex.value > -1;
+
+    // com o sheet fechado quem anima é o sheetProgress, então só troca o
+    // valor; com o sheet aberto (troca de pin) anima no mesmo tempo do sheet
+    selectedProgress.value = isSheetOpen
+      ? withTiming(target, {
+          duration: ANIMATION_DURATION,
+          easing: ANIMATION_EASING,
+        })
+      : target;
   }, [selected]);
 
   return (

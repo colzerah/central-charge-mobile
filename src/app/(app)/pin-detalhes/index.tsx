@@ -7,7 +7,7 @@ import Icon from "@/src/components/Icon";
 import StationCard from "@/src/components/StationCard";
 import SummaryCard from "@/src/components/SummaryCard";
 import TimeTable from "@/src/components/TimeTable";
-import { TimeTableItemProps } from "@/src/components/TimeTable/TimeTableDTO";
+import { useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
 import {
   Pressable,
@@ -18,117 +18,52 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-const MOCKPLUGS = [
-  { id: 1, title: "ISO 167", titleSmall: "CCS2", titleKw: "250 kW" },
-  { id: 2, title: "ISO 168", titleSmall: "Type 2", titleKw: "43 kW" },
-];
-
-export const MOCKTIMETABLE: TimeTableItemProps[] = [
-  {
-    days: "MONDAY",
-    hours: "08:00 às 22:00",
-  },
-  {
-    days: "TUESDAY",
-    hours: "08:00 às 22:00",
-  },
-  {
-    days: "WEDNESDAY",
-    hours: "08:00 às 22:00",
-  },
-  {
-    days: "TUESDAY",
-    hours: "08:00 às 22:00",
-  },
-  {
-    days: "WEDNESDAY",
-    hours: "08:00 às 22:00",
-  },
-  {
-    days: "TUESDAY",
-    hours: "08:00 às 22:00",
-  },
-  {
-    days: "WEDNESDAY",
-    hours: "08:00 às 22:00",
-  },
-];
-
 export default function PinDetalhes() {
   const { height, width } = useWindowDimensions();
+  const { values } = useAppSelector((state) => state.appState.home);
 
   return (
     <BackgroundGradient>
       <ScrollView
-        style={{ marginHorizontal: 14 }}
+        style={pinDetailStyles.container}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ marginTop: 14 }}>
-          <StationCard title={"Estacao do sul"} type="AVAILABLE" />
+        <View style={pinDetailStyles.viewStation}>
+          <StationCard title={values.pinSelected?.name!} type="AVAILABLE" />
         </View>
-        <View
-          style={{
-            marginTop: 14,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <SummaryCard icon="Zap" value="250" label="kW máx" />
-          <SummaryCard icon="Navigation" value="1.5" label="km" />
-          <SummaryCard icon="Star" value="0.92" label="R$/kWh" />
+        <View style={pinDetailStyles.viewSummary}>
+          <SummaryCard
+            icon="Zap"
+            value={values.pinSelected?.kwhmax!}
+            label="kW máx"
+          />
+          <SummaryCard icon="Navigation" value={1.5} label="km" />
+          <SummaryCard
+            icon="Star"
+            value={values.pinSelected?.r$kwh!}
+            label="R$/kWh"
+          />
         </View>
-        <View style={{ marginTop: 24, marginBottom: 8 }}>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: "700",
-              color: C.brand400,
-              fontFamily: "Inter-Bold",
-              letterSpacing: 0.5,
-            }}
-          >
-            PLUGS DISPONÍVEIS
-          </Text>
+        <View style={pinDetailStyles.section}>
+          <Text style={pinDetailStyles.title}>PLUGS DISPONÍVEIS</Text>
         </View>
-        <View style={{ flexDirection: "row", gap: 12 }}>
-          {MOCKPLUGS.map((plug) => (
+        <View style={pinDetailStyles.viewPlug}>
+          {values.pinSelected?.plugs.map((plug) => (
             <CardPlug
               key={plug.id}
               title={plug.title}
               titleSmall={plug.titleSmall}
-              titleKw={plug.titleKw}
+              titleKw={`${plug.kw} kW`}
             />
           ))}
         </View>
-        <View style={{ marginTop: 24, marginBottom: 8 }}>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: "700",
-              color: C.brand400,
-              fontFamily: "Inter-Bold",
-              letterSpacing: 0.5,
-            }}
-          >
-            ENDEREÇO
-          </Text>
+        <View style={pinDetailStyles.section}>
+          <Text style={pinDetailStyles.title}>ENDEREÇO</Text>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            // justifyContent: "center",
-            gap: 8,
-          }}
-        >
-          <View
-            style={{
-              // flex: 10,
-              width: "80%",
-            }}
-          >
+        <View style={pinDetailStyles.viewCardInfo}>
+          <View style={pinDetailStyles.viewCardInfoContent}>
             <CardInfo
-              description="Setor Comercial Sul, EQ 8/12, Asa Sul, Brasília - DF"
+              description={values.pinSelected?.adress!}
               iconName="MapPinned"
             />
           </View>
@@ -141,40 +76,20 @@ export default function PinDetalhes() {
             />
           </View>
         </View>
-        <View style={{ marginTop: 24, marginBottom: 8 }}>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: "700",
-              color: C.brand400,
-              fontFamily: "Inter-Bold",
-              letterSpacing: 0.5,
-            }}
-          >
-            SUPORTE TÉCNICO
-          </Text>
+        <View style={pinDetailStyles.section}>
+          <Text style={pinDetailStyles.title}>SUPORTE TÉCNICO</Text>
         </View>
         <View>
           <CardInfo
             iconName="Phone"
-            description="0800 500 5000"
+            description={values.pinSelected?.supportNumber!}
             onPress={() => console.log("press telefone")}
           />
         </View>
-        <View style={{ marginTop: 8 }}>
+        <View style={pinDetailStyles.viewPressError}>
           <Pressable
             style={({ pressed }) => [
-              {
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 8,
-                backgroundColor: C.error + "15",
-                borderRadius: 14,
-                borderWidth: 1.5,
-                borderColor: C.error + "40",
-                paddingHorizontal: 14,
-                paddingVertical: 12,
-              },
+              pinDetailStyles.pressableError,
               { opacity: pressed ? 0.5 : 1 },
             ]}
           >
@@ -184,42 +99,16 @@ export default function PinDetalhes() {
               size={18}
               strokeWidth={2.2}
             />
-            <Text
-              style={{
-                fontSize: 14,
-                color: C.error,
-                fontWeight: "600",
-                fontFamily: "Inter-SemiBold",
-              }}
-            >
-              Relatar um problemas
-            </Text>
+            <Text style={pinDetailStyles.titleError}>Relatar um problemas</Text>
           </Pressable>
         </View>
-        <View style={{ marginTop: 24, marginBottom: 8 }}>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: "700",
-              color: C.brand400,
-              fontFamily: "Inter-Bold",
-              letterSpacing: 0.5,
-            }}
-          >
-            HÓRARIOS DE FUNCIONAMENTO
-          </Text>
+        <View style={pinDetailStyles.section}>
+          <Text style={pinDetailStyles.title}>HÓRARIOS DE FUNCIONAMENTO</Text>
         </View>
         <View>
-          <TimeTable items={MOCKTIMETABLE} />
+          <TimeTable items={values.pinSelected?.schedules!} />
         </View>
-        <View
-          style={{
-            height: height * 0.3,
-            flexDirection: "row",
-            marginTop: 30,
-            justifyContent: "space-between",
-          }}
-        >
+        <View style={[pinDetailStyles.viewButton, { height: height * 0.3 }]}>
           <View>
             <Button
               title={"Escaneiar QR Code"}
@@ -238,5 +127,59 @@ export default function PinDetalhes() {
 }
 
 const pinDetailStyles = StyleSheet.create({
-  flex: { flex: 1 },
+  container: { marginHorizontal: 14 },
+  viewStation: { marginTop: 14 },
+  viewSummary: {
+    marginTop: 14,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  section: {
+    marginTop: 24,
+    marginBottom: 8,
+  },
+  viewPlug: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  viewCardInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  viewCardInfoContent: {
+    width: "80%",
+  },
+  viewButton: {
+    flexDirection: "row",
+    marginTop: 30,
+    justifyContent: "space-between",
+  },
+  viewPressError: {
+    marginTop: 8,
+  },
+  pressableError: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: C.error + "15",
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: C.error + "40",
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  titleError: {
+    fontSize: 14,
+    color: C.error,
+    fontWeight: "600",
+    fontFamily: "Inter-SemiBold",
+  },
+  title: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: C.brand400,
+    fontFamily: "Inter-Bold",
+    letterSpacing: 0.5,
+  },
 });
