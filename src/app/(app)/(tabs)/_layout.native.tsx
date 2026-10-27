@@ -24,9 +24,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="recharges"
+        name="favorites"
         options={{
-          title: "Recargas",
+          title: "Favoritos",
           tabBarIcon: ({ focused }) => (
             <Zap size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),

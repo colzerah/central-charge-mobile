@@ -345,7 +345,12 @@ const MaskedTabBarList: React.FC<IMaskedTabBarList> &
           }
 
           const tapped = boxAtX(boxesValue.value, e.x);
-          if (tapped) scheduleOnRN(setValue, tapped.value);
+          if (!tapped) return;
+          // Move the pill on the UI thread right away instead of waiting for
+          // the React re-render, so heavy content swaps can't delay it.
+          pillX.value = withSpring(tapped.x, PILL_SPRING);
+          pillWidth.value = withSpring(tapped.width, PILL_SPRING);
+          scheduleOnRN(setValue, tapped.value);
         })
         .onUpdate((e) => {
           if (!grabbed.value) return;

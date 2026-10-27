@@ -159,7 +159,7 @@ const Notifications = () => {
       <ScrollView
         style={{}}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
+        // contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
         onScroll={handleScroll}
         scrollEventThrottle={16}
         refreshControl={

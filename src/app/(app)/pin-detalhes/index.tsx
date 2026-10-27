@@ -9,6 +9,7 @@ import SummaryCard from "@/src/components/SummaryCard";
 import TimeTable from "@/src/components/TimeTable";
 import { useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
+import { useRouter } from "expo-router";
 import {
   Pressable,
   StyleSheet,
@@ -19,6 +20,7 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function PinDetalhes() {
+  const router = useRouter();
   const { height, width } = useWindowDimensions();
   const { values } = useAppSelector((state) => state.appState.home);
 
@@ -111,10 +113,11 @@ export default function PinDetalhes() {
         <View style={[pinDetailStyles.viewButton, { height: height * 0.3 }]}>
           <View>
             <Button
-              title={"Escaneiar QR Code"}
+              title={"Escanear QR Code"}
               iconLeft="QrCode"
               size="lg"
               w={310}
+              onPress={() => router.navigate("./scan")}
             />
           </View>
           <View>
