@@ -2,13 +2,10 @@ import { C } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
 export const notificationStyles = StyleSheet.create({
-  root: { flex: 1 },
-  flex: { flex: 1 },
-
   header: {
     paddingHorizontal: 20,
-    paddingTop: 14,
-    paddingBottom: 14,
+    paddingTop: 16,
+    paddingBottom: 12,
   },
   headerRow: {
     flexDirection: "row",
@@ -16,17 +13,16 @@ export const notificationStyles = StyleSheet.create({
     alignItems: "center",
   },
   headerTitle: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: "700",
     color: C.white,
     fontFamily: "Inter-Bold",
-    letterSpacing: -0.3,
   },
   headerSubtitle: {
-    fontSize: 13,
+    fontSize: 14,
     color: C.ink400,
     fontFamily: "Inter-Regular",
-    marginTop: 2,
+    marginTop: 4,
   },
   headerGlow: {
     position: "absolute",

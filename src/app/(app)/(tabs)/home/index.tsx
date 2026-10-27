@@ -5,11 +5,14 @@ import {
   Plugs,
 } from "@/src/components/MapButtonSheet/MapButtronSheetDTO";
 import AnimatedMapMarker from "@/src/components/MapPin/AnimatedMapMarker";
+import { TimeTableItemProps } from "@/src/components/TimeTable/TimeTableDTO";
 import { useCoordinates } from "@/src/hooks/useCoordinates";
+import { addPinSelected } from "@/src/redux/appSlice";
+import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
 import { pressableOpacity } from "@/src/utils/pressable";
 import { LocateFixed } from "lucide-react-native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import MapView, { MarkerPressEvent, PROVIDER_DEFAULT } from "react-native-maps";
 import Animated, {
@@ -21,6 +24,10 @@ export interface MarketsInterface {
   id: number;
   name: string;
   adress: string;
+  supportNumber: string;
+  r$kwh: number;
+  kwhmax: number;
+  schedules: TimeTableItemProps[];
   variant: "BROKEN" | "AVAILABLE" | "OCCUPIED";
   coordinate: {
     latitude: number;
@@ -36,7 +43,40 @@ const mockMarkets = [
     name: "Post Ipiranga · Ceilândia",
     adress: "QNN 22, Ceilândia Sul",
     variant: "BROKEN",
+    r$kwh: 0.23,
+    kwhmax: 110,
+    supportNumber: "0800 500 5000",
     qtdPlugs: 2,
+    schedules: [
+      {
+        days: "MONDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "WEDNESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "WEDNESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "WEDNESDAY",
+        hours: "08:00 às 22:00",
+      },
+    ],
     coordinate: {
       latitude: -15.829452,
       longitude: -48.107312,
@@ -48,6 +88,7 @@ const mockMarkets = [
         title: "ISO 8000",
         plugName: "TESLA-S",
         status: "BROKEN",
+        kw: 20,
       },
       {
         id: 2,
@@ -55,6 +96,7 @@ const mockMarkets = [
         title: "ISO 8000",
         plugName: "TESLA-S",
         status: "BROKEN",
+        kw: 30,
       },
     ],
   },
@@ -65,6 +107,9 @@ const mockMarkets = [
     distance: "1.2",
     qndPlugs: 1,
     variant: "AVAILABLE",
+    r$kwh: 0.43,
+    kwhmax: 120,
+    supportNumber: "0800 501 5001",
     coordinate: {
       latitude: -15.836911,
       longitude: -48.113987,
@@ -77,6 +122,17 @@ const mockMarkets = [
         title: "ISO 167",
         plugName: "CSS",
         status: "AVAILABLE",
+        kw: 30,
+      },
+    ],
+    schedules: [
+      {
+        days: "MONDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
       },
     ],
   },
@@ -89,6 +145,9 @@ const mockMarkets = [
       latitude: -15.831204,
       longitude: -48.116842,
     },
+    r$kwh: 0.63,
+    kwhmax: 140,
+    supportNumber: "0800 502 5002",
     qtdPlugs: 1,
     plugs: [
       {
@@ -97,6 +156,21 @@ const mockMarkets = [
         title: "ISO 167",
         plugName: "TYP1",
         status: "OCCUPIED",
+        kw: 40,
+      },
+    ],
+    schedules: [
+      {
+        days: "MONDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "WEDNESDAY",
+        hours: "08:00 às 22:00",
       },
     ],
   },
@@ -105,6 +179,9 @@ const mockMarkets = [
     name: "Post da Zona Leste",
     adress: "QD 100, Val paraiso",
     variant: "AVAILABLE",
+    r$kwh: 0.83,
+    kwhmax: 180,
+    supportNumber: "0800 503 5003",
     coordinate: {
       latitude: -15.838426,
       longitude: -48.104615,
@@ -117,6 +194,7 @@ const mockMarkets = [
         title: "ISO 167",
         plugName: "TYP2",
         status: "OCCUPIED",
+        kw: 44,
       },
       {
         id: 2,
@@ -124,6 +202,29 @@ const mockMarkets = [
         title: "ISO 167",
         plugName: "TYP2",
         status: "AVAILABLE",
+        kw: 48,
+      },
+    ],
+    schedules: [
+      {
+        days: "MONDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "WEDNESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "WEDNESDAY",
+        hours: "08:00 às 22:00",
       },
     ],
   },
@@ -138,11 +239,12 @@ const INITIAL_REGION = {
 
 export default function Home() {
   const mapRef = useRef<MapView>(null);
+  const dispatch = useAppDispatch();
   const { coordinates } = useCoordinates();
-  const [selectedMarker, setSelectedMarker] = useState<MarketsInterface>(
-    {} as MarketsInterface,
-  );
+  const { values } = useAppSelector((state) => state.appState.home);
+
   const sheetRef = useRef<MapButtonSheetRef>(null);
+  const sheetAnimatedIndex = useSharedValue(-1);
   const regionRef = useRef(INITIAL_REGION);
 
   // MapKit/Google Maps paints its own light placeholder before tiles load,
@@ -196,9 +298,8 @@ export default function Home() {
     event: MarkerPressEvent,
     item: MarketsInterface,
   ) => {
-    setSelectedMarker(item);
+    dispatch(addPinSelected(item));
     focusMarkerAboveSheet(event.nativeEvent.coordinate);
-    sheetRef.current?.present();
   };
 
   return (
@@ -220,7 +321,8 @@ export default function Home() {
               <AnimatedMapMarker
                 key={item.id}
                 variant={item.variant}
-                selected={selectedMarker?.id === item.id}
+                selected={values.pinSelected?.id === item.id}
+                sheetAnimatedIndex={sheetAnimatedIndex}
                 coordinate={{
                   latitude: item.coordinate.latitude,
                   longitude: item.coordinate.longitude,
@@ -253,15 +355,18 @@ export default function Home() {
               opacity: pressableOpacity(pressed),
             },
           ]}
-          onPress={() => sheetRef.current?.present()}
+          onPress={() => values.pinSelected && sheetRef.current?.present()}
         >
           <LocateFixed color={C.brand500} size={22} />
         </Pressable>
       </View>
       <MapButtonSheet
-        selectedMarket={selectedMarker}
+        selectedMarket={values.pinSelected}
         ref={sheetRef}
-        onClose={() => setSelectedMarker({} as MarketsInterface)}
+        animatedIndex={sheetAnimatedIndex}
+        onClose={() => {
+          dispatch(addPinSelected());
+        }}
       />
     </BackgroundGradient>
   );

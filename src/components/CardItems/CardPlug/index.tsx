@@ -12,19 +12,18 @@ import { C } from "@/src/theme";
 import { Text, View } from "react-native";
 import { CardPlugProps } from "./CardPlugDTO";
 
-import { useEffect } from "react";
 import { cardPlugStyles } from "./styles";
 
 const CardPlug = ({
   title = "ISO 167",
   titleSmall = "CCS",
   titleKw = "60.0 kW",
-  plugName = "CSS",
-  plugStatus = "AVAILABLE",
+  plugName,
+  plugStatus,
+  borderActive,
 }: CardPlugProps) => {
-  useEffect(() => {
-    console.log("plugName", plugName);
-  }, [plugName]);
+  const colorBorder = borderActive ? C.brand500 : C.ink200;
+  const marginTop = plugStatus && plugName ? 14 : 0;
 
   const renderSvgIcon = {
     "CEE-BLAU": <CEEBLAU width={35} height={35} fill={C.white} />,
@@ -46,15 +45,17 @@ const CardPlug = ({
 
   //condicao da bolinha verde
   return (
-    <View style={cardPlugStyles.container}>
-      <View style={cardPlugStyles.viewRowIcon}>
-        {renderSvgIcon[plugName]}
-        <View
-          style={[
-            { ...cardPlugStyles.dot },
-            { backgroundColor: getStatusPlugColor() },
-          ]}
-        />
+    <View style={[cardPlugStyles.container, { borderColor: colorBorder }]}>
+      <View style={[cardPlugStyles.viewRowIcon, { marginTop: marginTop }]}>
+        {plugName && renderSvgIcon[plugName]}
+        {plugStatus && (
+          <View
+            style={[
+              { ...cardPlugStyles.dot },
+              { backgroundColor: getStatusPlugColor() },
+            ]}
+          />
+        )}
       </View>
       <Text style={cardPlugStyles.titleSmall}>{title}</Text>
       <Text style={cardPlugStyles.title}>{titleSmall}</Text>

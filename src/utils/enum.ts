@@ -1,4 +1,5 @@
 import { ItemMenu } from "../components/MenuList/MenuDTO";
+import { Tabs } from "../components/TabNavigation/TabNavigationDTO";
 
 export const MONTHS = [
   "JAN",
@@ -67,3 +68,18 @@ export const MENU_SUPORTE: ItemMenu[] = [
     variant: "DANGER",
   },
 ];
+
+export const ENUM_WEEK = {
+  MONDAY: "Segunda-feira",
+  TUESDAY: "Terça-feira",
+  WEDNESDAY: "Quarta-feira",
+  THURSDAY: "Quinta-feira",
+  FRIDAY: "Sexta-feira",
+  SATURDAY: "Sábado",
+  SUNDAY: "Domingo",
+};
+
+export const NOTIFICATION_TAB_ITEM = [
+  { value: "RECARGAS", label: "Recargas", icon: "Zap" },
+  { value: "NOTIFICACOES", label: "Notificações", icon: "Bell" },
+] as Tabs[];

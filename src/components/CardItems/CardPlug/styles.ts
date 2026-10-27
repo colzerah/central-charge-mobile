@@ -4,8 +4,6 @@ import { StyleSheet } from "react-native";
 export const cardPlugStyles = StyleSheet.create({
   container: {
     backgroundColor: C.ink100,
-    borderColor: C.brand500,
-    paddingTop: 14,
     paddingBottom: 18,
     paddingLeft: 11,
     paddingRight: 11,
@@ -38,7 +36,7 @@ export const cardPlugStyles = StyleSheet.create({
     marginBottom: 8,
   },
   body: {
-    alignItems: "flex-start",
+    alignItems: "center",
     display: "flex",
   },
   shadow: {

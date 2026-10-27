@@ -1,4 +1,3 @@
-import BackgroundGradient from "@/src/components/BackgroundGradient";
 import RechargeCard from "@/src/components/RechargeCard";
 import SummaryCard from "@/src/components/SummaryCard";
 import { C } from "@/src/theme";
@@ -11,7 +10,6 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Recharge {
   id: number;
@@ -126,55 +124,45 @@ export default function RecargasScreen() {
   }));
 
   return (
-    <BackgroundGradient>
-      <View style={styles.root}>
-        <SafeAreaView style={styles.flex}>
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}>Recargas</Text>
-            <Text style={styles.headerSubtitle}>Histórico e agendamentos</Text>
-          </View>
-
-          <View style={styles.summaryRow}>
-            <SummaryCard icon="Zap" value="1.248 kWh" label="Total carregado" />
-            <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
-            <SummaryCard
-              icon="TrendingUp"
-              value="R$ 1.089"
-              label="Gasto total"
-            />
-          </View>
-          <ScrollView
-            style={styles.flex}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 100 }}
-          >
-            <Animated.View style={contentStyle}>
-              <Text style={styles.sectionTitle}>Histórico recente</Text>
-              <View style={{ marginHorizontal: 20, marginBottom: 12, gap: 12 }}>
-                {RECHARGES.map((r) => (
-                  <RechargeCard
-                    key={r.id}
-                    title={r.title}
-                    duration={r.duration}
-                    kwh={r.kwh}
-                    cost={r.cost}
-                    variant={r.variant}
-                    tagTitle={r.tagTitle}
-                    date={r.date}
-                  />
-                ))}
-              </View>
-            </Animated.View>
-          </ScrollView>
-        </SafeAreaView>
+    <View>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Recargas</Text>
+        <Text style={styles.headerSubtitle}>Histórico e agendamentos</Text>
       </View>
-    </BackgroundGradient>
+
+      <View style={styles.summaryRow}>
+        <SummaryCard icon="Zap" value="1.248 kWh" label="Total carregado" />
+        <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
+        <SummaryCard icon="TrendingUp" value="R$ 1.089" label="Gasto total" />
+      </View>
+      <ScrollView
+        style={{}}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        <Animated.View style={contentStyle}>
+          <Text style={styles.sectionTitle}>Histórico recente</Text>
+          <View style={{ marginHorizontal: 20, marginBottom: 12, gap: 12 }}>
+            {RECHARGES.map((r) => (
+              <RechargeCard
+                key={r.id}
+                title={r.title}
+                duration={r.duration}
+                kwh={r.kwh}
+                cost={r.cost}
+                variant={r.variant}
+                tagTitle={r.tagTitle}
+                date={r.date}
+              />
+            ))}
+          </View>
+        </Animated.View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1 },
-  flex: { flex: 1 },
   header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 },
   headerTitle: {
     fontSize: 28,

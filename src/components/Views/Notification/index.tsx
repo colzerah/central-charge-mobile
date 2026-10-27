@@ -116,7 +116,7 @@ const Notifications = () => {
   }, []);
 
   return (
-    <View style={notificationStyles.root}>
+    <View>
       <View style={notificationStyles.header}>
         <View style={notificationStyles.headerRow}>
           <View>
@@ -157,7 +157,7 @@ const Notifications = () => {
       </Animated.View>
 
       <ScrollView
-        style={notificationStyles.flex}
+        style={{}}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 8 }}
         onScroll={handleScroll}

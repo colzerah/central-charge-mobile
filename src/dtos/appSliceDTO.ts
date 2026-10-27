@@ -1,10 +1,16 @@
+import { MarketsInterface } from "../app/(app)/(tabs)/home";
+
+export interface HomeValuesState {
+  pinSelected: MarketsInterface | null;
+}
 export interface AppState {
   home: HomeState;
   notifications: NotificationState;
 }
 
 export interface HomeState {
-  listPins: Pin[];
+  listPins: MarketsInterface[];
+  values: HomeValuesState;
 }
 
 export interface Pin {

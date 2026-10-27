@@ -8,16 +8,18 @@ import {
   forwardRef,
   memo,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
 } from "react";
 
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { MarketsInterface } from "@/src/app/(app)/(tabs)/home";
 import { openNavigation } from "@/src/utils/openNavigation";
 import Button from "../Button";
 import ButtonIcon from "../ButtonIcon";
@@ -32,7 +34,12 @@ import { mapButtonSheetStyles } from "./styles";
 
 const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
   function MapButtonSheet(
-    { openOnFocus = false, onClose, selectedMarket }: MapButtonSheetProps,
+    {
+      openOnFocus = false,
+      onClose,
+      selectedMarket,
+      animatedIndex,
+    }: MapButtonSheetProps,
     ref,
   ) {
     const {
@@ -42,43 +49,61 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
       qtdPlugs,
       adress,
       coordinate,
-    } = selectedMarket;
+    } = selectedMarket ?? ({} as Partial<MarketsInterface>);
 
     const sheetRef = useRef<BottomSheetModal>(null);
     const insets = useSafeAreaInsets();
 
+    // true enquanto a tela está sem foco: o minimize() também anima para -1 e,
+    // por um bug do @gorhom/bottom-sheet (o onChange(-1) troca o status de
+    // MINIMIZING para MINIMIZED antes do onClose interno), ele acaba
+    // desmontando o modal e disparando onDismiss. Nada disso é um fechamento
+    // feito pelo usuário, então não deve chamar onClose.
+    const isMinimizingRef = useRef(false);
+    const hasSelectionRef = useRef(false);
+    hasSelectionRef.current = !!selectedMarket;
+
+    // o sheet só abre com um pin selecionado no estado
+    const present = useCallback((): void => {
+      if (hasSelectionRef.current) sheetRef.current?.present();
+    }, []);
+
     useImperativeHandle(
       ref,
       () => ({
-        present: () => sheetRef.current?.present(),
+        present,
         dismiss: () => sheetRef.current?.dismiss(),
       }),
-      [],
+      [present],
     );
+
+    // abre depois que o pin selecionado chega na prop, nunca antes
+    useEffect(() => {
+      present();
+    }, [selectedMarket, present]);
 
     useFocusEffect(
       useCallback(() => {
-        if (openOnFocus) {
-          sheetRef.current?.present();
-        } else {
-          (sheetRef.current as BottomSheetModalHandle | null)?.restore();
-        }
+        isMinimizingRef.current = false;
 
-        return () =>
+        // o minimize() desmonta o modal (ver acima), então restore() não tem o
+        // que restaurar: apresenta de novo se ainda há um pin selecionado
+        if (openOnFocus || hasSelectionRef.current) present();
+
+        return () => {
+          isMinimizingRef.current = true;
           (sheetRef.current as BottomSheetModalHandle | null)?.minimize();
-      }, [openOnFocus]),
+        };
+      }, [openOnFocus, present]),
     );
 
     const handleClose = useCallback((): void => {
       sheetRef.current?.dismiss();
     }, []);
 
-    const handleAnimate = useCallback(
-      (_fromIndex: number, toIndex: number): void => {
-        if (toIndex === -1) onClose?.();
-      },
-      [onClose],
-    );
+    const handleDismiss = useCallback((): void => {
+      if (!isMinimizingRef.current) onClose?.();
+    }, [onClose]);
 
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
@@ -96,7 +121,6 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
     const bottomInset = useMemo(() => insets.bottom - 16 + 1, [insets.bottom]);
 
     const renderTag = useMemo(() => {
-      console.log("variant", variant);
       if (variant === "BROKEN") {
         return <Tag title="Indisponível" size="md" dot type="danger" />;
       }
@@ -115,8 +139,10 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
         bottomInset={bottomInset}
         enablePanDownToClose
         enableDynamicSizing
-        onAnimate={handleAnimate}
-        onDismiss={onClose}
+        // limpa o pin só no fim do fechamento: durante a animação o pin
+        // continua selecionado e encolhe seguindo o animatedIndex
+        onDismiss={handleDismiss}
+        animatedIndex={animatedIndex}
         backdropComponent={renderBackdrop}
         handleComponent={null}
         backgroundStyle={mapButtonSheetStyles.background}
@@ -159,9 +185,10 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
                 key={item.id}
                 title={item.title}
                 titleSmall={item.titleSmall}
-                titleKw={"60.0 kW"}
+                titleKw={`${item.kw} kW`}
                 plugName={item.plugName}
                 plugStatus={item.status}
+                borderActive
               />
             ))}
           </View>
@@ -180,6 +207,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
               w={164}
               size="sm"
               iconRight="ArrowBigRight"
+              onPress={() => router.navigate("/pin-detalhes")}
             />
           </View>
         </BottomSheetView>
