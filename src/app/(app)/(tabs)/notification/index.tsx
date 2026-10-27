@@ -1,6 +1,8 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import { Tabs } from "@/src/components/TabNavigation/TabNavigationDTO";
+import TabNavigation from "@/src/components/TabNavigation";
+import Notifications from "@/src/components/Views/Notification";
 import { C } from "@/src/theme";
+import { NOTIFICATION_TAB_ITEM } from "@/src/utils/enum";
 import {
   AlertTriangle,
   BatteryCharging,
@@ -10,10 +12,8 @@ import {
   Gift,
 } from "lucide-react-native";
 import React, { useState } from "react";
-
-import TabNavigation from "@/src/components/TabNavigation";
-import Notifications from "@/src/components/Views/Notification";
 import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Recharges from "../recharges";
 
 const MONTHS = [
@@ -176,55 +176,36 @@ export const bgForType = (type: NotifType): string => {
   }
 };
 
-export default function NotificacoesScreen() {
-  const [visitedTabs, setVisitedTabs] = useState<string[]>(["recargas"]);
-  const [tab, setTab] = useState<string>("recargas");
+type VisitedTabName = "RECARGAS" | "NOTIFICACOES";
 
-  const TABS = [
-    { value: "recargas", label: "Recargas", icon: "Zap" },
-    { value: "notificacoes", label: "Notificações", icon: "Bell" },
-  ] as Tabs[];
+export default function NotificacoesScreen() {
+  const [tab, setTab] = useState<VisitedTabName>("RECARGAS");
 
   return (
     <BackgroundGradient>
-      <View style={styles.root}>
-        <TabNavigation
-          items={TABS}
-          value={tab}
-          onPress={(e) => {
-            setTab(e);
-            setVisitedTabs((previous) =>
-              previous.includes(e) ? previous : [...previous, e],
-            );
-          }}
-        />
-        {visitedTabs.includes("recargas") && (
-          <View
-            style={{
-              flex: 1,
-              marginTop: 50,
-              display: tab === "recargas" ? "flex" : "none",
-            }}
-          >
-            <Recharges />
-          </View>
-        )}
-        {visitedTabs.includes("notificacoes") && (
-          <View
-            style={{
-              flex: 1,
-              marginTop: 50,
-              display: tab === "notificacoes" ? "flex" : "none",
-            }}
-          >
-            <Notifications />
-          </View>
-        )}
-      </View>
+      <SafeAreaView>
+        <View style={styles.root}>
+          <TabNavigation
+            items={NOTIFICATION_TAB_ITEM}
+            value={tab}
+            onPress={(e) => setTab(e as VisitedTabName)}
+          />
+          {tab === "RECARGAS" && (
+            <View style={{}}>
+              <Recharges />
+            </View>
+          )}
+          {tab === "NOTIFICACOES" && (
+            <View style={{}}>
+              <Notifications />
+            </View>
+          )}
+        </View>
+      </SafeAreaView>
     </BackgroundGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, marginTop: 50 },
+  root: {},
 });
