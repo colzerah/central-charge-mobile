@@ -2,8 +2,6 @@ import { C } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
 export const rechargesStyles = StyleSheet.create({
-  root: { flex: 1 },
-  flex: { flex: 1 },
   header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 },
   headerTitle: {
     fontSize: 28,

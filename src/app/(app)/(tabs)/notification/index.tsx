@@ -1,6 +1,7 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import TabNavigation from "@/src/components/TabNavigation";
 import Notifications from "@/src/components/Views/Notification";
+import Recharges from "@/src/components/Views/Recharges";
 import { C } from "@/src/theme";
 import { NOTIFICATION_TAB_ITEM } from "@/src/utils/enum";
 import {
@@ -14,7 +15,6 @@ import {
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Recharges from "../recharges";
 
 const MONTHS = [
   "JAN",
@@ -190,16 +190,14 @@ export default function NotificacoesScreen() {
             value={tab}
             onPress={(e) => setTab(e as VisitedTabName)}
           />
-          {tab === "RECARGAS" && (
-            <View style={{}}>
-              <Recharges />
-            </View>
-          )}
-          {tab === "NOTIFICACOES" && (
-            <View style={{}}>
-              <Notifications />
-            </View>
-          )}
+          {/* Both views stay mounted and are only hidden, so switching tabs
+              doesn't remount (and stall) the whole list each time. */}
+          <View style={tab !== "RECARGAS" && styles.hidden}>
+            <Recharges />
+          </View>
+          <View style={tab !== "NOTIFICACOES" && styles.hidden}>
+            <Notifications />
+          </View>
         </View>
       </SafeAreaView>
     </BackgroundGradient>
@@ -208,4 +206,5 @@ export default function NotificacoesScreen() {
 
 const styles = StyleSheet.create({
   root: {},
+  hidden: { display: "none" },
 });
