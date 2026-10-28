@@ -39,7 +39,7 @@ const MONTHS = [
   "DEZ",
 ];
 
-const Notifications = () => {
+const ViewNotification = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [notifs, setNotifs] = useState<NotificationProps[]>(NOTIFICATION_MOCK);
   const scrollY = useSharedValue(0);
@@ -172,7 +172,7 @@ const Notifications = () => {
           />
         }
       >
-        <View>
+        <View style={{ marginHorizontal: 14, paddingTop: 14 }}>
           {notifs.map((n, i) => (
             <NotificationCard
               key={n.id}
@@ -201,4 +201,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications;
+export default ViewNotification;

@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 
 export const notificationStyles = StyleSheet.create({
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 16,
+    marginHorizontal: 14,
+
     paddingBottom: 12,
   },
   headerRow: {

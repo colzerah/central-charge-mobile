@@ -1,9 +1,10 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import TabNavigation from "@/src/components/TabNavigation";
-import Notifications from "@/src/components/Views/Notification";
-import Recharges from "@/src/components/Views/Recharges";
+import Notifications from "@/src/components/Views/ViewNotification";
+import Recharges from "@/src/components/Views/ViewRecharges";
 import { C } from "@/src/theme";
 import { NOTIFICATION_TAB_ITEM } from "@/src/utils/enum";
+import { useFocusEffect } from "expo-router";
 import {
   AlertTriangle,
   BatteryCharging,
@@ -12,7 +13,7 @@ import {
   CreditCard,
   Gift,
 } from "lucide-react-native";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -181,23 +182,35 @@ type VisitedTabName = "RECARGAS" | "NOTIFICACOES";
 export default function NotificacoesScreen() {
   const [tab, setTab] = useState<VisitedTabName>("RECARGAS");
 
+  // Bottom tabs keep this screen mounted, so reset on blur to always come
+  // back to "Recargas".
+  useFocusEffect(
+    useCallback(() => {
+      return () => setTab("RECARGAS");
+    }, []),
+  );
+
   return (
     <BackgroundGradient>
       <SafeAreaView>
-        <View style={styles.root}>
+        <View style={styles.tabView}>
           <TabNavigation
             items={NOTIFICATION_TAB_ITEM}
             value={tab}
             onPress={(e) => setTab(e as VisitedTabName)}
           />
-          {/* Both views stay mounted and are only hidden, so switching tabs
-              doesn't remount (and stall) the whole list each time. */}
-          <View style={tab !== "RECARGAS" && styles.hidden}>
-            <Recharges />
-          </View>
-          <View style={tab !== "NOTIFICACOES" && styles.hidden}>
-            <Notifications />
-          </View>
+        </View>
+        <View
+          style={tab !== "RECARGAS" && styles.hidden}
+          pointerEvents={tab !== "RECARGAS" ? "none" : "auto"}
+        >
+          <Recharges />
+        </View>
+        <View
+          style={tab !== "NOTIFICACOES" && styles.hidden}
+          pointerEvents={tab !== "NOTIFICACOES" ? "none" : "auto"}
+        >
+          <Notifications />
         </View>
       </SafeAreaView>
     </BackgroundGradient>
@@ -206,5 +219,13 @@ export default function NotificacoesScreen() {
 
 const styles = StyleSheet.create({
   root: {},
-  hidden: { display: "none" },
+  // Not `display: "none"`: that unmounts the native views, and re-creating
+  // the whole list on the way back stalls the UI thread.
+  hidden: { position: "absolute", left: 0, right: 0, opacity: 0 },
+  tabView: {
+    width: 330,
+    alignSelf: "center",
+    marginTop: 20,
+    marginBottom: 20,
+  },
 });

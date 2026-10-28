@@ -495,6 +495,7 @@ const MaskedTabBarLabel: React.FC<IMaskedTabBarLabel> &
       numberOfLines={1}
       style={[
         {
+          flexShrink: 1,
           fontSize,
           fontWeight,
           color: layer === "active" ? palette.active : palette.inactive,

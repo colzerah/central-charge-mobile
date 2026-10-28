@@ -117,7 +117,7 @@ export default function PinDetalhes() {
               iconLeft="QrCode"
               size="lg"
               w={310}
-              onPress={() => router.navigate("./scan")}
+              onPress={() => router.navigate("/scan-detalhes")}
             />
           </View>
           <View>

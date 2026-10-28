@@ -13,7 +13,7 @@ import Animated, {
 import { RECHARGES_MOCK } from "./RechargesDTO";
 import { rechargesStyles } from "./styles";
 
-const Recharges = () => {
+const ViewRecharges = () => {
   const contentO = useSharedValue(1);
   const contentY = useSharedValue(24);
 
@@ -78,4 +78,4 @@ const Recharges = () => {
   );
 };
 
-export default Recharges;
+export default ViewRecharges;
