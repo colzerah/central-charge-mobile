@@ -15,8 +15,8 @@ export interface RequestLoginResponse {
       name: string;
       email: string;
       email_verified_at: null;
-      created_at: Date;
-      updated_at: Date;
+      created_at: string;
+      updated_at: string;
     };
   };
 }
@@ -28,7 +28,7 @@ export interface RequestLoginMeResponse {
     id: number;
     name: string;
     email: string;
-    created_at: Date;
+    created_at: string;
   };
 }
 

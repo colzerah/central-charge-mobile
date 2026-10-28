@@ -3,7 +3,7 @@ export interface User {
   name: string;
   // cpf: string;
   email: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 // "id": 3,

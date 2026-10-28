@@ -220,7 +220,7 @@ function LoginContent() {
                       title="Esqueci minha senha"
                       variant="link"
                       size="sm"
-                      w={150}
+                      w={200}
                       onPress={() => {
                         router.navigate("/home");
                       }}
@@ -431,6 +431,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 16,
     alignItems: "flex-end",
+    backgroundColor: "red",
   },
   forgot: {
     fontSize: 13,
