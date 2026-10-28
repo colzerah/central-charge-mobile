@@ -13,8 +13,8 @@ export const userMock: RequestLoginResponse = {
       name: "João Mock",
       email: "joaomock@gmail.com",
       email_verified_at: null,
-      created_at: new Date(),
-      updated_at: new Date(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
   },
 };
@@ -26,6 +26,6 @@ export const userMeMock: RequestLoginMeResponse = {
     id: 1,
     name: "João Mock",
     email: "joaomock@gmail.com",
-    created_at: new Date(),
+    created_at: new Date().toISOString(),
   },
 };

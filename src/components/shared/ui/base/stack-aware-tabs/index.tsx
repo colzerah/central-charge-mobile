@@ -52,7 +52,6 @@ const TabButton: React.FC<TabBarProps> & React.FunctionComponent<TabBarProps> =
             scheduleOnRN(setIsDragActive, curr);
           }
         },
-        [index],
       );
 
       React.useEffect(() => {

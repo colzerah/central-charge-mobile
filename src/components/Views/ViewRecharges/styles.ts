@@ -2,7 +2,7 @@ import { C } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
 export const rechargesStyles = StyleSheet.create({
-  header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 },
+  header: { marginHorizontal: 14, paddingBottom: 12 },
   headerTitle: {
     fontSize: 28,
     fontWeight: "700",
@@ -17,8 +17,9 @@ export const rechargesStyles = StyleSheet.create({
   },
   summaryRow: {
     flexDirection: "row",
-    paddingHorizontal: 20,
-    gap: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 9,
     marginBottom: 24,
   },
   sectionTitle: {
@@ -26,11 +27,11 @@ export const rechargesStyles = StyleSheet.create({
     fontWeight: "700",
     color: C.white,
     fontFamily: "Inter-Bold",
-    paddingHorizontal: 20,
+    marginHorizontal: 14,
     marginBottom: 14,
   },
   sectionView: {
-    marginHorizontal: 20,
+    marginHorizontal: 14,
     marginBottom: 12,
     gap: 12,
   },

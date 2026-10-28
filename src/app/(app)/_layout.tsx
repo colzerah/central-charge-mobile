@@ -40,6 +40,7 @@ export default function AppLayout() {
           ),
         }}
       />
+
       <Stack.Screen
         name="novo-veiculo"
         options={{
@@ -48,6 +49,18 @@ export default function AppLayout() {
             <Header
               title="Novo veículo"
               subtitle="Adicione um carro à sua conta"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="scan-detalhes"
+        options={{
+          headerShown: true,
+          header: () => (
+            <Header
+              title="Scan QR Code"
+              subtitle="Faça o Scan para iniciar o carregamento"
             />
           ),
         }}

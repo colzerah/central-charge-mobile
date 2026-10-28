@@ -92,7 +92,7 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
         color3: [safeColors[2].r, safeColors[2].g, safeColors[2].b, 1],
         color4: [safeColors[3].r, safeColors[3].g, safeColors[3].b, 1],
       };
-    }, [width, height, noise, blur, contrast, safeColors, time]);
+    });
 
     const canvasWrapperStyle = useAnimatedStyle<
       Required<

@@ -27,6 +27,22 @@ import { ToastProvider } from "../providers/toast-provider";
 import { store } from "../redux/store";
 import { C } from "../theme";
 
+// @gorhom/bottom-sheet 5.2.14 passa arrays de dependencia pros hooks do
+// Reanimated, que no native sao ignorados e geram esse aviso. Filtra so
+// essa mensagem ate a lib corrigir — remover quando atualizar o bottom-sheet.
+if (__DEV__) {
+  const originalWarn = console.warn;
+  console.warn = (...args: unknown[]) => {
+    if (
+      typeof args[0] === "string" &&
+      args[0].includes("Dependencies should only be used on the web")
+    ) {
+      return;
+    }
+    originalWarn(...args);
+  };
+}
+
 SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync(C.ink0);
 

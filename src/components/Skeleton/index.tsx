@@ -52,13 +52,18 @@ const Skeleton = ({ isLoading = false, children, styles }: SkeletonProps) => {
     );
   }
 
+  // tamanho e borderRadius so enquanto carrega: fora do loading o children
+  // define o proprio tamanho, senao a medicao antiga trava o wrapper e o
+  // overflow hidden do Shimmer corta/arredonda o conteudo
   return (
     <Shimmer
       isLoading={isLoading}
       style={{
-        width: size?.width,
-        height: size?.height,
-        borderRadius: childStyle.borderRadius ?? 14,
+        ...(isLoading && {
+          width: size?.width,
+          height: size?.height,
+          borderRadius: childStyle.borderRadius ?? 14,
+        }),
         margin: childStyle.margin,
         marginHorizontal: childStyle.marginHorizontal,
         marginVertical: childStyle.marginVertical,
