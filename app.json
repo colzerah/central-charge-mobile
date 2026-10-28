@@ -65,7 +65,10 @@
           "cameraPermission": "Permitir que o $(PRODUCT_NAME) acesse sua câmera para tirar uma foto de perfil.",
           "microphonePermission": false
         }
-      ]
+      ],
+      "expo-image",
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -117,7 +117,7 @@ export const TabBar: React.FC<BottomTabBarProps> &
   React.FunctionComponent<BottomTabBarProps> = memo(
   (props: BottomTabBarProps): JSX.Element & React.ReactNode => {
     const router = useRouter();
-    const { state, descriptors, navigation } = props;
+    const { state, descriptors, emitter, navigateToTab: goToTab } = props;
     const translateX = useSharedValue<number>(100);
     const opacity = useSharedValue<number>(0);
     const activeIndex = useSharedValue<number>(-1);
@@ -195,7 +195,7 @@ export const TabBar: React.FC<BottomTabBarProps> &
     const navigateToTab = useCallback<(index: number) => void>(
       (index: number) => {
         const route = state.routes[index];
-        const event = navigation.emit({
+        const event = emitter.emit({
           type: "tabPress",
           target: route.key,
           canPreventDefault: true,
@@ -207,10 +207,10 @@ export const TabBar: React.FC<BottomTabBarProps> &
           event.preventDefault();
           router.back();
         } else if (!isFocused && !event.defaultPrevented) {
-          navigation.navigate(route.name);
+          goToTab(route.key);
         }
       },
-      [state, navigation, router],
+      [state, emitter, goToTab, router],
     );
 
     const panGesture: PanGesture = Gesture.Pan()
@@ -321,7 +321,7 @@ export const TabBar: React.FC<BottomTabBarProps> &
                       : route.name;
                 const isFocused = state.index === index;
                 const onPress = (): void => {
-                  const event = navigation.emit({
+                  const event = emitter.emit({
                     type: "tabPress",
                     target: route.key,
                     canPreventDefault: true,
@@ -333,11 +333,11 @@ export const TabBar: React.FC<BottomTabBarProps> &
                     event.preventDefault();
                     router.back();
                   } else if (!isFocused && !event.defaultPrevented) {
-                    navigation.navigate(route.name);
+                    goToTab(route.key);
                   }
                 };
                 const onLongPress = (): void => {
-                  navigation.emit({
+                  emitter.emit({
                     type: "tabLongPress",
                     target: route.key,
                   });
