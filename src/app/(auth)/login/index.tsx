@@ -217,10 +217,10 @@ function LoginContent() {
                 <View style={styles.forgotWrap}>
                   <Skeleton isLoading={isAuthLoading}>
                     <Button
+                      w={160}
                       title="Esqueci minha senha"
                       variant="link"
                       size="sm"
-                      w={200}
                       onPress={() => {
                         router.navigate("/home");
                       }}
@@ -290,7 +290,7 @@ function LoginContent() {
                         title="Criar conta"
                         variant="link"
                         size="sm"
-                        w={84}
+                        w={90}
                         onPress={() => router.navigate("./criarConta")}
                       />
                     </View>
@@ -428,10 +428,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   forgotWrap: {
-    marginBottom: 16,
-    marginTop: 16,
+    marginBottom: 14,
+    marginTop: 4,
     alignItems: "flex-end",
-    backgroundColor: "red",
   },
   forgot: {
     fontSize: 13,
