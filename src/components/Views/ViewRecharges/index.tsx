@@ -3,21 +3,28 @@ import SummaryCard from "@/src/components/SummaryCard";
 import { C } from "@/src/theme";
 import { FlashList } from "@shopify/flash-list";
 import { useFocusEffect } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
+  withSequence,
+  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import { RechargeProps, RECHARGES_MOCK } from "./RechargesDTO";
 import { rechargesStyles } from "./styles";
 
 const ViewRecharges = () => {
+  const [refreshing, setRefreshing] = useState(false);
+
   const contentO = useSharedValue(1);
   const contentY = useSharedValue(24);
+  const pullO = useSharedValue(0);
+  const pullScale = useSharedValue(0.5);
+  const pullRotate = useSharedValue(0);
 
   // Tab screens stay mounted, so replay the entry animation on every focus
   // and reset it on blur so the next entry starts hidden.
@@ -34,6 +41,24 @@ const ViewRecharges = () => {
       };
     }, []),
   );
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    pullRotate.value = 0;
+    pullRotate.value = withTiming(360, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+    pullScale.value = withSequence(
+      withSpring(1.1, { damping: 12 }),
+      withTiming(1, { duration: 300 }),
+    );
+    setTimeout(() => {
+      setRefreshing(false);
+      pullO.value = withTiming(0, { duration: 300 });
+      pullScale.value = withTiming(0.5, { duration: 300 });
+    }, 1200);
+  }, []);
 
   const contentStyle = useAnimatedStyle(() => ({
     opacity: contentO.value,
@@ -79,9 +104,9 @@ const ViewRecharges = () => {
           contentContainerStyle={rechargesStyles.listContent}
           ListEmptyComponent={emptyComponent}
           // onEndReached={} recarregar mais dados
-          // onEndReachedThreshold={0.5} quando chegar nessa altura
-          // onRefresh={} função de atualizar
-          // refreshing={} estado de atualização
+          // onEndReachedThreshold={0.5}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
         />
       </Animated.View>
     </View>
