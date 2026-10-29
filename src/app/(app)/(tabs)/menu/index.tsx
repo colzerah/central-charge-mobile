@@ -1,15 +1,15 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import MenuList from "@/src/components/MenuList";
 import MenuStatCard from "@/src/components/MenuStatCard";
+import ProfileCard from "@/src/components/ProfileCard";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useModal } from "@/src/hooks/useModal";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
 import { MENU_CONTA, MENU_PREFERENCIA, MENU_SUPORTE } from "@/src/utils/enum";
 import { router } from "expo-router";
-import { User, Zap } from "lucide-react-native";
 import { useEffect } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -63,23 +63,8 @@ export default function Menu() {
             contentContainerStyle={{ paddingBottom: 100 }}
           >
             {/* Perfil */}
-            <Animated.View style={[styles.profileCard, profileStyle]}>
-              <View style={styles.profileAvatar}>
-                <User color={C.brand400} size={32} strokeWidth={2} />
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={styles.profileName}>Carlos Andrade</Text>
-                <Text style={styles.profileEmail}>carlos@voltcharge.com</Text>
-                <View style={styles.profileBadge}>
-                  <Zap
-                    color={C.brand300}
-                    size={12}
-                    strokeWidth={2.5}
-                    fill={C.brand400}
-                  />
-                  <Text style={styles.profileBadgeText}>Membro Premium</Text>
-                </View>
-              </View>
+            <Animated.View style={profileStyle}>
+              <ProfileCard name="Ruan Belmiro" email="ruan@teste.com" premium />
             </Animated.View>
 
             {/* Estatísticas */}

@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   imageStyles: {
-    position: "absolute",
+    width: 60,
+    height: 60,
   },
   profileAvatar: {
     position: "absolute",
