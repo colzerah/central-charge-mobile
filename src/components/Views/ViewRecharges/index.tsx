@@ -1,8 +1,10 @@
 import RechargeCard from "@/src/components/RechargeCard";
 import SummaryCard from "@/src/components/SummaryCard";
+import { C } from "@/src/theme";
+import { FlashList } from "@shopify/flash-list";
 import { useFocusEffect } from "expo-router";
 import { useCallback } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -10,7 +12,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import { RECHARGES_MOCK } from "./RechargesDTO";
+import { RechargeProps, RECHARGES_MOCK } from "./RechargesDTO";
 import { rechargesStyles } from "./styles";
 
 const ViewRecharges = () => {
@@ -38,8 +40,22 @@ const ViewRecharges = () => {
     transform: [{ translateY: contentY.value }],
   }));
 
+  const renderItem = ({ item }: { item: RechargeProps }) => (
+    <View style={{ marginHorizontal: 14, marginBottom: 12 }}>
+      <RechargeCard {...item} />
+    </View>
+  );
+
+  const emptyComponent = () => (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text style={{ color: C.white, fontSize: 16 }}>
+        Nenhuma Recarga encontrada
+      </Text>
+    </View>
+  );
+
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <View style={rechargesStyles.header}>
         <Text style={rechargesStyles.headerTitle}>Recargas</Text>
         <Text style={rechargesStyles.headerSubtitle}>
@@ -52,28 +68,22 @@ const ViewRecharges = () => {
         <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
         <SummaryCard icon="TrendingUp" value="R$ 1.089" label="Gasto total" />
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
-      >
-        <Animated.View style={contentStyle}>
-          <Text style={rechargesStyles.sectionTitle}>Histórico recente</Text>
-          <View style={rechargesStyles.sectionView}>
-            {RECHARGES_MOCK.map((recharge) => (
-              <RechargeCard
-                key={recharge.id}
-                title={recharge.title}
-                duration={recharge.duration}
-                kwh={recharge.kwh}
-                cost={recharge.cost}
-                variant={recharge.variant}
-                tagTitle={recharge.tagTitle}
-                date={recharge.date}
-              />
-            ))}
-          </View>
-        </Animated.View>
-      </ScrollView>
+
+      <Animated.View style={[contentStyle, { flex: 1 }]}>
+        <Text style={rechargesStyles.sectionTitle}>Histórico recente</Text>
+        <FlashList
+          data={RECHARGES_MOCK}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={renderItem}
+          style={{ flex: 1 }}
+          contentContainerStyle={rechargesStyles.listContent}
+          ListEmptyComponent={emptyComponent}
+          // onEndReached={} recarregar mais dados
+          // onEndReachedThreshold={0.5} quando chegar nessa altura
+          // onRefresh={} função de atualizar
+          // refreshing={} estado de atualização
+        />
+      </Animated.View>
     </View>
   );
 };
