@@ -72,6 +72,6 @@ Join our community of developers creating universal apps.
 - na tela de notificações, exibir primeiro sempre o menu de recargas. \* FEITO
 - componente de avatar. \* FEITO
 - componente card profile. \* FEITO
+- criar tela de criar conta. \* FEITO
 - arrumar o value(tem que ser numérico) de summarycard. (quebrando o escopo), maximo de caracteres.
-- criar tela de criar conta.
 - criar componente de select (Procurar lib).
