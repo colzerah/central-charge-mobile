@@ -1,6 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import { Content } from "@/src/components/SearchBar";
-import { ScrollableSearch } from "@/src/components/shared/ui/base/scrollable-search";
+import CheckBox from "@/src/components/CheckBox";
 import { useToast } from "@/src/providers/toast-provider";
 
 import { useAppDispatch } from "@/src/redux/store";
@@ -22,15 +21,8 @@ export default function TesteCol() {
 
   return (
     <BackgroundGradient>
-      <View style={{ marginTop: 50, flex: 1 }}>
-        <ScrollableSearch>
-          <Content
-            value={value}
-            onPress={(e) => console.log(e)}
-            items={items}
-            onChange={setValue}
-          />
-        </ScrollableSearch>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <CheckBox />
       </View>
     </BackgroundGradient>
   );
