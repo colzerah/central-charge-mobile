@@ -8,7 +8,7 @@ import React, {
   memo,
   useEffect,
 } from "react";
-import { BlurView, type BlurViewProps } from "expo-blur";
+import { BlurView } from "expo-blur";
 import {
   Keyboard,
   Platform,
@@ -38,8 +38,7 @@ import type {
   IScrollContent,
 } from "./types";
 
-const AnimatedBlurView =
-  Animated.createAnimatedComponent<BlurViewProps>(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const ScrollableSearchContext = createContext<IScrollableSearchContext | null>(
   null,
@@ -65,7 +64,7 @@ const ScrollableSearchRoot: React.FC<IScrollableSearch> &
     React.JSX.Element &
     React.ReactNode => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
-    const dismissTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const dismissTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const scrollY = useSharedValue<number>(0);
     const pullDistance = useSharedValue<number>(0);
