@@ -3,6 +3,7 @@ import { DimensionValue } from "react-native";
 
 export interface InputProps {
   onChange?: (text: string) => void;
+  onFocus?: () => void;
   value?: string;
   w?: DimensionValue;
   label?: string;

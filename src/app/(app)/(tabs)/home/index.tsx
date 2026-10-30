@@ -8,12 +8,14 @@ import {
   Plugs,
 } from "@/src/components/MapButtonSheet/MapButtronSheetDTO";
 import AnimatedMapMarker from "@/src/components/MapPin/AnimatedMapMarker";
+import { Content } from "@/src/components/SearchBar";
+import { ScrollableSearch } from "@/src/components/shared/ui/base/scrollable-search";
 import { TimeTableItemProps } from "@/src/components/TimeTable/TimeTableDTO";
 import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { addPinSelected } from "@/src/redux/appSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { MarkerPressEvent, PROVIDER_DEFAULT } from "react-native-maps";
 import Animated, {
@@ -249,6 +251,14 @@ export default function Home() {
   const regionRef = useRef(INITIAL_REGION);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [value, setValue] = useState("");
+
+  const RECENT = ["Tokyo", "Kyoto", "Osaka"];
+
+  const items = useMemo(() => {
+    const search = value.trim().toLowerCase();
+    return RECENT.filter((item) => item.toLowerCase().includes(search));
+  }, [value]);
 
   const ITEMS = [
     {
@@ -329,6 +339,16 @@ export default function Home() {
         content={<></>}
       >
         <View style={styles.container}>
+          <ScrollableSearch>
+            <Content
+              value={value}
+              onPress={(e) => console.log(e)}
+              items={items}
+              onChange={setValue}
+              focusedOffset={-70}
+              unfocusedOffset={-40}
+            />
+          </ScrollableSearch>
           <MapView
             ref={mapRef}
             provider={PROVIDER_DEFAULT}
