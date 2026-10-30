@@ -1,62 +1,37 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import Button from "@/src/components/Button";
+import { Content } from "@/src/components/SearchBar";
+import { ScrollableSearch } from "@/src/components/shared/ui/base/scrollable-search";
 import { useToast } from "@/src/providers/toast-provider";
 
 import { useAppDispatch } from "@/src/redux/store";
+import { useMemo, useState } from "react";
 import { View } from "react-native";
+
+const RECENT = ["Tokyo", "Kyoto", "Osaka"];
 
 export default function TesteCol() {
   const dispatch = useAppDispatch();
   const { openToast } = useToast();
 
-  const handlePressSucess = () => {
-    openToast({
-      title: "Success",
-      subTitle: "Your changes have been saved.",
-      type: "SUCCESS",
-    });
-  };
+  const [value, setValue] = useState("");
 
-  const handlePressError = () => {
-    openToast({
-      title: "Connection lost",
-      subTitle: "Something went wrong. Please try again.",
-      type: "ERROR",
-    });
-  };
-
-  const handlePressInfo = () => {
-    openToast({
-      title: "New version available",
-      subTitle: "Restart the app to update.",
-      type: "INFO",
-    });
-  };
-
-  const handlePressWarning = () => {
-    openToast({
-      title: "New version available",
-      subTitle: "Restart the app to update.",
-      type: "WARNING",
-    });
-  };
+  const items = useMemo(() => {
+    const search = value.trim().toLowerCase();
+    return RECENT.filter((item) => item.toLowerCase().includes(search));
+  }, [value]);
 
   return (
-    <>
-      <BackgroundGradient>
-        <View style={{ marginBottom: 40, marginTop: 40 }}>
-          <Button title="Success" onPress={handlePressSucess} />
-        </View>
-        <View style={{ marginBottom: 40 }}>
-          <Button title="Error" onPress={handlePressError} />
-        </View>
-        <View style={{ marginBottom: 40 }}>
-          <Button title="Info" onPress={handlePressInfo} />
-        </View>
-        <View style={{ marginBottom: 40 }}>
-          <Button title="Warning" onPress={handlePressWarning} />
-        </View>
-      </BackgroundGradient>
-    </>
+    <BackgroundGradient>
+      <View style={{ marginTop: 50, flex: 1 }}>
+        <ScrollableSearch>
+          <Content
+            value={value}
+            onPress={(e) => console.log(e)}
+            items={items}
+            onChange={setValue}
+          />
+        </ScrollableSearch>
+      </View>
+    </BackgroundGradient>
   );
 }

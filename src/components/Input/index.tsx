@@ -1,7 +1,7 @@
 import { C } from "@/src/theme";
 import { pressableOpacity } from "@/src/utils/pressable";
-import { Lock, Mail } from "lucide-react-native";
 import { useFocusEffect } from "expo-router";
+import { Lock, Mail } from "lucide-react-native";
 import { useCallback, useRef, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import Icon from "../Icon";
@@ -11,6 +11,7 @@ import { inputStyles } from "./styles";
 
 const Input = ({
   onChange,
+  onFocus,
   value,
   w = "100%",
   label,
@@ -193,7 +194,12 @@ const Input = ({
           secureTextEntry={showPassword}
           editable={!isDisabled} // disabled
           enterKeyHint={enterKeyHint}
-          onFocus={() => setFocused(true)}
+          onFocus={() => {
+            setFocused(true);
+            if (onFocus) {
+              onFocus();
+            }
+          }}
           onBlur={() => setFocused(false)}
           cursorColor={C.ink200}
           selectionColor={C.ink200}

@@ -1,3 +1,4 @@
+import { FabItems } from "../components/FabGroup/FabGroupDTO";
 import { ItemMenu } from "../components/MenuList/MenuDTO";
 import { Tabs } from "../components/TabNavigation/TabNavigationDTO";
 
@@ -83,3 +84,11 @@ export const NOTIFICATION_TAB_ITEM = [
   { value: "RECARGAS", label: "Recargas", icon: "Zap" },
   { value: "NOTIFICACOES", label: "Notificações", icon: "Bell" },
 ] as Tabs[];
+
+export const EMPTY_ITEM_FAB_GROUP = [
+  {
+    iconName: "Pen",
+    value: "Pen",
+    onPress: () => console.log("Pen"),
+  },
+] as FabItems[];
