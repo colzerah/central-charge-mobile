@@ -212,7 +212,7 @@ const AnimatedComponent: React.FC<IAnimatedComponent> &
     }, [onPullToFocus, onPullToFocusCallback]);
 
     const animatedSearchStylez = useAnimatedStyle<
-      Pick<ViewStyle, "transform" | "shadowOpacity">
+      Pick<ViewStyle, "transform">
     >(() => {
       const scale = enablePullEffect
         ? interpolate(
@@ -223,15 +223,6 @@ const AnimatedComponent: React.FC<IAnimatedComponent> &
           )
         : 1;
 
-      const shadowOpacity = enablePullEffect
-        ? interpolate(
-            pullDistance.value,
-            [0, 60],
-            [0.05, 0.2],
-            Extrapolation.CLAMP,
-          )
-        : 0.05;
-
       const translateY = interpolate(
         scrollY.value,
         [0, scrollY.value],
@@ -241,7 +232,6 @@ const AnimatedComponent: React.FC<IAnimatedComponent> &
 
       return {
         transform: [{ scale }, { translateY }],
-        shadowOpacity,
       };
     });
 
