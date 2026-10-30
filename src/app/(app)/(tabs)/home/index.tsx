@@ -1,4 +1,6 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import FabGroup from "@/src/components/FabGroup";
+import { FabItems } from "@/src/components/FabGroup/FabGroupDTO";
 import MapButtonSheet from "@/src/components/MapButtonSheet";
 import {
   MapButtonSheetRef,
@@ -10,10 +12,8 @@ import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { addPinSelected } from "@/src/redux/appSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
-import { pressableOpacity } from "@/src/utils/pressable";
-import { LocateFixed } from "lucide-react-native";
 import { useEffect, useRef } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import MapView, { MarkerPressEvent, PROVIDER_DEFAULT } from "react-native-maps";
 import Animated, {
   useAnimatedStyle,
@@ -247,6 +247,19 @@ export default function Home() {
   const sheetAnimatedIndex = useSharedValue(-1);
   const regionRef = useRef(INITIAL_REGION);
 
+  const ITEMS = [
+    {
+      iconName: "Navigation",
+      value: "NAVIGATION",
+      onPress: () => handleFindMyLocation(),
+    },
+    {
+      iconName: "SlidersHorizontal",
+      value: "FILTER",
+      onPress: () => console.log("FILTER"),
+    },
+  ] as FabItems[];
+
   // MapKit/Google Maps paints its own light placeholder before tiles load,
   // which flashes against this app's dark theme. Cover the map with a
   // dark overlay until it reports ready, then fade it out.
@@ -337,28 +350,10 @@ export default function Home() {
           pointerEvents="none"
           style={[styles.mapOverlay, mapOverlayStyle]}
         />
-        <Pressable
-          style={({ pressed }) => [
-            styles.locateButton,
-            {
-              opacity: pressableOpacity(pressed),
-            },
-          ]}
-          onPress={handleFindMyLocation}
-        >
-          <LocateFixed color={C.brand500} size={22} />
-        </Pressable>
-        <Pressable
-          style={({ pressed }) => [
-            styles.sheetButton,
-            {
-              opacity: pressableOpacity(pressed),
-            },
-          ]}
-          onPress={() => values.pinSelected && sheetRef.current?.present()}
-        >
-          <LocateFixed color={C.brand500} size={22} />
-        </Pressable>
+
+        <View style={styles.sheetButton}>
+          <FabGroup items={ITEMS} />
+        </View>
       </View>
       <MapButtonSheet
         selectedMarket={values.pinSelected}
@@ -384,33 +379,11 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     backgroundColor: C.ink0,
   },
-  locateButton: {
-    position: "absolute",
-    right: 16,
-    bottom: 120,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: C.white,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: C.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
-  },
 
   sheetButton: {
     position: "absolute",
-    right: 16,
-    bottom: 180,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: C.white,
-    alignItems: "center",
-    justifyContent: "center",
+    right: 10,
+    bottom: 130,
     shadowColor: C.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
