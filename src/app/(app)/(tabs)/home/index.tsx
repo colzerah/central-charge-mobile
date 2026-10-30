@@ -1,4 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import DrawerFilter from "@/src/components/DrawerFilter";
 import FabGroup from "@/src/components/FabGroup";
 import { FabItems } from "@/src/components/FabGroup/FabGroupDTO";
 import MapButtonSheet from "@/src/components/MapButtonSheet";
@@ -12,7 +13,7 @@ import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { addPinSelected } from "@/src/redux/appSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { MarkerPressEvent, PROVIDER_DEFAULT } from "react-native-maps";
 import Animated, {
@@ -247,6 +248,8 @@ export default function Home() {
   const sheetAnimatedIndex = useSharedValue(-1);
   const regionRef = useRef(INITIAL_REGION);
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const ITEMS = [
     {
       iconName: "Navigation",
@@ -256,7 +259,7 @@ export default function Home() {
     {
       iconName: "SlidersHorizontal",
       value: "FILTER",
-      onPress: () => console.log("FILTER"),
+      onPress: () => setDrawerOpen(true),
     },
   ] as FabItems[];
 
@@ -317,52 +320,61 @@ export default function Home() {
 
   return (
     <BackgroundGradient>
-      <View style={styles.container}>
-        <MapView
-          ref={mapRef}
-          provider={PROVIDER_DEFAULT}
-          style={styles.map}
-          showsUserLocation={!!coordinates}
-          onMapReady={handleMapReady}
-          onRegionChangeComplete={(region) => {
-            regionRef.current = region;
-          }}
-          initialRegion={INITIAL_REGION}
-        >
-          {mockMarkets.map((item) => {
-            return (
-              <AnimatedMapMarker
-                key={item.id}
-                variant={item.variant}
-                selected={values.pinSelected?.id === item.id}
-                sheetAnimatedIndex={sheetAnimatedIndex}
-                coordinate={{
-                  latitude: item.coordinate.latitude,
-                  longitude: item.coordinate.longitude,
-                }}
-                onPress={(e) => handlePressMarket(e, item)}
-                opacity={1}
-              />
-            );
-          })}
-        </MapView>
-        <Animated.View
-          pointerEvents="none"
-          style={[styles.mapOverlay, mapOverlayStyle]}
-        />
+      <DrawerFilter
+        title="Filtros"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onApply={() => {}}
+        onClear={() => {}}
+        content={<></>}
+      >
+        <View style={styles.container}>
+          <MapView
+            ref={mapRef}
+            provider={PROVIDER_DEFAULT}
+            style={styles.map}
+            showsUserLocation={!!coordinates}
+            onMapReady={handleMapReady}
+            onRegionChangeComplete={(region) => {
+              regionRef.current = region;
+            }}
+            initialRegion={INITIAL_REGION}
+          >
+            {mockMarkets.map((item) => {
+              return (
+                <AnimatedMapMarker
+                  key={item.id}
+                  variant={item.variant}
+                  selected={values.pinSelected?.id === item.id}
+                  sheetAnimatedIndex={sheetAnimatedIndex}
+                  coordinate={{
+                    latitude: item.coordinate.latitude,
+                    longitude: item.coordinate.longitude,
+                  }}
+                  onPress={(e) => handlePressMarket(e, item)}
+                  opacity={1}
+                />
+              );
+            })}
+          </MapView>
+          <Animated.View
+            pointerEvents="none"
+            style={[styles.mapOverlay, mapOverlayStyle]}
+          />
 
-        <View style={styles.sheetButton}>
-          <FabGroup items={ITEMS} />
+          <View style={styles.sheetButton}>
+            <FabGroup items={ITEMS} />
+          </View>
         </View>
-      </View>
-      <MapButtonSheet
-        selectedMarket={values.pinSelected}
-        ref={sheetRef}
-        animatedIndex={sheetAnimatedIndex}
-        onClose={() => {
-          dispatch(addPinSelected());
-        }}
-      />
+        <MapButtonSheet
+          selectedMarket={values.pinSelected}
+          ref={sheetRef}
+          animatedIndex={sheetAnimatedIndex}
+          onClose={() => {
+            dispatch(addPinSelected());
+          }}
+        />
+      </DrawerFilter>
     </BackgroundGradient>
   );
 }

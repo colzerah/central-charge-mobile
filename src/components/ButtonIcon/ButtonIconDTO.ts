@@ -8,4 +8,6 @@ export interface ButtonIconProps {
   icon: keyof typeof icons;
   size?: "sm" | "md" | "lg";
   border?: boolean;
+  borderColor?: string;
+  borderW?: number;
 }

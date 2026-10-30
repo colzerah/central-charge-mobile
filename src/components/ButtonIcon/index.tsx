@@ -13,6 +13,8 @@ const ButtonIcon = ({
   icon = "Star",
   size = "md",
   border,
+  borderColor,
+  borderW,
 }: ButtonIconProps) => {
   const getSizes = () => {
     if (size === "sm") {
@@ -65,8 +67,12 @@ const ButtonIcon = ({
 
   const disabledOpacity = {
     opacity: disabled ? 0.5 : 1,
-    borderWidth: border ? 1 : 0,
-    borderColor: border ? C.ink200 : "transparent",
+    borderWidth: border ? (borderW ? borderW : 1) : 0,
+    borderColor: border
+      ? borderColor
+        ? borderColor
+        : C.ink200
+      : "transparent",
   };
   const RoundBorderRadius = size === "sm" ? 20 : 30;
 
