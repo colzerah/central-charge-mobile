@@ -1,5 +1,4 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import ButtonIcon from "@/src/components/ButtonIcon";
 import DrawerFilter from "@/src/components/DrawerFilter";
 import FabGroup from "@/src/components/FabGroup";
 import { FabItems } from "@/src/components/FabGroup/FabGroupDTO";
@@ -12,6 +11,7 @@ import AnimatedMapMarker from "@/src/components/MapPin/AnimatedMapMarker";
 import SearchBar from "@/src/components/SearchBar";
 import { ScrollableSearch } from "@/src/components/shared/ui/base/scrollable-search";
 import { TimeTableItemProps } from "@/src/components/TimeTable/TimeTableDTO";
+import ViewFilter from "@/src/components/Views/ViewFilter";
 import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { addPinSelected } from "@/src/redux/appSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
@@ -329,39 +329,6 @@ export default function Home() {
     focusMarkerAboveSheet(item.coordinate);
   };
 
-  const renderFilter = () => {
-    return (
-      <View>
-        <View style={{ flexDirection: "row", gap: 8, alignItems: "flex-end" }}>
-          <View style={{ height: 50 }}>
-            <ButtonIcon icon="BatteryCharging" size="sm" variant="outline" />
-          </View>
-          <View style={{ gap: 8 }}>
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "700",
-                color: C.white,
-                fontFamily: "Inter-Bold",
-              }}
-            >
-              Situação do carregador
-            </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                color: C.ink400,
-                fontFamily: "Inter-Regular",
-              }}
-            >
-              Selecione uma ou mais situações
-            </Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
   return (
     <BackgroundGradient>
       <DrawerFilter
@@ -370,7 +337,7 @@ export default function Home() {
         onClose={() => setDrawerOpen(false)}
         onApply={() => {}}
         onClear={() => {}}
-        content={renderFilter()}
+        content={<ViewFilter />}
       >
         <View style={styles.container}>
           <ScrollableSearch>
