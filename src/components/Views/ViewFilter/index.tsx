@@ -1,8 +1,9 @@
 import { C } from "@/src/theme";
 import * as icons from "lucide-react-native/icons";
 import { useMemo, useState } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import ButtonIcon from "../../ButtonIcon";
+import CardBrand from "../../CardItems/CardBrand";
 import CardFilter from "../../CardItems/CardFilter";
 import Seek from "../../Seek";
 
@@ -23,6 +24,18 @@ const SEEK_MAX_KM = 300;
 const SEEK_MIN_KW = 0;
 const SEEK_MAX_KW = 350;
 
+const MOCK_BRANDS = [
+  {
+    id: 0,
+    name: "EasyCharge",
+    station: 1,
+    active: false,
+    uri: "https://cdn.aptoide.com/imgs/a/8/d/a8dd37571f8e05e9a1e2da4be769e6a0_icon.png",
+  },
+  { id: 1, name: "EasyVoltz", station: 2, active: false, uri: "" },
+  { id: 2, name: "CentralCharge", station: 100, active: false, uri: "" },
+];
+
 export default function ViewFilter() {
   const [available, setAvailable] = useState(false);
   const [occupied, setOccupied] = useState(false);
@@ -30,6 +43,8 @@ export default function ViewFilter() {
 
   const [valueKm, setValueKm] = useState(0);
   const [valueKw, setValueKw] = useState(0);
+
+  const [brands, setBrands] = useState(MOCK_BRANDS);
 
   const labelSeekKm = useMemo((): string => {
     if (valueKm === SEEK_MAX_KM) {
@@ -126,6 +141,14 @@ export default function ViewFilter() {
     </View>
   );
 
+  const handleClickBrand = (id: number) => {
+    setBrands((prev) =>
+      prev.map((brand) =>
+        brand.id === id ? { ...brand, active: !brand.active } : brand,
+      ),
+    );
+  };
+
   return (
     <View>
       <View>
@@ -208,6 +231,32 @@ export default function ViewFilter() {
         />
         {renderSeekLabel({ min: "Todas", value: labelSeekKw })}
       </View>
+      <View style={{ marginTop: 30 }}>
+        {renderTitleFilter({
+          title: "Marca da estação",
+          description: "Selecione uma ou mais marcas",
+          iconName: "Ruler",
+        })}
+      </View>
+      <ScrollView
+        style={{ marginTop: 14 }}
+        horizontal
+        contentContainerStyle={{ gap: 8 }}
+        showsHorizontalScrollIndicator={false}
+      >
+        {brands.map((item) => (
+          <View key={item.id}>
+            <CardBrand
+              label={item.name}
+              indexColor={item.id}
+              count={item.station}
+              isActive={item.active}
+              uri={item.uri}
+              onPress={() => handleClickBrand(item.id)}
+            />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
