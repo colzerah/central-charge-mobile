@@ -149,7 +149,7 @@ export default function Menu() {
                   if (e === "Sair da conta") {
                     openModal({
                       title: "Realmente deseja sair do aplicativo?",
-                      type: "SUCCESS",
+                      type: "WARNING",
                       titleButton: "Sim",
                       // titleButtonCancel: "Não",
                       onPress: () => {

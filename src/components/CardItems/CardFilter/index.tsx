@@ -31,8 +31,7 @@ const CardFilter = ({
         cardInfoStyles.container,
         {
           opacity: pressed && onPress ? 0.5 : 1,
-          borderWidth: isActive ? 2 : 0,
-          borderColor: boderTypeColor[type],
+          borderColor: isActive ? boderTypeColor[type] : "transparent",
         },
       ]}
       onPress={onPress}

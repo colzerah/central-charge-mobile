@@ -46,9 +46,6 @@ export const mapButtonSheetStyles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
   },
-  tagView: {
-    height: 30,
-  },
   title: {
     alignSelf: "stretch",
     marginTop: 8,

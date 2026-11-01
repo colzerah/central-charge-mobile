@@ -27,11 +27,11 @@ const useMeasuredSize = (initial: ISize) => {
 const useItemRegistry = () => {
   const [items, setItems] = useState<IRegisteredItem[]>([]);
 
-  const registerItem = useCallback((id: string) => {
+  const registerItem = useCallback((id: string, size: ISize = { w: 0, h: 0 }) => {
     setItems((prev) =>
       prev.some((item) => item.id === id)
         ? prev
-        : [...prev, { id, w: 0, h: 0 }],
+        : [...prev, { id, w: size.w, h: size.h }],
     );
   }, []);
 
@@ -42,6 +42,12 @@ const useItemRegistry = () => {
   const updateItem = useCallback(
     (id: string, patch: Partial<Omit<IRegisteredItem, "id">>) => {
       setItems((prev) => {
+        // onLayout can fire before the register effect runs; upsert so the
+        // measurement isn't dropped and the goo layer never gets stuck hidden.
+        if (!prev.some((item) => item.id === id)) {
+          return [...prev, { id, w: 0, h: 0, ...patch }];
+        }
+
         let changed = false;
         const next = prev.map((item) => {
           if (item.id !== id) return item;

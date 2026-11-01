@@ -140,7 +140,7 @@ interface IMorphFabContext extends IItemAppearance {
   triggerScale: SharedValue<number>;
   triggerSize: ISize;
   items: IRegisteredItem[];
-  registerItem: (id: string) => void;
+  registerItem: (id: string, size?: ISize) => void;
   unregisterItem: (id: string) => void;
   updateItem: (id: string, patch: Partial<Omit<IRegisteredItem, "id">>) => void;
   selectItem: (value?: string, onSelect?: (value?: string) => void) => void;
