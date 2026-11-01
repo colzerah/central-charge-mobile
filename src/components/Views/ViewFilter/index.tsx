@@ -24,6 +24,10 @@ const SEEK_MIN_KW = 0;
 const SEEK_MAX_KW = 350;
 
 export default function ViewFilter() {
+  const [available, setAvailable] = useState(false);
+  const [occupied, setOccupied] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
+
   const [valueKm, setValueKm] = useState(0);
   const [valueKw, setValueKw] = useState(0);
 
@@ -136,22 +140,23 @@ export default function ViewFilter() {
           label="Disponivel"
           type="SUCCESS"
           count={0}
-          onPress={() => {}}
-          isActive={false}
+          onPress={() => setAvailable((prev) => !prev)}
+          isActive={available}
         />
         <CardFilter
-          label="Disponivel"
+          label="Ocupado"
           type="WARNING"
           count={0}
-          onPress={() => {}}
-          isActive={false}
+          onPress={() => setOccupied((prev) => !prev)}
+          isActive={occupied}
         />
+
         <CardFilter
-          label="Disponivel"
+          label="Indisponível"
           type="ERROR"
           count={0}
-          onPress={() => {}}
-          isActive={false}
+          onPress={() => setUnavailable((prev) => !prev)}
+          isActive={unavailable}
         />
       </View>
       <View style={{ marginTop: 16 }}>
