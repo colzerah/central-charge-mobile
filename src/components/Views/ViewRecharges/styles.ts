@@ -18,9 +18,9 @@ export const rechargesStyles = StyleSheet.create({
   summaryRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 9,
+    justifyContent: "space-around",
     marginBottom: 24,
+    marginHorizontal: 14,
   },
   sectionTitle: {
     fontSize: 16,
@@ -34,5 +34,8 @@ export const rechargesStyles = StyleSheet.create({
     marginHorizontal: 14,
     marginBottom: 12,
     gap: 12,
+  },
+  listContent: {
+    paddingBottom: 24,
   },
 });

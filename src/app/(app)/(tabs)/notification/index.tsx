@@ -192,7 +192,7 @@ export default function NotificacoesScreen() {
 
   return (
     <BackgroundGradient>
-      <SafeAreaView>
+      <SafeAreaView style={styles.safeArea}>
         <View style={styles.tabView}>
           <TabNavigation
             items={NOTIFICATION_TAB_ITEM}
@@ -200,14 +200,15 @@ export default function NotificacoesScreen() {
             onPress={(e) => setTab(e as VisitedTabName)}
           />
         </View>
+
         <View
-          style={tab !== "RECARGAS" && styles.hidden}
+          style={[styles.tabContent, tab !== "RECARGAS" && styles.hidden]}
           pointerEvents={tab !== "RECARGAS" ? "none" : "auto"}
         >
           <Recharges />
         </View>
         <View
-          style={tab !== "NOTIFICACOES" && styles.hidden}
+          style={[styles.tabContent, tab !== "NOTIFICACOES" && styles.hidden]}
           pointerEvents={tab !== "NOTIFICACOES" ? "none" : "auto"}
         >
           <Notifications />
@@ -218,10 +219,22 @@ export default function NotificacoesScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: {},
+  safeArea: {
+    flex: 1,
+  },
+  tabContent: {
+    flex: 1,
+  },
   // Not `display: "none"`: that unmounts the native views, and re-creating
   // the whole list on the way back stalls the UI thread.
-  hidden: { position: "absolute", left: 0, right: 0, opacity: 0 },
+  hidden: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0,
+  },
   tabView: {
     width: 330,
     alignSelf: "center",

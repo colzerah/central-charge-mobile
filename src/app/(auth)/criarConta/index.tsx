@@ -33,49 +33,78 @@ export default function CriarConta() {
   };
 
   const validate = (): string | null => {
-    if (!name.trim()) {
-      openToast({
-        title: "Digite seu nome completo",
-        type: "ERROR",
-      });
-      setNameInvalid(true);
-    }
-    if (!email.trim()) {
-      openToast({
-        title: "Digite seu e-mail.",
-        type: "ERROR",
-      });
-      setEmailInvalid(true);
-    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
+
+    if (!name.trim()) {
+      setNameInvalid(true);
       openToast({
-        title: "Digite um e-mail válido.",
+        title: "Preencha o nome completo.",
+        subTitle: "Nome é obrigatório.",
         type: "ERROR",
       });
+      return "name";
+    }
+
+    if (!email.trim()) {
       setEmailInvalid(true);
-    }
-    if (!phone.trim() || phone.replace(/\D/g, "").length < 10) {
       openToast({
-        title: "Digite um telefone válido.",
+        title: "Preencha o e-mail.",
+        subTitle: "E-mail é obrigatório.",
         type: "ERROR",
       });
+      return "email";
+    }
+
+    if (!emailRegex.test(email.trim())) {
+      setEmailInvalid(true);
+      openToast({
+        title: "E-mail inválido.",
+        subTitle: "Use um e-mail no formato válido",
+        type: "ERROR",
+      });
+      return "email";
+    }
+
+    if (!phone.trim()) {
       setPhoneInvalid(true);
-    }
-    if (!password) {
       openToast({
-        title: "Digite sua senha.",
+        title: "Preencha o telefone.",
+        subTitle: "Telefone é obrigatório.",
         type: "ERROR",
       });
-      setPasswordInvalid(true);
+      return "phone";
     }
+
+    if (phone.replace(/\D/g, "").length < 10) {
+      setPhoneInvalid(true);
+      openToast({
+        title: "Telefone inválido.",
+        subTitle: "Digite um número de telefone válido.",
+        type: "ERROR",
+      });
+      return "phone";
+    }
+
+    if (!password.trim()) {
+      setPasswordInvalid(true);
+      openToast({
+        title: "Preencha a senha.",
+        subTitle: "Senha é obrigatória.",
+        type: "ERROR",
+      });
+      return "password";
+    }
+
     if (password.length < 6) {
+      setPasswordInvalid(true);
       openToast({
-        title: "A senha deve ter no mínimo 6 caracteres.",
+        title: "Senha inválida.",
+        subTitle: "A senha precisa ter pelo menos 6 caracteres.",
         type: "ERROR",
       });
-      setPasswordInvalid(true);
+      return "password";
     }
+
     return null;
   };
 

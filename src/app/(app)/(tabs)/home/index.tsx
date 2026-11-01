@@ -8,16 +8,18 @@ import {
   Plugs,
 } from "@/src/components/MapButtonSheet/MapButtronSheetDTO";
 import AnimatedMapMarker from "@/src/components/MapPin/AnimatedMapMarker";
-import { Content } from "@/src/components/SearchBar";
+import SearchBar from "@/src/components/SearchBar";
 import { ScrollableSearch } from "@/src/components/shared/ui/base/scrollable-search";
 import { TimeTableItemProps } from "@/src/components/TimeTable/TimeTableDTO";
+import ViewFilter from "@/src/components/Views/ViewFilter";
 import { useCoordinates } from "@/src/hooks/useCoordinates";
 import { addPinSelected } from "@/src/redux/appSlice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
+import { SymbolView } from "expo-symbols";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import MapView, { MarkerPressEvent, PROVIDER_DEFAULT } from "react-native-maps";
+import { StyleSheet, Text, View } from "react-native";
+import MapView, { PROVIDER_DEFAULT } from "react-native-maps";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -257,7 +259,9 @@ export default function Home() {
 
   const items = useMemo(() => {
     const search = value.trim().toLowerCase();
-    return RECENT.filter((item) => item.toLowerCase().includes(search));
+    return mockMarkets.filter((item) =>
+      item.name.toLowerCase().includes(search),
+    );
   }, [value]);
 
   const ITEMS = [
@@ -320,12 +324,9 @@ export default function Home() {
     );
   };
 
-  const handlePressMarket = (
-    event: MarkerPressEvent,
-    item: MarketsInterface,
-  ) => {
+  const handleSelectMarket = (item: MarketsInterface) => {
     dispatch(addPinSelected(item));
-    focusMarkerAboveSheet(event.nativeEvent.coordinate);
+    focusMarkerAboveSheet(item.coordinate);
   };
 
   return (
@@ -336,17 +337,42 @@ export default function Home() {
         onClose={() => setDrawerOpen(false)}
         onApply={() => {}}
         onClear={() => {}}
-        content={<></>}
+        content={<ViewFilter />}
       >
         <View style={styles.container}>
           <ScrollableSearch>
-            <Content
+            <SearchBar
               value={value}
-              onPress={(e) => console.log(e)}
+              onPress={handleSelectMarket}
               items={items}
               onChange={setValue}
               focusedOffset={-70}
               unfocusedOffset={-40}
+              scrollableSearch={(item) => (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    backgroundColor: C.disabled500,
+                    padding: 14,
+                    borderRadius: 12,
+                    marginBottom: 8,
+                    gap: 12,
+                    borderWidth: 1,
+                    borderColor: C.border,
+                  }}
+                >
+                  <SymbolView
+                    name="magnifyingglass"
+                    size={16}
+                    tintColor="#666"
+                  />
+                  <Text style={{ flex: 1, fontSize: 15, color: C.white }}>
+                    {item.name}
+                  </Text>
+                  <SymbolView name="arrow.up.left" size={14} tintColor="#444" />
+                </View>
+              )}
             />
           </ScrollableSearch>
           <MapView
@@ -371,7 +397,7 @@ export default function Home() {
                     latitude: item.coordinate.latitude,
                     longitude: item.coordinate.longitude,
                   }}
-                  onPress={(e) => handlePressMarket(e, item)}
+                  onPress={() => handleSelectMarket(item)}
                   opacity={1}
                 />
               );
@@ -416,10 +442,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     bottom: 130,
-    shadowColor: C.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
+    // shadowColor: C.black,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 4,
+    // elevation: 4,
   },
 });

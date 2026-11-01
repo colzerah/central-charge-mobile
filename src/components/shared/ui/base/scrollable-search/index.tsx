@@ -8,7 +8,7 @@ import React, {
   memo,
   useEffect,
 } from "react";
-import { BlurView, type BlurViewProps } from "expo-blur";
+import { BlurView } from "expo-blur";
 import {
   Keyboard,
   Platform,
@@ -38,8 +38,7 @@ import type {
   IScrollContent,
 } from "./types";
 
-const AnimatedBlurView =
-  Animated.createAnimatedComponent<BlurViewProps>(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const ScrollableSearchContext = createContext<IScrollableSearchContext | null>(
   null,
@@ -65,7 +64,7 @@ const ScrollableSearchRoot: React.FC<IScrollableSearch> &
     React.JSX.Element &
     React.ReactNode => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
-    const dismissTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const dismissTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const scrollY = useSharedValue<number>(0);
     const pullDistance = useSharedValue<number>(0);
@@ -212,7 +211,7 @@ const AnimatedComponent: React.FC<IAnimatedComponent> &
     }, [onPullToFocus, onPullToFocusCallback]);
 
     const animatedSearchStylez = useAnimatedStyle<
-      Pick<ViewStyle, "transform" | "shadowOpacity">
+      Pick<ViewStyle, "transform">
     >(() => {
       const scale = enablePullEffect
         ? interpolate(
@@ -223,15 +222,6 @@ const AnimatedComponent: React.FC<IAnimatedComponent> &
           )
         : 1;
 
-      const shadowOpacity = enablePullEffect
-        ? interpolate(
-            pullDistance.value,
-            [0, 60],
-            [0.05, 0.2],
-            Extrapolation.CLAMP,
-          )
-        : 0.05;
-
       const translateY = interpolate(
         scrollY.value,
         [0, scrollY.value],
@@ -241,7 +231,6 @@ const AnimatedComponent: React.FC<IAnimatedComponent> &
 
       return {
         transform: [{ scale }, { translateY }],
-        shadowOpacity,
       };
     });
 
