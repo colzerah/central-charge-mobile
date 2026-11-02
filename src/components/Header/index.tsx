@@ -1,9 +1,9 @@
 import { C } from "@/src/theme";
 import { router } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
+import { ArrowLeft, ChevronLeft } from "lucide-react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScreenHeaderProps } from "./HeaderDTO";
+import { ScreenHeaderBackButtonProps, ScreenHeaderProps } from "./HeaderDTO";
 import { headerStyles } from "./styles";
 
 function Header({ title, subtitle, onBack, right }: ScreenHeaderProps) {
@@ -44,5 +44,22 @@ function Header({ title, subtitle, onBack, right }: ScreenHeaderProps) {
     </View>
   );
 }
+
+export const HeaderBackButton = ({ onBack }: ScreenHeaderBackButtonProps) => {
+  const handleBack = () => {
+    if (onBack) onBack();
+    else router.back();
+  };
+
+  return (
+    <TouchableOpacity
+      style={headerStyles.singleBackBtn}
+      onPress={handleBack}
+      activeOpacity={0.7}
+    >
+      <ArrowLeft color={C.ink400} size={30} strokeWidth={2.4} />
+    </TouchableOpacity>
+  );
+};
 
 export default Header;

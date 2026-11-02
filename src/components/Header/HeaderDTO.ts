@@ -4,3 +4,7 @@ export interface ScreenHeaderProps {
   onBack?: () => void;
   right?: React.ReactNode;
 }
+
+export interface ScreenHeaderBackButtonProps {
+  onBack?: () => void;
+}

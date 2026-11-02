@@ -1,9 +1,16 @@
 import { C } from "@/src/theme";
+import { formatPhone } from "@/src/utils/phone";
 import { pressableOpacity } from "@/src/utils/pressable";
 import { useFocusEffect } from "expo-router";
-import { Lock, Mail } from "lucide-react-native";
+import { Lock, Mail, Phone } from "lucide-react-native";
 import { useCallback, useRef, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import {
+  Pressable,
+  Text,
+  TextInput,
+  TextInputInstance,
+  View,
+} from "react-native";
 import Icon from "../Icon";
 import IconBackground from "../IconBackground";
 import { InputProps } from "./InputDTO";
@@ -28,7 +35,7 @@ const Input = ({
   iconColor,
   iconBg,
 }: InputProps) => {
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<TextInputInstance>(null);
   const [focused, setFocused] = useState(false);
   const [skeletonHeight, setSkeletonHeight] = useState<number | undefined>(
     undefined,
@@ -36,6 +43,7 @@ const Input = ({
   const [showPassword, setShowPassword] = useState(
     textContentType === "password" ? true : false,
   );
+  const isPhone = textContentType === "telephoneNumber";
 
   // Foca o input sempre que a tela ganha foco (inclusive ao voltar para ela)
   useFocusEffect(
@@ -55,6 +63,9 @@ const Input = ({
     }
     if (textContentType === "password") {
       return "••••••••";
+    }
+    if (isPhone) {
+      return "(11) 99999-9999";
     }
     return "Digite aqui";
   };
@@ -174,9 +185,18 @@ const Input = ({
             style={inputStyles.inputIcon}
           />
         )}
+
+        {isPhone && (
+          <Phone
+            color={getIconColor()}
+            size={getSize()?.iconSize}
+            style={inputStyles.inputIcon}
+          />
+        )}
         {leftIcon &&
           textContentType !== "password" &&
-          textContentType !== "emailAddress" && (
+          textContentType !== "emailAddress" &&
+          !isPhone && (
             <View style={inputStyles.inputIcon}>
               <IconBackground
                 icon={leftIcon}
@@ -191,7 +211,7 @@ const Input = ({
           )}
         <TextInput
           ref={inputRef}
-          secureTextEntry={showPassword}
+          secureTextEntry={textContentType === "password" && showPassword}
           editable={!isDisabled} // disabled
           enterKeyHint={enterKeyHint}
           onFocus={() => {
@@ -207,9 +227,12 @@ const Input = ({
           placeholder={placeHolderText()}
           placeholderTextColor={placeHolderTextColor()}
           value={value}
-          onChangeText={onChange}
+          onChangeText={(text) =>
+            onChange?.(isPhone ? formatPhone(text) : text)
+          }
           autoCapitalize="none"
-          keyboardType={keyboardType}
+          keyboardType={keyboardType ?? (isPhone ? "number-pad" : undefined)}
+          maxLength={isPhone ? 15 : undefined} // "(11) 99999-9999"
           textContentType={textContentType}
         />
         {textContentType === "password" && (
