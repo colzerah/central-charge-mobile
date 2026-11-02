@@ -1,3 +1,4 @@
+import { FabItems } from "../components/FabGroup/FabGroupDTO";
 import { ItemMenu } from "../components/MenuList/MenuDTO";
 import { Tabs } from "../components/TabNavigation/TabNavigationDTO";
 
@@ -83,3 +84,40 @@ export const NOTIFICATION_TAB_ITEM = [
   { value: "RECARGAS", label: "Recargas", icon: "Zap" },
   { value: "NOTIFICACOES", label: "Notificações", icon: "Bell" },
 ] as Tabs[];
+
+export const EMPTY_ITEM_FAB_GROUP = [
+  {
+    iconName: "Pen",
+    value: "Pen",
+    onPress: () => console.log("Pen"),
+  },
+] as FabItems[];
+
+export const COLOR_PALETTE = [
+  "#22C55E",
+  "#3B82F6",
+  "#FB923C",
+  "#F59E0B",
+  "#EF4444",
+  "#de3163",
+  "#ffbf00",
+  "#e0b0ff",
+  "#ff6347",
+  "#40e0d0",
+  "#556b2f",
+  "#ffdead",
+  "#006400",
+  "#22C55E",
+  "#3B82F6",
+  "#FB923C",
+  "#F59E0B",
+  "#EF4444",
+  "#de3163",
+  "#ffbf00",
+  "#e0b0ff",
+  "#ff6347",
+  "#40e0d0",
+  "#556b2f",
+  "#ffdead",
+  "#006400",
+];

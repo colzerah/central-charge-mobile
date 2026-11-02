@@ -126,6 +126,24 @@ export const TabBar: React.FC<BottomTabBarProps> &
     const hasNestedRoutes =
       currentRoute?.state?.index !== undefined && currentRoute.state.index > 0;
 
+    // Screens hide the bar with `tabBarStyle: { display: "none" }` (e.g. while
+    // DrawerFilter is open), the same option the default tab bar honors.
+    const isHidden =
+      StyleSheet.flatten(descriptors[currentRoute?.key]?.options.tabBarStyle)
+        ?.display === "none";
+    const visibility = useSharedValue<number>(1);
+
+    React.useEffect((): void => {
+      visibility.value = withTiming(isHidden ? 0 : 1, { duration: 220 });
+    }, [isHidden]);
+
+    const containerStyle = useAnimatedStyle<ViewStyle>(() => ({
+      opacity: visibility.value,
+      transform: [
+        { translateY: interpolate(visibility.value, [0, 1], [120, 0]) },
+      ],
+    }));
+
     React.useEffect((): void => {
       if (hasNestedRoutes) {
         translateX.value = withSpring(0, {
@@ -277,7 +295,10 @@ export const TabBar: React.FC<BottomTabBarProps> &
     });
 
     return (
-      <View style={tabStyles.container}>
+      <Animated.View
+        style={[tabStyles.container, containerStyle]}
+        pointerEvents={isHidden ? "none" : "auto"}
+      >
         <View style={tabStyles.wrapper}>
           <Animated.View
             style={[tabStyles.backButtonContainer, backButtonStyle]}
@@ -357,7 +378,7 @@ export const TabBar: React.FC<BottomTabBarProps> &
             </View>
           </GestureDetector>
         </View>
-      </View>
+      </Animated.View>
     );
   },
 );

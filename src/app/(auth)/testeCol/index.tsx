@@ -1,62 +1,45 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import Button from "@/src/components/Button";
+import CardBrand from "@/src/components/CardItems/CardBrand";
 import { useToast } from "@/src/providers/toast-provider";
 
 import { useAppDispatch } from "@/src/redux/store";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
+
+const RECENT = ["Tokyo", "Kyoto", "Osaka"];
 
 export default function TesteCol() {
   const dispatch = useAppDispatch();
   const { openToast } = useToast();
 
-  const handlePressSucess = () => {
-    openToast({
-      title: "Success",
-      subTitle: "Your changes have been saved.",
-      type: "SUCCESS",
-    });
-  };
+  const [value, setValue] = useState(false);
 
-  const handlePressError = () => {
-    openToast({
-      title: "Connection lost",
-      subTitle: "Something went wrong. Please try again.",
-      type: "ERROR",
-    });
-  };
-
-  const handlePressInfo = () => {
-    openToast({
-      title: "New version available",
-      subTitle: "Restart the app to update.",
-      type: "INFO",
-    });
-  };
-
-  const handlePressWarning = () => {
-    openToast({
-      title: "New version available",
-      subTitle: "Restart the app to update.",
-      type: "WARNING",
-    });
-  };
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   return (
-    <>
-      <BackgroundGradient>
-        <View style={{ marginBottom: 40, marginTop: 40 }}>
-          <Button title="Success" onPress={handlePressSucess} />
-        </View>
-        <View style={{ marginBottom: 40 }}>
-          <Button title="Error" onPress={handlePressError} />
-        </View>
-        <View style={{ marginBottom: 40 }}>
-          <Button title="Info" onPress={handlePressInfo} />
-        </View>
-        <View style={{ marginBottom: 40 }}>
-          <Button title="Warning" onPress={handlePressWarning} />
-        </View>
-      </BackgroundGradient>
-    </>
+    <BackgroundGradient>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+        }}
+      >
+        <CardBrand label={"PlugCharge"} indexColor={2} />
+        <CardBrand
+          indexColor={2}
+          onPress={() => setValue((prev) => !prev)}
+          label={"PlugCharge"}
+          isActive={value}
+          count={2}
+          uri={
+            "https://cdn.aptoide.com/imgs/a/8/d/a8dd37571f8e05e9a1e2da4be769e6a0_icon.png"
+          }
+        />
+      </View>
+    </BackgroundGradient>
   );
 }

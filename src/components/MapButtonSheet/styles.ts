@@ -4,11 +4,6 @@ import { StyleSheet } from "react-native";
 export const mapButtonSheetStyles = StyleSheet.create({
   sheet: {
     marginHorizontal: 10,
-    shadowColor: C.black,
-    shadowOpacity: 0.16,
-    shadowRadius: 28,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 16,
   },
   viewPlug: {
     marginTop: 10,
@@ -26,6 +21,11 @@ export const mapButtonSheetStyles = StyleSheet.create({
     borderRadius: 32,
     borderWidth: 2,
     borderColor: C.border,
+    shadowColor: C.black,
+    shadowOpacity: 0.16,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 16,
   },
   content: {
     alignSelf: "stretch",
