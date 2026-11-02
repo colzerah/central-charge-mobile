@@ -1,4 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import Badge from "@/src/components/Badge";
 import Button from "@/src/components/Button";
 import Icon from "@/src/components/Icon";
 import Input from "@/src/components/Input";
@@ -212,7 +213,7 @@ export default function CriarConta() {
               </View>
             )}
             <View style={styles.badge}>
-              <Icon name="Camera" color={C.white} size={13} strokeWidth={2.4} />
+              <Badge icon="Camera" />
             </View>
           </Pressable>
           <Text style={styles.photoLabel}>Foto de perfil</Text>
@@ -248,6 +249,7 @@ export default function CriarConta() {
             label="Telefone"
             placeholder="(11) 99999-9999"
             leftIcon="Phone"
+            textContentType="telephoneNumber"
             value={phone}
             onChange={(t) => {
               setPhone(formatPhone(t));
@@ -324,14 +326,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 2,
     right: 2,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: C.brand500,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 3,
-    borderColor: C.ink0,
   },
   photoLabel: {
     fontSize: 14,

@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   badge: {
-    position: "absolute", // verificar
-    bottom: 2, // verificar
-    right: 2, // verificar
+    // position: "absolute", // verificar
+    // bottom: 2, // verificar
+    // right: 2, // verificar
     width: 30,
     height: 30,
     borderRadius: 15,
@@ -14,5 +14,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 3,
     borderColor: C.ink0,
+  },
+  count: {
+    color: C.white,
+    fontSize: 11,
+    fontWeight: "700",
   },
 });
