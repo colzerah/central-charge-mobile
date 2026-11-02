@@ -7,8 +7,9 @@ import {
   type ReactNode,
 } from "react";
 import Modal from "../components/Modal";
+import type { ModalType } from "../components/Modal/ModalDTO";
 
-export type ModalType = "SUCCESS" | "INFO" | "WARNING" | "ERROR";
+export type { ModalType };
 
 export type OpenModalParams = {
   title: string;
@@ -43,7 +44,7 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     setIsOpen(true);
   }, []);
 
-  const closeModal = useCallback(() => setIsOpen(false), [isOpen]);
+  const closeModal = useCallback(() => setIsOpen(false), []);
 
   const contextValue = useMemo(
     () => ({ isOpen, openModal, closeModal }),

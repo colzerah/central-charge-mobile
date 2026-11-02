@@ -22,7 +22,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Menu() {
   const dispatch = useAppDispatch();
   const { signOut } = useAuth();
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
   const profileO = useSharedValue(0);
   const profileY = useSharedValue(20);
   const menuO = useSharedValue(0);
@@ -151,11 +151,8 @@ export default function Menu() {
                       title: "Realmente deseja sair do aplicativo?",
                       type: "WARNING",
                       titleButton: "Sim",
-                      // titleButtonCancel: "Não",
-                      onPress: () => {
-                        closeModal();
-                        signOut();
-                      },
+                      titleButtonCancel: "Não",
+                      onPress: signOut,
                     });
                   }
                 }}
