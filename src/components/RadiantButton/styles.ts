@@ -27,11 +27,8 @@ export const disabledTheme = {
 };
 
 export const shadowStyle = {
-  shadowColor: C.brand500,
-  shadowOffset: { width: 0, height: 6 },
-  shadowOpacity: 0.4,
-  shadowRadius: 14,
-  elevation: 8,
+  borderRadius: 14,
+  boxShadow: `0px 6px 14px ${C.brand500}66`,
 };
 
 export const radiantButtonStyles = StyleSheet.create({
