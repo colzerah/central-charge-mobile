@@ -222,7 +222,7 @@ function LoginContent() {
                       variant="link"
                       size="sm"
                       onPress={() => {
-                        router.navigate("/home");
+                        router.navigate("/forgot-password");
                       }}
                     />
                   </Skeleton>

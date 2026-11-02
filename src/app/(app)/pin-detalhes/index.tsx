@@ -26,102 +26,109 @@ export default function PinDetalhes() {
 
   return (
     <BackgroundGradient>
-      <ScrollView
-        style={pinDetailStyles.container}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={pinDetailStyles.viewStation}>
-          <StationCard title={values.pinSelected?.name!} type="AVAILABLE" />
-        </View>
-        <View style={pinDetailStyles.viewSummary}>
-          <SummaryCard
-            icon="Zap"
-            value={values.pinSelected?.kwhmax!}
-            label="kW máx"
-          />
-          <SummaryCard icon="Navigation" value={1.5} label="km" />
-          <SummaryCard
-            icon="Star"
-            value={values.pinSelected?.r$kwh!}
-            label="R$/kWh"
-          />
-        </View>
-        <View style={pinDetailStyles.section}>
-          <Text style={pinDetailStyles.title}>PLUGS DISPONÍVEIS</Text>
-        </View>
-        <View style={pinDetailStyles.viewPlug}>
-          {values.pinSelected?.plugs.map((plug) => (
-            <CardPlug
-              key={plug.id}
-              title={plug.title}
-              titleSmall={plug.titleSmall}
-              titleKw={`${plug.kw} kW`}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={pinDetailStyles.container}>
+          <View style={pinDetailStyles.viewStation}>
+            <StationCard title={values.pinSelected?.name!} type="AVAILABLE" />
+          </View>
+          <View style={pinDetailStyles.viewSummary}>
+            <SummaryCard
+              icon="Zap"
+              value={values.pinSelected?.kwhmax!}
+              label="kW máx"
             />
-          ))}
-        </View>
-        <View style={pinDetailStyles.section}>
-          <Text style={pinDetailStyles.title}>ENDEREÇO</Text>
-        </View>
-        <View style={pinDetailStyles.viewCardInfo}>
-          <View style={pinDetailStyles.viewCardInfoContent}>
+            <SummaryCard icon="Navigation" value={1.5} label="km" />
+            <SummaryCard
+              icon="Star"
+              value={values.pinSelected?.r$kwh!}
+              label="R$/kWh"
+            />
+          </View>
+          <View style={pinDetailStyles.section}>
+            <Text style={pinDetailStyles.title}>PLUGS DISPONÍVEIS</Text>
+          </View>
+          <View style={pinDetailStyles.viewPlug}>
+            {values.pinSelected?.plugs.map((plug) => (
+              <CardPlug
+                key={plug.id}
+                title={plug.title}
+                titleSmall={plug.titleSmall}
+                titleKw={`${plug.kw} kW`}
+              />
+            ))}
+          </View>
+          <View style={pinDetailStyles.section}>
+            <Text style={pinDetailStyles.title}>ENDEREÇO</Text>
+          </View>
+          <View style={pinDetailStyles.viewCardInfo}>
+            <View style={pinDetailStyles.viewCardInfoContent}>
+              <CardInfo
+                description={values.pinSelected?.adress!}
+                iconName="MapPinned"
+              />
+            </View>
+            <View>
+              <ButtonIcon
+                icon={"Navigation"}
+                square
+                size="lg"
+                onPress={() => console.log("click no endereco")}
+              />
+            </View>
+          </View>
+          <View style={pinDetailStyles.section}>
+            <Text style={pinDetailStyles.title}>SUPORTE TÉCNICO</Text>
+          </View>
+          <View>
             <CardInfo
-              description={values.pinSelected?.adress!}
-              iconName="MapPinned"
+              iconName="Phone"
+              description={values.pinSelected?.supportNumber!}
+              onPress={() => console.log("press telefone")}
             />
           </View>
-          <View>
-            <ButtonIcon
-              icon={"Navigation"}
-              square
-              size="lg"
-              onPress={() => console.log("click no endereco")}
-            />
+          <View style={pinDetailStyles.viewPressError}>
+            <Pressable
+              style={({ pressed }) => [
+                pinDetailStyles.pressableError,
+                { opacity: pressed ? 0.5 : 1 },
+              ]}
+            >
+              <Icon
+                name="CircleAlert"
+                color={C.error}
+                size={18}
+                strokeWidth={2.2}
+              />
+              <Text style={pinDetailStyles.titleError}>
+                Relatar um problemas
+              </Text>
+            </Pressable>
           </View>
-        </View>
-        <View style={pinDetailStyles.section}>
-          <Text style={pinDetailStyles.title}>SUPORTE TÉCNICO</Text>
-        </View>
-        <View>
-          <CardInfo
-            iconName="Phone"
-            description={values.pinSelected?.supportNumber!}
-            onPress={() => console.log("press telefone")}
-          />
-        </View>
-        <View style={pinDetailStyles.viewPressError}>
-          <Pressable
-            style={({ pressed }) => [
-              pinDetailStyles.pressableError,
-              { opacity: pressed ? 0.5 : 1 },
-            ]}
-          >
-            <Icon
-              name="CircleAlert"
-              color={C.error}
-              size={18}
-              strokeWidth={2.2}
-            />
-            <Text style={pinDetailStyles.titleError}>Relatar um problemas</Text>
-          </Pressable>
-        </View>
-        <View style={pinDetailStyles.section}>
-          <Text style={pinDetailStyles.title}>HÓRARIOS DE FUNCIONAMENTO</Text>
-        </View>
-        <View>
-          <TimeTable items={values.pinSelected?.schedules!} />
-        </View>
-        <View style={[pinDetailStyles.viewButton, { height: height * 0.3 }]}>
-          <View>
-            <Button
-              title={"Escanear QR Code"}
-              iconLeft="QrCode"
-              size="lg"
-              w={310}
-              onPress={() => router.navigate("/scan")}
-            />
+          <View style={pinDetailStyles.section}>
+            <Text style={pinDetailStyles.title}>HÓRARIOS DE FUNCIONAMENTO</Text>
           </View>
           <View>
-            <ButtonIcon icon="Star" square size="md" variant="outline" border />
+            <TimeTable items={values.pinSelected?.schedules!} />
+          </View>
+          <View style={[pinDetailStyles.viewButton, { height: height * 0.3 }]}>
+            <View>
+              <Button
+                title={"Escanear QR Code"}
+                iconLeft="QrCode"
+                size="lg"
+                w={310}
+                onPress={() => router.navigate("/scan-detalhes")}
+              />
+            </View>
+            <View>
+              <ButtonIcon
+                icon="Star"
+                square
+                size="md"
+                variant="outline"
+                border
+              />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -130,7 +137,7 @@ export default function PinDetalhes() {
 }
 
 const pinDetailStyles = StyleSheet.create({
-  container: { marginHorizontal: 14 },
+  container: { marginHorizontal: 10 },
   viewStation: { marginTop: 14 },
   viewSummary: {
     marginTop: 14,
@@ -148,7 +155,7 @@ const pinDetailStyles = StyleSheet.create({
   viewCardInfo: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    justifyContent: "space-between",
   },
   viewCardInfoContent: {
     width: "80%",

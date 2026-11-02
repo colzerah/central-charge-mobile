@@ -53,4 +53,13 @@ export const headerStyles = StyleSheet.create({
     width: 42,
     height: 42,
   },
+  singleBackBtn: {
+    position: "absolute",
+    top: 70,
+    left: 14,
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });

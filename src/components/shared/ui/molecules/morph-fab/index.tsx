@@ -13,6 +13,7 @@ import React, {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -71,6 +72,7 @@ import type {
   IMorphFabItemLabel,
   IMorphFabRoot,
   IMorphFabTrigger,
+  ISize,
 } from "./types";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -377,6 +379,7 @@ const MorphFabItem = memo<IMorphFabItem>(
     const count = items.length;
     const slot = index >= 0 ? geo.slots[index] : undefined;
     const pressed = useSharedValue<number>(0);
+    const measuredSize = useRef<ISize>({ w: 0, h: 0 });
 
     const resolvedSize = size ?? itemSize;
     const resolvedPadding = padding ?? itemPadding;
@@ -384,7 +387,9 @@ const MorphFabItem = memo<IMorphFabItem>(
     const resolvedColor = color ?? itemColor;
 
     useEffect(() => {
-      registerItem(id);
+      // Re-registering (fast refresh / strict mode) must keep the last size,
+      // since onLayout won't fire again if the layout didn't change.
+      registerItem(id, measuredSize.current);
       return () => unregisterItem(id);
     }, [id, registerItem, unregisterItem]);
 
@@ -395,6 +400,7 @@ const MorphFabItem = memo<IMorphFabItem>(
     const onLayout = useCallback(
       (e: LayoutChangeEvent) => {
         const { width, height } = e.nativeEvent.layout;
+        measuredSize.current = { w: width, h: height };
         updateItem(id, { w: width, h: height });
       },
       [id, updateItem],

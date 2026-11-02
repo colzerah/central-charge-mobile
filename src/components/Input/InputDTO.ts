@@ -21,7 +21,7 @@ export interface InputProps {
     | "numeric"
     | "email-address"
     | "phone-pad";
-  textContentType?: "none" | "emailAddress" | "password";
+  textContentType?: "none" | "emailAddress" | "password" | "telephoneNumber";
   leftIcon?: keyof typeof icons;
   iconColor?: string;
   iconBg?: string;

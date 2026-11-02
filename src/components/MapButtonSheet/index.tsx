@@ -151,7 +151,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
         <BottomSheetView style={mapButtonSheetStyles.content}>
           <View style={mapButtonSheetStyles.header}>
             <View style={mapButtonSheetStyles.headerRow}>
-              <View style={mapButtonSheetStyles.tagView}>{renderTag}</View>
+              <View>{renderTag}</View>
               <View style={mapButtonSheetStyles.row}>
                 <ButtonIcon
                   icon="Star"

@@ -111,6 +111,25 @@ const Button = ({
         color: C.white,
       };
     }
+
+    if (colorScheme === "info") {
+      if (isOutline) {
+        return {
+          backgroundColor: C.ink100 + "80",
+          color: C.info,
+        };
+      }
+      if (isLink) {
+        return {
+          backgroundColor: "transparent",
+          color: C.info,
+        };
+      }
+      return {
+        backgroundColor: C.info,
+        color: C.white,
+      };
+    }
     if (colorScheme === "primary") {
       if (isOutline) {
         return {

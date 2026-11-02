@@ -1,5 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
-import CardBrand from "@/src/components/CardItems/CardBrand";
+import InputOpt from "@/src/components/InputOpt";
 import { useToast } from "@/src/providers/toast-provider";
 
 import { useAppDispatch } from "@/src/redux/store";
@@ -12,11 +12,21 @@ export default function TesteCol() {
   const dispatch = useAppDispatch();
   const { openToast } = useToast();
 
-  const [value, setValue] = useState(false);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     console.log(value);
   }, [value]);
+
+  const handleFinishg = () => {
+    if (value !== "123456") {
+      setError(true);
+    }
+    setTimeout(() => {
+      setError(false);
+    }, 2000);
+  };
 
   return (
     <BackgroundGradient>
@@ -28,16 +38,10 @@ export default function TesteCol() {
           gap: 10,
         }}
       >
-        <CardBrand label={"PlugCharge"} indexColor={2} />
-        <CardBrand
-          indexColor={2}
-          onPress={() => setValue((prev) => !prev)}
-          label={"PlugCharge"}
-          isActive={value}
-          count={2}
-          uri={
-            "https://cdn.aptoide.com/imgs/a/8/d/a8dd37571f8e05e9a1e2da4be769e6a0_icon.png"
-          }
+        <InputOpt
+          error={error}
+          onChange={setValue}
+          onFinishedChange={handleFinishg}
         />
       </View>
     </BackgroundGradient>

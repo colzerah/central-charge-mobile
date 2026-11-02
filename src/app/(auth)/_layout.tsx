@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-import Header from "@/src/components/Header";
+import Header, { HeaderBackButton } from "@/src/components/Header";
 import { C } from "@/src/theme";
 
 export default function AuthLayout() {
@@ -35,6 +35,33 @@ export default function AuthLayout() {
           header: () => <Header title="Criar Conta" />,
           headerTitle: "Criar Conta",
           headerBackTitle: "Voltar",
+        }}
+      />
+      <Stack.Screen
+        name="forgot-password"
+        options={{
+          headerShown: true,
+          header: () => <HeaderBackButton />,
+          headerTitle: "",
+          headerBackTitle: "",
+        }}
+      />
+      <Stack.Screen
+        name="send-code"
+        options={{
+          headerShown: true,
+          header: () => <HeaderBackButton />,
+          headerTitle: "",
+          headerBackTitle: "",
+        }}
+      />
+      <Stack.Screen
+        name="new-password"
+        options={{
+          headerShown: true,
+          header: () => <HeaderBackButton />,
+          headerTitle: "",
+          headerBackTitle: "",
         }}
       />
     </Stack>

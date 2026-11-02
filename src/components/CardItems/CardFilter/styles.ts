@@ -5,7 +5,7 @@ export const cardInfoStyles = StyleSheet.create({
   container: {
     backgroundColor: C.ink100,
     borderRadius: 14,
-    // borderWidth: 1.5,
+    borderWidth: 1.5,
     borderColor: C.ink200,
     paddingVertical: 18,
     width: "100%",
