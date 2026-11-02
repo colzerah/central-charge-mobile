@@ -73,5 +73,7 @@ Join our community of developers creating universal apps.
 - componente de avatar. \* FEITO
 - componente card profile. \* FEITO
 - criar tela de criar conta. \* FEITO
+- Verificar styles de Badge.
+- Verificar o uso do Badge para avatarProfile.
 - arrumar o value(tem que ser numérico) de summarycard. (quebrando o escopo), maximo de caracteres.
-- criar componente de select (Procurar lib).
+- criar componente de select (ScrollBar Search).
