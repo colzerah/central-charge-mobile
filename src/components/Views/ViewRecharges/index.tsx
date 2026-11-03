@@ -14,10 +14,14 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { RechargeProps, RECHARGES_MOCK } from "./RechargesDTO";
+import {
+  RechargeProps,
+  RECHARGES_MOCK,
+  ViewRechargesProps,
+} from "./RechargesDTO";
 import { rechargesStyles } from "./styles";
 
-const ViewRecharges = () => {
+const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const contentO = useSharedValue(1);
@@ -87,6 +91,8 @@ const ViewRecharges = () => {
           Histórico e agendamentos
         </Text>
       </View>
+
+      {tabs}
 
       <View style={rechargesStyles.summaryRow}>
         <SummaryCard icon="Zap" value="1.248 kWh" label="Total carregado" />

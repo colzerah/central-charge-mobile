@@ -1,3 +1,8 @@
+export interface ViewRechargesProps {
+  // renderizado logo abaixo do título e subtítulo (ex.: as abas da tela)
+  tabs?: React.ReactNode;
+}
+
 export interface RechargeProps {
   id: number;
   title: string;

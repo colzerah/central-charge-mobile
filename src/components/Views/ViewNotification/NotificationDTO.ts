@@ -1,3 +1,8 @@
+export interface ViewNotificationProps {
+  // renderizado logo abaixo do título e subtítulo (ex.: as abas da tela)
+  tabs?: React.ReactNode;
+}
+
 export type NotificationType =
   | "charge"
   | "alert"
