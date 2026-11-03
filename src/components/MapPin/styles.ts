@@ -9,7 +9,10 @@ const HEAD_CENTER = { x: 12, y: 10 };
 // ponta de baixo da gota no viewBox do lucide (fica acima da borda da
 // imagem por causa da folga da sombra)
 const TIP = { x: 12, y: 22 };
+const HEAD_RADIUS = 6.25;
 const ICON_SIZE = 16;
+// diâmetro do miolo em px: a imagem ocupa exatamente esse círculo
+const CENTER_SIZE = HEAD_RADIUS * 2 * SCALE;
 
 export const PIN = {
   width: VIEWBOX.width * SCALE,
@@ -20,6 +23,9 @@ export const PIN = {
   viewBox: `${VIEWBOX.x} ${VIEWBOX.y} ${VIEWBOX.width} ${VIEWBOX.height}`,
   // 1.5 unidades * SCALE = borda de 3px, igual à do pin antigo
   strokeWidth: 1.5,
+  // miolo dentro da cabeça da gota (raio 8 no lucide): com 6.25
+  // fica um anel colorido de ~3.5px em volta, e 25px de diâmetro
+  head: { ...HEAD_CENTER, radius: HEAD_RADIUS },
   shadowOffset: 0.8,
   iconSize: ICON_SIZE,
 };
@@ -33,5 +39,13 @@ export const styles = StyleSheet.create({
     position: "absolute",
     left: (HEAD_CENTER.x - VIEWBOX.x) * SCALE - ICON_SIZE / 2,
     top: (HEAD_CENTER.y - VIEWBOX.y) * SCALE - ICON_SIZE / 2,
+  },
+  centerImage: {
+    position: "absolute",
+    left: (HEAD_CENTER.x - VIEWBOX.x) * SCALE - CENTER_SIZE / 2,
+    top: (HEAD_CENTER.y - VIEWBOX.y) * SCALE - CENTER_SIZE / 2,
+    width: CENTER_SIZE,
+    height: CENTER_SIZE,
+    borderRadius: CENTER_SIZE / 2,
   },
 });

@@ -31,6 +31,7 @@ type AnimatedMapMarkerProps = MapMarkerProps &
 
 const AnimatedMapMarker = ({
   variant,
+  centerImage,
   selected = false,
   sheetAnimatedIndex,
   ...markerProps
@@ -97,7 +98,7 @@ const AnimatedMapMarker = ({
       <Animated.View
         style={[{ transformOrigin: [PIN.tipX, PIN.tipY, 0] }, animatedStyle]}
       >
-        <MapPin variant={variant} />
+        <MapPin variant={variant} centerImage={centerImage} />
       </Animated.View>
     </Marker>
   );
