@@ -77,3 +77,4 @@ Join our community of developers creating universal apps.
 - Verificar o uso do Badge para avatarProfile.
 - arrumar o value(tem que ser numérico) de summarycard. (quebrando o escopo), maximo de caracteres.
 - criar componente de select (ScrollBar Search).
+- Mudar nome profile avatar para avatar

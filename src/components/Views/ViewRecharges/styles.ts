@@ -36,6 +36,6 @@ export const rechargesStyles = StyleSheet.create({
     gap: 12,
   },
   listContent: {
-    paddingBottom: 24,
+    paddingBottom: 85,
   },
 });

@@ -192,12 +192,6 @@ export default function CriarConta() {
         showsVerticalScrollIndicator={false}
         bottomOffset={20}
       >
-        <View style={styles.titleView}>
-          <Text style={styles.title}>
-            Cadastre-se para encontrar recargas perto de você
-          </Text>
-        </View>
-
         <View style={styles.photoView}>
           <Pressable style={styles.photoCircle} onPress={handlePhotoPress}>
             {photoUrl ? (
@@ -226,7 +220,7 @@ export default function CriarConta() {
           <Input
             label="Nome completo"
             placeholder="Seu nome completo"
-            leftIcon="User"
+            textContentType="username"
             value={name}
             onChange={(t) => {
               setName(t);

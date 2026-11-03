@@ -2,7 +2,7 @@ import { C } from "@/src/theme";
 import { formatPhone } from "@/src/utils/phone";
 import { pressableOpacity } from "@/src/utils/pressable";
 import { useFocusEffect } from "expo-router";
-import { Lock, Mail, Phone } from "lucide-react-native";
+import { Lock, Mail, Phone, User } from "lucide-react-native";
 import { useCallback, useRef, useState } from "react";
 import {
   Pressable,
@@ -45,6 +45,8 @@ const Input = ({
   );
   const isPhone = textContentType === "telephoneNumber";
 
+  const isUser = textContentType === "username";
+
   // Foca o input sempre que a tela ganha foco (inclusive ao voltar para ela)
   useFocusEffect(
     useCallback(() => {
@@ -66,6 +68,9 @@ const Input = ({
     }
     if (isPhone) {
       return "(11) 99999-9999";
+    }
+    if (isUser) {
+      return "Digite seu nome completo";
     }
     return "Digite aqui";
   };
@@ -188,6 +193,13 @@ const Input = ({
 
         {isPhone && (
           <Phone
+            color={getIconColor()}
+            size={getSize()?.iconSize}
+            style={inputStyles.inputIcon}
+          />
+        )}
+        {isUser && (
+          <User
             color={getIconColor()}
             size={getSize()?.iconSize}
             style={inputStyles.inputIcon}

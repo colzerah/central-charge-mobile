@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-import Header, { HeaderBackButton } from "@/src/components/Header";
+import { HeaderBackButton } from "@/src/components/Header";
 import { C } from "@/src/theme";
 
 export default function AuthLayout() {
@@ -32,7 +32,7 @@ export default function AuthLayout() {
         name="criarConta"
         options={{
           headerShown: true,
-          header: () => <Header title="Criar Conta" />,
+          header: () => <HeaderBackButton />,
           headerTitle: "Criar Conta",
           headerBackTitle: "Voltar",
         }}
