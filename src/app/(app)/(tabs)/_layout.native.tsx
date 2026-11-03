@@ -2,7 +2,7 @@ import TabBar from "@/src/components/TabBar";
 import { C } from "@/src/theme";
 import { Tabs } from "expo-router";
 
-import { Bell, MapPin, Menu, QrCode, Zap } from "lucide-react-native";
+import { Bell, MapPin, Menu, QrCode, Star } from "lucide-react-native";
 
 export default function TabLayout() {
   return (
@@ -28,7 +28,7 @@ export default function TabLayout() {
         options={{
           title: "Favoritos",
           tabBarIcon: ({ focused }) => (
-            <Zap size={22} color={focused ? C.brand500 : "#B9B9B9"} />
+            <Star size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
         }}
       />

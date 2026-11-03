@@ -35,6 +35,7 @@ import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
 import Skeleton from "@/src/components/Skeleton";
 import { useAuth } from "@/src/hooks/useAuth";
+import { useOnboarding } from "@/src/hooks/useOnboarding";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -49,6 +50,7 @@ function LoginContent() {
   const { signIn, isAuthLoading } = useAuth();
   const { localization, camera, allowLocationAccess } = usePermissions();
   const isFocused = useIsFocused();
+  const { resetOnboarding } = useOnboarding();
 
   const [email, setEmail] = useState("user@example.com");
   const [password, setPassword] = useState("12345678");
@@ -266,7 +268,7 @@ function LoginContent() {
                       <SocialButton
                         type="facebook"
                         label="Facebook"
-                        onPress={() => handleSocial("Facebook")}
+                        onPress={() => resetOnboarding()}
                       />
                     </Skeleton>
                   </View>

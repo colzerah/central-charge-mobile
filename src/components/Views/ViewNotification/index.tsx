@@ -21,7 +21,11 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { NOTIFICATION_MOCK, NotificationProps } from "./NotificationDTO";
+import {
+  NOTIFICATION_MOCK,
+  NotificationProps,
+  ViewNotificationProps,
+} from "./NotificationDTO";
 import { notificationStyles } from "./styles";
 
 const MONTHS = [
@@ -39,7 +43,7 @@ const MONTHS = [
   "DEZ",
 ];
 
-const ViewNotification = () => {
+const ViewNotification = ({ tabs }: ViewNotificationProps) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [notifs, setNotifs] = useState<NotificationProps[]>(NOTIFICATION_MOCK);
   const scrollY = useSharedValue(0);
@@ -140,6 +144,8 @@ const ViewNotification = () => {
           </TouchableOpacity>
         </View>
       </View>
+
+      {tabs}
 
       {/* Pull-to-refresh indicator */}
       <Animated.View

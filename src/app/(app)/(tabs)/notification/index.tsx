@@ -190,28 +190,31 @@ export default function NotificacoesScreen() {
     }, []),
   );
 
+  // As abas ficam dentro de cada tela, abaixo do título e subtítulo
+  const tabs = (
+    <View style={styles.tabView}>
+      <TabNavigation
+        items={NOTIFICATION_TAB_ITEM}
+        value={tab}
+        onPress={(e) => setTab(e as VisitedTabName)}
+      />
+    </View>
+  );
+
   return (
     <BackgroundGradient>
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.tabView}>
-          <TabNavigation
-            items={NOTIFICATION_TAB_ITEM}
-            value={tab}
-            onPress={(e) => setTab(e as VisitedTabName)}
-          />
-        </View>
-
         <View
           style={[styles.tabContent, tab !== "RECARGAS" && styles.hidden]}
           pointerEvents={tab !== "RECARGAS" ? "none" : "auto"}
         >
-          <Recharges />
+          <Recharges tabs={tabs} />
         </View>
         <View
           style={[styles.tabContent, tab !== "NOTIFICACOES" && styles.hidden]}
           pointerEvents={tab !== "NOTIFICACOES" ? "none" : "auto"}
         >
-          <Notifications />
+          <Notifications tabs={tabs} />
         </View>
       </SafeAreaView>
     </BackgroundGradient>
@@ -221,6 +224,8 @@ export default function NotificacoesScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    // o espaço que antes ficava acima das abas agora fica acima do título
+    paddingTop: 20,
   },
   tabContent: {
     flex: 1,
@@ -238,7 +243,6 @@ const styles = StyleSheet.create({
   tabView: {
     width: 330,
     alignSelf: "center",
-    marginTop: 20,
     marginBottom: 20,
   },
 });

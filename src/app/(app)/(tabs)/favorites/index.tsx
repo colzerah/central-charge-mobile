@@ -1,5 +1,6 @@
+import { useModal } from "@/src/hooks/useModal";
 import { C } from "@/src/theme";
-import { MapPin, Star, Zap } from "lucide-react-native";
+import { MapPin, Star, Trash2, Zap } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
   RefreshControl,
@@ -187,10 +188,26 @@ const INITIAL_FAVORITES: FavoriteStation[] = [
   { station: STATIONS[4], savedAt: "Adicionado em 05 Ago" },
 ];
 
+type SortOption = "recent" | "nearest";
+
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: "recent", label: "Recentes" },
+  { value: "nearest", label: "Mais perto" },
+];
+
 export default function FavoritosScreen() {
   const [favorites, setFavorites] =
     useState<FavoriteStation[]>(INITIAL_FAVORITES);
   const [refreshing, setRefreshing] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>("recent");
+  const { openModal } = useModal();
+
+  // "Recentes" mantém a ordem em que foram salvos; "Mais perto" ordena
+  // da menor para a maior distância
+  const sortedFavorites =
+    sortBy === "nearest"
+      ? [...favorites].sort((a, b) => a.station.distance - b.station.distance)
+      : favorites;
 
   const contentO = useSharedValue(0);
   const contentY = useSharedValue(24);
@@ -213,8 +230,16 @@ export default function FavoritosScreen() {
     setTimeout(() => setRefreshing(false), 1200);
   };
 
-  const handleRemove = (id: string) => {
-    setFavorites((prev) => prev.filter((f) => f.station.id !== id));
+  const handleRemove = (station: ChargingStation) => {
+    openModal({
+      title: "Deseja remover dos favoritos?",
+      subTitle: `Ao remover, "${station.name}" deixará de estar na sua lista de favoritos.`,
+      type: "WARNING",
+      titleButton: "Remover",
+      titleButtonCancel: "Cancelar",
+      onPress: () =>
+        setFavorites((prev) => prev.filter((f) => f.station.id !== station.id)),
+    });
   };
 
   return (
@@ -228,6 +253,31 @@ export default function FavoritosScreen() {
               : "Nenhuma estação favoritada"}
           </Text>
         </View>
+
+        {favorites.length > 0 && (
+          <View style={styles.filters}>
+            {SORT_OPTIONS.map((option) => {
+              const active = sortBy === option.value;
+              return (
+                <TouchableOpacity
+                  key={option.value}
+                  onPress={() => setSortBy(option.value)}
+                  style={[styles.filterChip, active && styles.filterChipActive]}
+                  activeOpacity={0.7}
+                >
+                  <Text
+                    style={[
+                      styles.filterText,
+                      active && styles.filterTextActive,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
 
         <ScrollView
           style={styles.flex}
@@ -244,11 +294,11 @@ export default function FavoritosScreen() {
         >
           <Animated.View style={contentStyle}>
             {favorites.length > 0 ? (
-              favorites.map((fav) => (
+              sortedFavorites.map((fav) => (
                 <FavoriteCard
                   key={fav.station.id}
                   favorite={fav}
-                  onRemove={() => handleRemove(fav.station.id)}
+                  onRemove={() => handleRemove(fav.station)}
                 />
               ))
             ) : (
@@ -310,16 +360,11 @@ function FavoriteCard({
         </View>
         <TouchableOpacity
           onPress={onRemove}
-          style={styles.starBtn}
+          style={styles.removeBtn}
           activeOpacity={0.7}
           hitSlop={8}
         >
-          <Star
-            color={C.brand400}
-            size={22}
-            strokeWidth={2.2}
-            fill={C.brand400}
-          />
+          <Trash2 color={C.error} size={20} strokeWidth={2.2} />
         </TouchableOpacity>
       </View>
 
@@ -328,27 +373,23 @@ function FavoriteCard({
       </Text>
 
       <View style={styles.cardFooter}>
-        <View style={styles.cardStats}>
-          <View
-            style={[
-              styles.statusBadge,
-              { backgroundColor: statusColor + "20" },
-            ]}
-          >
-            <View
-              style={[styles.statusDot, { backgroundColor: statusColor }]}
-            />
-            <Text style={[styles.statusText, { color: statusColor }]}>
-              {statusLabel}
-            </Text>
-          </View>
+        <View
+          style={[styles.statusBadge, { backgroundColor: statusColor + "20" }]}
+        >
+          <View style={[styles.statusDot, { backgroundColor: statusColor }]} />
+          <Text style={[styles.statusText, { color: statusColor }]}>
+            {statusLabel}
+          </Text>
+        </View>
+        <View style={styles.cardValues}>
           <Text style={styles.cardPower}>{station.power} kW</Text>
           <Text style={styles.cardPrice}>
             R$ {station.price.toFixed(2).replace(".", ",")}/kWh
           </Text>
         </View>
-        <Text style={styles.savedAt}>{favorite.savedAt}</Text>
       </View>
+
+      <Text style={styles.savedAt}>{favorite.savedAt}</Text>
     </View>
   );
 }
@@ -369,6 +410,33 @@ const styles = StyleSheet.create({
     color: C.ink400,
     fontFamily: "Inter-Regular",
     marginTop: 4,
+  },
+
+  filters: {
+    flexDirection: "row",
+    gap: 8,
+    paddingHorizontal: 20,
+    paddingBottom: 14,
+  },
+  filterChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: C.ink200,
+    backgroundColor: C.ink50,
+  },
+  filterChipActive: {
+    borderColor: C.brand400,
+    backgroundColor: C.brand400 + "20",
+  },
+  filterText: {
+    fontSize: 13,
+    color: C.ink400,
+    fontFamily: "Inter-SemiBold",
+  },
+  filterTextActive: {
+    color: C.brand400,
   },
 
   card: {
@@ -409,11 +477,11 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   cardDistance: { fontSize: 12, color: C.ink400, fontFamily: "Inter-Regular" },
-  starBtn: {
+  removeBtn: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: C.ink100,
+    backgroundColor: C.error + "18",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -431,10 +499,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  cardStats: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
+  cardValues: {
+    alignItems: "flex-end",
+    gap: 2,
   },
   statusBadge: {
     flexDirection: "row",
@@ -458,7 +525,12 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontFamily: "Inter-Bold",
   },
-  savedAt: { fontSize: 11, color: C.ink500, fontFamily: "Inter-Regular" },
+  savedAt: {
+    fontSize: 11,
+    color: C.ink500,
+    fontFamily: "Inter-Regular",
+    marginTop: 10,
+  },
 
   emptyWrap: {
     alignItems: "center",

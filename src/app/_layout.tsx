@@ -15,27 +15,41 @@ import {
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SystemUI from "expo-system-ui";
-import { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { useState } from "react";
+import { LogBox, useColorScheme, View } from "react-native";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { Provider } from "react-redux";
+import SplashAnimated from "../components/SplashAnimated";
 import { useAuthBootstrap } from "../hooks/useAuth";
+import { useOnboardingBootstrap } from "../hooks/useOnboarding";
 import { ModalProvider } from "../providers/modal-provider";
 import { ToastProvider } from "../providers/toast-provider";
 import { store } from "../redux/store";
 import { C } from "../theme";
 
-// @gorhom/bottom-sheet 5.2.14 passa arrays de dependencia pros hooks do
-// Reanimated, que no native sao ignorados e geram esse aviso. Filtra so
-// essa mensagem ate a lib corrigir — remover quando atualizar o bottom-sheet.
+// Avisos conhecidos e inofensivos, escondidos só em desenvolvimento.
+const IGNORED_WARNINGS = [
+  // @gorhom/bottom-sheet 5.2.14 passa arrays de dependencia pros hooks do
+  // Reanimated, que no native sao ignorados e geram esse aviso. Remover
+  // quando atualizar o bottom-sheet.
+  "Dependencies should only be used on the web",
+  // iOS: o Button com shadowBox poe a sombra numa View sem fundo (o botao
+  // interno tem overflow hidden). E so dica de desempenho, a sombra aparece.
+  "has a shadow set but cannot calculate shadow efficiently",
+];
+
 if (__DEV__) {
+  // Avisos do nativo chegam pelo LogBox; os do JS, pelo console.warn
+  LogBox.ignoreLogs(IGNORED_WARNINGS);
+
   const originalWarn = console.warn;
   console.warn = (...args: unknown[]) => {
+    const message = args[0];
     if (
-      typeof args[0] === "string" &&
-      args[0].includes("Dependencies should only be used on the web")
+      typeof message === "string" &&
+      IGNORED_WARNINGS.some((warning) => message.includes(warning))
     ) {
       return;
     }
@@ -58,12 +72,16 @@ export default function RootLayout() {
   );
 }
 
-// Fica visível na splash screen até as fontes carregarem E a sessão
-// persistida (AsyncStorage) ser lida, para nunca desenhar (app) ou
-// (auth) com base num estado ainda incompleto.
+// A splash nativa só cobre o primeiro instante: assim que a SplashAnimated
+// monta (mesmo visual), ela esconde a nativa e fica por cima até as
+// fontes carregarem E a sessão e a flag do tour persistidas (AsyncStorage)
+// serem lidas. As rotas só montam depois disso, para nunca desenhar
+// (app), (auth) ou o onboarding com base num estado incompleto.
 function AppReady() {
   const colorScheme = useColorScheme();
   const { isAuthenticated } = useAuthBootstrap();
+  const { onboardingDone } = useOnboardingBootstrap();
+  const [splashVisible, setSplashVisible] = useState(true);
 
   const [fontsLoaded, fontError] = useFonts({
     "Inter-Regular": Inter_400Regular,
@@ -71,39 +89,52 @@ function AppReady() {
     "Inter-Bold": Inter_700Bold,
   });
 
-  const isReady = (fontsLoaded || !!fontError) && isAuthenticated !== null;
-
-  useEffect(() => {
-    if (isReady) {
-      SplashScreen.hideAsync();
-    }
-  }, [isReady]);
-
-  if (!isReady) {
-    return null;
-  }
+  const fontsReady = fontsLoaded || !!fontError;
+  const isReady =
+    fontsReady && isAuthenticated !== null && onboardingDone !== null;
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <ToastProvider>
-        <BottomSheetModalProvider>
-          <ModalProvider>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: C.ink0 },
-              }}
-            >
-              <Stack.Protected guard={!!isAuthenticated}>
-                <Stack.Screen name="(app)" />
-              </Stack.Protected>
-              <Stack.Protected guard={isAuthenticated === false}>
-                <Stack.Screen name="(auth)" />
-              </Stack.Protected>
-            </Stack>
-          </ModalProvider>
-        </BottomSheetModalProvider>
-      </ToastProvider>
-    </ThemeProvider>
+    <View style={{ flex: 1, backgroundColor: C.ink0 }}>
+      {isReady && (
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <ToastProvider>
+            <BottomSheetModalProvider>
+              <ModalProvider>
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                    contentStyle: { backgroundColor: C.ink0 },
+                  }}
+                >
+                  <Stack.Protected guard={!!isAuthenticated}>
+                    <Stack.Screen name="(app)" />
+                  </Stack.Protected>
+                  <Stack.Protected
+                    guard={isAuthenticated === false && !onboardingDone}
+                  >
+                    <Stack.Screen name="onboarding" />
+                  </Stack.Protected>
+                  <Stack.Protected
+                    guard={isAuthenticated === false && !!onboardingDone}
+                  >
+                    <Stack.Screen name="(auth)" />
+                  </Stack.Protected>
+                </Stack>
+              </ModalProvider>
+            </BottomSheetModalProvider>
+          </ToastProvider>
+        </ThemeProvider>
+      )}
+
+      {splashVisible && (
+        <SplashAnimated
+          isReady={isReady}
+          fontsReady={fontsReady}
+          onFinish={() => setSplashVisible(false)}
+        />
+      )}
+    </View>
   );
 }

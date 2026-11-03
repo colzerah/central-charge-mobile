@@ -6,6 +6,8 @@ export interface HomeValuesState {
 export interface AppState {
   home: HomeState;
   notifications: NotificationState;
+  // null = ainda não leu do AsyncStorage (ver useOnboardingBootstrap)
+  onboardingDone: boolean | null;
 }
 
 export interface HomeState {

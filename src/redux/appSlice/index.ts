@@ -12,6 +12,7 @@ const initialState: AppState = {
   notifications: {
     listNotifications: [],
   },
+  onboardingDone: null,
 };
 
 const app = createSlice({
@@ -24,9 +25,12 @@ const app = createSlice({
     ) => {
       state.home.values.pinSelected = action.payload ? action.payload : null;
     },
+    addOnboardingDone: (state, action: PayloadAction<boolean>) => {
+      state.onboardingDone = action.payload;
+    },
   },
 });
 
-export const { addPinSelected } = app.actions;
+export const { addPinSelected, addOnboardingDone } = app.actions;
 
 export default app.reducer;

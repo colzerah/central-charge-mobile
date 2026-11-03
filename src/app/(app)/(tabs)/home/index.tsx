@@ -3,6 +3,7 @@ import DrawerFilter from "@/src/components/DrawerFilter";
 import FabGroup from "@/src/components/FabGroup";
 import { FabItems } from "@/src/components/FabGroup/FabGroupDTO";
 import MapButtonSheet from "@/src/components/MapButtonSheet";
+import MapLegend from "@/src/components/MapLegend";
 import {
   MapButtonSheetRef,
   Plugs,
@@ -40,6 +41,8 @@ export interface MarketsInterface {
   };
   qtdPlugs: number;
   plugs: Plugs[];
+  // logo da operadora, mostrada no miolo do pin no lugar do ícone
+  image?: string;
 }
 
 const mockMarkets = [
@@ -233,6 +236,43 @@ const mockMarkets = [
       },
     ],
   },
+  {
+    id: 5,
+    name: "EasyCharge · Ceilândia",
+    adress: "QNN 10, Ceilândia Centro",
+    variant: "AVAILABLE",
+    // mesma logo da EasyCharge usada no filtro (ViewFilter)
+    image:
+      "https://cdn.aptoide.com/imgs/a/8/d/a8dd37571f8e05e9a1e2da4be769e6a0_icon.png",
+    r$kwh: 0.55,
+    kwhmax: 150,
+    supportNumber: "0800 504 5004",
+    coordinate: {
+      latitude: -15.834118,
+      longitude: -48.109284,
+    },
+    qtdPlugs: 1,
+    plugs: [
+      {
+        id: 1,
+        titleSmall: "CCS2",
+        title: "ISO 167",
+        plugName: "CCS2",
+        status: "AVAILABLE",
+        kw: 60,
+      },
+    ],
+    schedules: [
+      {
+        days: "MONDAY",
+        hours: "08:00 às 22:00",
+      },
+      {
+        days: "TUESDAY",
+        hours: "08:00 às 22:00",
+      },
+    ],
+  },
 ] as MarketsInterface[];
 
 const INITIAL_REGION = {
@@ -264,6 +304,9 @@ export default function Home() {
     );
   }, [value]);
 
+  // O grupo abre para cima: o primeiro do array fica junto do "+" e o
+  // último fica no topo. A legenda vai no topo, para o popover dela abrir
+  // sem cobrir os outros botões.
   const ITEMS = [
     {
       iconName: "Navigation",
@@ -274,6 +317,11 @@ export default function Home() {
       iconName: "SlidersHorizontal",
       value: "FILTER",
       onPress: () => setDrawerOpen(true),
+    },
+    {
+      iconName: "Info",
+      value: "LEGEND",
+      popover: <MapLegend />,
     },
   ] as FabItems[];
 
@@ -391,6 +439,7 @@ export default function Home() {
                 <AnimatedMapMarker
                   key={item.id}
                   variant={item.variant}
+                  centerImage={item.image ? { uri: item.image } : undefined}
                   selected={values.pinSelected?.id === item.id}
                   sheetAnimatedIndex={sheetAnimatedIndex}
                   coordinate={{
