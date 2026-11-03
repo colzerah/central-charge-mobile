@@ -16,7 +16,7 @@ import {
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SystemUI from "expo-system-ui";
 import { useState } from "react";
-import { useColorScheme, View } from "react-native";
+import { LogBox, useColorScheme, View } from "react-native";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -29,15 +29,27 @@ import { ToastProvider } from "../providers/toast-provider";
 import { store } from "../redux/store";
 import { C } from "../theme";
 
-// @gorhom/bottom-sheet 5.2.14 passa arrays de dependencia pros hooks do
-// Reanimated, que no native sao ignorados e geram esse aviso. Filtra so
-// essa mensagem ate a lib corrigir — remover quando atualizar o bottom-sheet.
+// Avisos conhecidos e inofensivos, escondidos só em desenvolvimento.
+const IGNORED_WARNINGS = [
+  // @gorhom/bottom-sheet 5.2.14 passa arrays de dependencia pros hooks do
+  // Reanimated, que no native sao ignorados e geram esse aviso. Remover
+  // quando atualizar o bottom-sheet.
+  "Dependencies should only be used on the web",
+  // iOS: o Button com shadowBox poe a sombra numa View sem fundo (o botao
+  // interno tem overflow hidden). E so dica de desempenho, a sombra aparece.
+  "has a shadow set but cannot calculate shadow efficiently",
+];
+
 if (__DEV__) {
+  // Avisos do nativo chegam pelo LogBox; os do JS, pelo console.warn
+  LogBox.ignoreLogs(IGNORED_WARNINGS);
+
   const originalWarn = console.warn;
   console.warn = (...args: unknown[]) => {
+    const message = args[0];
     if (
-      typeof args[0] === "string" &&
-      args[0].includes("Dependencies should only be used on the web")
+      typeof message === "string" &&
+      IGNORED_WARNINGS.some((warning) => message.includes(warning))
     ) {
       return;
     }
