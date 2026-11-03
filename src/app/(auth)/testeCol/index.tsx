@@ -1,5 +1,7 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import Button from "@/src/components/Button";
 import InputOpt from "@/src/components/InputOpt";
+import { useOnboarding } from "@/src/hooks/useOnboarding";
 import { useToast } from "@/src/providers/toast-provider";
 
 import { useAppDispatch } from "@/src/redux/store";
@@ -11,6 +13,7 @@ const RECENT = ["Tokyo", "Kyoto", "Osaka"];
 export default function TesteCol() {
   const dispatch = useAppDispatch();
   const { openToast } = useToast();
+  const { resetOnboarding } = useOnboarding();
 
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
@@ -43,6 +46,13 @@ export default function TesteCol() {
           onChange={setValue}
           onFinishedChange={handleFinishg}
         />
+        {__DEV__ && (
+          <Button
+            title="Resetar tour"
+            variant="outline"
+            onPress={resetOnboarding}
+          />
+        )}
       </View>
     </BackgroundGradient>
   );

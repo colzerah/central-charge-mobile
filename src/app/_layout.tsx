@@ -22,6 +22,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { Provider } from "react-redux";
 import { useAuthBootstrap } from "../hooks/useAuth";
+import { useOnboardingBootstrap } from "../hooks/useOnboarding";
 import { ModalProvider } from "../providers/modal-provider";
 import { ToastProvider } from "../providers/toast-provider";
 import { store } from "../redux/store";
@@ -58,12 +59,13 @@ export default function RootLayout() {
   );
 }
 
-// Fica visível na splash screen até as fontes carregarem E a sessão
-// persistida (AsyncStorage) ser lida, para nunca desenhar (app) ou
-// (auth) com base num estado ainda incompleto.
+// Fica visível na splash screen até as fontes carregarem E a sessão e a
+// flag do tour persistidas (AsyncStorage) serem lidas, para nunca
+// desenhar (app), (auth) ou o onboarding com base num estado incompleto.
 function AppReady() {
   const colorScheme = useColorScheme();
   const { isAuthenticated } = useAuthBootstrap();
+  const { onboardingDone } = useOnboardingBootstrap();
 
   const [fontsLoaded, fontError] = useFonts({
     "Inter-Regular": Inter_400Regular,
@@ -71,7 +73,10 @@ function AppReady() {
     "Inter-Bold": Inter_700Bold,
   });
 
-  const isReady = (fontsLoaded || !!fontError) && isAuthenticated !== null;
+  const isReady =
+    (fontsLoaded || !!fontError) &&
+    isAuthenticated !== null &&
+    onboardingDone !== null;
 
   useEffect(() => {
     if (isReady) {
@@ -97,7 +102,14 @@ function AppReady() {
               <Stack.Protected guard={!!isAuthenticated}>
                 <Stack.Screen name="(app)" />
               </Stack.Protected>
-              <Stack.Protected guard={isAuthenticated === false}>
+              <Stack.Protected
+                guard={isAuthenticated === false && !onboardingDone}
+              >
+                <Stack.Screen name="onboarding" />
+              </Stack.Protected>
+              <Stack.Protected
+                guard={isAuthenticated === false && !!onboardingDone}
+              >
                 <Stack.Screen name="(auth)" />
               </Stack.Protected>
             </Stack>
