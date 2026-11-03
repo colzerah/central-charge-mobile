@@ -1,18 +1,36 @@
 import { C } from "@/src/theme";
 import * as ImagePicker from "expo-image-picker";
-import { User } from "lucide-react-native";
 import { useState } from "react";
 import { Alert, Image, Pressable, View } from "react-native";
+import Icon from "../Icon";
 import { GradientAvatar } from "../shared/ui/base/gradient-avatar";
-import { ProfileAvatarProps } from "./ProfileAvatarDTO";
+import { AvatarProps } from "./AvatarDTO";
 import { styles } from "./styles";
 
-const ProfileAvatar = ({ name }: ProfileAvatarProps) => {
+const Avatar = ({
+  name,
+  size = "sm",
+  icon,
+  iconSize = 24,
+  iconColor,
+  palette,
+}: AvatarProps) => {
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
-  const size = 64;
-  const SIZE_AVATAR = size / 2;
-  const borderWidth = 3;
+  const getSize = () => {
+    if (size === "sm") {
+      return 64;
+    }
+    if (size === "md") {
+      return 96;
+    }
+    return size;
+  };
+
+  const width = getSize() - 5;
+  const height = getSize() - 5;
+
+  const SIZE_AVATAR = getSize() / 2;
 
   const selectPhoto = async (source: "camera" | "library") => {
     try {
@@ -84,30 +102,45 @@ const ProfileAvatar = ({ name }: ProfileAvatarProps) => {
       style={[
         styles.containerStyles,
         {
-          width: size,
-          height: size,
+          width: getSize(),
+          height: getSize(),
         },
       ]}
     >
       <GradientAvatar
         token={name}
-        size={size}
+        size={getSize()}
         rounding={SIZE_AVATAR}
-        palette={[C.brand400]}
+        palette={palette || [C.brand400]}
       />
 
-      <View style={[styles.profileAvatar, { borderRadius: SIZE_AVATAR }]}>
+      <View
+        style={[
+          styles.profileAvatar,
+          {
+            borderRadius: SIZE_AVATAR,
+            width: width,
+            height: height,
+          },
+        ]}
+      >
         <Pressable onPress={handlePhotoPress}>
-          {!photoUrl && <User color={C.brand400} size={32} strokeWidth={2} />}
+          {!photoUrl && (
+            <Icon
+              name={icon}
+              color={iconColor}
+              size={iconSize}
+              strokeWidth={2}
+            />
+          )}
           {photoUrl && (
             <Image
               source={{ uri: photoUrl }}
-              style={[
-                styles.imageStyles,
-                {
-                  borderRadius: SIZE_AVATAR,
-                },
-              ]}
+              style={{
+                borderRadius: SIZE_AVATAR,
+                width: width,
+                height: height,
+              }}
               resizeMode="cover"
             />
           )}
@@ -117,4 +150,4 @@ const ProfileAvatar = ({ name }: ProfileAvatarProps) => {
   );
 };
 
-export default ProfileAvatar;
+export default Avatar;

@@ -1,15 +1,14 @@
+import ProfileAvatar from "@/src/components/Avatar";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import Badge from "@/src/components/Badge";
 import Button from "@/src/components/Button";
-import Icon from "@/src/components/Icon";
 import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
 import { useToast } from "@/src/hooks/useToast";
 import { C } from "@/src/theme";
-import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 export default function CriarConta() {
@@ -118,71 +117,6 @@ export default function CriarConta() {
     // router.navigate("/login");
   };
 
-  const selectPhoto = async (source: "camera" | "library") => {
-    try {
-      const result =
-        source === "camera"
-          ? await ImagePicker.launchCameraAsync({
-              mediaTypes: ["images"],
-              allowsEditing: true,
-              aspect: [1, 1],
-              quality: 0.8,
-            })
-          : await ImagePicker.launchImageLibraryAsync({
-              mediaTypes: ["images"],
-              allowsEditing: true,
-              aspect: [1, 1],
-              quality: 0.8,
-            });
-
-      if (!result.canceled) {
-        setPhotoUrl(result.assets[0].uri);
-      }
-    } catch (error) {
-      console.error("Não foi possível selecionar a foto de perfil.", error);
-      Alert.alert(
-        "Erro",
-        "Não foi possível selecionar a foto. Tente novamente.",
-      );
-    }
-  };
-
-  const handlePhotoPress = async () => {
-    try {
-      const cameraPermission =
-        await ImagePicker.requestCameraPermissionsAsync();
-      const libraryPermission =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-      if (!cameraPermission.granted || !libraryPermission.granted) {
-        Alert.alert(
-          "Permissões necessárias",
-          "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil.",
-        );
-        return;
-      }
-    } catch (error) {
-      console.error(
-        "Não foi possível solicitar acesso à câmera e às fotos.",
-        error,
-      );
-      Alert.alert(
-        "Erro",
-        "Não foi possível solicitar as permissões. Tente novamente.",
-      );
-      return;
-    }
-
-    Alert.alert("Foto de perfil", "Como deseja adicionar sua foto?", [
-      { text: "Tirar foto", onPress: () => void selectPhoto("camera") },
-      {
-        text: "Escolher da galeria",
-        onPress: () => void selectPhoto("library"),
-      },
-      { text: "Cancelar", style: "cancel" },
-    ]);
-  };
-
   return (
     <BackgroundGradient>
       <KeyboardAwareScrollView
@@ -193,23 +127,19 @@ export default function CriarConta() {
         bottomOffset={20}
       >
         <View style={styles.photoView}>
-          <Pressable style={styles.photoCircle} onPress={handlePhotoPress}>
-            {photoUrl ? (
-              <Image source={{ uri: photoUrl }} style={styles.photoImg} />
-            ) : (
-              <View style={styles.iconView}>
-                <Icon
-                  name="Camera"
-                  color={C.ink400}
-                  size={24}
-                  strokeWidth={2}
-                />
-              </View>
-            )}
+          <View>
+            <ProfileAvatar
+              name="profile"
+              size="md"
+              icon="Camera"
+              iconSize={24}
+              iconColor={C.ink400}
+              palette={[C.ink300, C.ink200]}
+            />
             <View style={styles.badge}>
               <Badge icon="Camera" />
             </View>
-          </Pressable>
+          </View>
           <Text style={styles.photoLabel}>Foto de perfil</Text>
           <Text style={styles.photoHint}>
             Opcional — você pode adicionar depois
@@ -318,8 +248,8 @@ const styles = StyleSheet.create({
   },
   badge: {
     position: "absolute",
-    bottom: 2,
-    right: 2,
+    bottom: 0,
+    right: 0,
   },
   photoLabel: {
     fontSize: 14,

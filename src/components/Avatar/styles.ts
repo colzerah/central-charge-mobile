@@ -6,14 +6,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  imageStyles: {
-    width: 60,
-    height: 60,
-  },
+
   profileAvatar: {
     position: "absolute",
-    width: 60,
-    height: 60,
     backgroundColor: C.ink100,
     alignItems: "center",
     justifyContent: "center",
