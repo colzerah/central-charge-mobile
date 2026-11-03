@@ -11,8 +11,15 @@ import Animated, {
 import { Marker, MapMarkerProps } from "react-native-maps";
 import MapPin from ".";
 import { MapPinProps } from "./MapPinDTO";
+import { PIN } from "./styles";
 
 const SELECTED_SCALE = 1.25;
+
+// A ponta da gota marca a coordenada, não o centro do pin. Cada plataforma
+// usa uma prop: Android (e Google Maps no iOS) usa `anchor`, em fração da
+// imagem; Apple Maps usa `centerOffset`, em pontos a partir do centro.
+const TIP_ANCHOR = { x: PIN.tipX / PIN.width, y: PIN.tipY / PIN.height };
+const TIP_CENTER_OFFSET = { x: 0, y: -(PIN.tipY - PIN.height / 2) };
 
 type AnimatedMapMarkerProps = MapMarkerProps &
   MapPinProps & {
@@ -80,8 +87,16 @@ const AnimatedMapMarker = ({
     // animation technique (Reanimated, classic Animated, or manual rAF+
     // setState) can work around that: it's a native-side limitation of this
     // combination of react-native-maps + Fabric, not something fixable here.
-    <Marker {...markerProps} tracksViewChanges>
-      <Animated.View style={animatedStyle}>
+    <Marker
+      anchor={TIP_ANCHOR}
+      centerOffset={TIP_CENTER_OFFSET}
+      {...markerProps}
+      tracksViewChanges
+    >
+      {/* cresce a partir da ponta, para ela não sair da coordenada */}
+      <Animated.View
+        style={[{ transformOrigin: [PIN.tipX, PIN.tipY, 0] }, animatedStyle]}
+      >
         <MapPin variant={variant} />
       </Animated.View>
     </Marker>
