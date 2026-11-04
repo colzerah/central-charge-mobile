@@ -32,6 +32,14 @@ export interface RequestLoginMeResponse {
   };
 }
 
+export interface UserRegisterParams {
+  name: string;
+  email: string;
+  telefone: string;
+  password: string;
+  foto?: string;
+}
+
 export const requestLogin = async ({
   email,
   password,
@@ -52,4 +60,20 @@ export const requestLogout = async () => {
 export const requestLoginMe = async (): Promise<RequestLoginMeResponse> => {
   const response = await api.get("/auth/me");
   return response.data;
+};
+
+export const requestRegister = async ({
+  name,
+  email,
+  telefone,
+  password,
+  foto,
+}: UserRegisterParams): Promise<void> => {
+  await api.post("/auth/register", {
+    name,
+    email,
+    telefone,
+    password,
+    foto,
+  });
 };

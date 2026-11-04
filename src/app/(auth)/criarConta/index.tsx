@@ -4,7 +4,10 @@ import Badge from "@/src/components/Badge";
 import Button from "@/src/components/Button";
 import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useModal } from "@/src/hooks/useModal";
 import { useToast } from "@/src/hooks/useToast";
+import { requestRegister } from "@/src/service/requests/authRequests";
 import { C } from "@/src/theme";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -20,10 +23,11 @@ export default function CriarConta() {
   const [phoneInvalid, setPhoneInvalid] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordInvalid, setPasswordInvalid] = useState(false);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { openToast } = useToast();
+  const { openModal } = useModal();
+  const { signIn, isAuthLoading } = useAuth();
 
   const formatPhone = (text: string): string => {
     const digits = text.replace(/\D/g, "").slice(0, 11);
@@ -108,11 +112,41 @@ export default function CriarConta() {
     return null;
   };
 
-  const handleSignUp = () => {
-    const validationError = validate();
-    if (validationError) {
-      setError(validationError);
-      return;
+  const handlePressAuth = async () => {
+    await signIn({ login: email, password: password });
+  };
+
+  const handleSignUp = async () => {
+    try {
+      setLoading(true);
+      const validationError = validate();
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+      await requestRegister({
+        name: name,
+        email: email,
+        telefone: phone,
+        password: password,
+      });
+      console.log("Success");
+      openModal({
+        title: "Conta criada com sucesso",
+        subTitle: "Seja Bem-Vindo ao Central Charge!",
+        type: "SUCCESS",
+        onPress: () => handlePressAuth(),
+        titleButton: "Ok",
+      });
+    } catch (error: any) {
+      openModal({
+        title: "Erro ao criar conta",
+        subTitle: error.response.data.message,
+        type: "ERROR",
+      });
+      console.log("Error", error.response.data.message);
+    } finally {
+      setLoading(false);
     }
     // router.navigate("/login");
   };
@@ -184,7 +218,7 @@ export default function CriarConta() {
           />
           <Input
             label="Senha"
-            placeholder="min 6 caracteres"
+            placeholder="min 8 caracteres"
             textContentType="password"
             value={password}
             onChange={(t) => {
@@ -199,6 +233,7 @@ export default function CriarConta() {
             title="Criar Conta"
             w={"100%"}
             onPress={handleSignUp}
+            isLoading={loading || isAuthLoading}
           />
         </View>
         <View style={styles.footerView}>
