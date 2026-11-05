@@ -37,7 +37,11 @@ export interface UserRegisterParams {
   email: string;
   telefone: string;
   password: string;
-  foto?: string;
+  foto?: {
+    uri: string;
+    name: string;
+    type: string;
+  };
 }
 
 export const requestLogin = async ({
@@ -69,11 +73,20 @@ export const requestRegister = async ({
   password,
   foto,
 }: UserRegisterParams): Promise<void> => {
-  await api.post("/auth/register", {
-    name,
-    email,
-    telefone,
-    password,
-    foto,
-  });
+  await api.post(
+    "/auth/register",
+    {
+      name,
+      email,
+      telefone,
+      password,
+      foto,
+    },
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+  console.log("Res Register", { name, email, telefone, password, foto });
 };

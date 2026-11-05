@@ -1,3 +1,4 @@
+import type { ImagePickerAsset } from "expo-image-picker";
 import * as icons from "lucide-react-native/icons";
 export interface AvatarProps {
   name: string;
@@ -6,4 +7,6 @@ export interface AvatarProps {
   iconSize?: number;
   iconColor?: string;
   palette?: string[];
+  photo?: ImagePickerAsset | null;
+  onPhotoChange: (photo: ImagePickerAsset) => void;
 }

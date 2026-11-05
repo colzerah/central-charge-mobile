@@ -1,6 +1,5 @@
 import { C } from "@/src/theme";
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
 import { Alert, Image, Pressable, View } from "react-native";
 import Icon from "../Icon";
 import { GradientAvatar } from "../shared/ui/base/gradient-avatar";
@@ -14,8 +13,10 @@ const Avatar = ({
   iconSize = 24,
   iconColor,
   palette,
+  photo,
+  onPhotoChange,
 }: AvatarProps) => {
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  // const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   const getSize = () => {
     if (size === "sm") {
@@ -50,7 +51,7 @@ const Avatar = ({
             });
 
       if (!result.canceled) {
-        setPhotoUrl(result.assets[0].uri);
+        onPhotoChange(result.assets[0]);
       }
     } catch (error) {
       console.error("Não foi possível selecionar a foto de perfil.", error);
@@ -125,7 +126,7 @@ const Avatar = ({
         ]}
       >
         <Pressable onPress={handlePhotoPress}>
-          {!photoUrl && (
+          {!photo && (
             <Icon
               name={icon}
               color={iconColor}
@@ -133,9 +134,9 @@ const Avatar = ({
               strokeWidth={2}
             />
           )}
-          {photoUrl && (
+          {photo && (
             <Image
-              source={{ uri: photoUrl }}
+              source={{ uri: photo.uri }}
               style={{
                 borderRadius: SIZE_AVATAR,
                 width: width,

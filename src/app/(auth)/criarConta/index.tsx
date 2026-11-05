@@ -9,6 +9,7 @@ import { useModal } from "@/src/hooks/useModal";
 import { useToast } from "@/src/hooks/useToast";
 import { requestRegister } from "@/src/service/requests/authRequests";
 import { C } from "@/src/theme";
+import type { ImagePickerAsset } from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -23,6 +24,7 @@ export default function CriarConta() {
   const [phoneInvalid, setPhoneInvalid] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordInvalid, setPasswordInvalid] = useState(false);
+  const [photo, setPhoto] = useState<ImagePickerAsset | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { openToast } = useToast();
@@ -129,6 +131,13 @@ export default function CriarConta() {
         email: email,
         telefone: phone,
         password: password,
+        foto: photo
+          ? {
+              uri: photo.uri,
+              name: photo.fileName || "profile.jpg",
+              type: photo.mimeType || "image/jpeg",
+            }
+          : undefined,
       });
       console.log("Success");
       openModal({
@@ -141,14 +150,13 @@ export default function CriarConta() {
     } catch (error: any) {
       openModal({
         title: "Erro ao criar conta",
-        subTitle: error.response.data.message,
+        subTitle: error.response?.data?.message,
         type: "ERROR",
       });
-      console.log("Error", error.response.data.message);
+      console.log("Error", error.response?.data?.message);
     } finally {
       setLoading(false);
     }
-    // router.navigate("/login");
   };
 
   return (
@@ -169,6 +177,8 @@ export default function CriarConta() {
               iconSize={24}
               iconColor={C.ink400}
               palette={[C.ink300, C.ink200]}
+              photo={photo}
+              onPhotoChange={setPhoto}
             />
             <View style={styles.badge}>
               <Badge icon="Camera" />
