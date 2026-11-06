@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   BackHandler,
   FlatList,
+  Image,
   Pressable,
   Text,
   useWindowDimensions,
@@ -83,13 +84,20 @@ const Onboarding = ({ slides, onFinish }: OnboardingProps) => {
         }
         renderItem={({ item }) => (
           <View style={[styles.slide, { width }]}>
-            <View style={styles.iconCircle}>
-              <Icon
-                name={item.icon}
-                size={48}
-                color={C.brand400}
-                strokeWidth={2}
+            <View style={styles.imageView}>
+              <Image
+                source={item.image}
+                style={styles.image}
+                resizeMode="cover"
               />
+              <View style={styles.iconView}>
+                <Icon
+                  name={item.icon}
+                  size={26}
+                  color={C.brand400}
+                  strokeWidth={2}
+                />
+              </View>
             </View>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>

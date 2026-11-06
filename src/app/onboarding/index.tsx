@@ -6,6 +6,7 @@ import { useOnboarding } from "@/src/hooks/useOnboarding";
 const SLIDES: OnboardingSlide[] = [
   {
     id: "map",
+    image: require("src/assets/onBoarding/Tour1.png"),
     icon: "MapPin",
     title: "Encontre pontos de recarga",
     description:
@@ -13,6 +14,7 @@ const SLIDES: OnboardingSlide[] = [
   },
   {
     id: "scan",
+    image: require("src/assets/onBoarding/Tour2.jpg"),
     icon: "QrCode",
     title: "Recarregue pelo app",
     description:
@@ -20,12 +22,14 @@ const SLIDES: OnboardingSlide[] = [
   },
   {
     id: "vehicles",
+    image: require("src/assets/onBoarding/Tour3.jpg"),
     icon: "Car",
     title: "Cadastre seus veículos",
     description: "Guarde os dados do seu carro para agilizar cada recarga.",
   },
   {
     id: "history",
+    image: require("src/assets/onBoarding/Tour4.jpg"),
     icon: "ChartLine",
     title: "Acompanhe seu histórico",
     description:
