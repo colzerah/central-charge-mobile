@@ -1,4 +1,5 @@
 import BackgroundGradient from "@/src/components/BackgroundGradient";
+import Switch from "@/src/components/Switch";
 import { useAppDispatch } from "@/src/redux/store";
 import { C } from "@/src/theme";
 
@@ -9,7 +10,9 @@ export default function TesteImp() {
 
   return (
     <BackgroundGradient>
-      <View style={{ flex: 1 }}></View>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Switch />
+      </View>
     </BackgroundGradient>
   );
 }
