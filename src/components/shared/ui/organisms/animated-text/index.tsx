@@ -1,5 +1,5 @@
-import { StyleSheet, ViewStyle } from "react-native";
-import React, { memo } from "react";
+import { StyleSheet, View, ViewStyle } from "react-native";
+import React, { memo, useRef, type ComponentRef } from "react";
 import Animated, {
   withTiming,
   withDelay,
@@ -10,7 +10,7 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { BlurView, type BlurViewProps } from "expo-blur";
+import { BlurTargetView, BlurView, type BlurViewProps } from "expo-blur";
 import type {
   StaggeredTextProps,
   AnimationConfig,
@@ -46,6 +46,7 @@ const Character: React.FC<CharacterProps> = memo<CharacterProps>(
 
     const maxBlur = animationConfig.maxBlurIntensity ?? 12;
     const blurIntensity = useSharedValue<number>(maxBlur);
+    const blurTargetRef = useRef<ComponentRef<typeof View>>(null);
 
     const enteringAnimation = () => {
       "worklet";
@@ -173,12 +174,15 @@ const Character: React.FC<CharacterProps> = memo<CharacterProps>(
         ).easing(Easing.out(Easing.ease))}
         style={styles.characterWrapper}
       >
-        <Animated.Text style={style}>{char}</Animated.Text>
+        <BlurTargetView ref={blurTargetRef}>
+          <Animated.Text style={style}>{char}</Animated.Text>
+        </BlurTargetView>
         <AnimatedBlurView
           style={[StyleSheet.absoluteFill, animatedBlurStyle]}
           animatedProps={animatedBlurProps}
           tint={blurTint}
           blurMethod="dimezisBlurView"
+          blurTarget={blurTargetRef}
         />
       </Animated.View>
     );
