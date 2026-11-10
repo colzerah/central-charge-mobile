@@ -1,3 +1,4 @@
+import { usePermissions } from "@/src/hooks/usePermissions";
 import { C } from "@/src/theme";
 import * as ImagePicker from "expo-image-picker";
 import { Alert, Image, Pressable, View } from "react-native";
@@ -16,7 +17,8 @@ const Avatar = ({
   photo,
   onPhotoChange,
 }: AvatarProps) => {
-  // const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const { allowCameraAccess, allowGaleryAccess, camera, galery } =
+    usePermissions();
 
   const getSize = () => {
     if (size === "sm") {
@@ -64,12 +66,14 @@ const Avatar = ({
 
   const handlePhotoPress = async () => {
     try {
-      const cameraPermission =
-        await ImagePicker.requestCameraPermissionsAsync();
-      const libraryPermission =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      // const cameraPermission =
+      //   await ImagePicker.requestCameraPermissionsAsync();
+      // const libraryPermission =
+      //   await ImagePicker.requestMediaLibraryPermissionsAsync();
+      await camera();
+      await galery();
 
-      if (!cameraPermission.granted || !libraryPermission.granted) {
+      if (!allowCameraAccess || !allowGaleryAccess) {
         Alert.alert(
           "Permissões necessárias",
           "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil.",

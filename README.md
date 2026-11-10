@@ -74,9 +74,14 @@ Join our community of developers creating universal apps.
 - componente card profile. \* FEITO
 - criar tela de criar conta. \* FEITO
 - Mudar nome profile avatar para avatar \* FEITO
-- Passa foto no cadastro. (caso falhe a requisição pode ser o tipo do dado do arquivo, ou passar um header falando que a requisição é multiplatform)
+- Passar as funcionalidades dos switchs na tela de config
+- Passa foto no cadastro. (caso falhe a requisição pode ser o tipo do dado do arquivo, ou passar um header falando que a requisição é multiplatform) \* FEITO
 - Popular Profile Card com o user logado.
 - Verificar styles de Badge.
 - Verificar o uso do Badge para avatarProfile.
 - arrumar o value(tem que ser numérico) de summarycard. (quebrando o escopo), maximo de caracteres.
 - criar componente de select (ScrollBar Search).
+
+- Tela de cadastro, Adicionar CPF.
+- Passar as telas pra View (ex ViewHome), desestruturar, limpar e organizar para tornar um componente que será passado para a tela.
+- Criar CONSTS.TS Para variáveis.

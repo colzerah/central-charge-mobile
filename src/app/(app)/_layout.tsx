@@ -40,7 +40,6 @@ export default function AppLayout() {
           ),
         }}
       />
-
       <Stack.Screen
         name="novo-veiculo"
         options={{
@@ -82,6 +81,18 @@ export default function AppLayout() {
             <Header
               title="Detalhes da estação"
               // subtitle="Adicione um carro à sua conta"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="configuracoes"
+        options={{
+          headerShown: true,
+          header: () => (
+            <Header
+              title="Configurações"
+              subtitle="Ajuste as preferências do App."
             />
           ),
         }}

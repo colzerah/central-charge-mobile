@@ -1,6 +1,8 @@
 import { FabItems } from "../components/FabGroup/FabGroupDTO";
+import { ItemMenuConfig } from "../components/MenuConfig/MenuConfigDTO";
 import { ItemMenu } from "../components/MenuList/MenuDTO";
 import { Tabs } from "../components/TabNavigation/TabNavigationDTO";
+import { C } from "../theme";
 
 export const MONTHS = [
   "JAN",
@@ -67,6 +69,51 @@ export const MENU_SUPORTE: ItemMenu[] = [
     label: "Sair da conta",
     icon: "LogOut",
     variant: "DANGER",
+  },
+];
+
+export const MENU_CONFIG_PERMICOES: ItemMenuConfig[] = [
+  {
+    title: "Localização",
+    label: "LOCALIZACAO",
+    subLabel: "Encontrar estações perto de você",
+    icon: "MapPin",
+    color: "#3B82F6",
+    type: "switch",
+  },
+  {
+    title: "Câmera",
+    label: "CAMERA",
+    subLabel: "Tirar foto do seu veículo",
+    icon: "Camera",
+    color: "#F97316",
+    type: "switch",
+  },
+  {
+    title: "Notificações",
+    label: "NOTIFICACOES",
+    subLabel: "Avisos de recargas e pagamentos",
+    icon: "Bell",
+    color: "#F59E0B",
+    type: "switch",
+  },
+];
+export const MENU_CONFIG_PREFERENCIAS: ItemMenuConfig[] = [
+  {
+    title: "Idioma",
+    label: "IDIOMA",
+    subLabel: "Português (Brasil)",
+    icon: "Globe",
+    color: C.success,
+    type: "button",
+  },
+  {
+    title: "Tema",
+    label: "TEMA",
+    subLabel: "Escuro",
+    icon: "Moon",
+    color: C.ink400,
+    type: "switch",
   },
 ];
 

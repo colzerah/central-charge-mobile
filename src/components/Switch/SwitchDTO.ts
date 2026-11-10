@@ -1,6 +1,6 @@
 export interface SwitchDTO {
   isActive?: boolean;
-  onToggle?: () => void;
+  onToggle?: (e: boolean) => void;
   size?: number;
   gooeySize?: number;
 }

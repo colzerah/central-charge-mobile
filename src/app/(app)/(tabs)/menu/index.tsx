@@ -115,29 +115,7 @@ export default function Menu() {
                 items={MENU_PREFERENCIA}
                 onPress={(e) => {
                   if (e === "Configurações") {
-                    // openModal({
-                    //   title: "Ops! Algo deu errado",
-                    //   subTitle:
-                    //     "Não foi possível concluir a operação. Tente novamente em instantes.",
-                    //   type: "ERROR",
-                    // });
-                    // openModal({
-                    //   title: "Atenção",
-                    //   subTitle:
-                    //     "Você tem alterações não salvas. Verifique antes de continuar.",
-                    //   type: "WARNING",
-                    // });
-                    openModal({
-                      title: "Confirmar ação",
-                      subTitle:
-                        "Deseja realmente salvar as alterações feitas nas configurações?",
-                      type: "SUCCESS",
-                      // titleButton: "Sim",
-                      // titleButtonCancel: "Nao",
-                      onPress: () => {
-                        console.log("acao do modal");
-                      },
-                    });
+                    router.navigate("/configuracoes");
                   }
                 }}
               />
