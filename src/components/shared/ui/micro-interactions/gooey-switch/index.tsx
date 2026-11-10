@@ -38,7 +38,7 @@ import type {
   IShadowOval,
 } from "./types";
 import { scheduleOnRN } from "react-native-worklets";
-import { Ionicons } from "@expo/vector-icons";
+import { Check, X } from "lucide-react-native";
 
 const AnimatedMainOval: React.FC<ICoreOval> &
   React.FunctionComponent<ICoreOval> = ({
@@ -396,9 +396,7 @@ export const GooeySwitch: React.FC<IGooeySwitch> &
           weight="bold"
         />
       ) : (
-        <>
-          <Ionicons name="checkmark" size={ICON_SIZE} color={iconTint} />
-        </>
+        <Check size={ICON_SIZE} color={iconTint} strokeWidth={3} />
       );
 
     const defaultInactiveIcon = () =>
@@ -410,9 +408,7 @@ export const GooeySwitch: React.FC<IGooeySwitch> &
           weight="semibold"
         />
       ) : (
-        <>
-          <Ionicons name="close-outline" size={X_ICON_SIZE} color={iconTint} />
-        </>
+        <X size={X_ICON_SIZE} color={iconTint} strokeWidth={2.5} />
       );
 
     return (

@@ -23,6 +23,7 @@ const Switch = ({
         }}
         active={isActive}
         onToggle={onToggle}
+        showIcons={false}
       />
     </View>
   );
