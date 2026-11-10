@@ -74,7 +74,7 @@ Join our community of developers creating universal apps.
 - componente card profile. \* FEITO
 - criar tela de criar conta. \* FEITO
 - Mudar nome profile avatar para avatar \* FEITO
-- Passar as funcionalidades dos switchs na tela de config
+- Passar as funcionalidades dos switchs na tela de config \* FEITO
 - Passa foto no cadastro. (caso falhe a requisição pode ser o tipo do dado do arquivo, ou passar um header falando que a requisição é multiplatform) \* FEITO
 - Popular Profile Card com o user logado.
 - Verificar styles de Badge.

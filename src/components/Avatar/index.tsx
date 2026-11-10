@@ -17,7 +17,7 @@ const Avatar = ({
   photo,
   onPhotoChange,
 }: AvatarProps) => {
-  const { allowCameraAccess, allowGaleryAccess, camera, galery } =
+  const { allowCameraAccess, allowGalleryAccess, camera, gallery } =
     usePermissions();
 
   const getSize = () => {
@@ -71,9 +71,9 @@ const Avatar = ({
       // const libraryPermission =
       //   await ImagePicker.requestMediaLibraryPermissionsAsync();
       await camera();
-      await galery();
+      await gallery();
 
-      if (!allowCameraAccess || !allowGaleryAccess) {
+      if (!allowCameraAccess || !allowGalleryAccess) {
         Alert.alert(
           "Permissões necessárias",
           "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil.",
