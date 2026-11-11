@@ -1,3 +1,4 @@
+import { VehicleData } from "../components/CardItems/VehicleCard/VehicleCardDTO";
 import {
   RequestLoginMeResponse,
   RequestLoginResponse,
@@ -29,3 +30,16 @@ export const userMeMock: RequestLoginMeResponse = {
     created_at: new Date().toISOString(),
   },
 };
+
+// Veiculos Mock
+
+export const INITIAL_VEHICLES: VehicleData[] = [
+  {
+    id: "1",
+    name: "Dolphin Mini",
+    brand: "BYD",
+    plate: "ABC1D23",
+    image:
+      "https://images.pexels.com/photos/10029774/pexels-photo-10029774.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  },
+];
