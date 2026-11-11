@@ -1,28 +1,30 @@
 // @ts-check
-import React, { memo, useEffect, useState } from "react";
-import { Platform, StyleSheet, type ViewStyle } from "react-native";
 import {
-  Canvas,
-  Group,
   Blur,
-  ColorMatrix,
-  Paint,
-  Oval,
+  Canvas,
   Circle,
+  ColorMatrix,
+  Group,
+  Oval,
+  Paint,
   RoundedRect,
 } from "@shopify/react-native-skia";
+import { SymbolView } from "expo-symbols";
+import { Check, X } from "lucide-react-native";
+import React, { memo, useEffect, useState } from "react";
+import { Platform, StyleSheet, type ViewStyle } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
+  clamp,
   interpolate,
   interpolateColor,
+  useAnimatedStyle,
   useDerivedValue,
-  clamp,
+  useSharedValue,
+  withSpring,
   WithSpringConfig,
 } from "react-native-reanimated";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { SymbolView } from "expo-symbols";
+import { scheduleOnRN } from "react-native-worklets";
 import {
   DEFAULT_BLOB_COLOR,
   DEFAULT_ICON_COLOR,
@@ -37,8 +39,6 @@ import type {
   IGooeySwitch,
   IShadowOval,
 } from "./types";
-import { scheduleOnRN } from "react-native-worklets";
-import { Check, X } from "lucide-react-native";
 
 const AnimatedMainOval: React.FC<ICoreOval> &
   React.FunctionComponent<ICoreOval> = ({
@@ -307,7 +307,7 @@ export const GooeySwitch: React.FC<IGooeySwitch> &
       .onEnd(() => {
         "worklet";
         const newValue = !currentActive;
-        progress.value = withSpring(newValue ? 1 : 0, spring);
+        // progress.value = withSpring(newValue ? 1 : 0, spring);
         scheduleOnRN(updateValue, newValue);
       });
 
