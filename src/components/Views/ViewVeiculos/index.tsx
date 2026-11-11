@@ -3,7 +3,7 @@ import { VehicleCard } from "@/src/components/CardItems/VehicleCard";
 import { VehicleData } from "@/src/components/CardItems/VehicleCard/VehicleCardDTO";
 import Icon from "@/src/components/Icon";
 import { C } from "@/src/theme";
-import { INITIAL_VEHICLES } from "@/src/utils/mocks";
+import { MOCK_INITIAL_VEHICLES } from "@/src/utils/mocks";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, ScrollView, Text, View } from "react-native";
@@ -17,7 +17,9 @@ import Animated, {
 import { styles } from "./styles";
 
 export default function ViewVeiculos() {
-  const [vehicles, setVehicles] = useState<VehicleData[]>(INITIAL_VEHICLES);
+  const [vehicles, setVehicles] = useState<VehicleData[]>(
+    MOCK_INITIAL_VEHICLES,
+  );
 
   const contentO = useSharedValue(0);
   const contentY = useSharedValue(24);
