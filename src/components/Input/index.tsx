@@ -2,7 +2,7 @@ import { C } from "@/src/theme";
 import { formatPhone } from "@/src/utils/phone";
 import { pressableOpacity } from "@/src/utils/pressable";
 import { useFocusEffect } from "expo-router";
-import { Lock, Mail, Phone, User } from "lucide-react-native";
+import { IdCard, Lock, Mail, Phone, User } from "lucide-react-native";
 import { useCallback, useRef, useState } from "react";
 import {
   Pressable,
@@ -46,6 +46,8 @@ const Input = ({
   const isPhone = textContentType === "telephoneNumber";
 
   const isUser = textContentType === "username";
+
+  const isCpf = textContentType === "none";
 
   // Foca o input sempre que a tela ganha foco (inclusive ao voltar para ela)
   useFocusEffect(
@@ -200,6 +202,13 @@ const Input = ({
         )}
         {isUser && (
           <User
+            color={getIconColor()}
+            size={getSize()?.iconSize}
+            style={inputStyles.inputIcon}
+          />
+        )}
+        {isCpf && (
+          <IdCard
             color={getIconColor()}
             size={getSize()?.iconSize}
             style={inputStyles.inputIcon}

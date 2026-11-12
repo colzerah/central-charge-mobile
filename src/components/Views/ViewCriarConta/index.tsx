@@ -22,6 +22,8 @@ export default function ViewCriarConta() {
   const [email, setEmail] = useState("");
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [phone, setPhone] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [cpfInvalid, setCpfInvalid] = useState(false);
   const [phoneInvalid, setPhoneInvalid] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordInvalid, setPasswordInvalid] = useState(false);
@@ -37,6 +39,20 @@ export default function ViewCriarConta() {
     if (digits.length <= 2) return digits;
     if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+  };
+
+  const formatCPF = (text: string): string => {
+    const digits = text.replace(/\D/g, "").slice(0, 11);
+
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) {
+      return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+    }
+    if (digits.length <= 9) {
+      return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+    }
+
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
   };
 
   const validate = (): string | null => {
@@ -90,6 +106,26 @@ export default function ViewCriarConta() {
         type: "ERROR",
       });
       return "phone";
+    }
+
+    if (!cpf.trim()) {
+      setCpfInvalid(true);
+      openToast({
+        title: "Preencha o CPF.",
+        subTitle: "CPF é obrigatório.",
+        type: "ERROR",
+      });
+      return "cpf";
+    }
+
+    if (cpf.replace(/\D/g, "").length !== 11) {
+      setCpfInvalid(true);
+      openToast({
+        title: "CPF inválido.",
+        subTitle: "Digite um CPF válido.",
+        type: "ERROR",
+      });
+      return "cpf";
     }
 
     if (!password.trim()) {
@@ -226,6 +262,18 @@ export default function ViewCriarConta() {
             }}
             keyboardType="phone-pad"
             isInvalid={phoneInvalid}
+          />
+          <Input
+            label="CPF"
+            placeholder="000.000.000-00"
+            // textContentType="cpf" nao tem pra cpf
+            value={cpf}
+            onChange={(t) => {
+              setCpf(formatCPF(t));
+              setCpfInvalid(false);
+            }}
+            keyboardType="numeric"
+            isInvalid={cpfInvalid}
           />
           <Input
             label="Senha"
