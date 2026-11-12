@@ -9,6 +9,7 @@ import { useModal } from "@/src/hooks/useModal";
 import { useToast } from "@/src/hooks/useToast";
 import { requestRegister } from "@/src/service/requests/authRequests";
 import { C } from "@/src/theme";
+import { isValidCPF } from "@/src/utils/validCPF";
 import type { ImagePickerAsset } from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -118,7 +119,7 @@ export default function ViewCriarConta() {
       return "cpf";
     }
 
-    if (cpf.replace(/\D/g, "").length !== 11) {
+    if (!isValidCPF(cpf)) {
       setCpfInvalid(true);
       openToast({
         title: "CPF inválido.",
