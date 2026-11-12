@@ -168,6 +168,7 @@ export default function ViewCriarConta() {
         name: name,
         email: email,
         telefone: phone,
+        cpf: cpf,
         password: password,
         foto: photo
           ? {

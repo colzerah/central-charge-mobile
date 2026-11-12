@@ -36,6 +36,7 @@ export interface UserRegisterParams {
   name: string;
   email: string;
   telefone: string;
+  cpf: string;
   password: string;
   foto?: {
     uri: string;
@@ -70,6 +71,7 @@ export const requestRegister = async ({
   name,
   email,
   telefone,
+  cpf,
   password,
   foto,
 }: UserRegisterParams): Promise<void> => {
@@ -79,6 +81,7 @@ export const requestRegister = async ({
       name,
       email,
       telefone,
+      cpf,
       password,
       foto,
     },
@@ -88,5 +91,5 @@ export const requestRegister = async ({
       },
     },
   );
-  console.log("Res Register", { name, email, telefone, password, foto });
+  console.log("Res Register", { name, email, telefone, cpf, password, foto });
 };
