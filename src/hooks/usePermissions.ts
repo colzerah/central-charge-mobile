@@ -4,12 +4,17 @@ import * as Location from "expo-location";
 import { useCallback, useEffect, useState } from "react";
 import { AppState } from "react-native";
 
+type PermissionRequestResult = {
+  granted: boolean;
+  canAskAgain: boolean;
+};
+
 type UsePermissionsResult = {
   allowLocationAccess: boolean;
   allowCameraAccess: boolean;
   allowGalleryAccess: boolean;
-  localization: () => Promise<boolean>;
-  camera: () => Promise<boolean>;
+  localization: () => Promise<PermissionRequestResult>;
+  camera: () => Promise<PermissionRequestResult>;
   gallery: () => Promise<boolean>;
 };
 
@@ -54,17 +59,23 @@ export function usePermissions(): UsePermissionsResult {
   // }, []);
 
   const localization = useCallback(async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    const granted = status === "granted";
+    const result = await Location.requestForegroundPermissionsAsync();
+    const granted = result.status === "granted";
     setAllowLocationAccess(granted);
-    return granted;
+    return {
+      granted,
+      canAskAgain: result.canAskAgain,
+    };
   }, []);
 
   const camera = useCallback(async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    const granted = status === "granted";
+    const result = await Camera.requestCameraPermissionsAsync();
+    const granted = result.status === "granted";
     setAllowCameraAccess(granted);
-    return granted;
+    return {
+      granted,
+      canAskAgain: result.canAskAgain,
+    };
   }, []);
 
   const gallery = useCallback(async () => {

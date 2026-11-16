@@ -1,3 +1,4 @@
+import { useModal } from "@/src/hooks/useModal";
 import { usePermissions } from "@/src/hooks/usePermissions";
 import { C } from "@/src/theme";
 import * as ImagePicker from "expo-image-picker";
@@ -19,6 +20,8 @@ const Avatar = ({
 }: AvatarProps) => {
   const { allowCameraAccess, allowGalleryAccess, camera, gallery } =
     usePermissions();
+
+  const { openModal } = useModal();
 
   const getSize = () => {
     if (size === "sm") {
@@ -66,18 +69,16 @@ const Avatar = ({
 
   const handlePhotoPress = async () => {
     try {
-      // const cameraPermission =
-      //   await ImagePicker.requestCameraPermissionsAsync();
-      // const libraryPermission =
-      //   await ImagePicker.requestMediaLibraryPermissionsAsync();
       await camera();
       await gallery();
 
       if (!allowCameraAccess || !allowGalleryAccess) {
-        Alert.alert(
-          "Permissões necessárias",
-          "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil.",
-        );
+        openModal({
+          title: "Permissões necessárias",
+          subTitle:
+            "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil.",
+          type: "INFO",
+        });
         return;
       }
     } catch (error) {
@@ -91,6 +92,12 @@ const Avatar = ({
       );
       return;
     }
+
+    // openModal({
+    //   title: "Foto de perfil",
+    //   subTitle: "Como desejsa adicionar sua foto?",
+    //   type: "SUCCESS",
+    // })
 
     Alert.alert("Foto de perfil", "Como deseja adicionar sua foto?", [
       { text: "Tirar foto", onPress: () => void selectPhoto("camera") },

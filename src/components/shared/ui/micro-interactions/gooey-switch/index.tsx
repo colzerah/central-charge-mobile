@@ -307,7 +307,7 @@ export const GooeySwitch: React.FC<IGooeySwitch> &
       .onEnd(() => {
         "worklet";
         const newValue = !currentActive;
-        // progress.value = withSpring(newValue ? 1 : 0, spring);
+        progress.value = withSpring(newValue ? 1 : 0, spring);
         scheduleOnRN(updateValue, newValue);
       });
 

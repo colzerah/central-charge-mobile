@@ -268,7 +268,7 @@ export default function ViewCriarConta() {
           <Input
             label="CPF"
             placeholder="000.000.000-00"
-            // textContentType="cpf" nao tem pra cpf
+            leftIcon="IdCard"
             value={cpf}
             onChange={(t) => {
               setCpf(formatCPF(t));
