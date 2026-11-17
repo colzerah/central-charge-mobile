@@ -14,7 +14,16 @@
         "LSApplicationQueriesSchemes": [
           "comgooglemaps",
           "waze"
-        ]
+        ],
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": false,
+          "NSAllowsLocalNetworking": true,
+          "NSExceptionDomains": {
+            "api-carregamento.ddns.net": {
+              "NSExceptionAllowsInsecureHTTPLoads": true
+            }
+          }
+        }
       }
     },
     "android": {

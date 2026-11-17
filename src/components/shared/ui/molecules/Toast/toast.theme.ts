@@ -87,12 +87,14 @@ function createToastStyles(colors: TToastColors) {
       color: colors.foreground,
       fontSize: 14,
       fontWeight: "700",
+      fontFamily: "Inter-Bold",
       lineHeight: 19,
     },
     description: {
       color: colors.mutedForeground,
       fontSize: 13,
       fontWeight: "500",
+      fontFamily: "Inter-Medium",
       lineHeight: 18,
     },
     actions: {
@@ -110,6 +112,7 @@ function createToastStyles(colors: TToastColors) {
       color: colors.card,
       fontSize: 13,
       fontWeight: "700",
+      fontFamily: "Inter-Bold",
     },
     cancelButton: {
       paddingVertical: 7,
@@ -121,6 +124,7 @@ function createToastStyles(colors: TToastColors) {
       color: colors.foreground,
       fontSize: 13,
       fontWeight: "500",
+      fontFamily: "Inter-Medium",
     },
     closeButton: {
       width: 22,
@@ -147,6 +151,7 @@ function createToastStyles(colors: TToastColors) {
     swipeActionLabel: {
       fontSize: 12,
       fontWeight: "600",
+      fontFamily: "Inter-SemiBold",
       letterSpacing: 0.1,
     },
   });

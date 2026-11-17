@@ -52,6 +52,7 @@ export const mapButtonSheetStyles = StyleSheet.create({
     fontSize: 26,
     lineHeight: 32,
     fontWeight: "700",
+    fontFamily: "Inter-Bold",
     letterSpacing: -0.6,
     color: C.white,
   },
@@ -60,6 +61,7 @@ export const mapButtonSheetStyles = StyleSheet.create({
     marginTop: 4,
     fontSize: 15.5,
     lineHeight: 21,
+    fontFamily: "Inter-Regular",
     color: C.ink500,
   },
 
@@ -69,6 +71,7 @@ export const mapButtonSheetStyles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 21,
     fontWeight: 900,
+    fontFamily: "Inter-Bold",
     color: C.brand500,
   },
   providers: {

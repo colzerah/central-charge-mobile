@@ -27,11 +27,13 @@ export const searchBarStyles = StyleSheet.create({
   focusedTitle: {
     fontSize: 15,
     fontWeight: "600",
+    fontFamily: "Inter-SemiBold",
     color: C.surface,
   },
   recentText: {
     flex: 1,
     fontSize: 15,
+    fontFamily: "Inter-Regular",
     color: C.white,
   },
 });

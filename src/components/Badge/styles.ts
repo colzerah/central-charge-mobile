@@ -19,5 +19,6 @@ export const styles = StyleSheet.create({
     color: C.white,
     fontSize: 11,
     fontWeight: "700",
+    fontFamily: "Inter-Bold",
   },
 });

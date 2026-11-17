@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     marginTop: 6,
   },
   rechargeStat: { fontSize: 12, color: C.ink300, fontFamily: "Inter-SemiBold" },
-  rechargeDot: { fontSize: 12, color: C.ink400 },
+  rechargeDot: { fontSize: 12, color: C.ink400, fontFamily: "Inter-Regular" },
   rechargeRight: { alignItems: "flex-end" },
   rechargeCost: {
     fontSize: 15,

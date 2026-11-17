@@ -1,5 +1,6 @@
 import {
   Inter_400Regular,
+  Inter_500Medium,
   Inter_600SemiBold,
   Inter_700Bold,
   useFonts,
@@ -15,7 +16,7 @@ import {
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SystemUI from "expo-system-ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LogBox, useColorScheme, View } from "react-native";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -85,11 +86,20 @@ function AppReady() {
 
   const [fontsLoaded, fontError] = useFonts({
     "Inter-Regular": Inter_400Regular,
+    "Inter-Medium": Inter_500Medium,
     "Inter-SemiBold": Inter_600SemiBold,
     "Inter-Bold": Inter_700Bold,
   });
 
   const fontsReady = fontsLoaded || !!fontError;
+
+  // O app segue mesmo se a Inter falhar (cai na fonte do sistema), então
+  // avisa no console para a falha não passar despercebida.
+  useEffect(() => {
+    if (fontError) {
+      console.warn("[Fonts] Falha ao carregar a Inter:", fontError);
+    }
+  }, [fontError]);
   const isReady =
     fontsReady && isAuthenticated !== null && onboardingDone !== null;
 

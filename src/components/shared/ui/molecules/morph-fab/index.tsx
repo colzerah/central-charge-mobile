@@ -543,6 +543,7 @@ const styles = StyleSheet.create({
   itemLabel: {
     fontSize: 14,
     fontWeight: "600",
+    fontFamily: "Inter-SemiBold",
     color: "#1d1d1f",
     flexShrink: 0,
   },

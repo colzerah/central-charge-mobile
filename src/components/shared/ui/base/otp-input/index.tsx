@@ -426,6 +426,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "600",
     fontSize: 18,
+    fontFamily: "Inter-SemiBold",
     color: "#f8fafc",
   },
   textError: {
@@ -438,6 +439,7 @@ const styles = StyleSheet.create({
     color: "#ef4444",
     fontSize: 14,
     fontWeight: "500",
+    fontFamily: "Inter-Medium",
     textAlign: "center",
     marginTop: 20,
     paddingHorizontal: 16,

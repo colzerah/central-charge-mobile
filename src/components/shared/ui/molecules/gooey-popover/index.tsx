@@ -350,6 +350,7 @@ const styles = StyleSheet.create({
   triggerText: {
     fontSize: 15,
     fontWeight: "500",
+    fontFamily: "Inter-Medium",
     color: "#1d1d1f",
   },
   gooLayer: {
@@ -372,6 +373,7 @@ const styles = StyleSheet.create({
   contentText: {
     fontSize: 15,
     lineHeight: 22,
+    fontFamily: "Inter-Regular",
     color: "#1d1d1f",
   },
   measure: {

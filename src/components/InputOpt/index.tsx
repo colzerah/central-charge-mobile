@@ -34,7 +34,7 @@ const InputOpt = ({
         error={error}
         errorMessage={errorMessage}
         textStyle={{
-          // fontFamily: fontLoaded ? "HelveticaNowDisplay" : undefined,
+          fontFamily: "Inter-SemiBold",
           fontSize: 24,
         }}
         onInputFinished={onFinishedChange}

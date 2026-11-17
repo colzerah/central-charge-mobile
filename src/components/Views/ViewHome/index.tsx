@@ -151,7 +151,14 @@ export default function ViewHome() {
                 }}
               >
                 <SymbolView name="magnifyingglass" size={16} tintColor="#666" />
-                <Text style={{ flex: 1, fontSize: 15, color: C.white }}>
+                <Text
+                  style={{
+                    flex: 1,
+                    fontSize: 15,
+                    color: C.white,
+                    fontFamily: "Inter-Regular",
+                  }}
+                >
                   {item.name}
                 </Text>
                 <SymbolView name="arrow.up.left" size={14} tintColor="#444" />

@@ -25,6 +25,7 @@ export const cardPlugStyles = StyleSheet.create({
     alignSelf: "center",
     fontWeight: 900,
     fontSize: 14,
+    fontFamily: "Inter-Bold",
     color: C.ink400,
     marginBottom: 2,
   },
@@ -32,6 +33,7 @@ export const cardPlugStyles = StyleSheet.create({
     alignSelf: "center",
     fontWeight: 900,
     fontSize: 20,
+    fontFamily: "Inter-Bold",
     color: C.white,
     marginBottom: 8,
   },
@@ -50,6 +52,7 @@ export const cardPlugStyles = StyleSheet.create({
   titleKw: {
     fontWeight: 900,
     fontSize: 18,
+    fontFamily: "Inter-Bold",
     color: C.brand500,
     gap: 3,
   },

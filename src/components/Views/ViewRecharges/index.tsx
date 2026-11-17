@@ -77,7 +77,9 @@ const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
 
   const emptyComponent = () => (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text style={{ color: C.white, fontSize: 16 }}>
+      <Text
+        style={{ color: C.white, fontSize: 16, fontFamily: "Inter-Regular" }}
+      >
         Nenhuma Recarga encontrada
       </Text>
     </View>

@@ -481,6 +481,15 @@ const MaskedTabBarTrigger: React.FC<IMaskedTabBarTrigger> &
   );
 };
 
+// Fontes Inter carregadas em src/app/_layout.tsx
+const interFamilyForWeight = (weight: TextStyle["fontWeight"]): string => {
+  const w = weight === "bold" ? 700 : weight === "normal" ? 400 : Number(weight);
+  if (w >= 700) return "Inter-Bold";
+  if (w >= 600) return "Inter-SemiBold";
+  if (w >= 500) return "Inter-Medium";
+  return "Inter-Regular";
+};
+
 const MaskedTabBarLabel: React.FC<IMaskedTabBarLabel> &
   React.FunctionComponent<IMaskedTabBarLabel> = ({
   children,
@@ -498,6 +507,7 @@ const MaskedTabBarLabel: React.FC<IMaskedTabBarLabel> &
           flexShrink: 1,
           fontSize,
           fontWeight,
+          fontFamily: interFamilyForWeight(fontWeight),
           color: layer === "active" ? palette.active : palette.inactive,
         } as TextStyle,
         style,
