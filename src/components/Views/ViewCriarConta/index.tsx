@@ -86,7 +86,7 @@ export default function ViewCriarConta() {
       setEmailInvalid(true);
       openToast({
         title: t("register.invalidEmail") /* pt: "E-mail inválido." */,
-        subTitle: t("register.invalidEmailMessage") /* pt: "Use um e-mail no formato válido." */,
+        subTitle: t("register.invalidEmailMessage") /* pt: "Use um e-mail no formato válido" */,
         type: "ERROR",
       });
       return "email";
@@ -184,10 +184,10 @@ export default function ViewCriarConta() {
       console.log("Success");
       openModal({
         title: t("register.successTitle") /* pt: "Conta criada com sucesso" */,
-        subTitle: t("register.successMessage", { app: APP_NAME }) /* pt: "Seja bem-vindo ao {{app}}!" */,
+        subTitle: t("register.successMessage", { app: APP_NAME }) /* pt: "Seja Bem-Vindo ao {{app}}!" */,
         type: "SUCCESS",
         onPress: () => handlePressAuth(),
-        titleButton: t("common.ok") /* pt: "Ok" */,
+        titleButton: t("register.ok") /* pt: "Ok" */,
       });
     } catch (error: any) {
       openModal({
@@ -246,7 +246,7 @@ export default function ViewCriarConta() {
           />
           <Input
             label={t("register.email") /* pt: "E-mail" */}
-            placeholder={t("register.emailPlaceholder") /* pt: "voce@exemplo.com" */}
+            placeholder={t("register.emailPlaceholder") /* pt: "você@exemplo.com" */}
             textContentType="emailAddress"
             value={email}
             onChange={(t) => {
@@ -282,7 +282,7 @@ export default function ViewCriarConta() {
           />
           <Input
             label={t("register.password") /* pt: "Senha" */}
-            placeholder={t("register.passwordPlaceholder") /* pt: "mín. 6 caracteres" */}
+            placeholder={t("register.passwordPlaceholder") /* pt: "min 8 caracteres" */}
             textContentType="password"
             value={password}
             onChange={(t) => {
@@ -294,7 +294,7 @@ export default function ViewCriarConta() {
         </View>
         <View style={styles.buttonView}>
           <RadiantButton
-            title={t("register.submit") /* pt: "Criar conta" */}
+            title={t("register.submit") /* pt: "Criar Conta" */}
             w={"100%"}
             onPress={handleSignUp}
             isLoading={loading || isAuthLoading}

@@ -76,7 +76,7 @@ const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
       <RechargeCard
         {...item}
         // O status vem traduzido pela variante (o texto do mock é ignorado)
-        tagTitle={t(`recharges.status.${item.variant ?? "default"}`) /* pt: recharges.status.* → "Concluída", "Agendada", "Pendente", … */}
+        tagTitle={t(`recharges.status.${item.variant ?? "default"}`) /* pt: recharges.status.* → "Concluído", "Agendado", "Pendente", … */}
       />
     </View>
   );
@@ -86,7 +86,7 @@ const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
       <Text
         style={{ color: C.white, fontSize: 16, fontFamily: "Inter-Regular" }}
       >
-        {t("recharges.empty") /* pt: "Nenhuma recarga encontrada" */}
+        {t("recharges.empty") /* pt: "Nenhuma Recarga encontrada" */}
       </Text>
     </View>
   );

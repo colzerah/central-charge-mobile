@@ -88,7 +88,7 @@ const ruRU: Translations = {
     phone: "Телефон",
     cpf: "CPF",
     password: "Пароль",
-    passwordPlaceholder: "мин. 6 символов",
+    passwordPlaceholder: "мин. 8 символов",
     submit: "Создать аккаунт",
     haveAccount: "Уже есть аккаунт?",
     signIn: "Войти",
@@ -113,6 +113,7 @@ const ruRU: Translations = {
     successTitle: "Аккаунт создан",
     successMessage: "Добро пожаловать в {{app}}!",
     errorTitle: "Не удалось создать аккаунт",
+    ok: "ОК",
   },
   forgotPassword: {
     title: "Забыли пароль?",
@@ -133,7 +134,7 @@ const ruRU: Translations = {
   },
   newPassword: {
     title: "Новый пароль",
-    subtitle: "Задайте новый пароль для входа в аккаунт {{app}}.",
+    subtitle: "Задайте новый пароль для входа в аккаунт VoltCharge.",
     newPassword: "Новый пароль",
     confirmPassword: "Подтвердите пароль",
     enterNew: "Введите новый пароль.",
@@ -174,6 +175,7 @@ const ruRU: Translations = {
       brokenDescription: "Не работает",
     },
     sheet: {
+      available: "Доступна",
       plugsHere: "РАЗЪЁМЫ НА ЭТОЙ СТАНЦИИ",
       connectors: {
         one: "{{count}} разъём",
@@ -187,6 +189,7 @@ const ruRU: Translations = {
   },
   filter: {
     title: "Фильтры",
+    available: "Доступна",
     apply: "Применить",
     clear: "Сбросить фильтры",
     statusTitle: "Состояние станции",
@@ -262,7 +265,7 @@ const ruRU: Translations = {
     headerSubtitle: "Отсканируйте, чтобы начать зарядку",
   },
   scanCode: {
-    headerTitle: "Ввод кода",
+    headerTitle: "Ручной код",
     headerSubtitle: "Ввести вручную",
     description: "Введите код разъёма, чтобы начать зарядку",
     label: "Код разъёма, указанный на станции",
@@ -274,10 +277,10 @@ const ruRU: Translations = {
     totalTime: "Общее время",
     totalSpent: "Всего потрачено",
     recent: "Недавняя история",
-    empty: "Зарядки не найдены",
+    empty: "Зарядка не найдена",
     status: {
-      success: "Завершена",
-      info: "Запланирована",
+      success: "Завершено",
+      info: "Запланировано",
       warning: "В ожидании",
       danger: "Ошибка",
       default: "—",

@@ -1,5 +1,4 @@
 import { useTranslation } from "@/src/hooks/useTranslation";
-import { APP_NAME } from "@/src/utils/appInfo";
 import { useModal } from "@/src/hooks/useModal";
 import { router } from "expo-router";
 import { Zap } from "lucide-react-native";
@@ -100,7 +99,7 @@ export default function ViewNewPassword() {
       title: t("newPassword.successTitle") /* pt: "Senha alterada!" */,
       subTitle: t("newPassword.successMessage") /* pt: "Sua senha foi atualizada com sucesso. Agora você pode entrar no aplicativo." */,
       type: "SUCCESS",
-      titleButton: t("common.ok") /* pt: "Ok" */,
+      titleButton: t("common.ok") /* pt: "OK" */,
       // titleButtonCancel: "Nao",
       onPress: () => handleDone(),
     });
@@ -137,7 +136,7 @@ export default function ViewNewPassword() {
             <Animated.View style={[styles.titleWrap, titleStyle]}>
               <Text style={styles.title}>{t("newPassword.title") /* pt: "Nova senha" */}</Text>
               <Text style={styles.subtitle}>
-                {t("newPassword.subtitle", { app: APP_NAME }) /* pt: "Defina uma nova senha para acessar sua conta {{app}}." */}
+                {t("newPassword.subtitle") /* pt: "Defina uma nova senha para acessar sua conta VoltCharge." */}
               </Text>
             </Animated.View>
 

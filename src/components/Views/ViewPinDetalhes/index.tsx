@@ -110,7 +110,7 @@ export default function ViewPinDetalhes() {
           </View>
           <View style={pinDetailStyles.section}>
             <Text style={pinDetailStyles.title}>
-              {t("stationDetails.schedule") /* pt: "HORÁRIOS DE FUNCIONAMENTO" */}
+              {t("stationDetails.schedule") /* pt: "HÓRARIOS DE FUNCIONAMENTO" */}
             </Text>
           </View>
           <View>

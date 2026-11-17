@@ -131,7 +131,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
         return <Tag title={t("status.occupied") /* pt: "Ocupado" */} size="md" dot type="warning" />;
       }
 
-      return <Tag title={t("status.available") /* pt: "Disponível" */} size="md" dot type="success" />;
+      return <Tag title={t("home.sheet.available") /* pt: "Disponivel" */} size="md" dot type="success" />;
     }, [variant, t]);
 
     return (
@@ -180,7 +180,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
               {t("home.sheet.plugsHere") /* pt: "PLUGS NESTE PONTO" */}
             </Text>
             <Text style={mapButtonSheetStyles.subTitle}>
-              {t("home.sheet.connectors", { count: qtdPlugs }) /* pt: "{{count}} conector / {{count}} conectores" */}
+              {t("home.sheet.connectors", { count: qtdPlugs }) /* pt: "{{count}} conectores" */}
             </Text>
           </View>
           <View style={mapButtonSheetStyles.viewPlug}>

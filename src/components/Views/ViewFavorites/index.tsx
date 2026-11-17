@@ -91,7 +91,7 @@ export default function ViewFavorites() {
           <Text style={styles.headerTitle}>{t("favorites.title") /* pt: "Favoritos" */}</Text>
           <Text style={styles.headerSubtitle}>
             {favorites.length > 0
-              ? t("favorites.count", { count: favorites.length }) /* pt: "{{count}} estação salva / {{count}} estações salvas" */
+              ? t("favorites.count", { count: favorites.length }) /* pt: "{{count}} estações salvas" */
               : t("favorites.none") /* pt: "Nenhuma estação favoritada" */}
           </Text>
         </View>

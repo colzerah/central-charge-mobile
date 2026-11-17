@@ -8,7 +8,7 @@ export function getAuthErrorMessage(error: unknown) {
     if (status === 401) {
       return {
         title: translate("auth.errors.invalidCredentialsTitle") /* pt: "Credenciais inválidas" */,
-        subTitle: translate("auth.errors.invalidCredentialsMessage") /* pt: "Verifique seu e-mail e senha." */,
+        subTitle: translate("auth.errors.invalidCredentialsMessage") /* pt: "Verifique seu email e senha." */,
       };
     }
 

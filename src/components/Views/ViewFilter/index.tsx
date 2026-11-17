@@ -162,7 +162,7 @@ export default function ViewFilter() {
       </View>
       <View style={{ marginTop: 16, gap: 8 }}>
         <CardFilter
-          label={t("status.available") /* pt: "Disponível" */}
+          label={t("filter.available") /* pt: "Disponivel" */}
           type="SUCCESS"
           count={0}
           onPress={() => setAvailable((prev) => !prev)}

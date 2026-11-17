@@ -117,7 +117,7 @@ function LoginContent() {
       //   "Preencha e-mail e senha para entrar.",
       // );
       openToast({
-        title: t("auth.requiredTitle") /* pt: "Campos obrigatórios" */,
+        title: t("auth.requiredTitle") /* pt: "Campos Obrigatórios" */,
         subTitle: t("auth.requiredMessage") /* pt: "Preencha e-mail e senha para entrar." */,
         type: "ERROR",
       });
@@ -130,8 +130,8 @@ function LoginContent() {
 
     if (!allowLocationAccess) {
       Alert.alert(
-        t("auth.permissionsTitle") /* pt: "Permissões obrigatórias" */,
-        t("auth.permissionsMessage") /* pt: "Para continuar usando o aplicativo, permita o acesso à sua localização." */,
+        t("auth.permissionsTitle") /* pt: "Permissoes Obrigatorias" */,
+        t("auth.permissionsMessage") /* pt: "Para poder continaur acessar o apicativo aceita as permissoes de coordenadas" */,
         [
           { text: t("auth.notNow") /* pt: "Agora não" */, style: "cancel" },
           {

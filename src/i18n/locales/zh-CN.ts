@@ -24,7 +24,7 @@ const zhCN: Translations = {
   tabs: {
     home: "首页",
     favorites: "收藏",
-    scan: "扫码",
+    scan: "扫描",
     notifications: "通知",
     menu: "菜单",
   },
@@ -83,7 +83,7 @@ const zhCN: Translations = {
     phone: "电话",
     cpf: "CPF（巴西税号）",
     password: "密码",
-    passwordPlaceholder: "至少 6 个字符",
+    passwordPlaceholder: "最少 8 个字符",
     submit: "创建账户",
     haveAccount: "已有账户？",
     signIn: "登录",
@@ -108,6 +108,7 @@ const zhCN: Translations = {
     successTitle: "账户创建成功",
     successMessage: "欢迎使用 {{app}}！",
     errorTitle: "创建账户失败",
+    ok: "好",
   },
   forgotPassword: {
     title: "忘记密码",
@@ -127,7 +128,7 @@ const zhCN: Translations = {
   },
   newPassword: {
     title: "新密码",
-    subtitle: "为您的 {{app}} 账户设置新密码。",
+    subtitle: "为您的 VoltCharge 账户设置新密码。",
     newPassword: "新密码",
     confirmPassword: "确认密码",
     enterNew: "请输入新密码。",
@@ -166,6 +167,7 @@ const zhCN: Translations = {
       brokenDescription: "暂停服务",
     },
     sheet: {
+      available: "可用",
       plugsHere: "此处的充电接口",
       connectors: {
         one: "{{count}} 个接口",
@@ -177,6 +179,7 @@ const zhCN: Translations = {
   },
   filter: {
     title: "筛选",
+    available: "可用",
     apply: "应用",
     clear: "清除筛选",
     statusTitle: "充电桩状态",
@@ -241,25 +244,25 @@ const zhCN: Translations = {
     subtitle: "将相机对准充电桩上的二维码或条形码",
     noPermission: "没有使用相机的权限。",
     grantPermission: "点击此处授予权限",
-    typeCode: "手动输入代码",
+    typeCode: "输入代码",
     codeRead: "已识别代码",
     headerTitle: "扫描二维码",
-    headerSubtitle: "扫码即可开始充电",
+    headerSubtitle: "扫描以开始充电",
   },
   scanCode: {
-    headerTitle: "手动输入",
-    headerSubtitle: "手动输入代码",
+    headerTitle: "手动代码",
+    headerSubtitle: "手动输入",
     description: "输入接口代码以开始充电",
     label: "充电桩上标注的接口代码",
   },
   recharges: {
-    title: "充电记录",
+    title: "充电",
     subtitle: "历史与预约",
     totalCharged: "总充电量",
     totalTime: "总时长",
     totalSpent: "总花费",
     recent: "最近记录",
-    empty: "没有找到充电记录",
+    empty: "未找到充电",
     status: {
       success: "已完成",
       info: "已预约",

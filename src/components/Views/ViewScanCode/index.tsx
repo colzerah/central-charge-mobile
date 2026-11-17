@@ -21,7 +21,7 @@ export default function ViewScanCode() {
       </View>
       <View style={styles.buttonView}>
         <Button
-          title={t("common.ok") /* pt: "Ok" */}
+          title={t("common.ok") /* pt: "OK" */}
           w={320}
           onPress={() => console.log("fazer a logica do qr code")}
         />

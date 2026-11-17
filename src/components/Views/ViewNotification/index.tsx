@@ -118,7 +118,7 @@ const ViewNotification = ({ tabs }: ViewNotificationProps) => {
             </Text>
             <Text style={notificationStyles.headerSubtitle}>
               {unread > 0
-                ? t("notifications.unread", { count: unread }) /* pt: "{{count}} não lida / {{count}} não lidas" */
+                ? t("notifications.unread", { count: unread }) /* pt: "{{count}} não lidas" */
                 : t("notifications.allRead") /* pt: "Todas lidas" */}
             </Text>
           </View>

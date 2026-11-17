@@ -32,7 +32,7 @@ export default function ViewScan() {
     scannedRef.current = true;
 
     Alert.alert(t("scan.codeRead") /* pt: "Código lido" */, `${type}: ${data}`, [
-      { text: t("common.ok") /* pt: "Ok" */, onPress: () => (scannedRef.current = false) },
+      { text: t("common.ok") /* pt: "OK" */, onPress: () => (scannedRef.current = false) },
     ]);
   };
 
@@ -87,7 +87,7 @@ export default function ViewScan() {
         </View>
         <View style={scanStyles.buttonView}>
           <Button
-            title={t("scan.typeCode") /* pt: "Digitar o código" */}
+            title={t("scan.typeCode") /* pt: "Digitar o Código" */}
             w={280}
             onPress={() => router.push("/scan-code")}
           />

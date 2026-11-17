@@ -62,8 +62,8 @@ export default function AppLayout() {
           headerShown: true,
           header: () => (
             <Header
-              title={t("scan.headerTitle") /* pt: "Escanear QR Code" */}
-              subtitle={t("scan.headerSubtitle") /* pt: "Escaneie para iniciar o carregamento" */}
+              title={t("scan.headerTitle") /* pt: "Scan QR Code" */}
+              subtitle={t("scan.headerSubtitle") /* pt: "Faça o Scan para iniciar o carregamento" */}
             />
           ),
         }}
@@ -74,7 +74,7 @@ export default function AppLayout() {
           headerShown: true,
           header: () => (
             <Header
-              title={t("scanCode.headerTitle") /* pt: "Código manual" */}
+              title={t("scanCode.headerTitle") /* pt: "Código Manual" */}
               subtitle={t("scanCode.headerSubtitle") /* pt: "Inserir manualmente" */}
             />
           ),

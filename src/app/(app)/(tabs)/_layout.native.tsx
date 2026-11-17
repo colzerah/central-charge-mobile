@@ -24,7 +24,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: t("tabs.home") /* pt: "Início" */,
+          title: t("tabs.home") /* pt: "Home" */,
           tabBarIcon: ({ focused }) => (
             <MapPin size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
@@ -42,7 +42,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="scan"
         options={{
-          title: t("tabs.scan") /* pt: "Escanear" */,
+          title: t("tabs.scan") /* pt: "Scan" */,
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <QrCode size={22} color={focused ? C.brand500 : "#B9B9B9"} />
