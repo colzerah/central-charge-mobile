@@ -12,6 +12,8 @@ export interface ModalProps {
   onPress?: () => void;
   titleButton?: string;
   titleButtonCancel?: string;
+  titleButtonAction?: string;
+  onPressAction?: () => void;
 }
 
 export interface ModalVariant {

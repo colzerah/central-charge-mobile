@@ -152,7 +152,7 @@ const ptBR = {
     photoTitle: "Foto de perfil",
     photoMessage: "Como deseja adicionar sua foto?",
     takePhoto: "Tirar foto",
-    chooseLibrary: "Escolher da galeria",
+    chooseLibrary: "Galeria",
     selectError: "Não foi possível selecionar a foto. Tente novamente.",
     permissionsTitle: "Permissões necessárias",
     permissionsMessage:
@@ -254,7 +254,8 @@ const ptBR = {
   },
   scan: {
     title: "Escanear carregador",
-    subtitle: "Aponte a câmera para o QR code ou código de barras do carregador",
+    subtitle:
+      "Aponte a câmera para o QR code ou código de barras do carregador",
     noPermission: "Sem permissão para usar a câmera.",
     grantPermission: "Clique aqui para dar a permissão",
     typeCode: "Digitar o Código",
@@ -327,8 +328,7 @@ const ptBR = {
   report: {
     description: "Descrição",
     selectType: "Selecione o tipo de problema.",
-    minDescription:
-      "Descreva o problema com pelo menos {{min}} caracteres.",
+    minDescription: "Descreva o problema com pelo menos {{min}} caracteres.",
     station: {
       headerTitle: "Relatar problema",
       headerSubtitle: "Avise sobre falhas nesta estação",

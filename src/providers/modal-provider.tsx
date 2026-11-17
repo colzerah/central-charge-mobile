@@ -18,6 +18,8 @@ export type OpenModalParams = {
   onPress?: () => void;
   titleButton?: string;
   titleButtonCancel?: string;
+  titleButtonAction?: string;
+  onPressAction?: () => void;
 };
 
 type ModalContextValue = {
@@ -37,6 +39,8 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     onPress: () => {},
     titleButton: "",
     titleButtonCancel: "",
+    titleButtonAction: "",
+    onPressAction: () => {},
   });
 
   const openModal = useCallback((params: OpenModalParams) => {
@@ -63,6 +67,8 @@ export function ModalProvider({ children }: { children: ReactNode }) {
         onPress={content.onPress}
         titleButton={content.titleButton}
         titleButtonCancel={content.titleButtonCancel}
+        titleButtonAction={content.titleButtonAction}
+        onPressAction={content.onPressAction}
       />
     </ModalContext.Provider>
   );

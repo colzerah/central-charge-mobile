@@ -1,6 +1,6 @@
-import { useTranslation } from "@/src/hooks/useTranslation";
 import { useModal } from "@/src/hooks/useModal";
 import { usePermissions } from "@/src/hooks/usePermissions";
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import * as ImagePicker from "expo-image-picker";
 import { Alert, Image, Pressable, View } from "react-native";
@@ -62,7 +62,12 @@ const Avatar = ({
       }
     } catch (error) {
       console.error("Não foi possível selecionar a foto de perfil.", error);
-      Alert.alert(t("common.error") /* pt: "Erro" */, t("avatar.selectError") /* pt: "Não foi possível selecionar a foto. Tente novamente." */);
+      Alert.alert(
+        t("common.error") /* pt: "Erro" */,
+        t(
+          "avatar.selectError",
+        ) /* pt: "Não foi possível selecionar a foto. Tente novamente." */,
+      );
     }
   };
 
@@ -73,8 +78,12 @@ const Avatar = ({
 
       if (!allowCameraAccess || !allowGalleryAccess) {
         openModal({
-          title: t("avatar.permissionsTitle") /* pt: "Permissões necessárias" */,
-          subTitle: t("avatar.permissionsMessage") /* pt: "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil." */,
+          title: t(
+            "avatar.permissionsTitle",
+          ) /* pt: "Permissões necessárias" */,
+          subTitle: t(
+            "avatar.permissionsMessage",
+          ) /* pt: "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil." */,
           type: "INFO",
         });
         return;
@@ -84,24 +93,33 @@ const Avatar = ({
         "Não foi possível solicitar acesso à câmera e às fotos.",
         error,
       );
-      Alert.alert(t("common.error") /* pt: "Erro" */, t("avatar.permissionsError") /* pt: "Não foi possível solicitar as permissões. Tente novamente." */);
+      Alert.alert(
+        t("common.error") /* pt: "Erro" */,
+        t(
+          "avatar.permissionsError",
+        ) /* pt: "Não foi possível solicitar as permissões. Tente novamente." */,
+      );
       return;
     }
 
-    // openModal({
-    //   title: "Foto de perfil",
-    //   subTitle: "Como desejsa adicionar sua foto?",
-    //   type: "SUCCESS",
-    // })
+    openModal({
+      title: t("avatar.photoTitle"),
+      subTitle: t("avatar.photoMessage"),
+      type: "SUCCESS",
+      titleButton: t("avatar.takePhoto"),
+      onPress: () => void selectPhoto("camera"),
+      titleButtonAction: t("avatar.chooseLibrary"),
+      onPressAction: () => void selectPhoto("library"),
+    });
 
-    Alert.alert(t("avatar.photoTitle") /* pt: "Foto de perfil" */, t("avatar.photoMessage") /* pt: "Como deseja adicionar sua foto?" */, [
-      { text: t("avatar.takePhoto") /* pt: "Tirar foto" */, onPress: () => void selectPhoto("camera") },
-      {
-        text: t("avatar.chooseLibrary") /* pt: "Escolher da galeria" */,
-        onPress: () => void selectPhoto("library"),
-      },
-      { text: t("common.cancel") /* pt: "Cancelar" */, style: "cancel" },
-    ]);
+    // Alert.alert(t("avatar.photoTitle") /* pt: "Foto de perfil" */, t("avatar.photoMessage") /* pt: "Como deseja adicionar sua foto?" */, [
+    //   { text: t("avatar.takePhoto") /* pt: "Tirar foto" */, onPress: () => void selectPhoto("camera") },
+    //   {
+    //     text: t("avatar.chooseLibrary") /* pt: "Escolher da galeria" */,
+    //     onPress: () => void selectPhoto("library"),
+    //   },
+    //   { text: t("common.cancel") /* pt: "Cancelar" */, style: "cancel" },
+    // ]);
   };
 
   return (

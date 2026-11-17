@@ -116,8 +116,7 @@ const enUS: Translations = {
   },
   forgotPassword: {
     title: "I forgot my password",
-    subtitle:
-      "Enter your registered phone to receive the verification code.",
+    subtitle: "Enter your registered phone to receive the verification code.",
     phone: "Mobile",
     invalidPhone: "Type a valid mobile number with area code.",
     fillPhone: "Fill in the phone number.",
@@ -149,7 +148,7 @@ const enUS: Translations = {
     photoTitle: "Profile photo",
     photoMessage: "How do you want to add your photo?",
     takePhoto: "Take photo",
-    chooseLibrary: "Choose from gallery",
+    chooseLibrary: "Gallery",
     selectError: "It was not possible to select the photo. Try again.",
     permissionsTitle: "Required permissions",
     permissionsMessage:
@@ -310,8 +309,7 @@ const enUS: Translations = {
     headerTitle: "New vehicle",
     headerSubtitle: "Add a car to your account",
     title: "Register your vehicle",
-    subtitle:
-      "Add your car's data to find compatible recharges more easily.",
+    subtitle: "Add your car's data to find compatible recharges more easily.",
     name: "Vehicle name",
     namePlaceholder: "Ex.: Dolphin Mini",
     brand: "Brand",
@@ -330,7 +328,8 @@ const enUS: Translations = {
       headerSubtitle: "Warn about failures at this station",
       intro:
         "Tell what happened at this station. Your report helps other drivers and keeps the chargers working.",
-      noStation: "No station selected. Go back and choose a station on the map.",
+      noStation:
+        "No station selected. Go back and choose a station on the map.",
       typeLabel: "Problem type",
       placeholder: "Describe what happened...",
       send: "Send report",

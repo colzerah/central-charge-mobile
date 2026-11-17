@@ -22,13 +22,21 @@ const Modal = ({
   onPress,
   titleButton = "OK",
   titleButtonCancel,
+  titleButtonAction,
+  onPressAction,
 }: ModalProps) => {
   const { color, icon, colorScheme } = MODAL_VARIANTS[modalType];
   const hasCancel = !!titleButtonCancel;
+  const hasAction = !!titleButtonAction;
 
   const handlePress = () => {
     onOpenChange(false);
     onPress?.();
+  };
+
+  const handlePressAction = () => {
+    onOpenChange(false);
+    onPressAction?.();
   };
 
   return (
@@ -43,7 +51,10 @@ const Modal = ({
             </Dialog.Close>
 
             <View
-              style={[modalStyles.iconWrapper, { backgroundColor: `${color}20` }]}
+              style={[
+                modalStyles.iconWrapper,
+                { backgroundColor: `${color}20` },
+              ]}
             >
               <Icon size={32} color={color} name={icon} />
             </View>
@@ -63,9 +74,17 @@ const Modal = ({
                     />
                   </Dialog.Close>
                 )}
+                {hasAction && (
+                  <Button
+                    title={titleButtonAction}
+                    w={140}
+                    colorScheme={colorScheme}
+                    onPress={handlePressAction}
+                  />
+                )}
                 <Button
                   title={titleButton}
-                  w={hasCancel ? 140 : 300}
+                  w={hasCancel || hasAction ? 140 : 300}
                   colorScheme={colorScheme}
                   onPress={handlePress}
                 />
