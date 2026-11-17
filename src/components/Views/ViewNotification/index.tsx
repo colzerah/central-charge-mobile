@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import NotificationCard from "@/src/components/NotificationCard";
 import { C } from "@/src/theme";
 import { CheckCircle, Zap } from "lucide-react-native";
@@ -28,23 +29,11 @@ import {
 } from "./NotificationDTO";
 import { notificationStyles } from "./styles";
 
-const MONTHS = [
-  "JAN",
-  "FEV",
-  "MAR",
-  "ABR",
-  "MAI",
-  "JUN",
-  "JUL",
-  "AGO",
-  "SET",
-  "OUT",
-  "NOV",
-  "DEZ",
-];
-
 const ViewNotification = ({ tabs }: ViewNotificationProps) => {
   const [refreshing, setRefreshing] = React.useState(false);
+  const { t } = useTranslation();
+  // Abreviações dos meses no idioma atual (ex.: "JAN|FEV|...")
+  const months = t("notifications.months") /* pt: "JAN|FEV|MAR|ABR|MAI|JUN|JUL|AGO|SET|OUT|NOV|DEZ" */.split("|");
   const [notifs, setNotifs] = useState<NotificationProps[]>(NOTIFICATION_MOCK);
   const scrollY = useSharedValue(0);
   const pullO = useSharedValue(0);
@@ -124,23 +113,29 @@ const ViewNotification = ({ tabs }: ViewNotificationProps) => {
       <View style={notificationStyles.header}>
         <View style={notificationStyles.headerRow}>
           <View>
-            <Text style={notificationStyles.headerTitle}>Notificações</Text>
+            <Text style={notificationStyles.headerTitle}>
+              {t("notifications.title") /* pt: "Notificações" */}
+            </Text>
             <Text style={notificationStyles.headerSubtitle}>
-              {unread > 0 ? `${unread} não lidas` : "Todas lidas"}
+              {unread > 0
+                ? t("notifications.unread", { count: unread }) /* pt: "{{count}} não lida / {{count}} não lidas" */
+                : t("notifications.allRead") /* pt: "Todas lidas" */}
             </Text>
           </View>
           <TouchableOpacity
             style={notificationStyles.markAllBtn}
             onPress={() =>
               Alert.alert(
-                "Tudo certo",
-                "Todas as notificações foram marcadas como lidas.",
+                t("notifications.allDoneTitle") /* pt: "Tudo certo" */,
+                t("notifications.allDoneMessage") /* pt: "Todas as notificações foram marcadas como lidas." */,
               )
             }
             activeOpacity={0.7}
           >
             <CheckCircle color={C.brand400} size={16} strokeWidth={2.2} />
-            <Text style={notificationStyles.markAllText}>Marcar todas</Text>
+            <Text style={notificationStyles.markAllText}>
+              {t("notifications.markAll") /* pt: "Marcar todas" */}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -186,7 +181,7 @@ const ViewNotification = ({ tabs }: ViewNotificationProps) => {
               title={n.title}
               message={n.message}
               day={Number(n.day)}
-              month={MONTHS[Number(n.month) - 1] || n.month}
+              month={months[Number(n.month) - 1] || n.month}
               read={n.read}
               onDelete={() => handleDelete(n.id)}
               onPress={() => handleOpen(n.id)}
@@ -196,11 +191,15 @@ const ViewNotification = ({ tabs }: ViewNotificationProps) => {
           {notifs.length === 0 && (
             <View style={notificationStyles.emptyWrap}>
               <CheckCircle color={C.ink400} size={40} strokeWidth={1.5} />
-              <Text style={notificationStyles.emptyText}>Sem notificações</Text>
+              <Text style={notificationStyles.emptyText}>
+                {t("notifications.empty") /* pt: "Sem notificações" */}
+              </Text>
             </View>
           )}
 
-          <Text style={notificationStyles.endText}>Você está em dia</Text>
+          <Text style={notificationStyles.endText}>
+            {t("notifications.upToDate") /* pt: "Você está em dia" */}
+          </Text>
         </View>
       </ScrollView>
     </View>

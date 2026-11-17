@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { Image, Pressable, Text, View } from "react-native";
 import { CardBrandProps } from "./CardBrandDTO";
 
@@ -14,6 +15,7 @@ const CardBrand = ({
   uri,
   indexColor = 0,
 }: CardBrandProps) => {
+  const { t } = useTranslation();
   return (
     <Pressable
       style={({ pressed }) => [
@@ -73,7 +75,7 @@ const CardBrand = ({
         </Text>
 
         <Text style={cardInfoStyles.textStation}>
-          {count} {count <= 1 ? "estação" : "estações"}
+          {t("filter.stations", { count }) /* pt: "{{count}} estação / {{count}} estações" */}
         </Text>
       </View>
     </Pressable>

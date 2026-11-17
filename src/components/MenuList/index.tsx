@@ -26,7 +26,7 @@ const MenuList = ({ title, items, onPress }: MenuPros) => {
       <View style={menuStyles.menuGroup}>
         {items.map((menu, idx) => (
           <MenuItem
-            key={`${menu.label}-${idx}`}
+            key={menu.id}
             danger={menu.variant === "DANGER"}
             divider={idx < items.length - 1}
             icon={
@@ -42,7 +42,7 @@ const MenuList = ({ title, items, onPress }: MenuPros) => {
             }
             label={menu.label}
             sublabel={menu.subLabel}
-            onPress={() => onPress(menu.label)}
+            onPress={() => onPress(menu.id)}
           />
         ))}
       </View>

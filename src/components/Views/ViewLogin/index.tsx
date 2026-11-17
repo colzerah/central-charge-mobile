@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import LogoAnimated from "@/src/components/LogoAnimated";
 import SocialButton from "@/src/components/SocialButton";
@@ -56,6 +57,7 @@ function LoginContent() {
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const { openToast } = useToast();
+  const { t } = useTranslation();
 
   const formO = useSharedValue(0);
   const formY = useSharedValue(30);
@@ -115,8 +117,8 @@ function LoginContent() {
       //   "Preencha e-mail e senha para entrar.",
       // );
       openToast({
-        title: "Campos Obrigatórios",
-        subTitle: "Preencha e-mail e senha para entrar.",
+        title: t("auth.requiredTitle") /* pt: "Campos obrigatórios" */,
+        subTitle: t("auth.requiredMessage") /* pt: "Preencha e-mail e senha para entrar." */,
         type: "ERROR",
       });
       if (!email) setEmailInvalid(true);
@@ -128,12 +130,12 @@ function LoginContent() {
 
     if (!allowLocationAccess) {
       Alert.alert(
-        "Permissoes Obrigatorias",
-        "Para poder continaur acessar o apicativo aceita as permissoes de coordenadas",
+        t("auth.permissionsTitle") /* pt: "Permissões obrigatórias" */,
+        t("auth.permissionsMessage") /* pt: "Para continuar usando o aplicativo, permita o acesso à sua localização." */,
         [
-          { text: "Agora não", style: "cancel" },
+          { text: t("auth.notNow") /* pt: "Agora não" */, style: "cancel" },
           {
-            text: "Abrir configurações",
+            text: t("auth.openSettings") /* pt: "Abrir configurações" */,
             onPress: () => Linking.openSettings(),
           },
         ],
@@ -147,7 +149,7 @@ function LoginContent() {
 
   const handleSocial = (p: string) => {
     signIn({ login: p, password: "social" });
-    Alert.alert("Login social", `Entrar com ${p}`);
+    Alert.alert(t("auth.socialTitle") /* pt: "Login social" */, t("auth.socialMessage", { provider: p }) /* pt: "Entrar com {{provider}}" */);
   };
 
   return (
@@ -191,7 +193,7 @@ function LoginContent() {
                   styles={{ marginBottom: 14 }}
                 >
                   <Input
-                    label="E-mail"
+                    label={t("auth.email") /* pt: "E-mail" */}
                     textContentType="emailAddress"
                     keyboardType="email-address"
                     value={email}
@@ -204,7 +206,7 @@ function LoginContent() {
                 </Skeleton>
                 <Skeleton isLoading={isAuthLoading}>
                   <Input
-                    label="Senha"
+                    label={t("auth.password") /* pt: "Senha" */}
                     textContentType="password"
                     value={password}
                     onChange={(t) => {
@@ -219,7 +221,7 @@ function LoginContent() {
                   <Skeleton isLoading={isAuthLoading}>
                     <Button
                       w={160}
-                      title="Esqueci minha senha"
+                      title={t("auth.forgotPassword") /* pt: "Esqueci minha senha" */}
                       variant="link"
                       size="sm"
                       onPress={() => {
@@ -234,7 +236,7 @@ function LoginContent() {
                   isLoading={isAuthLoading}
                   iconName="ArrowRight"
                   rightIcon
-                  title="Entrar"
+                  title={t("auth.signIn") /* pt: "Entrar" */}
                   onPress={handleLogin}
                   active={isFocused}
                 />
@@ -245,7 +247,7 @@ function LoginContent() {
                 <Animated.View style={socialCollapseStyle}>
                   <View style={{ marginTop: 22, marginBottom: 22 }}>
                     <Skeleton isLoading={isAuthLoading}>
-                      <Divider title="ou continue com" />
+                      <Divider title={t("auth.orContinueWith") /* pt: "ou continue com" */} />
                     </Skeleton>
                   </View>
                   <View style={styles.socialRow}>
@@ -285,10 +287,10 @@ function LoginContent() {
                   >
                     <View style={styles.footer}>
                       <Text style={styles.footerText}>
-                        Ainda não tem conta?
+                        {t("auth.noAccount") /* pt: "Ainda não tem conta?" */}
                       </Text>
                       <Button
-                        title="Criar conta"
+                        title={t("auth.createAccount") /* pt: "Criar conta" */}
                         variant="link"
                         size="sm"
                         w={90}

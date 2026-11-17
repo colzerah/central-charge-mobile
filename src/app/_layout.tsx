@@ -25,6 +25,7 @@ import { Provider } from "react-redux";
 import SplashAnimated from "../components/SplashAnimated";
 import { useAuthBootstrap } from "../hooks/useAuth";
 import { useOnboardingBootstrap } from "../hooks/useOnboarding";
+import { useLanguageBootstrap } from "../hooks/useTranslation";
 import { ModalProvider } from "../providers/modal-provider";
 import { ToastProvider } from "../providers/toast-provider";
 import { store } from "../redux/store";
@@ -82,6 +83,7 @@ function AppReady() {
   const colorScheme = useColorScheme();
   const { isAuthenticated } = useAuthBootstrap();
   const { onboardingDone } = useOnboardingBootstrap();
+  const { languageReady } = useLanguageBootstrap();
   const [splashVisible, setSplashVisible] = useState(true);
 
   const [fontsLoaded, fontError] = useFonts({
@@ -101,7 +103,10 @@ function AppReady() {
     }
   }, [fontError]);
   const isReady =
-    fontsReady && isAuthenticated !== null && onboardingDone !== null;
+    fontsReady &&
+    isAuthenticated !== null &&
+    onboardingDone !== null &&
+    languageReady;
 
   return (
     <View style={{ flex: 1, backgroundColor: C.ink0 }}>

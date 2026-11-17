@@ -1,15 +1,18 @@
 import MenuConfig from "@/src/components/MenuConfig";
 import { useModal } from "@/src/hooks/useModal";
 import { usePermissions } from "@/src/hooks/usePermissions";
+import { useTranslation } from "@/src/hooks/useTranslation";
 import {
-  MENU_CONFIG_PERMICOES,
-  MENU_CONFIG_PREFERENCIAS,
+  getMenuConfigPermissoes,
+  getMenuConfigPreferencias,
 } from "@/src/utils/enum";
+import { router } from "expo-router";
 import { Alert, Linking, View } from "react-native";
 
 export default function ViewConfiguracoes() {
   const { allowCameraAccess, allowLocationAccess, camera, localization } =
     usePermissions();
+  const { t, language } = useTranslation();
 
   const { openModal } = useModal();
 
@@ -27,15 +30,13 @@ export default function ViewConfiguracoes() {
             : undefined;
 
       if (result && !result.granted && !result.canAskAgain) {
-        // const permissionName =
-        //   label === "CAMERA" ? "câmera" : "localização";
         Alert.alert(
-          "Permissão necessária",
-          "Ative o acesso às permissões nas configurações do aplicativo.",
+          t("settings.permissionRequired") /* pt: "Permissão necessária" */,
+          t("settings.permissionRequiredMessage") /* pt: "Ative o acesso às permissões nas configurações do aplicativo." */,
           [
-            { text: "Cancelar", style: "cancel" },
+            { text: t("common.cancel") /* pt: "Cancelar" */, style: "cancel" },
             {
-              text: "Abrir Configurações",
+              text: t("settings.openSettings") /* pt: "Abrir Configurações" */,
               onPress: () => Linking.openSettings(),
             },
           ],
@@ -47,10 +48,9 @@ export default function ViewConfiguracoes() {
 
     if (e === false) {
       openModal({
-        title: "Alterar permissão",
-        subTitle:
-          "Para desativar esta permissão, vá para as configurações do aplicativo no seu dispositivo.",
-        titleButton: "Ir para configurações",
+        title: t("settings.changePermission") /* pt: "Alterar permissão" */,
+        subTitle: t("settings.changePermissionMessage") /* pt: "Para desativar esta permissão, vá para as configurações do aplicativo no seu dispositivo." */,
+        titleButton: t("settings.goToSettings") /* pt: "Ir para configurações" */,
         onPress: () => Linking.openSettings(),
         type: "WARNING",
       });
@@ -60,8 +60,8 @@ export default function ViewConfiguracoes() {
   return (
     <View>
       <MenuConfig
-        title="Permissões"
-        items={MENU_CONFIG_PERMICOES}
+        title={t("settings.sections.permissions") /* pt: "Permissões" */}
+        items={getMenuConfigPermissoes(t)}
         onPress={handlePermissionChange}
         active={{
           LOCALIZACAO: allowLocationAccess,
@@ -70,10 +70,15 @@ export default function ViewConfiguracoes() {
         }}
       />
       <MenuConfig
-        title="Preferências"
-        items={MENU_CONFIG_PREFERENCIAS}
+        title={t("settings.sections.preferences") /* pt: "Preferências" */}
+        // O item Idioma mostra o idioma escolhido (ex.: "Português (Brasil)")
+        items={getMenuConfigPreferencias(t, t(`language.names.${language}`) /* pt: language.names.* → "Português (Brasil)", "Português (Portugal)", "Inglês (Estados Unidos)", … */)}
         onPress={(e, i) => {
-          console.log("Mudar idioma", e, i);
+          if (e === "IDIOMA") {
+            router.navigate("/idioma");
+            return;
+          }
+          console.log("Preferência", e, i);
         }}
         active={{ TEMA: false }}
       />

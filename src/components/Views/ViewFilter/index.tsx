@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import * as icons from "lucide-react-native/icons";
 import { useMemo, useState } from "react";
@@ -37,6 +38,7 @@ const MOCK_BRANDS = [
 ];
 
 export default function ViewFilter() {
+  const { t } = useTranslation();
   const [available, setAvailable] = useState(false);
   const [occupied, setOccupied] = useState(false);
   const [unavailable, setUnavailable] = useState(false);
@@ -48,7 +50,7 @@ export default function ViewFilter() {
 
   const labelSeekKm = useMemo((): string => {
     if (valueKm === SEEK_MAX_KM) {
-      return "Sem limite";
+      return t("filter.noLimit") /* pt: "Sem limite" */;
     }
     return `${valueKm} km`;
   }, []);
@@ -153,21 +155,21 @@ export default function ViewFilter() {
     <View>
       <View>
         {renderTitleFilter({
-          title: "Situação do carregador",
-          description: "Selecione uma ou mais situações",
+          title: t("filter.statusTitle") /* pt: "Situação do carregador" */,
+          description: t("filter.statusDescription") /* pt: "Selecione uma ou mais situações" */,
           iconName: "BatteryCharging",
         })}
       </View>
       <View style={{ marginTop: 16, gap: 8 }}>
         <CardFilter
-          label="Disponivel"
+          label={t("status.available") /* pt: "Disponível" */}
           type="SUCCESS"
           count={0}
           onPress={() => setAvailable((prev) => !prev)}
           isActive={available}
         />
         <CardFilter
-          label="Ocupado"
+          label={t("status.occupied") /* pt: "Ocupado" */}
           type="WARNING"
           count={0}
           onPress={() => setOccupied((prev) => !prev)}
@@ -175,7 +177,7 @@ export default function ViewFilter() {
         />
 
         <CardFilter
-          label="Indisponível"
+          label={t("status.broken") /* pt: "Indisponível" */}
           type="ERROR"
           count={0}
           onPress={() => setUnavailable((prev) => !prev)}
@@ -184,8 +186,8 @@ export default function ViewFilter() {
       </View>
       <View style={{ marginTop: 16 }}>
         {renderTitleFilter({
-          title: "Distância máxima",
-          description: "A partir da sua localização",
+          title: t("filter.distanceTitle") /* pt: "Distância máxima" */,
+          description: t("filter.distanceDescription") /* pt: "A partir da sua localização" */,
           iconName: "Ruler",
         })}
       </View>
@@ -197,7 +199,7 @@ export default function ViewFilter() {
           marginBottom: 20,
         }}
       >
-        {renderSeekValue("Sem limite")}
+        {renderSeekValue(t("filter.noLimit") /* pt: "Sem limite" */)}
         <Seek
           value={valueKm}
           onChange={setValueKm}
@@ -209,8 +211,8 @@ export default function ViewFilter() {
       </View>
       <View style={{ marginTop: 16 }}>
         {renderTitleFilter({
-          title: "Potência mínima",
-          description: "Filtre por potência do carregador",
+          title: t("filter.powerTitle") /* pt: "Potência mínima" */,
+          description: t("filter.powerDescription") /* pt: "Filtre por potência do carregador" */,
           iconName: "Gauge",
         })}
       </View>
@@ -221,7 +223,7 @@ export default function ViewFilter() {
           marginTop: 20,
         }}
       >
-        {renderSeekValue("Todas")}
+        {renderSeekValue(t("common.all") /* pt: "Todas" */)}
         <Seek
           value={valueKw}
           onChange={setValueKw}
@@ -229,12 +231,12 @@ export default function ViewFilter() {
           max={SEEK_MAX_KW}
           w={280}
         />
-        {renderSeekLabel({ min: "Todas", value: labelSeekKw })}
+        {renderSeekLabel({ min: t("common.all") /* pt: "Todas" */, value: labelSeekKw })}
       </View>
       <View style={{ marginTop: 30 }}>
         {renderTitleFilter({
-          title: "Marca da estação",
-          description: "Selecione uma ou mais marcas",
+          title: t("filter.brandTitle") /* pt: "Marca da estação" */,
+          description: t("filter.brandDescription") /* pt: "Selecione uma ou mais marcas" */,
           iconName: "Ruler",
         })}
       </View>

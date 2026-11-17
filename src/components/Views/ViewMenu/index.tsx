@@ -3,12 +3,13 @@ import MenuStatCard from "@/src/components/MenuStatCard";
 import ProfileCard from "@/src/components/ProfileCard";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useModal } from "@/src/hooks/useModal";
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { useAppDispatch } from "@/src/redux/store";
 import {
-  MENU_CONTA,
-  MENU_PREFERENCIA,
-  MENU_SESSAO,
-  MENU_SUPORTE,
+  getMenuConta,
+  getMenuPreferencia,
+  getMenuSessao,
+  getMenuSuporte,
 } from "@/src/utils/enum";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
@@ -27,6 +28,7 @@ export default function ViewMenu() {
   const dispatch = useAppDispatch();
   const { signOut } = useAuth();
   const { openModal } = useModal();
+  const { t } = useTranslation();
   const profileO = useSharedValue(0);
   const profileY = useSharedValue(20);
   const menuO = useSharedValue(0);
@@ -77,7 +79,12 @@ export default function ViewMenu() {
         >
           {/* Perfil */}
           <Animated.View style={profileStyle}>
-            <ProfileCard name="Ruan Belmiro" email="ruan@teste.com" premium />
+            <ProfileCard
+              name="Ruan Belmiro"
+              email="ruan@teste.com"
+              premium
+              premiumLabel={t("menu.premiumMember") /* pt: "Membro Premium" */}
+            />
           </Animated.View>
 
           {/* Estatísticas */}
@@ -92,15 +99,15 @@ export default function ViewMenu() {
                 stats={[
                   {
                     value: "1.248",
-                    label: "kWh total",
+                    label: t("menu.stats.kwhTotal") /* pt: "kWh total" */,
                   },
                   {
                     value: "47",
-                    label: "recargas",
+                    label: t("menu.stats.recharges") /* pt: "recargas" */,
                   },
                   {
                     value: "8.2",
-                    label: "tCO₂ evitado",
+                    label: t("menu.stats.co2Avoided") /* pt: "tCO₂ evitado" */,
                   },
                 ]}
               />
@@ -110,51 +117,50 @@ export default function ViewMenu() {
           {/* Menu */}
           <Animated.View style={menuStyle}>
             <MenuList
-              title="Conta"
-              items={MENU_CONTA}
-              onPress={(e) => {
-                console.log("item clicado", e);
-                if (e === "Pagamentos") {
+              title={t("menu.sections.account") /* pt: "Conta" */}
+              items={getMenuConta(t)}
+              onPress={(id) => {
+                if (id === "PAGAMENTOS") {
                   router.navigate("/menu-teste");
                 }
-                if (e === "Meu veículo") {
+                if (id === "VEICULO") {
                   router.navigate("/veiculos");
                 }
               }}
             />
 
             <MenuList
-              title="Preferências"
-              items={MENU_PREFERENCIA}
-              onPress={(e) => {
-                if (e === "Configurações") {
+              title={t("menu.sections.preferences") /* pt: "Preferências" */}
+              items={getMenuPreferencia(t)}
+              onPress={(id) => {
+                if (id === "CONFIGURACOES") {
                   router.navigate("/configuracoes");
                 }
               }}
             />
 
             <MenuList
-              title="Suporte"
-              items={MENU_SUPORTE}
-              onPress={(e) => {
-                if (e === "Reportar problema") {
+              title={t("menu.sections.support") /* pt: "Suporte" */}
+              items={getMenuSuporte(t)}
+              onPress={(id) => {
+                if (id === "REPORTAR_PROBLEMA") {
                   router.navigate("/reportar-problema");
                 }
-                if (e === "Sobre o app") {
+                if (id === "SOBRE") {
                   router.navigate("/sobre");
                 }
               }}
             />
 
             <MenuList
-              items={MENU_SESSAO}
-              onPress={(e) => {
-                if (e === "Sair da conta") {
+              items={getMenuSessao(t)}
+              onPress={(id) => {
+                if (id === "SAIR") {
                   openModal({
-                    title: "Realmente deseja sair do aplicativo?",
+                    title: t("menu.signOutConfirm") /* pt: "Realmente deseja sair do aplicativo?" */,
                     type: "WARNING",
-                    titleButton: "Sim",
-                    titleButtonCancel: "Não",
+                    titleButton: t("common.yes") /* pt: "Sim" */,
+                    titleButtonCancel: t("common.no") /* pt: "Não" */,
                     onPress: signOut,
                   });
                 }

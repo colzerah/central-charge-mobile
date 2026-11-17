@@ -3,7 +3,8 @@ import RadioList from "@/src/components/RadioList";
 import TextArea from "@/src/components/TextArea";
 import { AppProblemType, AppReportPayload } from "@/src/dtos/reportProblemDTO";
 import { APP_PLATFORM, APP_VERSION } from "@/src/utils/appInfo";
-import { APP_PROBLEM_TYPES } from "@/src/utils/enum";
+import { useTranslation } from "@/src/hooks/useTranslation";
+import { getAppProblemTypes } from "@/src/utils/enum";
 import { useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -24,19 +25,18 @@ async function sendAppReport(payload: AppReportPayload) {
 }
 
 export default function ViewReportarProblema() {
+  const { t } = useTranslation();
   const [type, setType] = useState<AppProblemType | null>(null);
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
     if (!type) {
-      setError("Selecione o tipo de problema.");
+      setError(t("report.selectType") /* pt: "Selecione o tipo de problema." */);
       return;
     }
     if (description.trim().length < DESCRIPTION_MIN) {
-      setError(
-        `Descreva o problema com pelo menos ${DESCRIPTION_MIN} caracteres.`,
-      );
+      setError(t("report.minDescription", { min: DESCRIPTION_MIN }) /* pt: "Descreva o problema com pelo menos {{min}} caracteres." */);
       return;
     }
 
@@ -60,20 +60,19 @@ export default function ViewReportarProblema() {
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.subtitle}>
-          Encontrou um erro ou algo não funcionou como esperado? Conte para a
-          gente o que aconteceu.
+          {t("report.app.intro") /* pt: "Encontrou um erro ou algo não funcionou como esperado? Conte para a gente o que aconteceu." */}
         </Text>
 
         <View style={styles.formCard}>
           <RadioList
-            label="O que aconteceu?"
-            options={APP_PROBLEM_TYPES}
+            label={t("report.app.typeLabel") /* pt: "O que aconteceu?" */}
+            options={getAppProblemTypes(t)}
             value={type}
             onChange={setType}
           />
           <TextArea
-            label="Descrição"
-            placeholder="O que você estava fazendo quando o problema aconteceu?"
+            label={t("report.description") /* pt: "Descrição" */}
+            placeholder={t("report.app.placeholder") /* pt: "O que você estava fazendo quando o problema aconteceu?" */}
             maxLength={DESCRIPTION_MAX}
             value={description}
             onChange={setDescription}
@@ -81,15 +80,17 @@ export default function ViewReportarProblema() {
         </View>
 
         <Text style={styles.deviceInfo}>
-          Versão {APP_VERSION} · {APP_PLATFORM} será enviada junto para ajudar
-          a investigar.
+          {t("report.app.deviceInfo", {
+            version: APP_VERSION,
+            platform: APP_PLATFORM,
+          }) /* pt: "Versão {{version}} · {{platform}} será enviada junto para ajudar a investigar." */}
         </Text>
 
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <View style={styles.submit}>
           <Button
-            title="Enviar"
+            title={t("common.send") /* pt: "Enviar" */}
             onPress={handleSubmit}
             w={360}
             iconLeft="Send"

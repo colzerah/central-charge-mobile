@@ -32,11 +32,21 @@ const RadioList = <T extends string>({
                   color={selected ? C.brand400 : C.ink400}
                 />
               )}
-              <Text
-                style={[styles.optionText, selected && styles.optionTextSelected]}
-              >
-                {option.label}
-              </Text>
+              <View style={styles.optionTextWrap}>
+                <Text
+                  style={[
+                    styles.optionText,
+                    selected && styles.optionTextSelected,
+                  ]}
+                >
+                  {option.label}
+                </Text>
+                {option.description && (
+                  <Text style={styles.optionDescription}>
+                    {option.description}
+                  </Text>
+                )}
+              </View>
               <View style={[styles.radio, selected && styles.radioSelected]}>
                 {selected && <View style={styles.radioDot} />}
               </View>

@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import Button from "@/src/components/Button";
 import ButtonIcon from "@/src/components/ButtonIcon";
@@ -16,6 +17,7 @@ import { pinDetailStyles } from "./styles";
 
 export default function ViewPinDetalhes() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { height, width } = useWindowDimensions();
   const { values } = useAppSelector((state) => state.appState.home);
 
@@ -30,17 +32,19 @@ export default function ViewPinDetalhes() {
             <SummaryCard
               icon="Zap"
               value={values.pinSelected?.kwhmax!}
-              label="kW máx"
+              label={t("stationDetails.kwMax") /* pt: "kW máx" */}
             />
             <SummaryCard icon="Navigation" value={1.5} label="km" />
             <SummaryCard
               icon="Star"
               value={values.pinSelected?.r$kwh!}
-              label="R$/kWh"
+              label={t("stationDetails.pricePerKwh") /* pt: "R$/kWh" */}
             />
           </View>
           <View style={pinDetailStyles.section}>
-            <Text style={pinDetailStyles.title}>PLUGS DISPONÍVEIS</Text>
+            <Text style={pinDetailStyles.title}>
+              {t("stationDetails.plugs") /* pt: "PLUGS DISPONÍVEIS" */}
+            </Text>
           </View>
           <View style={pinDetailStyles.viewPlug}>
             {values.pinSelected?.plugs.map((plug) => (
@@ -53,7 +57,9 @@ export default function ViewPinDetalhes() {
             ))}
           </View>
           <View style={pinDetailStyles.section}>
-            <Text style={pinDetailStyles.title}>ENDEREÇO</Text>
+            <Text style={pinDetailStyles.title}>
+              {t("stationDetails.address") /* pt: "ENDEREÇO" */}
+            </Text>
           </View>
           <View style={pinDetailStyles.viewCardInfo}>
             <View style={pinDetailStyles.viewCardInfoContent}>
@@ -72,7 +78,9 @@ export default function ViewPinDetalhes() {
             </View>
           </View>
           <View style={pinDetailStyles.section}>
-            <Text style={pinDetailStyles.title}>SUPORTE TÉCNICO</Text>
+            <Text style={pinDetailStyles.title}>
+              {t("stationDetails.support") /* pt: "SUPORTE TÉCNICO" */}
+            </Text>
           </View>
           <View>
             <CardInfo
@@ -96,12 +104,14 @@ export default function ViewPinDetalhes() {
                 strokeWidth={2.2}
               />
               <Text style={pinDetailStyles.titleError}>
-                Relatar um problema
+                {t("stationDetails.reportProblem") /* pt: "Relatar um problema" */}
               </Text>
             </Pressable>
           </View>
           <View style={pinDetailStyles.section}>
-            <Text style={pinDetailStyles.title}>HÓRARIOS DE FUNCIONAMENTO</Text>
+            <Text style={pinDetailStyles.title}>
+              {t("stationDetails.schedule") /* pt: "HORÁRIOS DE FUNCIONAMENTO" */}
+            </Text>
           </View>
           <View>
             <TimeTable items={values.pinSelected?.schedules!} />
@@ -109,7 +119,7 @@ export default function ViewPinDetalhes() {
           <View style={[pinDetailStyles.viewButton, { height: height * 0.3 }]}>
             <View>
               <Button
-                title={"Escanear QR Code"}
+                title={t("stationDetails.scanQr") /* pt: "Escanear QR Code" */}
                 iconLeft="QrCode"
                 size="lg"
                 w={310}

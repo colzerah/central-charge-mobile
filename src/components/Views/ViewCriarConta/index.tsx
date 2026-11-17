@@ -7,8 +7,10 @@ import RadiantButton from "@/src/components/RadiantButton";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useModal } from "@/src/hooks/useModal";
 import { useToast } from "@/src/hooks/useToast";
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { requestRegister } from "@/src/service/requests/authRequests";
 import { C } from "@/src/theme";
+import { APP_NAME } from "@/src/utils/appInfo";
 import { isValidCPF } from "@/src/utils/validCPF";
 import type { ImagePickerAsset } from "expo-image-picker";
 import { router } from "expo-router";
@@ -32,6 +34,7 @@ export default function ViewCriarConta() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { openToast } = useToast();
+  const { t } = useTranslation();
   const { openModal } = useModal();
   const { signIn, isAuthLoading } = useAuth();
 
@@ -62,8 +65,8 @@ export default function ViewCriarConta() {
     if (!name.trim()) {
       setNameInvalid(true);
       openToast({
-        title: "Preencha o nome completo.",
-        subTitle: "Nome é obrigatório.",
+        title: t("register.fillName") /* pt: "Preencha o nome completo." */,
+        subTitle: t("register.nameRequired") /* pt: "Nome é obrigatório." */,
         type: "ERROR",
       });
       return "name";
@@ -72,8 +75,8 @@ export default function ViewCriarConta() {
     if (!email.trim()) {
       setEmailInvalid(true);
       openToast({
-        title: "Preencha o e-mail.",
-        subTitle: "E-mail é obrigatório.",
+        title: t("register.fillEmail") /* pt: "Preencha o e-mail." */,
+        subTitle: t("register.emailRequired") /* pt: "E-mail é obrigatório." */,
         type: "ERROR",
       });
       return "email";
@@ -82,8 +85,8 @@ export default function ViewCriarConta() {
     if (!emailRegex.test(email.trim())) {
       setEmailInvalid(true);
       openToast({
-        title: "E-mail inválido.",
-        subTitle: "Use um e-mail no formato válido",
+        title: t("register.invalidEmail") /* pt: "E-mail inválido." */,
+        subTitle: t("register.invalidEmailMessage") /* pt: "Use um e-mail no formato válido." */,
         type: "ERROR",
       });
       return "email";
@@ -92,8 +95,8 @@ export default function ViewCriarConta() {
     if (!phone.trim()) {
       setPhoneInvalid(true);
       openToast({
-        title: "Preencha o telefone.",
-        subTitle: "Telefone é obrigatório.",
+        title: t("register.fillPhone") /* pt: "Preencha o telefone." */,
+        subTitle: t("register.phoneRequired") /* pt: "Telefone é obrigatório." */,
         type: "ERROR",
       });
       return "phone";
@@ -102,8 +105,8 @@ export default function ViewCriarConta() {
     if (phone.replace(/\D/g, "").length < 10) {
       setPhoneInvalid(true);
       openToast({
-        title: "Telefone inválido.",
-        subTitle: "Digite um número de telefone válido.",
+        title: t("register.invalidPhone") /* pt: "Telefone inválido." */,
+        subTitle: t("register.invalidPhoneMessage") /* pt: "Digite um número de telefone válido." */,
         type: "ERROR",
       });
       return "phone";
@@ -112,8 +115,8 @@ export default function ViewCriarConta() {
     if (!cpf.trim()) {
       setCpfInvalid(true);
       openToast({
-        title: "Preencha o CPF.",
-        subTitle: "CPF é obrigatório.",
+        title: t("register.fillCpf") /* pt: "Preencha o CPF." */,
+        subTitle: t("register.cpfRequired") /* pt: "CPF é obrigatório." */,
         type: "ERROR",
       });
       return "cpf";
@@ -122,8 +125,8 @@ export default function ViewCriarConta() {
     if (!isValidCPF(cpf)) {
       setCpfInvalid(true);
       openToast({
-        title: "CPF inválido.",
-        subTitle: "Digite um CPF válido.",
+        title: t("register.invalidCpf") /* pt: "CPF inválido." */,
+        subTitle: t("register.invalidCpfMessage") /* pt: "Digite um CPF válido." */,
         type: "ERROR",
       });
       return "cpf";
@@ -132,8 +135,8 @@ export default function ViewCriarConta() {
     if (!password.trim()) {
       setPasswordInvalid(true);
       openToast({
-        title: "Preencha a senha.",
-        subTitle: "Senha é obrigatória.",
+        title: t("register.fillPassword") /* pt: "Preencha a senha." */,
+        subTitle: t("register.passwordRequired") /* pt: "Senha é obrigatória." */,
         type: "ERROR",
       });
       return "password";
@@ -142,8 +145,8 @@ export default function ViewCriarConta() {
     if (password.length < 6) {
       setPasswordInvalid(true);
       openToast({
-        title: "Senha inválida.",
-        subTitle: "A senha precisa ter pelo menos 6 caracteres.",
+        title: t("register.invalidPassword") /* pt: "Senha inválida." */,
+        subTitle: t("register.invalidPasswordMessage") /* pt: "A senha precisa ter pelo menos 6 caracteres." */,
         type: "ERROR",
       });
       return "password";
@@ -180,15 +183,15 @@ export default function ViewCriarConta() {
       });
       console.log("Success");
       openModal({
-        title: "Conta criada com sucesso",
-        subTitle: "Seja Bem-Vindo ao Central Charge!",
+        title: t("register.successTitle") /* pt: "Conta criada com sucesso" */,
+        subTitle: t("register.successMessage", { app: APP_NAME }) /* pt: "Seja bem-vindo ao {{app}}!" */,
         type: "SUCCESS",
         onPress: () => handlePressAuth(),
-        titleButton: "Ok",
+        titleButton: t("common.ok") /* pt: "Ok" */,
       });
     } catch (error: any) {
       openModal({
-        title: "Erro ao criar conta",
+        title: t("register.errorTitle") /* pt: "Erro ao criar conta" */,
         subTitle: error.response?.data?.message,
         type: "ERROR",
       });
@@ -223,7 +226,7 @@ export default function ViewCriarConta() {
               <Badge icon="Camera" />
             </View>
           </View>
-          <Text style={styles.photoLabel}>Foto de perfil</Text>
+          <Text style={styles.photoLabel}>{t("register.photo") /* pt: "Foto de perfil" */}</Text>
           <Text style={styles.photoHint}>
             Opcional — você pode adicionar depois
           </Text>
@@ -231,8 +234,8 @@ export default function ViewCriarConta() {
 
         <View style={styles.section}>
           <Input
-            label="Nome completo"
-            placeholder="Seu nome completo"
+            label={t("register.fullName") /* pt: "Nome completo" */}
+            placeholder={t("register.fullNamePlaceholder") /* pt: "Seu nome completo" */}
             textContentType="username"
             value={name}
             onChange={(t) => {
@@ -242,8 +245,8 @@ export default function ViewCriarConta() {
             isInvalid={nameInvalid}
           />
           <Input
-            label="E-mail"
-            placeholder="você@exemplo.com"
+            label={t("register.email") /* pt: "E-mail" */}
+            placeholder={t("register.emailPlaceholder") /* pt: "voce@exemplo.com" */}
             textContentType="emailAddress"
             value={email}
             onChange={(t) => {
@@ -253,7 +256,7 @@ export default function ViewCriarConta() {
             isInvalid={emailInvalid}
           />
           <Input
-            label="Telefone"
+            label={t("register.phone") /* pt: "Telefone" */}
             placeholder="(11) 99999-9999"
             leftIcon="Phone"
             textContentType="telephoneNumber"
@@ -266,7 +269,7 @@ export default function ViewCriarConta() {
             isInvalid={phoneInvalid}
           />
           <Input
-            label="CPF"
+            label={t("register.cpf") /* pt: "CPF" */}
             placeholder="000.000.000-00"
             leftIcon="IdCard"
             value={cpf}
@@ -278,8 +281,8 @@ export default function ViewCriarConta() {
             isInvalid={cpfInvalid}
           />
           <Input
-            label="Senha"
-            placeholder="min 8 caracteres"
+            label={t("register.password") /* pt: "Senha" */}
+            placeholder={t("register.passwordPlaceholder") /* pt: "mín. 6 caracteres" */}
             textContentType="password"
             value={password}
             onChange={(t) => {
@@ -291,16 +294,16 @@ export default function ViewCriarConta() {
         </View>
         <View style={styles.buttonView}>
           <RadiantButton
-            title="Criar Conta"
+            title={t("register.submit") /* pt: "Criar conta" */}
             w={"100%"}
             onPress={handleSignUp}
             isLoading={loading || isAuthLoading}
           />
         </View>
         <View style={styles.footerView}>
-          <Text style={styles.footerText}>Já tem uma conta?</Text>
+          <Text style={styles.footerText}>{t("register.haveAccount") /* pt: "Já tem uma conta?" */}</Text>
           <Button
-            title="Entrar"
+            title={t("register.signIn") /* pt: "Entrar" */}
             variant="link"
             size="sm"
             w={50}

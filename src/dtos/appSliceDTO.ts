@@ -1,4 +1,5 @@
 import { MarketsInterface } from "../app/(app)/(tabs)/home";
+import { AppLanguage } from "./languageDTO";
 
 export interface HomeValuesState {
   pinSelected: MarketsInterface | null;
@@ -8,6 +9,7 @@ export interface AppState {
   notifications: NotificationState;
   // null = ainda não leu do AsyncStorage (ver useOnboardingBootstrap)
   onboardingDone: boolean | null;
+  language: AppLanguage;
 }
 
 export interface HomeState {

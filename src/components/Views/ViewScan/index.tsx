@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import Button from "@/src/components/Button";
 import Icon from "@/src/components/Icon";
 import { C } from "@/src/theme";
@@ -24,13 +25,14 @@ export default function ViewScan() {
   const [permission, requestPermission] = useCameraPermissions();
   const isFocused = useIsFocused();
   const scannedRef = useRef(false);
+  const { t } = useTranslation();
 
   const handleBarcodeScanned = ({ data, type }: BarcodeScanningResult) => {
     if (scannedRef.current) return;
     scannedRef.current = true;
 
-    Alert.alert("Código lido", `${type}: ${data}`, [
-      { text: "OK", onPress: () => (scannedRef.current = false) },
+    Alert.alert(t("scan.codeRead") /* pt: "Código lido" */, `${type}: ${data}`, [
+      { text: t("common.ok") /* pt: "Ok" */, onPress: () => (scannedRef.current = false) },
     ]);
   };
 
@@ -48,9 +50,9 @@ export default function ViewScan() {
     <BackgroundGradient>
       <View style={scanStyles.container}>
         <View style={scanStyles.viewTitle}>
-          <Text style={scanStyles.title}>Escanear carregador</Text>
+          <Text style={scanStyles.title}>{t("scan.title") /* pt: "Escanear carregador" */}</Text>
           <Text style={scanStyles.subtitle}>
-            Aponte a câmera para o QR code ou código de barras do carregador
+            {t("scan.subtitle") /* pt: "Aponte a câmera para o QR code ou código de barras do carregador" */}
           </Text>
         </View>
 
@@ -75,17 +77,17 @@ export default function ViewScan() {
             >
               <Icon name="CameraOff" size={40} color={C.ink400} />
               <Text style={scanStyles.permissionText}>
-                Sem permissão para usar a câmera.
+                {t("scan.noPermission") /* pt: "Sem permissão para usar a câmera." */}
               </Text>
               <Text style={scanStyles.permissionLink}>
-                Clique aqui para dar a permissão
+                {t("scan.grantPermission") /* pt: "Clique aqui para dar a permissão" */}
               </Text>
             </Pressable>
           )}
         </View>
         <View style={scanStyles.buttonView}>
           <Button
-            title="Digitar o Código"
+            title={t("scan.typeCode") /* pt: "Digitar o código" */}
             w={280}
             onPress={() => router.push("/scan-code")}
           />

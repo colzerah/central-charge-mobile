@@ -1,6 +1,8 @@
 import * as icons from "lucide-react-native/icons";
 
 export interface ItemMenu {
+  // Identificador fixo, usado no onPress (o label muda com o idioma)
+  id: string;
   label: string;
   subLabel?: string;
   icon: keyof typeof icons;
@@ -10,7 +12,7 @@ export interface ItemMenu {
 export interface MenuPros {
   items: ItemMenu[];
   title?: string;
-  onPress: (label: string) => void;
+  onPress: (id: string) => void;
 }
 
 export interface MenuItemProps {

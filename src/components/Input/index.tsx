@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { formatPhone } from "@/src/utils/phone";
 import { pressableOpacity } from "@/src/utils/pressable";
@@ -35,6 +36,7 @@ const Input = ({
   iconColor,
   iconBg,
 }: InputProps) => {
+  const { t } = useTranslation();
   const inputRef = useRef<TextInputInstance>(null);
   const [focused, setFocused] = useState(false);
   const [skeletonHeight, setSkeletonHeight] = useState<number | undefined>(
@@ -61,7 +63,7 @@ const Input = ({
       return placeholder;
     }
     if (textContentType === "emailAddress") {
-      return "voce@exemplo.com";
+      return t("input.emailPlaceholder") /* pt: "voce@exemplo.com" */;
     }
     if (textContentType === "password") {
       return "••••••••";
@@ -70,9 +72,9 @@ const Input = ({
       return "(11) 99999-9999";
     }
     if (isUser) {
-      return "Digite seu nome completo";
+      return t("input.fullNamePlaceholder") /* pt: "Digite seu nome completo" */;
     }
-    return "Digite aqui";
+    return t("common.typeHere") /* pt: "Digite aqui" */;
   };
 
   const getSize = () => {

@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import Button from "@/src/components/Button";
 import { VehicleCard } from "@/src/components/CardItems/VehicleCard";
 import { VehicleData } from "@/src/components/CardItems/VehicleCard/VehicleCardDTO";
@@ -21,6 +22,7 @@ export default function ViewVeiculos() {
     MOCK_INITIAL_VEHICLES,
   );
 
+  const { t } = useTranslation();
   const contentO = useSharedValue(0);
   const contentY = useSharedValue(24);
 
@@ -39,12 +41,12 @@ export default function ViewVeiculos() {
 
   const handleDelete = (id: string) => {
     Alert.alert(
-      "Excluir veículo",
-      "Deseja remover este veículo da sua conta?",
+      t("vehicles.deleteTitle") /* pt: "Excluir veículo" */,
+      t("vehicles.deleteMessage") /* pt: "Deseja remover este veículo da sua conta?" */,
       [
-        { text: "Cancelar", style: "cancel" },
+        { text: t("common.cancel") /* pt: "Cancelar" */, style: "cancel" },
         {
-          text: "Excluir",
+          text: t("common.delete") /* pt: "Excluir" */,
           style: "destructive",
           onPress: () => setVehicles((prev) => prev.filter((v) => v.id !== id)),
         },
@@ -73,16 +75,16 @@ export default function ViewVeiculos() {
           ) : (
             <View style={styles.emptyWrap}>
               <Icon name="Car" color={C.ink400} size={48} strokeWidth={1.5} />
-              <Text style={styles.emptyText}>Nenhum veículo cadastrado</Text>
+              <Text style={styles.emptyText}>{t("vehicles.empty") /* pt: "Nenhum veículo cadastrado" */}</Text>
               <Text style={styles.emptySub}>
-                Adicione seu primeiro veículo para começar
+                {t("vehicles.emptyHint") /* pt: "Adicione seu primeiro veículo para começar" */}
               </Text>
             </View>
           )}
 
           <View style={styles.viewButton}>
             <Button
-              title="Novo veículo"
+              title={t("vehicles.newVehicle") /* pt: "Novo veículo" */}
               onPress={handleAddVehicle}
               w={370}
               iconLeft="Plus"

@@ -1,33 +1,38 @@
+import { TFunction } from "@/src/i18n";
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { Text, View } from "react-native";
 import MapPin from "../MapPin";
 import { MapLegendItem, MapLegendProps } from "./MapLegendDTO";
 import { styles } from "./styles";
 
-const DEFAULT_ITEMS: MapLegendItem[] = [
+const getDefaultItems = (t: TFunction): MapLegendItem[] => [
   {
     variant: "AVAILABLE",
-    title: "Disponível",
-    description: "Pronto para carregar",
+    title: t("status.available") /* pt: "Disponível" */,
+    description: t("home.legend.availableDescription") /* pt: "Pronto para carregar" */,
   },
   {
     variant: "OCCUPIED",
-    title: "Ocupado",
-    description: "Em uso no momento",
+    title: t("status.occupied") /* pt: "Ocupado" */,
+    description: t("home.legend.occupiedDescription") /* pt: "Em uso no momento" */,
   },
   {
     variant: "BROKEN",
-    title: "Indisponível",
-    description: "Fora de serviço",
+    title: t("status.broken") /* pt: "Indisponível" */,
+    description: t("home.legend.brokenDescription") /* pt: "Fora de serviço" */,
   },
 ];
 
 // Conteúdo da legenda dos pins. É aberto pelo item "Legenda" do FabGroup
 // da home, dentro de um GooeyPopover.
-const MapLegend = ({ items = DEFAULT_ITEMS }: MapLegendProps) => {
+const MapLegend = ({ items }: MapLegendProps) => {
+  const { t } = useTranslation();
+  const legendItems = items ?? getDefaultItems(t);
+
   return (
     <View style={styles.content}>
-      <Text style={styles.title}>Legenda</Text>
-      {items.map((item) => (
+      <Text style={styles.title}>{t("home.legend.title") /* pt: "Legenda" */}</Text>
+      {legendItems.map((item) => (
         <View key={item.variant} style={styles.row}>
           <View style={styles.pinBox}>
             <View style={styles.pinScaled}>

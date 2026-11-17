@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { Trash2 } from "lucide-react-native";
 import { Image, Text, TouchableOpacity, View } from "react-native";
@@ -6,6 +7,7 @@ import { vehicleStyles } from "./styles";
 import { VehicleCardProps } from "./VehicleCardDTO";
 
 export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
+  const { t } = useTranslation();
   return (
     <View style={vehicleStyles.card}>
       <View style={vehicleStyles.cardImageWrap}>
@@ -31,7 +33,7 @@ export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
           <Text style={vehicleStyles.vehicleBrand}>{vehicle.brand}</Text>
         </View>
         <View style={vehicleStyles.plateWrap}>
-          <Text style={vehicleStyles.plateLabel}>Placa</Text>
+          <Text style={vehicleStyles.plateLabel}>{t("vehicles.plate") /* pt: "Placa" */}</Text>
           <View>
             <Tag title={vehicle.plate} type="gray" size="md" />
           </View>

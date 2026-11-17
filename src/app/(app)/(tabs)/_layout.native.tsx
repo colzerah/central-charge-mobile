@@ -4,7 +4,10 @@ import { Tabs } from "expo-router";
 
 import { Bell, MapPin, Menu, QrCode, Star } from "lucide-react-native";
 
+import { useTranslation } from "@/src/hooks/useTranslation";
 export default function TabLayout() {
+  const { t } = useTranslation();
+
   return (
     <Tabs
       tabBar={(props) => <TabBar {...props} />}
@@ -21,7 +24,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: "Home",
+          title: t("tabs.home") /* pt: "Início" */,
           tabBarIcon: ({ focused }) => (
             <MapPin size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
@@ -30,7 +33,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="favorites"
         options={{
-          title: "Favoritos",
+          title: t("tabs.favorites") /* pt: "Favoritos" */,
           tabBarIcon: ({ focused }) => (
             <Star size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
@@ -39,7 +42,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="scan"
         options={{
-          title: "Scan",
+          title: t("tabs.scan") /* pt: "Escanear" */,
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <QrCode size={22} color={focused ? C.brand500 : "#B9B9B9"} />
@@ -49,7 +52,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="notification"
         options={{
-          title: "Notificações",
+          title: t("tabs.notifications") /* pt: "Notificações" */,
           tabBarIcon: ({ focused }) => (
             <Bell size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),
@@ -58,7 +61,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="menu"
         options={{
-          title: "Menu",
+          title: t("tabs.menu") /* pt: "Menu" */,
           tabBarIcon: ({ focused }) => (
             <Menu size={22} color={focused ? C.brand500 : "#B9B9B9"} />
           ),

@@ -1,3 +1,4 @@
+import { translate } from "../i18n";
 import { ActionSheetIOS, Alert, Linking, Platform } from "react-native";
 
 interface Destination {
@@ -33,7 +34,7 @@ const openURL = async (url: string) => {
   try {
     await Linking.openURL(url);
   } catch {
-    Alert.alert("Ops", "Não foi possível abrir o app de navegação.");
+    Alert.alert(translate("common.oops") /* pt: "Ops" */, translate("navigation.error") /* pt: "Não foi possível abrir o app de navegação." */);
   }
 };
 
@@ -54,8 +55,11 @@ const openNavigationIOS = async (destination: Destination) => {
 
   ActionSheetIOS.showActionSheetWithOptions(
     {
-      title: "Abrir rota com",
-      options: [...installed.map((app) => app.name), "Cancelar"],
+      title: translate("navigation.openWith") /* pt: "Abrir rota com" */,
+      options: [
+        ...installed.map((app) => app.name),
+        translate("common.cancel") /* pt: "Cancelar" */,
+      ],
       cancelButtonIndex: installed.length,
       userInterfaceStyle: "dark",
     },

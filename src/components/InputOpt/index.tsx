@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { FadeInUp } from "react-native-reanimated";
 import OtpInput from "../shared/ui/base/otp-input";
@@ -5,10 +6,11 @@ import { InputOptProps } from "./InputOptDTO";
 
 const InputOpt = ({
   error,
-  errorMessage = "Código incorreto. Tente novamente.",
+  errorMessage,
   onChange,
   onFinishedChange,
 }: InputOptProps) => {
+  const { t } = useTranslation();
   // const [fontLoaded] = useFonts({
   //   SfProRounded: require("@/assets/fonts/sf-pro-rounded.ttf"),
   //   HelveticaNowDisplay: require("@/assets/fonts/HelveticaNowDisplayMedium.ttf"),
@@ -32,7 +34,7 @@ const InputOpt = ({
         inputHeight={56}
         inputWidth={48}
         error={error}
-        errorMessage={errorMessage}
+        errorMessage={errorMessage ?? t("sendCode.invalidCode") /* pt: "Código incorreto. Tente novamente." */}
         textStyle={{
           fontFamily: "Inter-SemiBold",
           fontSize: 24,

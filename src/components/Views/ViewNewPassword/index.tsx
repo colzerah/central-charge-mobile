@@ -1,3 +1,5 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
+import { APP_NAME } from "@/src/utils/appInfo";
 import { useModal } from "@/src/hooks/useModal";
 import { router } from "expo-router";
 import { Zap } from "lucide-react-native";
@@ -28,6 +30,7 @@ import { styles } from "./styles";
 export default function ViewNewPassword() {
   const { openToast } = useToast();
   const { openModal } = useModal();
+  const { t } = useTranslation();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 
@@ -69,9 +72,9 @@ export default function ViewNewPassword() {
   }));
 
   const validate = (): string | null => {
-    if (!password) return "Digite sua nova senha.";
-    if (password.length < 6) return "A senha deve ter pelo menos 6 caracteres.";
-    if (password !== confirm) return "As senhas não coincidem.";
+    if (!password) return t("newPassword.enterNew") /* pt: "Digite sua nova senha." */;
+    if (password.length < 6) return t("newPassword.minLength") /* pt: "A senha deve ter pelo menos 6 caracteres." */;
+    if (password !== confirm) return t("newPassword.mismatch") /* pt: "As senhas não coincidem." */;
     return null;
   };
 
@@ -80,7 +83,7 @@ export default function ViewNewPassword() {
     if (validationError) {
       setError(validationError);
       openToast({
-        title: "Erro ao preencher as senhas",
+        title: t("newPassword.errorTitle") /* pt: "Erro ao preencher as senhas" */,
         subTitle: validationError,
         type: "ERROR",
       });
@@ -94,11 +97,10 @@ export default function ViewNewPassword() {
 
     setLoading(false);
     openModal({
-      title: "Senha alterada!",
-      subTitle:
-        "Sua senha foi atualizada com sucesso. Agora você pode entrar no aplicativo.",
+      title: t("newPassword.successTitle") /* pt: "Senha alterada!" */,
+      subTitle: t("newPassword.successMessage") /* pt: "Sua senha foi atualizada com sucesso. Agora você pode entrar no aplicativo." */,
       type: "SUCCESS",
-      titleButton: "OK",
+      titleButton: t("common.ok") /* pt: "Ok" */,
       // titleButtonCancel: "Nao",
       onPress: () => handleDone(),
     });
@@ -133,16 +135,16 @@ export default function ViewNewPassword() {
             </Animated.View>
 
             <Animated.View style={[styles.titleWrap, titleStyle]}>
-              <Text style={styles.title}>Nova senha</Text>
+              <Text style={styles.title}>{t("newPassword.title") /* pt: "Nova senha" */}</Text>
               <Text style={styles.subtitle}>
-                Defina uma nova senha para acessar sua conta VoltCharge.
+                {t("newPassword.subtitle", { app: APP_NAME }) /* pt: "Defina uma nova senha para acessar sua conta {{app}}." */}
               </Text>
             </Animated.View>
 
             <Animated.View style={[styles.section, formStyle]}>
               <View style={styles.field}>
                 <Input
-                  label="Nova senha"
+                  label={t("newPassword.newPassword") /* pt: "Nova senha" */}
                   textContentType="password"
                   value={password}
                   onChange={(t) => {
@@ -155,7 +157,7 @@ export default function ViewNewPassword() {
 
               <View style={styles.field}>
                 <Input
-                  label="Confirmar senha"
+                  label={t("newPassword.confirmPassword") /* pt: "Confirmar senha" */}
                   textContentType="password"
                   value={confirm}
                   onChange={(t) => {
@@ -177,7 +179,7 @@ export default function ViewNewPassword() {
                 isLoading={loading}
                 iconName="ArrowRight"
                 rightIcon
-                title="Salvar nova senha"
+                title={t("newPassword.save") /* pt: "Salvar nova senha" */}
                 onPress={handleSubmit}
                 // active={isFocused}
               />

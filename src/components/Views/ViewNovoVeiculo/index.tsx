@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import Button from "@/src/components/Button";
 import Input from "@/src/components/Input";
 import { C } from "@/src/theme";
@@ -14,6 +15,7 @@ import {
 import { newVehicleStyles } from "./styles";
 
 export default function ViewNovoVeiculo() {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [plate, setPlate] = useState("");
@@ -21,7 +23,7 @@ export default function ViewNovoVeiculo() {
 
   const handleSave = () => {
     if (!name.trim() || !brand.trim() || !plate.trim()) {
-      setError("Preencha todos os campos para continuar.");
+      setError(t("newVehicle.fillAll") /* pt: "Preencha todos os campos para continuar." */);
       return;
     }
 
@@ -43,32 +45,31 @@ export default function ViewNovoVeiculo() {
           <Car color={C.brand300} size={30} strokeWidth={2} />
         </View>
 
-        <Text style={newVehicleStyles.title}>Cadastre seu veículo</Text>
+        <Text style={newVehicleStyles.title}>{t("newVehicle.title") /* pt: "Cadastre seu veículo" */}</Text>
         <Text style={newVehicleStyles.subtitle}>
-          Adicione os dados do seu carro para encontrar recargas compatíveis com
-          mais facilidade.
+          {t("newVehicle.subtitle") /* pt: "Adicione os dados do seu carro para encontrar recargas compatíveis com mais facilidade." */}
         </Text>
 
         <View style={newVehicleStyles.formCard}>
           <Input
-            label="Nome do veículo"
-            placeholder="Ex.: Dolphin Mini"
+            label={t("newVehicle.name") /* pt: "Nome do veículo" */}
+            placeholder={t("newVehicle.namePlaceholder") /* pt: "Ex.: Dolphin Mini" */}
             variant="outline"
             leftIcon="Car"
             iconColor={C.ink400}
             iconBg={C.ink0}
           />
           <Input
-            label="Marca"
-            placeholder="Ex.: BYD"
+            label={t("newVehicle.brand") /* pt: "Marca" */}
+            placeholder={t("newVehicle.brandPlaceholder") /* pt: "Ex.: BYD" */}
             variant="outline"
             leftIcon="Tag"
             iconColor={C.ink400}
             iconBg={C.ink0}
           />
           <Input
-            label="Placa"
-            placeholder="Ex.: ABC1D23"
+            label={t("newVehicle.plate") /* pt: "Placa" */}
+            placeholder={t("newVehicle.platePlaceholder") /* pt: "Ex.: ABC1D23" */}
             variant="outline"
             leftIcon="Hash"
             iconColor={C.ink400}
@@ -80,7 +81,7 @@ export default function ViewNovoVeiculo() {
 
         <View style={{ marginTop: 24 }}>
           <Button
-            title="Salvar veículo"
+            title={t("newVehicle.save") /* pt: "Salvar veículo" */}
             onPress={handleSave}
             w={360}
             iconLeft="Check"

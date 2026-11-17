@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import DrawerFilter from "@/src/components/DrawerFilter";
 import FabGroup from "@/src/components/FabGroup";
 import { FabItems } from "@/src/components/FabGroup/FabGroupDTO";
@@ -28,6 +29,7 @@ import { MarketsInterface } from "./ViewHomeDTO";
 export default function ViewHome() {
   const mapRef = useRef<MapView>(null);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { coordinates } = useCoordinates();
   const { values } = useAppSelector((state) => state.appState.home);
 
@@ -120,7 +122,7 @@ export default function ViewHome() {
 
   return (
     <DrawerFilter
-      title="Filtros"
+      title={t("filter.title") /* pt: "Filtros" */}
       open={drawerOpen}
       onClose={() => setDrawerOpen(false)}
       onApply={() => {}}

@@ -1,14 +1,17 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { APP_NAME, APP_PLATFORM, APP_VERSION } from "@/src/utils/appInfo";
 import { Image } from "expo-image";
 import { ScrollView, Text, View } from "react-native";
 import { styles } from "./styles";
 
-const INFO = [
-  { label: "Versão", value: APP_VERSION },
-  { label: "Plataforma", value: APP_PLATFORM },
-];
-
 export default function ViewSobre() {
+  const { t } = useTranslation();
+
+  const info = [
+    { label: t("about.version") /* pt: "Versão" */, value: APP_VERSION },
+    { label: t("about.platform") /* pt: "Plataforma" */, value: APP_PLATFORM },
+  ];
+
   return (
     <ScrollView
       contentContainerStyle={styles.content}
@@ -22,20 +25,19 @@ export default function ViewSobre() {
         />
         <Text style={styles.appName}>{APP_NAME}</Text>
         <View style={styles.versionBadge}>
-          <Text style={styles.versionBadgeText}>Versão {APP_VERSION}</Text>
+          <Text style={styles.versionBadgeText}>
+            {t("common.version", { version: APP_VERSION }) /* pt: "Versão {{version}}" */}
+          </Text>
         </View>
-        <Text style={styles.description}>
-          Encontre estações de recarga perto de você, acompanhe suas recargas e
-          gerencie seus veículos elétricos em um só lugar.
-        </Text>
+        <Text style={styles.description}>{t("about.description") /* pt: "Encontre estações de recarga perto de você, acompanhe suas recargas e gerencie seus veículos elétricos em um só lugar." */}</Text>
       </View>
 
-      <Text style={styles.sectionTitle}>Informações</Text>
+      <Text style={styles.sectionTitle}>{t("about.info") /* pt: "Informações" */}</Text>
       <View style={styles.group}>
-        {INFO.map((item, idx) => (
+        {info.map((item, idx) => (
           <View
             key={item.label}
-            style={[styles.row, idx < INFO.length - 1 && styles.rowBorder]}
+            style={[styles.row, idx < info.length - 1 && styles.rowBorder]}
           >
             <Text style={styles.rowLabel}>{item.label}</Text>
             <Text style={styles.rowValue}>{item.value}</Text>
@@ -44,7 +46,7 @@ export default function ViewSobre() {
       </View>
 
       <Text style={styles.footer}>
-        © {new Date().getFullYear()} {APP_NAME}. Todos os direitos reservados.
+        © {new Date().getFullYear()} {APP_NAME}. {t("about.rights") /* pt: "Todos os direitos reservados." */}
       </Text>
     </ScrollView>
   );

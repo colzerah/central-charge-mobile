@@ -25,8 +25,11 @@ export const styles = StyleSheet.create({
     borderColor: C.brand400,
     backgroundColor: C.brand400 + "14",
   },
-  optionText: {
+  optionTextWrap: {
     flex: 1,
+    paddingVertical: 8,
+  },
+  optionText: {
     fontSize: 14,
     color: C.ink500,
     fontFamily: "Inter-Regular",
@@ -34,6 +37,12 @@ export const styles = StyleSheet.create({
   optionTextSelected: {
     color: C.white,
     fontFamily: "Inter-SemiBold",
+  },
+  optionDescription: {
+    fontSize: 12,
+    color: C.ink400,
+    fontFamily: "Inter-Regular",
+    marginTop: 2,
   },
   radio: {
     width: 18,

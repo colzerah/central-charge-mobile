@@ -1,3 +1,4 @@
+import { translate } from "../i18n";
 import { useEffect, useRef, useState } from "react";
 import * as Location from "expo-location";
 import { usePermissions } from "./usePermissions";
@@ -27,7 +28,7 @@ export function useCoordinates(): UseCoordinatesResult {
 
   useEffect(() => {
     if (!allowLocationAccess) {
-      setErrorMsg("Permissão de localização negada");
+      setErrorMsg(translate("location.denied") /* pt: "Permissão de localização negada" */);
       setIsLoading(false);
       return;
     }
@@ -58,7 +59,7 @@ export function useCoordinates(): UseCoordinatesResult {
     })().catch((error: unknown) => {
       if (isMounted) {
         setErrorMsg(
-          error instanceof Error ? error.message : "Erro ao obter localização",
+          error instanceof Error ? error.message : translate("location.error") /* pt: "Erro ao obter localização" */,
         );
         setIsLoading(false);
       }

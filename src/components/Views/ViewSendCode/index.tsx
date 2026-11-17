@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import InputOpt from "@/src/components/InputOpt";
 import { C } from "@/src/theme";
@@ -29,6 +30,7 @@ const generateOtp = () =>
 
 export default function ViewSendCode() {
   const { phone } = useLocalSearchParams<{ phone: string }>();
+  const { t } = useTranslation();
 
   const [generatedOtp, setGeneratedOtp] = useState(generateOtp);
   const [error, setError] = useState(false);
@@ -114,9 +116,9 @@ export default function ViewSendCode() {
             </Animated.View>
 
             <Animated.View style={[styles.titleWrap, titleStyle]}>
-              <Text style={styles.title}>Verificação</Text>
+              <Text style={styles.title}>{t("sendCode.title") /* pt: "Verificação" */}</Text>
               <Text style={styles.subtitle}>
-                {`Digite o código de 6 dígitos enviado para${"\n"}${phone || "seu telefone"}.`}
+                {t("sendCode.message", { phone: phone || t("sendCode.yourPhone") /* pt: "seu telefone" */ }) /* pt: "Digite o código de 6 dígitos enviado para⏎{{phone}}." */}
               </Text>
             </Animated.View>
 
@@ -137,14 +139,14 @@ export default function ViewSendCode() {
                 </Text>
 
                 <View style={styles.resendRow}>
-                  <Text style={styles.resendText}>Não recebeu? </Text>
+                  <Text style={styles.resendText}>{t("sendCode.notReceived") /* pt: "Não recebeu?" */} </Text>
                   {resendTimer > 0 ? (
                     <Text style={styles.resendTimer}>
                       Reenviar em {resendTimer}s
                     </Text>
                   ) : (
                     <TouchableOpacity onPress={handleResend}>
-                      <Text style={styles.resendLink}>Reenviar código</Text>
+                      <Text style={styles.resendLink}>{t("sendCode.resend") /* pt: "Reenviar código" */}</Text>
                     </TouchableOpacity>
                   )}
                 </View>

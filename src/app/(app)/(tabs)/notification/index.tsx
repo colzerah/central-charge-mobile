@@ -3,7 +3,8 @@ import TabNavigation from "@/src/components/TabNavigation";
 import Notifications from "@/src/components/Views/ViewNotification";
 import Recharges from "@/src/components/Views/ViewRecharges";
 import { C } from "@/src/theme";
-import { NOTIFICATION_TAB_ITEM } from "@/src/utils/enum";
+import { useTranslation } from "@/src/hooks/useTranslation";
+import { getNotificationTabItems } from "@/src/utils/enum";
 import { useFocusEffect } from "expo-router";
 import {
   AlertTriangle,
@@ -181,6 +182,7 @@ type VisitedTabName = "RECARGAS" | "NOTIFICACOES";
 
 export default function NotificacoesScreen() {
   const [tab, setTab] = useState<VisitedTabName>("RECARGAS");
+  const { t } = useTranslation();
 
   // Bottom tabs keep this screen mounted, so reset on blur to always come
   // back to "Recargas".
@@ -194,7 +196,7 @@ export default function NotificacoesScreen() {
   const tabs = (
     <View style={styles.tabView}>
       <TabNavigation
-        items={NOTIFICATION_TAB_ITEM}
+        items={getNotificationTabItems(t)}
         value={tab}
         onPress={(e) => setTab(e as VisitedTabName)}
       />

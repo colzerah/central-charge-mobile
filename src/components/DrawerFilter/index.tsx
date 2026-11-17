@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
@@ -16,11 +17,12 @@ const DrawerFilter = ({
   onClose,
   onApply,
   onClear,
-  title = "Filtros",
+  title,
   content,
   children,
 }: DrawerFilterProps) => {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   const { width } = useWindowDimensions();
   const drawerWidth = Math.min(width * 0.85, 360);
   const buttonWidth = drawerWidth - PANEL_PADDING * 2;
@@ -61,7 +63,9 @@ const DrawerFilter = ({
                 borderColor={C.brand400}
                 borderW={2}
               />
-              <Text style={drawerFilterStyles.title}>{title}</Text>
+              <Text style={drawerFilterStyles.title}>
+                {title ?? t("filter.title") /* pt: "Filtros" */}
+              </Text>
             </View>
             <ButtonIcon
               icon="X"
@@ -79,9 +83,13 @@ const DrawerFilter = ({
           </ScrollView>
 
           <View style={drawerFilterStyles.footer}>
-            <Button title="Aplicar" w={buttonWidth} onPress={onApply} />
+            <Button title={t("filter.apply") /* pt: "Aplicar" */} w={buttonWidth} onPress={onApply} />
             {onClear && (
-              <Button title="Limpar filtros" variant="link" onPress={onClear} />
+              <Button
+                title={t("filter.clear") /* pt: "Limpar filtros" */}
+                variant="link"
+                onPress={onClear}
+              />
             )}
           </View>
         </View>

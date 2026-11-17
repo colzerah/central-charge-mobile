@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import RechargeCard from "@/src/components/RechargeCard";
 import SummaryCard from "@/src/components/SummaryCard";
 import { C } from "@/src/theme";
@@ -23,6 +24,7 @@ import { rechargesStyles } from "./styles";
 
 const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
   const [refreshing, setRefreshing] = useState(false);
+  const { t, language } = useTranslation();
 
   const contentO = useSharedValue(1);
   const contentY = useSharedValue(24);
@@ -71,7 +73,11 @@ const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
 
   const renderItem = ({ item }: { item: RechargeProps }) => (
     <View style={{ marginHorizontal: 14, marginBottom: 12 }}>
-      <RechargeCard {...item} />
+      <RechargeCard
+        {...item}
+        // O status vem traduzido pela variante (o texto do mock é ignorado)
+        tagTitle={t(`recharges.status.${item.variant ?? "default"}`) /* pt: recharges.status.* → "Concluída", "Agendada", "Pendente", … */}
+      />
     </View>
   );
 
@@ -80,7 +86,7 @@ const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
       <Text
         style={{ color: C.white, fontSize: 16, fontFamily: "Inter-Regular" }}
       >
-        Nenhuma Recarga encontrada
+        {t("recharges.empty") /* pt: "Nenhuma recarga encontrada" */}
       </Text>
     </View>
   );
@@ -88,22 +94,22 @@ const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={rechargesStyles.header}>
-        <Text style={rechargesStyles.headerTitle}>Recargas</Text>
+        <Text style={rechargesStyles.headerTitle}>{t("recharges.title") /* pt: "Recargas" */}</Text>
         <Text style={rechargesStyles.headerSubtitle}>
-          Histórico e agendamentos
+          {t("recharges.subtitle") /* pt: "Histórico e agendamentos" */}
         </Text>
       </View>
 
       {tabs}
 
       <View style={rechargesStyles.summaryRow}>
-        <SummaryCard icon="Zap" value="1.248 kWh" label="Total carregado" />
-        <SummaryCard icon="Clock" value="42h 15min" label="Tempo total" />
-        <SummaryCard icon="TrendingUp" value="R$ 1.089" label="Gasto total" />
+        <SummaryCard icon="Zap" value="1.248 kWh" label={t("recharges.totalCharged") /* pt: "Total carregado" */} />
+        <SummaryCard icon="Clock" value="42h 15min" label={t("recharges.totalTime") /* pt: "Tempo total" */} />
+        <SummaryCard icon="TrendingUp" value="R$ 1.089" label={t("recharges.totalSpent") /* pt: "Gasto total" */} />
       </View>
 
       <Animated.View style={[contentStyle, { flex: 1 }]}>
-        <Text style={rechargesStyles.sectionTitle}>Histórico recente</Text>
+        <Text style={rechargesStyles.sectionTitle}>{t("recharges.recent") /* pt: "Histórico recente" */}</Text>
         <FlashList
           data={RECHARGES_MOCK}
           keyExtractor={(item) => String(item.id)}
@@ -111,6 +117,7 @@ const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
           style={{ flex: 1 }}
           contentContainerStyle={rechargesStyles.listContent}
           ListEmptyComponent={emptyComponent}
+          extraData={language}
           // onEndReached={} recarregar mais dados
           // onEndReachedThreshold={0.5}
           onRefresh={onRefresh}

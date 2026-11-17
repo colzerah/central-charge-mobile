@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { SymbolView } from "expo-symbols";
 import { Pressable, Text, View } from "react-native";
@@ -17,12 +18,13 @@ const SearchBar = ({
   onChange,
   value,
   placeholder,
-  subtitle = "Pesquise pelo nome",
+  subtitle,
   focusedOffset = -70,
   unfocusedOffset = -30,
   scrollableSearch,
 }: SearchBarProps) => {
   const { setIsFocused, isFocused } = useScrollableSearch();
+  const { t } = useTranslation();
   return (
     <>
       <ScrollableSearch.AnimatedComponent
@@ -63,7 +65,7 @@ const SearchBar = ({
                     tintColor={C.surface}
                   />
                   <Text style={[searchBarStyles.focusedTitle]}>
-                    {items.length ? subtitle : "Vazia"}
+                    {items.length ? (subtitle ?? t("home.searchSubtitle") /* pt: "Pesquise pelo nome" */) : t("home.searchEmpty") /* pt: "Vazia" */}
                   </Text>
                 </View>
 

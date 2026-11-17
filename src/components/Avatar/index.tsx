@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { useModal } from "@/src/hooks/useModal";
 import { usePermissions } from "@/src/hooks/usePermissions";
 import { C } from "@/src/theme";
@@ -22,6 +23,7 @@ const Avatar = ({
     usePermissions();
 
   const { openModal } = useModal();
+  const { t } = useTranslation();
 
   const getSize = () => {
     if (size === "sm") {
@@ -60,10 +62,7 @@ const Avatar = ({
       }
     } catch (error) {
       console.error("Não foi possível selecionar a foto de perfil.", error);
-      Alert.alert(
-        "Erro",
-        "Não foi possível selecionar a foto. Tente novamente.",
-      );
+      Alert.alert(t("common.error") /* pt: "Erro" */, t("avatar.selectError") /* pt: "Não foi possível selecionar a foto. Tente novamente." */);
     }
   };
 
@@ -74,9 +73,8 @@ const Avatar = ({
 
       if (!allowCameraAccess || !allowGalleryAccess) {
         openModal({
-          title: "Permissões necessárias",
-          subTitle:
-            "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil.",
+          title: t("avatar.permissionsTitle") /* pt: "Permissões necessárias" */,
+          subTitle: t("avatar.permissionsMessage") /* pt: "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil." */,
           type: "INFO",
         });
         return;
@@ -86,10 +84,7 @@ const Avatar = ({
         "Não foi possível solicitar acesso à câmera e às fotos.",
         error,
       );
-      Alert.alert(
-        "Erro",
-        "Não foi possível solicitar as permissões. Tente novamente.",
-      );
+      Alert.alert(t("common.error") /* pt: "Erro" */, t("avatar.permissionsError") /* pt: "Não foi possível solicitar as permissões. Tente novamente." */);
       return;
     }
 
@@ -99,13 +94,13 @@ const Avatar = ({
     //   type: "SUCCESS",
     // })
 
-    Alert.alert("Foto de perfil", "Como deseja adicionar sua foto?", [
-      { text: "Tirar foto", onPress: () => void selectPhoto("camera") },
+    Alert.alert(t("avatar.photoTitle") /* pt: "Foto de perfil" */, t("avatar.photoMessage") /* pt: "Como deseja adicionar sua foto?" */, [
+      { text: t("avatar.takePhoto") /* pt: "Tirar foto" */, onPress: () => void selectPhoto("camera") },
       {
-        text: "Escolher da galeria",
+        text: t("avatar.chooseLibrary") /* pt: "Escolher da galeria" */,
         onPress: () => void selectPhoto("library"),
       },
-      { text: "Cancelar", style: "cancel" },
+      { text: t("common.cancel") /* pt: "Cancelar" */, style: "cancel" },
     ]);
   };
 

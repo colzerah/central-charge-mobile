@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { Text, View } from "react-native";
 import Icon from "../Icon";
@@ -8,6 +9,7 @@ const StationCard = ({
   title = "Estação Shopping",
   type,
 }: StationCardProps) => {
+  const { t } = useTranslation();
   const colorType = {
     BROKEN: C.error,
     AVAILABLE: C.success,
@@ -15,9 +17,9 @@ const StationCard = ({
   };
 
   const labelStatus = {
-    BROKEN: "Indisponível",
-    AVAILABLE: "Disponível",
-    OCCUPIED: "Ocupado",
+    BROKEN: t("status.broken") /* pt: "Indisponível" */,
+    AVAILABLE: t("status.available") /* pt: "Disponível" */,
+    OCCUPIED: t("status.occupied") /* pt: "Ocupado" */,
   };
 
   return (

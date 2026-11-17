@@ -1,3 +1,4 @@
+import { translate } from "@/src/i18n";
 import { C } from "@/src/theme";
 import { SplashScreen } from "expo-router";
 import { useEffect, useState } from "react";
@@ -18,16 +19,17 @@ import { SplashAnimatedProps } from "./SplashAnimatedDTO";
 import { styles } from "./styles";
 
 // Cada linha entra letra por letra quando a anterior termina, e todas
-// ficam na tela até a splash sumir.
+// ficam na tela até a splash sumir. Os textos usam o idioma do aparelho:
+// a splash aparece antes de o idioma salvo ser lido.
 const LINES = [
   { text: "Central Charge", style: styles.title, lineStyle: styles.titleLine },
   {
-    text: "Energia onde você estiver",
+    text: translate("splash.tagline") /* pt: "Energia onde você estiver" */,
     style: styles.phrase,
     lineStyle: styles.phraseLine,
   },
   {
-    text: "Conecte. Carregue. Siga.",
+    text: translate("splash.slogan") /* pt: "Conecte. Carregue. Siga." */,
     style: styles.phrase,
     lineStyle: styles.phraseLine,
   },

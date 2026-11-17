@@ -3,37 +3,36 @@ import Onboarding from "@/src/components/Onboarding";
 import { OnboardingSlide } from "@/src/components/Onboarding/OnboardingDTO";
 import { useOnboarding } from "@/src/hooks/useOnboarding";
 
-const SLIDES: OnboardingSlide[] = [
+import { useTranslation } from "@/src/hooks/useTranslation";
+import { TFunction } from "@/src/i18n";
+const getSlides = (t: TFunction): OnboardingSlide[] => [
   {
     id: "map",
     image: require("src/assets/onBoarding/Tour1.png"),
     icon: "MapPin",
-    title: "Encontre pontos de recarga",
-    description:
-      "Veja no mapa os carregadores perto de você e trace a rota até eles.",
+    title: t("onboarding.mapTitle") /* pt: "Encontre pontos de recarga" */,
+    description: t("onboarding.mapDescription") /* pt: "Veja no mapa os carregadores perto de você e trace a rota até eles." */,
   },
   {
     id: "scan",
     image: require("src/assets/onBoarding/Tour2.jpg"),
     icon: "QrCode",
-    title: "Recarregue pelo app",
-    description:
-      "Escaneie o QR Code do carregador para iniciar a recarga em segundos.",
+    title: t("onboarding.scanTitle") /* pt: "Recarregue pelo app" */,
+    description: t("onboarding.scanDescription") /* pt: "Escaneie o QR Code do carregador para iniciar a recarga em segundos." */,
   },
   {
     id: "vehicles",
     image: require("src/assets/onBoarding/Tour3.jpg"),
     icon: "Car",
-    title: "Cadastre seus veículos",
-    description: "Guarde os dados do seu carro para agilizar cada recarga.",
+    title: t("onboarding.vehiclesTitle") /* pt: "Cadastre seus veículos" */,
+    description: t("onboarding.vehiclesDescription") /* pt: "Guarde os dados do seu carro para agilizar cada recarga." */,
   },
   {
     id: "history",
     image: require("src/assets/onBoarding/Tour4.jpg"),
     icon: "ChartLine",
-    title: "Acompanhe seu histórico",
-    description:
-      "Consulte recargas anteriores, consumo e valores quando quiser.",
+    title: t("onboarding.historyTitle") /* pt: "Acompanhe seu histórico" */,
+    description: t("onboarding.historyDescription") /* pt: "Consulte recargas anteriores, consumo e valores quando quiser." */,
   },
 ];
 
@@ -41,10 +40,11 @@ const SLIDES: OnboardingSlide[] = [
 // (auth), que redireciona para /login. Por isso não tem router.replace.
 export default function OnboardingScreen() {
   const { completeOnboarding } = useOnboarding();
+  const { t } = useTranslation();
 
   return (
     <BackgroundGradient>
-      <Onboarding slides={SLIDES} onFinish={completeOnboarding} />
+      <Onboarding slides={getSlides(t)} onFinish={completeOnboarding} />
     </BackgroundGradient>
   );
 }

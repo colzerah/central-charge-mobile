@@ -7,7 +7,12 @@ import Tag from "../Tag";
 import { ProfileCardProps } from "./ProfileCardDTO";
 import { styles } from "./styles";
 
-const ProfileCard = ({ name, email, premium }: ProfileCardProps) => {
+const ProfileCard = ({
+  name,
+  email,
+  premium,
+  premiumLabel = "Membro Premium",
+}: ProfileCardProps) => {
   const [photo, setPhoto] = useState<ImagePickerAsset | null>(null);
   return (
     <View style={styles.profileCard}>
@@ -25,7 +30,7 @@ const ProfileCard = ({ name, email, premium }: ProfileCardProps) => {
         <Text style={styles.profileEmail}>{email}</Text>
         {premium && (
           <View style={styles.profileTag}>
-            <Tag title="Membro Premium" type="warning" size="sm" zap />
+            <Tag title={premiumLabel} type="warning" size="sm" zap />
           </View>
         )}
       </View>

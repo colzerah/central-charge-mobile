@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { useModal } from "@/src/hooks/useModal";
 import { C } from "@/src/theme";
 import { MOCK_INITIAL_FAVORITES, MOCK_SORT_OPTIONS } from "@/src/utils/mocks";
@@ -33,6 +34,7 @@ export default function ViewFavorites() {
   const [refreshing, setRefreshing] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("recent");
   const { openModal } = useModal();
+  const { t } = useTranslation();
 
   // "Recentes" mantém a ordem em que foram salvos; "Mais perto" ordena
   // da menor para a maior distância
@@ -72,11 +74,11 @@ export default function ViewFavorites() {
 
   const handleRemove = (station: ChargingStation) => {
     openModal({
-      title: "Deseja remover dos favoritos?",
-      subTitle: `Ao remover, "${station.name}" deixará de estar na sua lista de favoritos.`,
+      title: t("favorites.removeTitle") /* pt: "Deseja remover dos favoritos?" */,
+      subTitle: t("favorites.removeMessage", { name: station.name }) /* pt: "Ao remover, "{{name}}" deixará de estar na sua lista de favoritos." */,
       type: "WARNING",
-      titleButton: "Remover",
-      titleButtonCancel: "Cancelar",
+      titleButton: t("common.remove") /* pt: "Remover" */,
+      titleButtonCancel: t("common.cancel") /* pt: "Cancelar" */,
       onPress: () =>
         setFavorites((prev) => prev.filter((f) => f.station.id !== station.id)),
     });
@@ -86,11 +88,11 @@ export default function ViewFavorites() {
     <View style={styles.root}>
       <SafeAreaView style={styles.flex}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Favoritos</Text>
+          <Text style={styles.headerTitle}>{t("favorites.title") /* pt: "Favoritos" */}</Text>
           <Text style={styles.headerSubtitle}>
             {favorites.length > 0
-              ? `${favorites.length} estações salvas`
-              : "Nenhuma estação favoritada"}
+              ? t("favorites.count", { count: favorites.length }) /* pt: "{{count}} estação salva / {{count}} estações salvas" */
+              : t("favorites.none") /* pt: "Nenhuma estação favoritada" */}
           </Text>
         </View>
 
@@ -111,7 +113,9 @@ export default function ViewFavorites() {
                       active && styles.filterTextActive,
                     ]}
                   >
-                    {option.label}
+                    {option.value === "nearest"
+                      ? t("favorites.sortNearest") /* pt: "Mais perto" */
+                      : t("favorites.sortRecent") /* pt: "Recentes" */}
                   </Text>
                 </TouchableOpacity>
               );
@@ -144,9 +148,9 @@ export default function ViewFavorites() {
             ) : (
               <View style={styles.emptyWrap}>
                 <Star color={C.ink400} size={48} strokeWidth={1.5} />
-                <Text style={styles.emptyText}>Nenhum favorito ainda</Text>
+                <Text style={styles.emptyText}>{t("favorites.empty") /* pt: "Nenhum favorito ainda" */}</Text>
                 <Text style={styles.emptySub}>
-                  Toque na estrela de uma estação para salvá-la aqui
+                  {t("favorites.emptyHint") /* pt: "Toque na estrela de uma estação para salvá-la aqui" */}
                 </Text>
               </View>
             )}
@@ -164,6 +168,7 @@ function FavoriteCard({
   favorite: FavoriteStation;
   onRemove: () => void;
 }) {
+  const { t } = useTranslation();
   const station = favorite.station;
   const statusColor =
     station.status === "available"
@@ -173,10 +178,10 @@ function FavoriteCard({
         : C.error;
   const statusLabel =
     station.status === "available"
-      ? "Disponível"
+      ? t("status.available") /* pt: "Disponível" */
       : station.status === "busy"
-        ? "Ocupado"
-        : "Offline";
+        ? t("status.occupied") /* pt: "Ocupado" */
+        : t("status.offline") /* pt: "Offline" */;
 
   return (
     <View style={styles.card}>
@@ -194,7 +199,7 @@ function FavoriteCard({
           <View style={styles.cardMeta}>
             <MapPin color={C.ink400} size={13} strokeWidth={2} />
             <Text style={styles.cardDistance}>
-              {station.distance} km de você
+              {t("favorites.distance", { distance: station.distance }) /* pt: "{{distance}} km de você" */}
             </Text>
           </View>
         </View>

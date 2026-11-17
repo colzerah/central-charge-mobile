@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { Button as ButtonIX } from "@/src/components/shared/ui/base/button";
 import { C } from "@/src/theme";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
@@ -16,9 +17,10 @@ const Button = ({
   iconLeft,
   iconRight,
   size = "md",
-  loadingText = "Carregando...",
+  loadingText,
   colorScheme = "primary",
 }: ButtonProps) => {
+  const { t } = useTranslation();
   const isLink = variant === "link";
   const isAndroid = Platform.OS === "android";
   const borderRadius = isLink ? 0 : 14;
@@ -188,7 +190,7 @@ const Button = ({
           borderColor: getVariant()?.color,
         }}
         isLoading={isLoading}
-        loadingText={isLink ? "" : loadingText}
+        loadingText={isLink ? "" : (loadingText ?? t("common.loading") /* pt: "Carregando..." */)}
         disabled={disabled}
         width={w}
         onPress={onPress}

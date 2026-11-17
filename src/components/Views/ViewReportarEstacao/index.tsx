@@ -8,7 +8,8 @@ import {
 } from "@/src/dtos/reportProblemDTO";
 import { useAppSelector } from "@/src/redux/store";
 import { C } from "@/src/theme";
-import { STATION_PROBLEM_TYPES } from "@/src/utils/enum";
+import { useTranslation } from "@/src/hooks/useTranslation";
+import { getStationProblemTypes } from "@/src/utils/enum";
 import { useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -33,6 +34,7 @@ export default function ViewReportarEstacao() {
   const station = useAppSelector(
     (state) => state.appState.home.values.pinSelected,
   );
+  const { t } = useTranslation();
   const [type, setType] = useState<StationProblemType | null>(null);
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
@@ -40,13 +42,11 @@ export default function ViewReportarEstacao() {
   const handleSubmit = async () => {
     if (!station) return;
     if (!type) {
-      setError("Selecione o tipo de problema.");
+      setError(t("report.selectType") /* pt: "Selecione o tipo de problema." */);
       return;
     }
     if (description.trim().length < DESCRIPTION_MIN) {
-      setError(
-        `Descreva o problema com pelo menos ${DESCRIPTION_MIN} caracteres.`,
-      );
+      setError(t("report.minDescription", { min: DESCRIPTION_MIN }) /* pt: "Descreva o problema com pelo menos {{min}} caracteres." */);
       return;
     }
 
@@ -63,7 +63,7 @@ export default function ViewReportarEstacao() {
     return (
       <View style={styles.empty}>
         <Text style={styles.emptyText}>
-          Nenhuma estação selecionada. Volte e escolha uma estação no mapa.
+          {t("report.station.noStation") /* pt: "Nenhuma estação selecionada. Volte e escolha uma estação no mapa." */}
         </Text>
       </View>
     );
@@ -94,20 +94,19 @@ export default function ViewReportarEstacao() {
         </View>
 
         <Text style={styles.subtitle}>
-          Conte o que aconteceu nesta estação. Seu relato ajuda outros
-          motoristas e a manter os carregadores funcionando.
+          {t("report.station.intro") /* pt: "Conte o que aconteceu nesta estação. Seu relato ajuda outros motoristas e a manter os carregadores funcionando." */}
         </Text>
 
         <View style={styles.formCard}>
           <RadioList
-            label="Tipo de problema"
-            options={STATION_PROBLEM_TYPES}
+            label={t("report.station.typeLabel") /* pt: "Tipo de problema" */}
+            options={getStationProblemTypes(t)}
             value={type}
             onChange={setType}
           />
           <TextArea
-            label="Descrição"
-            placeholder="Descreva o que aconteceu..."
+            label={t("report.description") /* pt: "Descrição" */}
+            placeholder={t("report.station.placeholder") /* pt: "Descreva o que aconteceu..." */}
             maxLength={DESCRIPTION_MAX}
             value={description}
             onChange={setDescription}
@@ -118,7 +117,7 @@ export default function ViewReportarEstacao() {
 
         <View style={styles.submit}>
           <Button
-            title="Enviar relato"
+            title={t("report.station.send") /* pt: "Enviar relato" */}
             onPress={handleSubmit}
             w={360}
             iconLeft="Send"

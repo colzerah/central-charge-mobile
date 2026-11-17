@@ -1,8 +1,11 @@
-import Constants from "expo-constants";
 import { FabItems } from "../components/FabGroup/FabGroupDTO";
 import { ItemMenuConfig } from "../components/MenuConfig/MenuConfigDTO";
 import { ItemMenu } from "../components/MenuList/MenuDTO";
+import { RadioListOption } from "../components/RadioList/RadioListDTO";
 import { Tabs } from "../components/TabNavigation/TabNavigationDTO";
+import { AppLanguage } from "../dtos/languageDTO";
+import { TFunction } from "../i18n";
+import { APP_VERSION } from "./appInfo";
 import {
   AppProblemType,
   ReportTypeOption,
@@ -25,148 +28,180 @@ export const MONTHS = [
   "DEZ",
 ];
 
-export const MENU_CONTA: ItemMenu[] = [
+// Listas de menu: o `id` identifica o item no onPress e o texto vem do i18n
+export const getMenuConta = (t: TFunction): ItemMenu[] => [
   {
-    label: "Meu veículo",
+    id: "VEICULO",
+    label: t("menu.items.myVehicle") /* pt: "Meu veículo" */,
     subLabel: "Tesla Model 3",
     icon: "Car",
     variant: "PRIMARY",
   },
   {
-    label: "Pagamentos",
+    id: "PAGAMENTOS",
+    label: t("menu.items.payments") /* pt: "Pagamentos" */,
     subLabel: "Visa •••• 4242",
     icon: "CreditCard",
     variant: "PRIMARY",
   },
   {
-    label: "Indicações",
-    subLabel: "Convide amigos",
+    id: "INDICACOES",
+    label: t("menu.items.referrals") /* pt: "Indicações" */,
+    subLabel: t("menu.items.referralsSub") /* pt: "Convide amigos" */,
     icon: "Gift",
     variant: "PRIMARY",
   },
 ];
 
-export const MENU_PREFERENCIA: ItemMenu[] = [
+export const getMenuPreferencia = (t: TFunction): ItemMenu[] => [
   {
-    label: "Configurações",
+    id: "CONFIGURACOES",
+    label: t("menu.items.settings") /* pt: "Configurações" */,
     icon: "Settings",
     variant: "SECOND",
   },
 ];
 
-export const MENU_SUPORTE: ItemMenu[] = [
+export const getMenuSuporte = (t: TFunction): ItemMenu[] => [
   {
-    label: "Central de ajuda",
+    id: "AJUDA",
+    label: t("menu.items.helpCenter") /* pt: "Central de ajuda" */,
     icon: "LifeBuoy",
     variant: "SECOND",
   },
   {
-    label: "Reportar problema",
-    subLabel: "Erros ou falhas no app",
+    id: "REPORTAR_PROBLEMA",
+    label: t("menu.items.reportProblem") /* pt: "Reportar problema" */,
+    subLabel: t("menu.items.reportProblemSub") /* pt: "Erros ou falhas no app" */,
     icon: "Bug",
     variant: "SECOND",
   },
   {
-    label: "Termos e privacidade",
+    id: "TERMOS",
+    label: t("menu.items.terms") /* pt: "Termos e privacidade" */,
     icon: "FileText",
     variant: "SECOND",
   },
   {
-    label: "Sobre o app",
-    subLabel: `Versão ${Constants.expoConfig?.version ?? ""}`,
+    id: "SOBRE",
+    label: t("menu.items.about") /* pt: "Sobre o app" */,
+    subLabel: t("common.version", { version: APP_VERSION }) /* pt: "Versão {{version}}" */,
     icon: "Info",
     variant: "SECOND",
   },
 ];
 
-export const MENU_SESSAO: ItemMenu[] = [
+export const getMenuSessao = (t: TFunction): ItemMenu[] => [
   {
-    label: "Sair da conta",
+    id: "SAIR",
+    label: t("menu.items.signOut") /* pt: "Sair da conta" */,
     icon: "LogOut",
     variant: "DANGER",
   },
   {
-    label: "Excluir conta",
+    id: "EXCLUIR_CONTA",
+    label: t("menu.items.deleteAccount") /* pt: "Excluir conta" */,
     icon: "Trash2",
     variant: "DANGER",
   },
 ];
 
-export const MENU_CONFIG_PERMICOES: ItemMenuConfig[] = [
+export const getMenuConfigPermissoes = (t: TFunction): ItemMenuConfig[] => [
   {
-    title: "Localização",
+    title: t("settings.location") /* pt: "Localização" */,
     label: "LOCALIZACAO",
-    subLabel: "Encontrar estações perto de você",
+    subLabel: t("settings.locationSub") /* pt: "Encontrar estações perto de você" */,
     icon: "MapPin",
     color: "#3B82F6",
     type: "switch",
   },
   {
-    title: "Câmera",
+    title: t("settings.camera") /* pt: "Câmera" */,
     label: "CAMERA",
-    subLabel: "Tirar foto do seu veículo",
+    subLabel: t("settings.cameraSub") /* pt: "Tirar foto do seu veículo" */,
     icon: "Camera",
     color: "#F97316",
     type: "switch",
   },
   {
-    title: "Notificações",
+    title: t("settings.notifications") /* pt: "Notificações" */,
     label: "NOTIFICACOES",
-    subLabel: "Avisos de recargas e pagamentos",
+    subLabel: t("settings.notificationsSub") /* pt: "Avisos de recargas e pagamentos" */,
     icon: "Bell",
     color: "#F59E0B",
     type: "switch",
   },
 ];
-export const MENU_CONFIG_PREFERENCIAS: ItemMenuConfig[] = [
+
+export const getMenuConfigPreferencias = (
+  t: TFunction,
+  languageLabel: string,
+): ItemMenuConfig[] => [
   {
-    title: "Idioma",
+    title: t("settings.language") /* pt: "Idioma" */,
     label: "IDIOMA",
-    subLabel: "Português (Brasil)",
+    subLabel: languageLabel,
     icon: "Globe",
     color: C.success,
     type: "button",
   },
   {
-    title: "Tema",
+    title: t("settings.theme") /* pt: "Tema" */,
     label: "TEMA",
-    subLabel: "Escuro",
+    subLabel: t("settings.themeDark") /* pt: "Escuro" */,
     icon: "Moon",
     color: C.ink400,
     type: "switch",
   },
 ];
 
-export const STATION_PROBLEM_TYPES: ReportTypeOption<StationProblemType>[] = [
-  { value: "DEFEITO", label: "Carregador com defeito", icon: "PlugZap" },
-  { value: "OCUPADA", label: "Vaga ocupada ou bloqueada", icon: "Car" },
-  { value: "CONECTOR", label: "Conector incompatível", icon: "Cable" },
-  { value: "PAGAMENTO", label: "Problema no pagamento", icon: "CreditCard" },
-  { value: "OUTRO", label: "Outro", icon: "CircleEllipsis" },
+export const getStationProblemTypes = (
+  t: TFunction,
+): ReportTypeOption<StationProblemType>[] => [
+  { value: "DEFEITO", label: t("report.station.types.DEFEITO") /* pt: "Carregador com defeito" */, icon: "PlugZap" },
+  { value: "OCUPADA", label: t("report.station.types.OCUPADA") /* pt: "Vaga ocupada ou bloqueada" */, icon: "Car" },
+  { value: "CONECTOR", label: t("report.station.types.CONECTOR") /* pt: "Conector incompatível" */, icon: "Cable" },
+  {
+    value: "PAGAMENTO",
+    label: t("report.station.types.PAGAMENTO") /* pt: "Problema no pagamento" */,
+    icon: "CreditCard",
+  },
+  { value: "OUTRO", label: t("report.station.types.OUTRO") /* pt: "Outro" */, icon: "CircleEllipsis" },
 ];
 
-export const APP_PROBLEM_TYPES: ReportTypeOption<AppProblemType>[] = [
-  { value: "ERRO", label: "Erro ou travamento", icon: "Bug" },
-  { value: "NAO_FUNCIONA", label: "Algo não funciona", icon: "CircleX" },
-  { value: "LENTIDAO", label: "App lento", icon: "Hourglass" },
-  { value: "CONTA", label: "Conta ou login", icon: "UserRound" },
-  { value: "OUTRO", label: "Outro", icon: "CircleEllipsis" },
+export const getAppProblemTypes = (
+  t: TFunction,
+): ReportTypeOption<AppProblemType>[] => [
+  { value: "ERRO", label: t("report.app.types.ERRO") /* pt: "Erro ou travamento" */, icon: "Bug" },
+  { value: "NAO_FUNCIONA", label: t("report.app.types.NAO_FUNCIONA") /* pt: "Algo não funciona" */, icon: "CircleX" },
+  { value: "LENTIDAO", label: t("report.app.types.LENTIDAO") /* pt: "App lento" */, icon: "Hourglass" },
+  { value: "CONTA", label: t("report.app.types.CONTA") /* pt: "Conta ou login" */, icon: "UserRound" },
+  { value: "OUTRO", label: t("report.app.types.OUTRO") /* pt: "Outro" */, icon: "CircleEllipsis" },
 ];
 
-export const ENUM_WEEK = {
-  MONDAY: "Segunda-feira",
-  TUESDAY: "Terça-feira",
-  WEDNESDAY: "Quarta-feira",
-  THURSDAY: "Quinta-feira",
-  FRIDAY: "Sexta-feira",
-  SATURDAY: "Sábado",
-  SUNDAY: "Domingo",
+// Nome do idioma no próprio idioma (fixo, para quem não lê o idioma atual)
+export const LANGUAGE_NATIVE_NAMES: Record<AppLanguage, string> = {
+  "pt-BR": "Português",
+  "pt-PT": "Português",
+  "en-US": "English",
+  "zh-CN": "中文",
+  "ru-RU": "Русский",
 };
 
-export const NOTIFICATION_TAB_ITEM = [
-  { value: "RECARGAS", label: "Recargas", icon: "Zap" },
-  { value: "NOTIFICACOES", label: "Notificações", icon: "Bell" },
-] as Tabs[];
+// Todas as opções no mesmo padrão:
+//   Português (pt-BR)      ← nome nativo + código
+//   Português (Brasil)     ← nome completo no idioma atual do app
+export const getLanguages = (t: TFunction): RadioListOption<AppLanguage>[] =>
+  (Object.keys(LANGUAGE_NATIVE_NAMES) as AppLanguage[]).map((value) => ({
+    value,
+    label: `${LANGUAGE_NATIVE_NAMES[value]} (${value})`,
+    description: t(`language.names.${value}`) /* pt: language.names.* → "Português (Brasil)", "Português (Portugal)", "Inglês (Estados Unidos)", … */,
+  }));
+
+export const getNotificationTabItems = (t: TFunction): Tabs[] => [
+  { value: "RECARGAS", label: t("recharges.title") /* pt: "Recargas" */, icon: "Zap" },
+  { value: "NOTIFICACOES", label: t("notifications.title") /* pt: "Notificações" */, icon: "Bell" },
+];
 
 export const EMPTY_ITEM_FAB_GROUP = [
   {

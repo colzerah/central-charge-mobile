@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -19,6 +20,7 @@ const BUTTONS_GAP = 12;
 const FOOTER_PADDING = 28;
 
 const Onboarding = ({ slides, onFinish }: OnboardingProps) => {
+  const { t } = useTranslation();
   const { width } = useWindowDimensions();
   const listRef = useRef<FlatList<OnboardingSlide>>(null);
   const [index, setIndex] = useState(0);
@@ -61,7 +63,7 @@ const Onboarding = ({ slides, onFinish }: OnboardingProps) => {
       <View style={styles.header}>
         {!isLast && (
           <Pressable onPress={onFinish} hitSlop={12}>
-            <Text style={styles.skipText}>Pular</Text>
+            <Text style={styles.skipText}>{t("common.skip") /* pt: "Pular" */}</Text>
           </Pressable>
         )}
       </View>
@@ -121,7 +123,7 @@ const Onboarding = ({ slides, onFinish }: OnboardingProps) => {
             <View style={{ width: buttonWidth }} />
           ) : (
             <Button
-              title="Voltar"
+              title={t("common.back") /* pt: "Voltar" */}
               variant="outline"
               w={buttonWidth}
               iconLeft="ArrowLeft"
@@ -129,7 +131,7 @@ const Onboarding = ({ slides, onFinish }: OnboardingProps) => {
             />
           )}
           <Button
-            title={isLast ? "Começar" : "Avançar"}
+            title={isLast ? t("common.start") /* pt: "Começar" */ : t("common.next") /* pt: "Avançar" */}
             w={buttonWidth}
             shadowBox
             iconRight={isLast ? "Check" : "ArrowRight"}

@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import Icon from "@/src/components/Icon";
 import Input from "@/src/components/Input";
 import { C } from "@/src/theme";
@@ -28,6 +29,7 @@ import { styles } from "./styles";
 export default function ViewForgotPassword() {
   const [phone, setPhone] = useState("");
   const { openToast } = useToast();
+  const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
 
   const logoO = useSharedValue(0);
@@ -68,10 +70,10 @@ export default function ViewForgotPassword() {
     setError(null);
 
     if (onlyDigits(phone).length !== PHONE_DIGITS) {
-      setError("Digite um celular válido com DDD.");
+      setError(t("forgotPassword.invalidPhone") /* pt: "Digite um celular válido com DDD." */);
       openToast({
-        title: "Preencha o número de telefone.",
-        subTitle: "Digite um celular válido com DDD.",
+        title: t("forgotPassword.fillPhone") /* pt: "Preencha o número de telefone." */,
+        subTitle: t("forgotPassword.invalidPhone") /* pt: "Digite um celular válido com DDD." */,
         type: "ERROR",
       });
       return;
@@ -105,17 +107,16 @@ export default function ViewForgotPassword() {
           </Animated.View>
 
           <Animated.View style={[styles.titleWrap, titleStyle]}>
-            <Text style={styles.title}>Esqueci minha senha</Text>
+            <Text style={styles.title}>{t("forgotPassword.title") /* pt: "Esqueci minha senha" */}</Text>
             <Text style={styles.subtitle}>
-              Informe seu telefone cadastrado para receber o código de
-              verificação.
+              {t("forgotPassword.subtitle") /* pt: "Informe seu telefone cadastrado para receber o código de verificação." */}
             </Text>
           </Animated.View>
 
           <Animated.View style={[styles.section, formStyle]}>
             <View style={styles.field}>
               <Input
-                label="Celular"
+                label={t("forgotPassword.phone") /* pt: "Celular" */}
                 textContentType="telephoneNumber"
                 value={phone}
                 onChange={(t) => {
@@ -131,7 +132,7 @@ export default function ViewForgotPassword() {
               // isLoading={isAuthLoading}
               iconName="ArrowRight"
               rightIcon
-              title="Enviar código"
+              title={t("forgotPassword.sendCode") /* pt: "Enviar código" */}
               onPress={handlePhoneSubmit}
               // active={isFocused}
             />

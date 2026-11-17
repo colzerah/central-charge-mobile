@@ -3,6 +3,8 @@ import * as icons from "lucide-react-native/icons";
 export interface RadioListOption<T extends string> {
   value: T;
   label: string;
+  // Segunda linha, menor, abaixo do label
+  description?: string;
   icon?: keyof typeof icons;
 }
 

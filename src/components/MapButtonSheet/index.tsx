@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -52,6 +53,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
     } = selectedMarket ?? ({} as Partial<MarketsInterface>);
 
     const sheetRef = useRef<BottomSheetModal>(null);
+    const { t } = useTranslation();
     const insets = useSafeAreaInsets();
 
     // true enquanto a tela está sem foco: o minimize() também anima para -1 e,
@@ -122,15 +124,15 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
 
     const renderTag = useMemo(() => {
       if (variant === "BROKEN") {
-        return <Tag title="Indisponível" size="md" dot type="danger" />;
+        return <Tag title={t("status.broken") /* pt: "Indisponível" */} size="md" dot type="danger" />;
       }
 
       if (variant === "OCCUPIED") {
-        return <Tag title="Ocupado" size="md" dot type="warning" />;
+        return <Tag title={t("status.occupied") /* pt: "Ocupado" */} size="md" dot type="warning" />;
       }
 
-      return <Tag title="Disponivel" size="md" dot type="success" />;
-    }, [variant]);
+      return <Tag title={t("status.available") /* pt: "Disponível" */} size="md" dot type="success" />;
+    }, [variant, t]);
 
     return (
       <BottomSheetModal
@@ -174,9 +176,11 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
             {adress} · 1,2 km
           </Text>
           <View style={mapButtonSheetStyles.viewSubTitle}>
-            <Text style={mapButtonSheetStyles.subTitle}>PLUGS NESTE PONTO</Text>
             <Text style={mapButtonSheetStyles.subTitle}>
-              {qtdPlugs} conectores
+              {t("home.sheet.plugsHere") /* pt: "PLUGS NESTE PONTO" */}
+            </Text>
+            <Text style={mapButtonSheetStyles.subTitle}>
+              {t("home.sheet.connectors", { count: qtdPlugs }) /* pt: "{{count}} conector / {{count}} conectores" */}
             </Text>
           </View>
           <View style={mapButtonSheetStyles.viewPlug}>
@@ -194,7 +198,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
           </View>
           <View style={mapButtonSheetStyles.providers}>
             <Button
-              title={"Ir"}
+              title={t("home.sheet.go") /* pt: "Ir" */}
               w={164}
               size="sm"
               iconLeft="MapPinCheck"
@@ -203,7 +207,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
               }
             />
             <Button
-              title={"Ver detalhes"}
+              title={t("home.sheet.details") /* pt: "Ver detalhes" */}
               w={164}
               size="sm"
               iconRight="ArrowBigRight"

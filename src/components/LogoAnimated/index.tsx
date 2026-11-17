@@ -1,3 +1,4 @@
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { Text, View } from "react-native";
 import Animated, {
   Easing,
@@ -15,6 +16,7 @@ import { useEffect } from "react";
 import { C, styles } from "./styles";
 
 const LogoAnimated = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     pulse.value = withRepeat(
       withSequence(
@@ -121,7 +123,7 @@ const LogoAnimated = () => {
 
       <Animated.View style={[styles.titleWrap, titleStyle]}>
         <Text style={styles.brand}>Central Charge</Text>
-        <Text style={styles.subtitle}>Entre e carregue seu veículo</Text>
+        <Text style={styles.subtitle}>{t("auth.tagline") /* pt: "Entre e carregue seu veículo" */}</Text>
       </Animated.View>
     </View>
   );
