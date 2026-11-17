@@ -27,4 +27,6 @@ export interface MenuItemProps {
   type: "switch" | "button";
   active?: boolean;
   title: string;
+  // Linha separadora abaixo do item (todos menos o último do grupo)
+  divider?: boolean;
 }

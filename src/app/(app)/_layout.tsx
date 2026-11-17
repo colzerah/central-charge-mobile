@@ -97,6 +97,39 @@ export default function AppLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="reportar-estacao"
+        options={{
+          headerShown: true,
+          header: () => (
+            <Header
+              title="Relatar problema"
+              subtitle="Avise sobre falhas nesta estação"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="reportar-problema"
+        options={{
+          headerShown: true,
+          header: () => (
+            <Header
+              title="Reportar problema"
+              subtitle="Erros ou falhas no app"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="sobre"
+        options={{
+          headerShown: true,
+          header: () => (
+            <Header title="Sobre o app" subtitle="Informações do aplicativo" />
+          ),
+        }}
+      />
     </Stack>
   );
 }

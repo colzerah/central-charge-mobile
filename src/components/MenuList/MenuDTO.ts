@@ -18,5 +18,7 @@ export interface MenuItemProps {
   label: string;
   sublabel?: string;
   danger?: boolean;
+  // Linha separadora abaixo do item (todos menos o último do grupo)
+  divider?: boolean;
   onPress?: () => void;
 }

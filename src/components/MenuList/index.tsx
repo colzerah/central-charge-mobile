@@ -28,6 +28,7 @@ const MenuList = ({ title, items, onPress }: MenuPros) => {
           <MenuItem
             key={`${menu.label}-${idx}`}
             danger={menu.variant === "DANGER"}
+            divider={idx < items.length - 1}
             icon={
               <IconBackground
                 icon={menu.icon}

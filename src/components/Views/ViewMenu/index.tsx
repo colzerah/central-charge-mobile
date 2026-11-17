@@ -4,7 +4,12 @@ import ProfileCard from "@/src/components/ProfileCard";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useModal } from "@/src/hooks/useModal";
 import { useAppDispatch } from "@/src/redux/store";
-import { MENU_CONTA, MENU_PREFERENCIA, MENU_SUPORTE } from "@/src/utils/enum";
+import {
+  MENU_CONTA,
+  MENU_PREFERENCIA,
+  MENU_SESSAO,
+  MENU_SUPORTE,
+} from "@/src/utils/enum";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import { ScrollView, View } from "react-native";
@@ -131,6 +136,18 @@ export default function ViewMenu() {
             <MenuList
               title="Suporte"
               items={MENU_SUPORTE}
+              onPress={(e) => {
+                if (e === "Reportar problema") {
+                  router.navigate("/reportar-problema");
+                }
+                if (e === "Sobre o app") {
+                  router.navigate("/sobre");
+                }
+              }}
+            />
+
+            <MenuList
+              items={MENU_SESSAO}
               onPress={(e) => {
                 if (e === "Sair da conta") {
                   openModal({

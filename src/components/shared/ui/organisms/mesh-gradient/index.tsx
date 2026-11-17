@@ -34,16 +34,26 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
     animated = true,
     active = true,
     style,
-    width: paramsWidth = Dimensions.get("window").width,
-    height: paramsHeight = Dimensions.get("window").height,
+    width: paramsWidth,
+    height: paramsHeight,
     performance,
     children,
   }: IAnimatedMeshGradient &
     React.ComponentProps<typeof AnimatedMeshGradient>):
     | (React.ReactNode & React.JSX.Element & React.ReactElement)
     | null => {
-    const width = useSharedValue<number>(paramsWidth ?? 1);
-    const height = useSharedValue<number>(paramsHeight ?? 1);
+    const width = useSharedValue<number>(
+      paramsWidth ?? Dimensions.get("window").width,
+    );
+    const height = useSharedValue<number>(
+      paramsHeight ?? Dimensions.get("window").height,
+    );
+    // Sem tamanho explícito, ocupa o espaço do pai. Fixar na altura da janela
+    // empurrava o fim do conteúdo para fora da tela nas telas com header.
+    const sizeStyle =
+      paramsWidth !== undefined || paramsHeight !== undefined
+        ? { width: paramsWidth, height: paramsHeight }
+        : styles.fill;
     const scale =
       performance?.undersampling ?? DEFAULT_PERFORMANCE.undersampling;
 
@@ -152,11 +162,7 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
 
     return (
       <View
-        style={[
-          styles.container,
-          style,
-          { width: paramsWidth, height: paramsHeight },
-        ]}
+        style={[styles.container, style, sizeStyle]}
         onLayout={onLayout}
       >
         <LinearGradient
@@ -189,6 +195,9 @@ export const AnimatedMeshGradient: React.FC<IAnimatedMeshGradient> &
 const styles = StyleSheet.create({
   container: {
     overflow: "hidden",
+  },
+  fill: {
+    flex: 1,
   },
   staticGradient: {
     zIndex: -10000,

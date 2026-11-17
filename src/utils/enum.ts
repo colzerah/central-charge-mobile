@@ -1,7 +1,13 @@
+import Constants from "expo-constants";
 import { FabItems } from "../components/FabGroup/FabGroupDTO";
 import { ItemMenuConfig } from "../components/MenuConfig/MenuConfigDTO";
 import { ItemMenu } from "../components/MenuList/MenuDTO";
 import { Tabs } from "../components/TabNavigation/TabNavigationDTO";
+import {
+  AppProblemType,
+  ReportTypeOption,
+  StationProblemType,
+} from "../dtos/reportProblemDTO";
 import { C } from "../theme";
 
 export const MONTHS = [
@@ -46,28 +52,42 @@ export const MENU_PREFERENCIA: ItemMenu[] = [
     icon: "Settings",
     variant: "SECOND",
   },
-  {
-    label: "Idioma",
-    subLabel: "Português",
-    icon: "Globe",
-    variant: "SECOND",
-  },
-  {
-    label: "Privacidade",
-    icon: "Shield",
-    variant: "SECOND",
-  },
 ];
 
 export const MENU_SUPORTE: ItemMenu[] = [
   {
     label: "Central de ajuda",
-    icon: "ArrowLeft",
+    icon: "LifeBuoy",
     variant: "SECOND",
   },
   {
+    label: "Reportar problema",
+    subLabel: "Erros ou falhas no app",
+    icon: "Bug",
+    variant: "SECOND",
+  },
+  {
+    label: "Termos e privacidade",
+    icon: "FileText",
+    variant: "SECOND",
+  },
+  {
+    label: "Sobre o app",
+    subLabel: `Versão ${Constants.expoConfig?.version ?? ""}`,
+    icon: "Info",
+    variant: "SECOND",
+  },
+];
+
+export const MENU_SESSAO: ItemMenu[] = [
+  {
     label: "Sair da conta",
     icon: "LogOut",
+    variant: "DANGER",
+  },
+  {
+    label: "Excluir conta",
+    icon: "Trash2",
     variant: "DANGER",
   },
 ];
@@ -115,6 +135,22 @@ export const MENU_CONFIG_PREFERENCIAS: ItemMenuConfig[] = [
     color: C.ink400,
     type: "switch",
   },
+];
+
+export const STATION_PROBLEM_TYPES: ReportTypeOption<StationProblemType>[] = [
+  { value: "DEFEITO", label: "Carregador com defeito", icon: "PlugZap" },
+  { value: "OCUPADA", label: "Vaga ocupada ou bloqueada", icon: "Car" },
+  { value: "CONECTOR", label: "Conector incompatível", icon: "Cable" },
+  { value: "PAGAMENTO", label: "Problema no pagamento", icon: "CreditCard" },
+  { value: "OUTRO", label: "Outro", icon: "CircleEllipsis" },
+];
+
+export const APP_PROBLEM_TYPES: ReportTypeOption<AppProblemType>[] = [
+  { value: "ERRO", label: "Erro ou travamento", icon: "Bug" },
+  { value: "NAO_FUNCIONA", label: "Algo não funciona", icon: "CircleX" },
+  { value: "LENTIDAO", label: "App lento", icon: "Hourglass" },
+  { value: "CONTA", label: "Conta ou login", icon: "UserRound" },
+  { value: "OUTRO", label: "Outro", icon: "CircleEllipsis" },
 ];
 
 export const ENUM_WEEK = {

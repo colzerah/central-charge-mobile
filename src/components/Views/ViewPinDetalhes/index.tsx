@@ -87,6 +87,7 @@ export default function ViewPinDetalhes() {
                 pinDetailStyles.pressableError,
                 { opacity: pressed ? 0.5 : 1 },
               ]}
+              onPress={() => router.navigate("/reportar-estacao")}
             >
               <Icon
                 name="CircleAlert"
@@ -95,7 +96,7 @@ export default function ViewPinDetalhes() {
                 strokeWidth={2.2}
               />
               <Text style={pinDetailStyles.titleError}>
-                Relatar um problemas
+                Relatar um problema
               </Text>
             </Pressable>
           </View>

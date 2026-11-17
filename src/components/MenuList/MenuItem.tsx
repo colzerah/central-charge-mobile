@@ -10,11 +10,12 @@ export const MenuItem = ({
   label,
   sublabel,
   danger,
+  divider,
   onPress,
 }: MenuItemProps) => {
   return (
     <TouchableOpacity
-      style={[menuStyles.menuItem, !danger && menuStyles.menuItemBorder]}
+      style={[menuStyles.menuItem, divider && menuStyles.menuItemBorder]}
       activeOpacity={0.8}
       onPress={onPress}
     >

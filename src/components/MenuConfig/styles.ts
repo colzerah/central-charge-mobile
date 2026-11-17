@@ -25,9 +25,8 @@ export const menuStyles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 14,
     paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: C.ink200,
   },
+  menuItemBorder: { borderBottomWidth: 1, borderBottomColor: C.ink200 },
   menuIcon: {
     width: 30,
     height: 30,

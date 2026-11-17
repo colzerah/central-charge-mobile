@@ -31,6 +31,7 @@ const MenuConfig = ({ title, items, onPress, active }: MenuConfigPros) => {
             // onToggle={(e) => console.log(`Toggle ${menu.label}`, e)}
             type={menu.type}
             active={active[menu.label] || false}
+            divider={idx < items.length - 1}
           />
         ))}
       </View>

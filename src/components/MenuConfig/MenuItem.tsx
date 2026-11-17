@@ -15,10 +15,11 @@ export const MenuItem = ({
   type,
   active,
   title,
+  divider,
 }: MenuItemProps) => {
   return (
     <TouchableOpacity
-      style={[menuStyles.menuItem]}
+      style={[menuStyles.menuItem, divider && menuStyles.menuItemBorder]}
       activeOpacity={type === "button" ? 0.8 : 1}
       onPress={type === "button" ? onPress : undefined}
     >
