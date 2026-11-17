@@ -2,7 +2,8 @@ import { useModal } from "@/src/hooks/useModal";
 import { C } from "@/src/theme";
 import { MOCK_INITIAL_FAVORITES, MOCK_SORT_OPTIONS } from "@/src/utils/mocks";
 import { MapPin, Star, Trash2, Zap } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import {
     RefreshControl,
     ScrollView,
@@ -43,13 +44,21 @@ export default function ViewFavorites() {
   const contentO = useSharedValue(0);
   const contentY = useSharedValue(24);
 
-  useEffect(() => {
-    contentO.value = withDelay(100, withTiming(1, { duration: 500 }));
-    contentY.value = withDelay(
-      100,
-      withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
-    );
-  }, []);
+  // As abas são pré-carregadas (lazy: false no layout das tabs), então a
+  // animação de entrada roda a cada foco em vez de ao montar.
+  useFocusEffect(
+    useCallback(() => {
+      contentO.value = withDelay(100, withTiming(1, { duration: 500 }));
+      contentY.value = withDelay(
+        100,
+        withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
+      );
+      return () => {
+        contentO.value = 0;
+        contentY.value = 24;
+      };
+    }, []),
+  );
 
   const contentStyle = useAnimatedStyle(() => ({
     opacity: contentO.value,

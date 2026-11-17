@@ -9,6 +9,10 @@ export default function TabLayout() {
     <Tabs
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
+        // Por padrão cada aba só é montada na primeira visita, o que trava a
+        // troca (~1s em Notificações). Assim todas são pré-carregadas logo
+        // depois que a Home abre.
+        lazy: false,
         headerShown: false,
         headerTitle: "TabBar",
         sceneStyle: { backgroundColor: C.ink0 },

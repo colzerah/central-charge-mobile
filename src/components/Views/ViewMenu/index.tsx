@@ -5,8 +5,8 @@ import { useAuth } from "@/src/hooks/useAuth";
 import { useModal } from "@/src/hooks/useModal";
 import { useAppDispatch } from "@/src/redux/store";
 import { MENU_CONTA, MENU_PREFERENCIA, MENU_SUPORTE } from "@/src/utils/enum";
-import { router } from "expo-router";
-import { useEffect } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback } from "react";
 import { ScrollView, View } from "react-native";
 import Animated, {
     Easing,
@@ -27,18 +27,28 @@ export default function ViewMenu() {
   const menuO = useSharedValue(0);
   const menuY = useSharedValue(24);
 
-  useEffect(() => {
-    profileO.value = withDelay(100, withTiming(1, { duration: 500 }));
-    profileY.value = withDelay(
-      100,
-      withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
-    );
-    menuO.value = withDelay(300, withTiming(1, { duration: 500 }));
-    menuY.value = withDelay(
-      300,
-      withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
-    );
-  }, []);
+  // As abas são pré-carregadas (lazy: false no layout das tabs), então a
+  // animação de entrada roda a cada foco em vez de ao montar.
+  useFocusEffect(
+    useCallback(() => {
+      profileO.value = withDelay(100, withTiming(1, { duration: 500 }));
+      profileY.value = withDelay(
+        100,
+        withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
+      );
+      menuO.value = withDelay(300, withTiming(1, { duration: 500 }));
+      menuY.value = withDelay(
+        300,
+        withTiming(0, { duration: 600, easing: Easing.out(Easing.ease) }),
+      );
+      return () => {
+        profileO.value = 0;
+        profileY.value = 20;
+        menuO.value = 0;
+        menuY.value = 24;
+      };
+    }, []),
+  );
 
   const profileStyle = useAnimatedStyle(() => ({
     opacity: profileO.value,
