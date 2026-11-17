@@ -77,15 +77,6 @@ const Avatar = ({
       await gallery();
 
       if (!allowCameraAccess || !allowGalleryAccess) {
-        openModal({
-          title: t(
-            "avatar.permissionsTitle",
-          ) /* pt: "Permissões necessárias" */,
-          subTitle: t(
-            "avatar.permissionsMessage",
-          ) /* pt: "Permita o acesso à câmera e às fotos para adicionar uma foto de perfil." */,
-          type: "INFO",
-        });
         return;
       }
     } catch (error) {
