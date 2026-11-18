@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const drawerFilterStyles = StyleSheet.create({
+export const makeDrawerFilterStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   drawer: {
     backgroundColor: C.ink50,
     borderTopLeftRadius: 24,
@@ -26,7 +27,7 @@ export const drawerFilterStyles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
   },
   closeButton: {

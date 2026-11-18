@@ -1,9 +1,10 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
 const SPACING = 10;
 
-export const tabStyles = StyleSheet.create({
+export const makeTabStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   tabBar: {
     flexDirection: "row",
     backgroundColor: C.tabBackgroud,

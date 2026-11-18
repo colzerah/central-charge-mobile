@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const cardInfoStyles = StyleSheet.create({
+export const makeCardInfoStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: {},
   content: {
     backgroundColor: C.ink100,

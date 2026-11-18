@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import Button from "@/src/components/Button";
@@ -13,9 +14,11 @@ import { C } from "@/src/theme";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { pinDetailStyles } from "./styles";
+import { makePinDetailStyles } from "./styles";
 
 export default function ViewPinDetalhes() {
+  const { colors: C } = useTheme();
+  const pinDetailStyles = useThemedStyles(makePinDetailStyles);
   const router = useRouter();
   const { t } = useTranslation();
   const { height, width } = useWindowDimensions();

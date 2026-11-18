@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import DrawerFilter from "@/src/components/DrawerFilter";
 import FabGroup from "@/src/components/FabGroup";
@@ -23,10 +24,12 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 import { MarketsInterface } from "./ViewHomeDTO";
 
 export default function ViewHome() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const mapRef = useRef<MapView>(null);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -152,18 +155,26 @@ export default function ViewHome() {
                   borderColor: C.border,
                 }}
               >
-                <SymbolView name="magnifyingglass" size={16} tintColor="#666" />
+                <SymbolView
+                  name="magnifyingglass"
+                  size={16}
+                  tintColor={C.ink400}
+                />
                 <Text
                   style={{
                     flex: 1,
                     fontSize: 15,
-                    color: C.white,
+                    color: C.text,
                     fontFamily: "Inter-Regular",
                   }}
                 >
                   {item.name}
                 </Text>
-                <SymbolView name="arrow.up.left" size={14} tintColor="#444" />
+                <SymbolView
+                  name="arrow.up.left"
+                  size={14}
+                  tintColor={C.ink400}
+                />
               </View>
             )}
           />

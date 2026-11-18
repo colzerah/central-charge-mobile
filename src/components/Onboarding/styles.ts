@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -25,7 +26,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     letterSpacing: -0.5,
     textAlign: "center",

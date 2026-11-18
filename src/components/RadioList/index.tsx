@@ -1,8 +1,9 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import { Pressable, Text, View } from "react-native";
 import Icon from "../Icon";
 import { RadioListProps } from "./RadioListDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 // Lista de opções com seleção única (ex.: tipo de problema)
 const RadioList = <T extends string>({
@@ -11,6 +12,8 @@ const RadioList = <T extends string>({
   value,
   onChange,
 }: RadioListProps<T>) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   return (
     <View>
       {label && <Text style={styles.label}>{label}</Text>}

@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import { Zap } from "lucide-react-native";
 import { Text, View } from "react-native";
@@ -14,6 +15,7 @@ const Tag = ({
   dot,
   zap,
 }: TagProps) => {
+  const { colors: C } = useTheme();
   const typeMap = {
     default: C.brand400,
     info: C.info,

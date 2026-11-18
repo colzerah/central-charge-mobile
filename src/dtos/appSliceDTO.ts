@@ -1,4 +1,5 @@
 import { MarketsInterface } from "../app/(app)/(tabs)/home";
+import { AppTheme } from "../theme";
 import { AppLanguage } from "./languageDTO";
 
 export interface HomeValuesState {
@@ -10,6 +11,7 @@ export interface AppState {
   // null = ainda não leu do AsyncStorage (ver useOnboardingBootstrap)
   onboardingDone: boolean | null;
   language: AppLanguage;
+  theme: AppTheme;
 }
 
 export interface HomeState {

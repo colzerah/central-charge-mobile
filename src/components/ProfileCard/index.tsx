@@ -1,11 +1,11 @@
-import { C } from "@/src/theme";
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import type { ImagePickerAsset } from "expo-image-picker";
 import { useState } from "react";
 import { Text, View } from "react-native";
 import ProfileAvatar from "../Avatar";
 import Tag from "../Tag";
 import { ProfileCardProps } from "./ProfileCardDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const ProfileCard = ({
   name,
@@ -13,6 +13,8 @@ const ProfileCard = ({
   premium,
   premiumLabel = "Membro Premium",
 }: ProfileCardProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const [photo, setPhoto] = useState<ImagePickerAsset | null>(null);
   return (
     <View style={styles.profileCard}>

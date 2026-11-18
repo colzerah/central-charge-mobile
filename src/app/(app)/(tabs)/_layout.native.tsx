@@ -4,9 +4,11 @@ import { Tabs } from "expo-router";
 
 import { Bell, MapPin, Menu, QrCode, Star } from "lucide-react-native";
 
+import { useTheme } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 export default function TabLayout() {
   const { t } = useTranslation();
+  const { colors } = useTheme();
 
   return (
     <Tabs
@@ -18,7 +20,7 @@ export default function TabLayout() {
         lazy: false,
         headerShown: false,
         headerTitle: "TabBar",
-        sceneStyle: { backgroundColor: C.ink0 },
+        sceneStyle: { backgroundColor: colors.ink0 },
       }}
     >
       <Tabs.Screen

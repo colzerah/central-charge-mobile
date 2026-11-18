@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import Button from "@/src/components/Button";
 import Icon from "@/src/components/Icon";
 import RadioList from "@/src/components/RadioList";
@@ -18,7 +19,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const DESCRIPTION_MAX = 500;
 const DESCRIPTION_MIN = 10;
@@ -30,6 +31,8 @@ async function sendStationReport(payload: StationReportPayload) {
 }
 
 export default function ViewReportarEstacao() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   // A estação vem dos detalhes (é a mesma selecionada no mapa)
   const station = useAppSelector(
     (state) => state.appState.home.values.pinSelected,

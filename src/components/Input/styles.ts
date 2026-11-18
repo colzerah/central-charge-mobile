@@ -1,11 +1,12 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const inputStyles = StyleSheet.create({
+export const makeInputStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   label: {
     fontSize: 13,
     fontWeight: "600",
-    color: C.ink300,
+    color: C.inputLabel,
     marginBottom: 8,
     marginLeft: 2,
     fontFamily: "Inter-SemiBold",
@@ -23,7 +24,7 @@ export const inputStyles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Regular",
     height: "100%",
   },

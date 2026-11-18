@@ -1,9 +1,9 @@
-import { C } from "@/src/theme";
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { ChevronRight } from "lucide-react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { MenuItemProps } from "./MenuDTO";
 
-import { menuStyles } from "./styles";
+import { makeMenuStyles } from "./styles";
 
 export const MenuItem = ({
   icon,
@@ -13,6 +13,8 @@ export const MenuItem = ({
   divider,
   onPress,
 }: MenuItemProps) => {
+  const { colors: C } = useTheme();
+  const menuStyles = useThemedStyles(makeMenuStyles);
   return (
     <TouchableOpacity
       style={[menuStyles.menuItem, divider && menuStyles.menuItemBorder]}

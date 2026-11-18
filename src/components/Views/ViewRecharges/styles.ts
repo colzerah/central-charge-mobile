@@ -1,12 +1,13 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const rechargesStyles = StyleSheet.create({
+export const makeRechargesStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   header: { marginHorizontal: 14, paddingBottom: 12 },
   headerTitle: {
     fontSize: 28,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
   },
   headerSubtitle: {
@@ -25,7 +26,7 @@ export const rechargesStyles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     marginHorizontal: 14,
     marginBottom: 14,

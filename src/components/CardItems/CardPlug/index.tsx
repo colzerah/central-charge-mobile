@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import CEEBLAU from "@/src/assets/connectors/light/CEE-BLAU.svg";
 import CEEROOT from "@/src/assets/connectors/light/CEE-ROOT.svg";
 import CHADEMO from "@/src/assets/connectors/light/CHADEMO.svg";
@@ -12,7 +13,7 @@ import { C } from "@/src/theme";
 import { Text, View } from "react-native";
 import { CardPlugProps } from "./CardPlugDTO";
 
-import { cardPlugStyles } from "./styles";
+import { makeCardPlugStyles } from "./styles";
 
 const CardPlug = ({
   title = "ISO 167",
@@ -22,19 +23,21 @@ const CardPlug = ({
   plugStatus,
   borderActive,
 }: CardPlugProps) => {
+  const { colors: C } = useTheme();
+  const cardPlugStyles = useThemedStyles(makeCardPlugStyles);
   const colorBorder = borderActive ? C.brand500 : C.ink200;
   const marginTop = plugStatus && plugName ? 14 : 0;
 
   const renderSvgIcon = {
-    "CEE-BLAU": <CEEBLAU width={35} height={35} fill={C.white} />,
-    "CEE-ROOT": <CEEROOT width={35} height={35} fill={C.white} />,
-    CHADEMO: <CHADEMO width={35} height={35} fill={C.white} />,
-    CSS: <CSS width={35} height={35} fill={C.white} />,
-    "DOMESTIC-F": <DOMESTICF width={35} height={35} fill={C.white} />,
-    "TESLA-S": <TESLAS width={35} height={35} fill={C.white} />,
-    "TYP1-CSS": <TYP1CSS width={35} height={35} fill={C.white} />,
-    TYP1: <TYP1 width={35} height={35} fill={C.white} />,
-    TYP2: <TYP2 width={35} height={35} fill={C.white} />,
+    "CEE-BLAU": <CEEBLAU width={35} height={35} fill={C.text} />,
+    "CEE-ROOT": <CEEROOT width={35} height={35} fill={C.text} />,
+    CHADEMO: <CHADEMO width={35} height={35} fill={C.text} />,
+    CSS: <CSS width={35} height={35} fill={C.text} />,
+    "DOMESTIC-F": <DOMESTICF width={35} height={35} fill={C.text} />,
+    "TESLA-S": <TESLAS width={35} height={35} fill={C.text} />,
+    "TYP1-CSS": <TYP1CSS width={35} height={35} fill={C.text} />,
+    TYP1: <TYP1 width={35} height={35} fill={C.text} />,
+    TYP2: <TYP2 width={35} height={35} fill={C.text} />,
   };
 
   const getStatusPlugColor = () => {

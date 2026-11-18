@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import ProfileAvatar from "@/src/components/Avatar";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import Badge from "@/src/components/Badge";
@@ -17,9 +18,11 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewCriarConta() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const [name, setName] = useState("");
   const [nameInvalid, setNameInvalid] = useState(false);
   const [email, setEmail] = useState("");

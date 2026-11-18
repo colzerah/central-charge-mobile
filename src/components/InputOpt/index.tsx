@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { FadeInUp } from "react-native-reanimated";
@@ -10,6 +11,7 @@ const InputOpt = ({
   onChange,
   onFinishedChange,
 }: InputOptProps) => {
+  const { colors: C } = useTheme();
   const { t } = useTranslation();
   // const [fontLoaded] = useFonts({
   //   SfProRounded: require("@/assets/fonts/sf-pro-rounded.ttf"),

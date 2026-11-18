@@ -403,6 +403,7 @@ const enUS: Translations = {
     language: "Language",
     theme: "Theme",
     themeDark: "Dark",
+    themeLight: "Light",
     permissionRequired: "Permission required",
     permissionRequiredMessage:
       "Enable access to the permissions in the app settings.",

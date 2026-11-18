@@ -1,11 +1,14 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Pressable, Text, View } from "react-native";
 import { CardInfoProps } from "./CardInfoDTO";
 
 import { C } from "@/src/theme";
 import IconBackground from "../../IconBackground";
-import { cardInfoStyles } from "./styles";
+import { makeCardInfoStyles } from "./styles";
 
 const CardInfo = ({ description, onPress, iconName }: CardInfoProps) => {
+  const { colors: C } = useTheme();
+  const cardInfoStyles = useThemedStyles(makeCardInfoStyles);
   return (
     <Pressable
       style={({ pressed }) => [

@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import Button from "@/src/components/Button";
 import Input from "@/src/components/Input";
@@ -12,9 +13,11 @@ import {
     Text,
     View,
 } from "react-native";
-import { newVehicleStyles } from "./styles";
+import { makeNewVehicleStyles } from "./styles";
 
 export default function ViewNovoVeiculo() {
+  const { colors: C } = useTheme();
+  const newVehicleStyles = useThemedStyles(makeNewVehicleStyles);
   const { t } = useTranslation();
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");

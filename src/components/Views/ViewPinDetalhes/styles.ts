@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const pinDetailStyles = StyleSheet.create({
+export const makePinDetailStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: { marginHorizontal: 10 },
   viewStation: { marginTop: 14 },
   viewSummary: {

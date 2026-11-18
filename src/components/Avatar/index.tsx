@@ -1,13 +1,13 @@
 import { useModal } from "@/src/hooks/useModal";
 import { usePermissions } from "@/src/hooks/usePermissions";
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
-import { C } from "@/src/theme";
 import * as ImagePicker from "expo-image-picker";
 import { Alert, Image, Pressable, View } from "react-native";
 import Icon from "../Icon";
 import { GradientAvatar } from "../shared/ui/base/gradient-avatar";
 import { AvatarProps } from "./AvatarDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const Avatar = ({
   name,
@@ -19,6 +19,8 @@ const Avatar = ({
   photo,
   onPhotoChange,
 }: AvatarProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const { allowCameraAccess, allowGalleryAccess, camera, gallery } =
     usePermissions();
 

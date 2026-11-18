@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import Button from "@/src/components/Button";
 import RadioList from "@/src/components/RadioList";
 import TextArea from "@/src/components/TextArea";
@@ -13,7 +14,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const DESCRIPTION_MAX = 500;
 const DESCRIPTION_MIN = 10;
@@ -25,6 +26,7 @@ async function sendAppReport(payload: AppReportPayload) {
 }
 
 export default function ViewReportarProblema() {
+  const styles = useThemedStyles(makeStyles);
   const { t } = useTranslation();
   const [type, setType] = useState<AppProblemType | null>(null);
   const [description, setDescription] = useState("");

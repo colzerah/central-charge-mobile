@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import React, { JSX, memo, useCallback, useState } from "react";
 import {
   StyleSheet,
@@ -32,7 +33,7 @@ import { C } from "@/src/theme";
 import type { BottomTabBarProps } from "expo-router/js-tabs";
 import type { TabBarProps } from "./TabBarDTO";
 
-import { tabStyles } from "./styles";
+import { makeTabStyles } from "./styles";
 
 const SCALE_UP = 2.2;
 
@@ -41,6 +42,8 @@ const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 const TabButton: React.FC<TabBarProps> & React.FunctionComponent<TabBarProps> =
   memo(
     ({ onPress, onLongPress, isFocused, label, icon, index, activeIndex }) => {
+      const { colors: C } = useTheme();
+      const tabStyles = useThemedStyles(makeTabStyles);
       const scale = useSharedValue(1);
       const opacity = useSharedValue(0.6);
       const [isDragActive, setIsDragActive] = useState(false);
@@ -115,7 +118,9 @@ const TabButton: React.FC<TabBarProps> & React.FunctionComponent<TabBarProps> =
 export const TabBar: React.FC<BottomTabBarProps> &
   React.FunctionComponent<BottomTabBarProps> = memo(
   (props: BottomTabBarProps): JSX.Element & React.ReactNode => {
+    const { colors: C } = useTheme();
     const router = useRouter();
+    const tabStyles = useThemedStyles(makeTabStyles);
     const { state, descriptors, emitter, navigateToTab: goToTab } = props;
     const translateX = useSharedValue<number>(100);
     const opacity = useSharedValue<number>(0);

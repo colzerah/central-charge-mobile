@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Button as ButtonIX } from "@/src/components/shared/ui/base/button";
 import { C } from "@/src/theme";
 import { View } from "react-native";
@@ -16,6 +17,7 @@ const ButtonIcon = ({
   borderColor,
   borderW,
 }: ButtonIconProps) => {
+  const { colors: C } = useTheme();
   const getSizes = () => {
     if (size === "sm") {
       return {
@@ -55,7 +57,7 @@ const ButtonIcon = ({
       return C.disabled500;
     }
     if (variant === "outline") {
-      return C.ink100 + "80";
+      return C.iconButtonBg;
     }
     if (variant === "solid") {
       return C.brand500;
@@ -65,14 +67,20 @@ const ButtonIcon = ({
 
   const borderStyle = { borderWidth: 1, borderColor: C.ink200 };
 
+  // Sem `border` explícito, o outline usa o contorno do tema (transparente
+  // no escuro, cinza no claro)
+  const themeBorder = !border && variant === "outline" && !disabled;
+
   const disabledOpacity = {
     opacity: disabled ? 0.5 : 1,
-    borderWidth: border ? (borderW ? borderW : 1) : 0,
+    borderWidth: border ? (borderW ? borderW : 1) : themeBorder ? 1 : 0,
     borderColor: border
       ? borderColor
         ? borderColor
         : C.ink200
-      : "transparent",
+      : themeBorder
+        ? C.iconButtonBorder
+        : "transparent",
   };
   const RoundBorderRadius = size === "sm" ? 20 : 30;
 

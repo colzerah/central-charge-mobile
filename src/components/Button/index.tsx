@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { Button as ButtonIX } from "@/src/components/shared/ui/base/button";
 import { C } from "@/src/theme";
@@ -20,6 +21,7 @@ const Button = ({
   loadingText,
   colorScheme = "primary",
 }: ButtonProps) => {
+  const { colors: C } = useTheme();
   const { t } = useTranslation();
   const isLink = variant === "link";
   const isAndroid = Platform.OS === "android";

@@ -1,7 +1,8 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import { useState } from "react";
 import { Text, TextInput, View } from "react-native";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 import { TextAreaProps } from "./TextAreaDTO";
 
 // Campo de texto de várias linhas, com contador quando há maxLength
@@ -12,6 +13,8 @@ const TextArea = ({
   placeholder,
   maxLength,
 }: TextAreaProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const [focused, setFocused] = useState(false);
 
   return (

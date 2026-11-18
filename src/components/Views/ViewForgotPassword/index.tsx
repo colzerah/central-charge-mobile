@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import Icon from "@/src/components/Icon";
 import Input from "@/src/components/Input";
@@ -24,9 +25,11 @@ import Animated, {
 
 import RadiantButton from "@/src/components/RadiantButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewForgotPassword() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const [phone, setPhone] = useState("");
   const { openToast } = useToast();
   const { t } = useTranslation();

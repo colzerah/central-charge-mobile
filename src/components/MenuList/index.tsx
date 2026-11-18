@@ -1,13 +1,15 @@
-import { C } from "@/src/theme";
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Text, View } from "react-native";
 
 import { MenuItem } from "./MenuItem";
-import { menuStyles } from "./styles";
+import { makeMenuStyles } from "./styles";
 
 import IconBackground from "../IconBackground";
 import { MenuPros } from "./MenuDTO";
 
 const MenuList = ({ title, items, onPress }: MenuPros) => {
+  const { colors: C } = useTheme();
+  const menuStyles = useThemedStyles(makeMenuStyles);
   const getIconColor = (variant: "PRIMARY" | "SECOND" | "DANGER") => {
     if (variant === "SECOND") {
       return C.ink300;

@@ -1,11 +1,14 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import { useMemo } from "react";
 import { Text, View } from "react-native";
 import Icon from "../Icon";
 import { BadgeProps } from "./BadgeDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const Badge = ({ icon, count }: BadgeProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const formattedCount = useMemo(
     () => (count && count > 9 ? "9+" : count),
     [count],

@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { useEffect, useRef, useState } from "react";
@@ -14,12 +15,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../Button";
 import Icon from "../Icon";
 import { OnboardingProps, OnboardingSlide } from "./OnboardingDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const BUTTONS_GAP = 12;
 const FOOTER_PADDING = 28;
 
 const Onboarding = ({ slides, onFinish }: OnboardingProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
   const listRef = useRef<FlatList<OnboardingSlide>>(null);

@@ -1,9 +1,10 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { TFunction } from "@/src/i18n";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { Text, View } from "react-native";
 import MapPin from "../MapPin";
 import { MapLegendItem, MapLegendProps } from "./MapLegendDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const getDefaultItems = (t: TFunction): MapLegendItem[] => [
   {
@@ -26,6 +27,7 @@ const getDefaultItems = (t: TFunction): MapLegendItem[] => [
 // Conteúdo da legenda dos pins. É aberto pelo item "Legenda" do FabGroup
 // da home, dentro de um GooeyPopover.
 const MapLegend = ({ items }: MapLegendProps) => {
+  const styles = useThemedStyles(makeStyles);
   const { t } = useTranslation();
   const legendItems = items ?? getDefaultItems(t);
 

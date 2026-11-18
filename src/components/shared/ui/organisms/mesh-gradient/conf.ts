@@ -4,6 +4,7 @@ uniform float time;
 uniform float noise;
 uniform float blur;
 uniform float contrast;
+uniform float vignette;
 uniform float4 color1;
 uniform float4 color2;
 uniform float4 color3;
@@ -166,8 +167,7 @@ half4 main(float2 fragCoord) {
   grain *= 0.025 * noise;
   col += grain;
   float2 vignetteUV = uv * 2.0 - 1.0;
-  float vignette = 1.0 - dot(vignetteUV, vignetteUV) * 0.15;
-  col *= vignette;
+  col *= 1.0 - dot(vignetteUV, vignetteUV) * vignette;
   col = clamp(col, 0.0, 1.0);
   
   return half4(col, 1.0);

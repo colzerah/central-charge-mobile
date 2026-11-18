@@ -389,6 +389,7 @@ const zhCN: Translations = {
     language: "语言",
     theme: "主题",
     themeDark: "深色",
+    themeLight: "浅色",
     permissionRequired: "需要权限",
     permissionRequiredMessage: "请在应用设置中开启相关权限。",
     openSettings: "打开设置",

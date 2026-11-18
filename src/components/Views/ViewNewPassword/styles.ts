@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   flex: { flex: 1, paddingTop: 30 },
 
   backBar: { paddingHorizontal: 12, paddingTop: 8 },
@@ -36,7 +37,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     letterSpacing: -0.5,
   },
@@ -73,7 +74,7 @@ export const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Regular",
     height: "100%",
   },
@@ -109,7 +110,7 @@ export const styles = StyleSheet.create({
     elevation: 8,
   },
   primaryBtnText: {
-    color: C.white,
+    color: C.text,
     fontSize: 17,
     fontWeight: "700",
     fontFamily: "Inter-Bold",
@@ -145,7 +146,7 @@ export const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 22,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     marginBottom: 10,
   },
@@ -171,7 +172,7 @@ export const styles = StyleSheet.create({
     elevation: 8,
   },
   modalBtnText: {
-    color: C.white,
+    color: C.text,
     fontSize: 17,
     fontWeight: "700",
     fontFamily: "Inter-Bold",

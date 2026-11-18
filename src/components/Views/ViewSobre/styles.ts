@@ -1,7 +1,15 @@
-import { C } from "@/src/theme";
-import { StyleSheet } from "react-native";
+import { darkColors, type ThemeColors } from "@/src/theme";
+import { PixelRatio, StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+// Tamanho e borda arredondados para pixels físicos: em telas com densidade
+// quebrada (ex.: 2.625x) 2pt viram 5.25px e a borda fica desigual entre os lados
+const LOGO_SIZE = PixelRatio.roundToNearestPixel(96);
+const LOGO_BORDER = PixelRatio.roundToNearestPixel(2);
+// Cor do círculo escuro do splash-logo.png (#18181B, sempre escuro)
+const LOGO_BG = darkColors.ink50;
+
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   content: {
     paddingHorizontal: 20,
     paddingTop: 32,
@@ -10,13 +18,28 @@ export const styles = StyleSheet.create({
   hero: {
     alignItems: "center",
   },
+  // A borda fica num View em volta e a imagem ocupa o espaço interno. O fundo
+  // tem a cor do círculo do PNG: a beirada dele é suavizada (semitransparente)
+  // e, sem isso, aparecia um fio do fundo da tela entre o círculo e a borda,
+  // mais fino de um lado que do outro.
+  logoFrame: {
+    width: LOGO_SIZE,
+    height: LOGO_SIZE,
+    borderRadius: LOGO_SIZE / 2,
+    borderWidth: LOGO_BORDER,
+    borderColor: C.brand400,
+    backgroundColor: LOGO_BG,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
   logo: {
-    width: 96,
-    height: 96,
+    width: LOGO_SIZE - LOGO_BORDER * 2,
+    height: LOGO_SIZE - LOGO_BORDER * 2,
   },
   appName: {
     fontSize: 22,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     marginTop: 16,
   },
@@ -77,7 +100,7 @@ export const styles = StyleSheet.create({
   },
   rowValue: {
     fontSize: 14,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-SemiBold",
   },
   footer: {

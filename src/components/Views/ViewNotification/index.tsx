@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import NotificationCard from "@/src/components/NotificationCard";
 import { C } from "@/src/theme";
@@ -27,9 +28,11 @@ import {
   NotificationProps,
   ViewNotificationProps,
 } from "./NotificationDTO";
-import { notificationStyles } from "./styles";
+import { makeNotificationStyles } from "./styles";
 
 const ViewNotification = ({ tabs }: ViewNotificationProps) => {
+  const { colors: C } = useTheme();
+  const notificationStyles = useThemedStyles(makeNotificationStyles);
   const [refreshing, setRefreshing] = React.useState(false);
   const { t } = useTranslation();
   // Abreviações dos meses no idioma atual (ex.: "JAN|FEV|...")

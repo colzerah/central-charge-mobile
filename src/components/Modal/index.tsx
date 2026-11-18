@@ -1,10 +1,11 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import { Pressable, Text, View } from "react-native";
 import Button from "../Button";
 import Icon from "../Icon";
 import { Dialog } from "../shared/ui/organisms/dialog";
 import { ModalProps, ModalType, ModalVariant } from "./ModalDTO";
-import { modalStyles } from "./styles";
+import { makeModalStyles } from "./styles";
 
 const MODAL_VARIANTS: Record<ModalType, ModalVariant> = {
   SUCCESS: { color: C.success, icon: "CircleCheckBig", colorScheme: "success" },
@@ -25,6 +26,8 @@ const Modal = ({
   titleButtonAction,
   onPressAction,
 }: ModalProps) => {
+  const { colors: C } = useTheme();
+  const modalStyles = useThemedStyles(makeModalStyles);
   const { color, icon, colorScheme } = MODAL_VARIANTS[modalType];
   const hasCancel = !!titleButtonCancel;
   const hasAction = !!titleButtonAction;

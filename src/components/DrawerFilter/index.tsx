@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { useNavigation } from "expo-router";
@@ -8,7 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../Button";
 import ButtonIcon from "../ButtonIcon";
 import { DrawerFilterProps } from "./DrawerFilterDTO";
-import { drawerFilterStyles } from "./styles";
+import { makeDrawerFilterStyles } from "./styles";
 
 const PANEL_PADDING = 20;
 
@@ -21,6 +22,8 @@ const DrawerFilter = ({
   content,
   children,
 }: DrawerFilterProps) => {
+  const { colors: C } = useTheme();
+  const drawerFilterStyles = useThemedStyles(makeDrawerFilterStyles);
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const { width } = useWindowDimensions();

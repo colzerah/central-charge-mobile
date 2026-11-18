@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import { EMPTY_ITEM_FAB_GROUP } from "@/src/utils/enum";
 import { useState } from "react";
@@ -6,12 +7,14 @@ import Icon from "../Icon";
 import GooeyPopover from "../shared/ui/molecules/gooey-popover";
 import MorphFab from "../shared/ui/molecules/morph-fab";
 import { FabGroupProps, FabItems } from "./FabGroupDTO";
-import { fabGroupStyles } from "./styles";
+import { makeFabGroupStyles } from "./styles";
 
 const FabGroup = ({
   direction,
   items = EMPTY_ITEM_FAB_GROUP,
 }: FabGroupProps) => {
+  const { colors: C, isDark } = useTheme();
+  const fabGroupStyles = useThemedStyles(makeFabGroupStyles);
   // value do item cujo popover está aberto (só um por vez)
   const [openPopover, setOpenPopover] = useState<string | null>(null);
 
@@ -37,7 +40,7 @@ const FabGroup = ({
           if (!open) setOpenPopover(null);
         }}
       >
-        <MorphFab.Trigger size={62} style={fabGroupStyles.trigger}>
+        <MorphFab.Trigger size={62} style={[fabGroupStyles.trigger, !isDark && fabGroupStyles.triggerLight]}>
           <Icon name="Plus" size={25} color={C.brand500} />
         </MorphFab.Trigger>
         {items.map((item) => (
@@ -45,7 +48,7 @@ const FabGroup = ({
             key={item.value}
             value={item.value}
             onSelect={() => handleSelect(item)}
-            style={fabGroupStyles.trigger}
+            style={[fabGroupStyles.trigger, !isDark && fabGroupStyles.triggerLight]}
           >
             <MorphFab.ItemIcon>
               {item.popover ? (

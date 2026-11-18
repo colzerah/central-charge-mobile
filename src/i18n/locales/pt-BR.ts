@@ -409,6 +409,7 @@ const ptBR = {
     language: "Idioma",
     theme: "Tema",
     themeDark: "Escuro",
+    themeLight: "Claro",
     permissionRequired: "Permissão necessária",
     permissionRequiredMessage:
       "Ative o acesso às permissões nas configurações do aplicativo.",

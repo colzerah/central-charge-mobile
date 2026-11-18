@@ -1,10 +1,12 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import Button from "@/src/components/Button";
 import Input from "@/src/components/Input";
 import { Text, View } from "react-native";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewScanCode() {
+  const styles = useThemedStyles(makeStyles);
   const { t } = useTranslation();
   return (
     <View style={styles.container}>

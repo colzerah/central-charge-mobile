@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import {
   convertDateToDayAndMonthShort,
@@ -7,7 +8,7 @@ import { Pressable, Text, View } from "react-native";
 import IconBackground from "../IconBackground";
 import Tag from "../Tag";
 import { RechargeCardProps } from "./RechargeCardDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const RechargeCard = ({
   title,
@@ -19,6 +20,8 @@ const RechargeCard = ({
   onPress,
   date,
 }: RechargeCardProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const getVariant = () => {
     if (variant === "success") {
       return {

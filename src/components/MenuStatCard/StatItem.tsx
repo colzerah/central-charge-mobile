@@ -1,8 +1,10 @@
+import { useThemedStyles } from "@/src/hooks/useTheme";
 import { Text, View } from "react-native";
 import { StatItemDTO } from "./MenuStatCardDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const StatItem = ({ value, label }: StatItemDTO) => {
+  const styles = useThemedStyles(makeStyles);
   return (
     <View style={styles.statItem}>
       <Text style={styles.statValue}>{value}</Text>

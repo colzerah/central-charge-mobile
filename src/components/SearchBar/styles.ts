@@ -1,9 +1,10 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const searchBarStyles = StyleSheet.create({
+export const makeSearchBarStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   searchBar: {
-    backgroundColor: C.disabled500,
+    backgroundColor: C.ink50,
     borderRadius: 16,
     marginHorizontal: 20,
   },
@@ -34,6 +35,6 @@ export const searchBarStyles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     fontFamily: "Inter-Regular",
-    color: C.white,
+    color: C.text,
   },
 });

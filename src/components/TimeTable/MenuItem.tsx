@@ -1,10 +1,12 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Text, View } from "react-native";
 import { TimeTableItemProps } from "./TimeTableDTO";
 
 import { useTranslation } from "@/src/hooks/useTranslation";
-import { menuStyles } from "./styles";
+import { makeMenuStyles } from "./styles";
 
 export const MenuItem = ({ days, hours }: TimeTableItemProps) => {
+  const menuStyles = useThemedStyles(makeMenuStyles);
   const { t } = useTranslation();
   return (
     <View style={menuStyles.menuItem}>

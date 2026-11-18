@@ -1,10 +1,13 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import { Text, View } from "react-native";
 import Icon from "../Icon";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 import { SummaryCardDTO } from "./SummaryCardDTO";
 
 const SummaryCard = ({ value, label, icon }: SummaryCardDTO) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   return (
     <View style={styles.summaryCard}>
       <View style={styles.summaryIcon}>

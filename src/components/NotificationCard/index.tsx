@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Pressable, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -22,7 +23,7 @@ import { getNotificationIcon } from "./utils";
 import { NotificationCardProps } from "./NotificationCardDTO";
 
 import Icon from "../Icon";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const NotificationCard = ({
   type,
@@ -34,6 +35,8 @@ const NotificationCard = ({
   onPress,
   onDelete,
 }: NotificationCardProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const pressed = useSharedValue(0);
 
   const translateX = useSharedValue(0);

@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { formatPhone } from "@/src/utils/phone";
@@ -15,7 +16,7 @@ import {
 import Icon from "../Icon";
 import IconBackground from "../IconBackground";
 import { InputProps } from "./InputDTO";
-import { inputStyles } from "./styles";
+import { makeInputStyles } from "./styles";
 
 const Input = ({
   onChange,
@@ -36,6 +37,8 @@ const Input = ({
   iconColor,
   iconBg,
 }: InputProps) => {
+  const { colors: C } = useTheme();
+  const inputStyles = useThemedStyles(makeInputStyles);
   const { t } = useTranslation();
   const inputRef = useRef<TextInputInstance>(null);
   const [focused, setFocused] = useState(false);
@@ -158,7 +161,7 @@ const Input = ({
       return C.ink100;
     }
 
-    return "transparent";
+    return C.inputBg;
   };
 
   return (

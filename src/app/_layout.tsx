@@ -17,7 +17,8 @@ import {
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SystemUI from "expo-system-ui";
 import { useEffect, useState } from "react";
-import { LogBox, useColorScheme, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { LogBox, View } from "react-native";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -25,6 +26,7 @@ import { Provider } from "react-redux";
 import SplashAnimated from "../components/SplashAnimated";
 import { useAuthBootstrap } from "../hooks/useAuth";
 import { useOnboardingBootstrap } from "../hooks/useOnboarding";
+import { useTheme, useThemeBootstrap } from "../hooks/useTheme";
 import { useLanguageBootstrap } from "../hooks/useTranslation";
 import { ModalProvider } from "../providers/modal-provider";
 import { ToastProvider } from "../providers/toast-provider";
@@ -80,10 +82,11 @@ export default function RootLayout() {
 // serem lidas. As rotas só montam depois disso, para nunca desenhar
 // (app), (auth) ou o onboarding com base num estado incompleto.
 function AppReady() {
-  const colorScheme = useColorScheme();
+  const { colors, isDark } = useTheme();
   const { isAuthenticated } = useAuthBootstrap();
   const { onboardingDone } = useOnboardingBootstrap();
   const { languageReady } = useLanguageBootstrap();
+  const { themeReady } = useThemeBootstrap();
   const [splashVisible, setSplashVisible] = useState(true);
 
   const [fontsLoaded, fontError] = useFonts({
@@ -106,21 +109,35 @@ function AppReady() {
     fontsReady &&
     isAuthenticated !== null &&
     onboardingDone !== null &&
-    languageReady;
+    languageReady &&
+    themeReady;
+
+  // Fundo nativo da janela (aparece por trás das telas durante transições)
+  useEffect(() => {
+    SystemUI.setBackgroundColorAsync(colors.ink0);
+  }, [colors]);
+
+  // Tema do React Navigation com o fundo do app, para não piscar outra cor
+  const navigationTheme = {
+    ...(isDark ? DarkTheme : DefaultTheme),
+    colors: {
+      ...(isDark ? DarkTheme : DefaultTheme).colors,
+      background: colors.ink0,
+    },
+  };
 
   return (
-    <View style={{ flex: 1, backgroundColor: C.ink0 }}>
+    <View style={{ flex: 1, backgroundColor: colors.ink0 }}>
+      <StatusBar style={isDark ? "light" : "dark"} />
       {isReady && (
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        <ThemeProvider value={navigationTheme}>
           <ToastProvider>
             <BottomSheetModalProvider>
               <ModalProvider>
                 <Stack
                   screenOptions={{
                     headerShown: false,
-                    contentStyle: { backgroundColor: C.ink0 },
+                    contentStyle: { backgroundColor: colors.ink0 },
                   }}
                 >
                   <Stack.Protected guard={!!isAuthenticated}>

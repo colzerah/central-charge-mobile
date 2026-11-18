@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const menuStyles = StyleSheet.create({
+export const makeMenuStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   menuGroup: {
     backgroundColor: C.ink50,
     borderRadius: 16,
@@ -31,7 +32,7 @@ export const menuStyles = StyleSheet.create({
   },
   menuSublabel: {
     fontSize: 13,
-    color: C.white,
+    color: C.text,
     fontWeight: "600",
     fontFamily: "Inter-SemiBold",
   },

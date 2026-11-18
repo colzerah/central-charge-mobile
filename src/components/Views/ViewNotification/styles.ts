@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const notificationStyles = StyleSheet.create({
+export const makeNotificationStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   header: {
     marginHorizontal: 14,
 
@@ -15,7 +16,7 @@ export const notificationStyles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
   },
   headerSubtitle: {
@@ -121,7 +122,7 @@ export const notificationStyles = StyleSheet.create({
   cardTitle: {
     fontSize: 14,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     flexShrink: 1,
   },

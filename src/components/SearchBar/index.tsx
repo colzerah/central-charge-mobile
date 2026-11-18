@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { SymbolView } from "expo-symbols";
@@ -10,7 +11,7 @@ import {
   useScrollableSearch,
 } from "../shared/ui/base/scrollable-search";
 import { SearchBarProps } from "./SearchBarDTO";
-import { searchBarStyles } from "./styles";
+import { makeSearchBarStyles } from "./styles";
 
 const SearchBar = ({
   onPress,
@@ -23,6 +24,8 @@ const SearchBar = ({
   unfocusedOffset = -30,
   scrollableSearch,
 }: SearchBarProps) => {
+  const { colors: C } = useTheme();
+  const searchBarStyles = useThemedStyles(makeSearchBarStyles);
   const { setIsFocused, isFocused } = useScrollableSearch();
   const { t } = useTranslation();
   return (

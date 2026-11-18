@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { RadiantButton as ButtonIX } from "@/src/components/shared/ui/base/radiant-button";
 import { C } from "@/src/theme";
 
@@ -7,7 +8,7 @@ import { ButtonProps } from "./RadiantButtonDTO";
 import {
   defaultTheme,
   disabledTheme,
-  radiantButtonStyles,
+  makeRadiantButtonStyles,
   shadowStyle,
 } from "./styles";
 
@@ -22,11 +23,13 @@ const RadiantButton = ({
   isLoading = false,
   active = true,
 }: ButtonProps) => {
+  const { colors: C } = useTheme();
+  const radiantButtonStyles = useThemedStyles(makeRadiantButtonStyles);
   const deactivate = disabled || isLoading;
 
   const loadingIndicator = (
     <ActivityIndicator
-      color={C.white}
+      color={C.text}
       style={radiantButtonStyles.activityIndicator}
     />
   );
@@ -34,11 +37,11 @@ const RadiantButton = ({
   const viewChildren = (
     <View style={radiantButtonStyles.container}>
       {leftIcon && (
-        <Icon name={iconName} size={20} color={C.white} strokeWidth={2.2} />
+        <Icon name={iconName} size={20} color={C.text} strokeWidth={2.2} />
       )}
       <Text style={radiantButtonStyles.text}>{title}</Text>
       {rightIcon && (
-        <Icon name={iconName} size={20} color={C.white} strokeWidth={2.2} />
+        <Icon name={iconName} size={20} color={C.text} strokeWidth={2.2} />
       )}
     </View>
   );

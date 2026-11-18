@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import Button from "@/src/components/Button";
 import { VehicleCard } from "@/src/components/CardItems/VehicleCard";
@@ -15,9 +16,11 @@ import Animated, {
     withDelay,
     withTiming,
 } from "react-native-reanimated";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewVeiculos() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const [vehicles, setVehicles] = useState<VehicleData[]>(
     MOCK_INITIAL_VEHICLES,
   );

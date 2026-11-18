@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useCallback, useState } from "react";
 import { Pressable, View } from "react-native";
 import Animated, {
@@ -25,6 +26,7 @@ const CheckBox = ({
   isCheck,
   isReadOnly = false,
 }: CheckBoxProps) => {
+  const { colors: C } = useTheme();
   // Controlado quando o pai passa isCheck; senão usa o estado interno
   const [internalChecked, setInternalChecked] = useState(isCheck ?? false);
   const isControlled = isCheck !== undefined;

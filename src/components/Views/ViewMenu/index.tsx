@@ -1,3 +1,4 @@
+import { useThemedStyles } from "@/src/hooks/useTheme";
 import MenuList from "@/src/components/MenuList";
 import MenuStatCard from "@/src/components/MenuStatCard";
 import ProfileCard from "@/src/components/ProfileCard";
@@ -22,13 +23,14 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewMenu() {
   const dispatch = useAppDispatch();
   const { signOut } = useAuth();
   const { openModal } = useModal();
   const { t } = useTranslation();
+  const styles = useThemedStyles(makeStyles);
   const profileO = useSharedValue(0);
   const profileY = useSharedValue(20);
   const menuO = useSharedValue(0);

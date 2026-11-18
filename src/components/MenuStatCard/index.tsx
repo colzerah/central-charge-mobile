@@ -1,10 +1,12 @@
+import { useThemedStyles } from "@/src/hooks/useTheme";
 import { View } from "react-native";
 import Divider from "../Divider";
 import { MenuStatCardProps } from "./MenuStatCardDTO";
 import StatItem from "./StatItem";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const MenuStatCard = ({ stats }: MenuStatCardProps) => {
+  const styles = useThemedStyles(makeStyles);
   return (
     <View style={styles.container}>
       {stats.map((stat, index) => (

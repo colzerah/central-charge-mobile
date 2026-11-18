@@ -411,6 +411,7 @@ const ruRU: Translations = {
     language: "Язык",
     theme: "Тема",
     themeDark: "Тёмная",
+    themeLight: "Светлая",
     permissionRequired: "Требуется разрешение",
     permissionRequiredMessage: "Включите разрешения в настройках приложения.",
     openSettings: "Открыть настройки",

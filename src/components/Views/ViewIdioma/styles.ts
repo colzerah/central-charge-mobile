@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   content: { padding: 24, paddingBottom: 48 },
   subtitle: {
     color: C.ink400,

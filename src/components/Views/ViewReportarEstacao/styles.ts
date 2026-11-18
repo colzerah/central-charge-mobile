@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   flex: { flex: 1 },
   content: { padding: 24, paddingBottom: 48 },
   stationCard: {
@@ -27,7 +28,7 @@ export const styles = StyleSheet.create({
   stationText: { flex: 1 },
   stationName: {
     fontSize: 15,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-SemiBold",
   },
   stationAddress: {

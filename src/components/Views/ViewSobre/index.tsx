@@ -1,10 +1,12 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { APP_NAME, APP_PLATFORM, APP_VERSION } from "@/src/utils/appInfo";
 import { Image } from "expo-image";
 import { ScrollView, Text, View } from "react-native";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewSobre() {
+  const styles = useThemedStyles(makeStyles);
   const { t } = useTranslation();
 
   const info = [
@@ -18,11 +20,13 @@ export default function ViewSobre() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.hero}>
-        <Image
-          source={require("@/assets/images/splash-logo.png")}
-          style={styles.logo}
-          contentFit="contain"
-        />
+        <View style={styles.logoFrame}>
+          <Image
+            source={require("@/assets/images/splash-logo.png")}
+            style={styles.logo}
+            contentFit="contain"
+          />
+        </View>
         <Text style={styles.appName}>{APP_NAME}</Text>
         <View style={styles.versionBadge}>
           <Text style={styles.versionBadgeText}>

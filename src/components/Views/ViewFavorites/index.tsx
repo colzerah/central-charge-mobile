@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { useModal } from "@/src/hooks/useModal";
 import { C } from "@/src/theme";
@@ -20,7 +21,7 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 import {
     ChargingStation,
     FavoriteStation,
@@ -28,6 +29,8 @@ import {
 } from "./ViewFavoritesDTO";
 
 export default function ViewFavorites() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const [favorites, setFavorites] = useState<FavoriteStation[]>(
     MOCK_INITIAL_FAVORITES,
   );
@@ -168,6 +171,8 @@ function FavoriteCard({
   favorite: FavoriteStation;
   onRemove: () => void;
 }) {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const { t } = useTranslation();
   const station = favorite.station;
   const statusColor =

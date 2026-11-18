@@ -1,9 +1,11 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Stack } from "expo-router";
 
 import { HeaderBackButton } from "@/src/components/Header";
 import { C } from "@/src/theme";
 
 export default function AuthLayout() {
+  const { colors: C } = useTheme();
   return (
     <Stack
       screenOptions={{

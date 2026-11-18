@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { useModal } from "@/src/hooks/useModal";
 import { router } from "expo-router";
@@ -24,9 +25,11 @@ import Input from "@/src/components/Input";
 import RadiantButton from "@/src/components/RadiantButton";
 import { useToast } from "@/src/hooks/useToast";
 import { C } from "@/src/theme";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewNewPassword() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const { openToast } = useToast();
   const { openModal } = useModal();
   const { t } = useTranslation();

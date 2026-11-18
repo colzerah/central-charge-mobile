@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const mapButtonSheetStyles = StyleSheet.create({
+export const makeMapButtonSheetStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   sheet: {
     marginHorizontal: 10,
   },
@@ -54,7 +55,7 @@ export const mapButtonSheetStyles = StyleSheet.create({
     fontWeight: "700",
     fontFamily: "Inter-Bold",
     letterSpacing: -0.6,
-    color: C.white,
+    color: C.text,
   },
   description: {
     alignSelf: "stretch",

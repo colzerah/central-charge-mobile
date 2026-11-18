@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   root: { flex: 1 },
   flex: { flex: 1 },
 
@@ -9,7 +10,7 @@ export const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
   },
   headerSubtitle: {
@@ -74,7 +75,7 @@ export const styles = StyleSheet.create({
   cardName: {
     fontSize: 16,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
   },
   cardMeta: {
@@ -148,7 +149,7 @@ export const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
   },
   emptySub: {

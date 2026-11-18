@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const newVehicleStyles = StyleSheet.create({
+export const makeNewVehicleStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   flex: { flex: 1 },
   content: { padding: 24, paddingBottom: 48 },
   introIcon: {
@@ -21,7 +22,7 @@ export const newVehicleStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: 22,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
   },
   subtitle: {

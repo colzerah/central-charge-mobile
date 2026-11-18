@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   label: {
     fontSize: 13,
     color: C.ink300,
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 14,
     fontSize: 15,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Regular",
     textAlignVertical: "top",
   },

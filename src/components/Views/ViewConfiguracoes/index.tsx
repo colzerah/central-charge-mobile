@@ -1,6 +1,7 @@
 import MenuConfig from "@/src/components/MenuConfig";
 import { useModal } from "@/src/hooks/useModal";
 import { usePermissions } from "@/src/hooks/usePermissions";
+import { useChangeTheme, useTheme } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import {
   getMenuConfigPermissoes,
@@ -13,6 +14,8 @@ export default function ViewConfiguracoes() {
   const { allowCameraAccess, allowLocationAccess, camera, localization } =
     usePermissions();
   const { t, language } = useTranslation();
+  const { isDark } = useTheme();
+  const changeTheme = useChangeTheme();
 
   const { openModal } = useModal();
 
@@ -72,15 +75,26 @@ export default function ViewConfiguracoes() {
       <MenuConfig
         title={t("settings.sections.preferences") /* pt: "Preferências" */}
         // O item Idioma mostra o idioma escolhido (ex.: "Português (Brasil)")
-        items={getMenuConfigPreferencias(t, t(`language.names.${language}`) /* pt: language.names.* → "Português (Brasil)", "Português (Portugal)", "Inglês (Estados Unidos)", … */)}
+        items={getMenuConfigPreferencias(
+          t,
+          t(`language.names.${language}`) /* pt: language.names.* → "Português (Brasil)", "Português (Portugal)", "Inglês (Estados Unidos)", … */,
+          isDark
+            ? t("settings.themeDark") /* pt: "Escuro" */
+            : t("settings.themeLight") /* pt: "Claro" */,
+        )}
         onPress={(e, i) => {
           if (e === "IDIOMA") {
             router.navigate("/idioma");
             return;
           }
+          // Switch ligado = tema escuro
+          if (e === "TEMA") {
+            changeTheme(i ? "dark" : "light");
+            return;
+          }
           console.log("Preferência", e, i);
         }}
-        active={{ TEMA: false }}
+        active={{ TEMA: isDark }}
       />
     </View>
   );

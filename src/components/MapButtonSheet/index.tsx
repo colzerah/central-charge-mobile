@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import {
   BottomSheetBackdrop,
@@ -31,7 +32,7 @@ import {
   MapButtonSheetProps,
   MapButtonSheetRef,
 } from "./MapButtronSheetDTO";
-import { mapButtonSheetStyles } from "./styles";
+import { makeMapButtonSheetStyles } from "./styles";
 
 const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
   function MapButtonSheet(
@@ -43,6 +44,7 @@ const MapButtonSheet = forwardRef<MapButtonSheetRef, MapButtonSheetProps>(
     }: MapButtonSheetProps,
     ref,
   ) {
+    const mapButtonSheetStyles = useThemedStyles(makeMapButtonSheetStyles);
     const {
       name,
       variant,

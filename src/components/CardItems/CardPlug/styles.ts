@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const cardPlugStyles = StyleSheet.create({
+export const makeCardPlugStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: {
     backgroundColor: C.ink100,
     paddingBottom: 18,
@@ -34,7 +35,7 @@ export const cardPlugStyles = StyleSheet.create({
     fontWeight: 900,
     fontSize: 20,
     fontFamily: "Inter-Bold",
-    color: C.white,
+    color: C.text,
     marginBottom: 8,
   },
   body: {
@@ -42,7 +43,7 @@ export const cardPlugStyles = StyleSheet.create({
     display: "flex",
   },
   shadow: {
-    backgroundColor: C.black + 90,
+    backgroundColor: C.badgeBg,
     paddingLeft: 8,
     paddingRight: 8,
     paddingTop: 4,

@@ -1,12 +1,14 @@
+import { useThemedStyles } from "@/src/hooks/useTheme";
 import { Text, View } from "react-native";
 
 import { MenuItem } from "./MenuItem";
-import { menuStyles } from "./styles";
+import { makeMenuStyles } from "./styles";
 
 import IconBackground from "../IconBackground";
 import { MenuConfigPros } from "./MenuConfigDTO";
 
 const MenuConfig = ({ title, items, onPress, active }: MenuConfigPros) => {
+  const menuStyles = useThemedStyles(makeMenuStyles);
   return (
     <View>
       {title && <Text style={menuStyles.sectionTitle}>{title}</Text>}

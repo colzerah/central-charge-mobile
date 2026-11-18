@@ -1,8 +1,10 @@
+import { useThemedStyles } from "@/src/hooks/useTheme";
 import { Text, View } from "react-native";
 import { DividerProps } from "./DividerDTO";
-import { dividerStyles } from "./styles";
+import { makeDividerStyles } from "./styles";
 
 const DividerHorizontal = ({ title, mt, mb }: DividerProps) => {
+  const dividerStyles = useThemedStyles(makeDividerStyles);
   //usar o type para divisao de hor e vert
 
   return (

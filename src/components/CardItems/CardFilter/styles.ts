@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const cardInfoStyles = StyleSheet.create({
+export const makeCardInfoStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: {
     backgroundColor: C.ink100,
     borderRadius: 14,
@@ -18,7 +19,7 @@ export const cardInfoStyles = StyleSheet.create({
 
   label: {
     fontSize: 14,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-SemiBold",
     fontWeight: "bold",
   },

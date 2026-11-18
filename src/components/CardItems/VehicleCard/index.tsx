@@ -1,12 +1,15 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { Trash2 } from "lucide-react-native";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import Tag from "../../Tag";
-import { vehicleStyles } from "./styles";
+import { makeVehicleStyles } from "./styles";
 import { VehicleCardProps } from "./VehicleCardDTO";
 
 export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
+  const { colors: C } = useTheme();
+  const vehicleStyles = useThemedStyles(makeVehicleStyles);
   const { t } = useTranslation();
   return (
     <View style={vehicleStyles.card}>

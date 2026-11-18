@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import * as icons from "lucide-react-native/icons";
@@ -38,6 +39,7 @@ const MOCK_BRANDS = [
 ];
 
 export default function ViewFilter() {
+  const { colors: C } = useTheme();
   const { t } = useTranslation();
   const [available, setAvailable] = useState(false);
   const [occupied, setOccupied] = useState(false);
@@ -73,7 +75,7 @@ export default function ViewFilter() {
           style={{
             fontSize: 15,
             fontWeight: "700",
-            color: C.white,
+            color: C.text,
             fontFamily: "Inter-Bold",
           }}
         >

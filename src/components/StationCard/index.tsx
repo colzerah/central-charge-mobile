@@ -1,14 +1,17 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { C } from "@/src/theme";
 import { Text, View } from "react-native";
 import Icon from "../Icon";
 import { StationCardProps } from "./StationCardDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const StationCard = ({
   title = "Estação Shopping",
   type,
 }: StationCardProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const { t } = useTranslation();
   const colorType = {
     BROKEN: C.error,

@@ -25,6 +25,9 @@ interface IAnimatedMeshGradient {
   readonly noise?: number;
   readonly blur?: number;
   readonly contrast?: number;
+  // Quanto as bordas escurecem (0 = nada, 0.15 = padrão). Em fundo claro
+  // deixe 0, senão os cantos ficam acinzentados.
+  readonly vignette?: number;
   readonly animated?: boolean;
   readonly active?: boolean;
   readonly style?: StyleProp<ViewStyle>;

@@ -1,4 +1,4 @@
-import { C } from "@/src/theme";
+import { useTheme } from "@/src/hooks/useTheme";
 import { View } from "react-native";
 import { GooeySwitch } from "../shared/ui/micro-interactions/gooey-switch";
 import { SwitchDTO } from "./SwitchDTO";
@@ -9,6 +9,7 @@ const Switch = ({
   gooeySize = 35,
   onToggle,
 }: SwitchDTO) => {
+  const { colors: C } = useTheme();
   return (
     <View>
       <GooeySwitch

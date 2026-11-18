@@ -136,6 +136,7 @@ export const getMenuConfigPermissoes = (t: TFunction): ItemMenuConfig[] => [
 export const getMenuConfigPreferencias = (
   t: TFunction,
   languageLabel: string,
+  themeLabel: string,
 ): ItemMenuConfig[] => [
   {
     title: t("settings.language") /* pt: "Idioma" */,
@@ -148,7 +149,7 @@ export const getMenuConfigPreferencias = (
   {
     title: t("settings.theme") /* pt: "Tema" */,
     label: "TEMA",
-    subLabel: t("settings.themeDark") /* pt: "Escuro" */,
+    subLabel: themeLabel,
     icon: "Moon",
     color: C.ink400,
     type: "switch",

@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
-import { C } from "~/theme";
+import type { ThemeColors } from "@/src/theme";
 
-export const styles = StyleSheet.create({
+export const makeStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   dateBox: {
     alignItems: "center",
     justifyContent: "center",

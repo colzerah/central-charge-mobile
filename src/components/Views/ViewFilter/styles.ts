@@ -1,9 +1,10 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
 const SCAN_BOX_SIZE = 280;
 
-export const scanStyles = StyleSheet.create({
+export const makeScanStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
@@ -16,7 +17,7 @@ export const scanStyles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     marginBottom: 8,
   },

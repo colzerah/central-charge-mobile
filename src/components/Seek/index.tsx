@@ -1,8 +1,10 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import SeekBar from "../shared/ui/molecules/seek-bar/SeekBar";
 import { SeekProps } from "./SeekDTO";
 
 const Seek = ({ value, onChange, min = 1, max = 300, w = 100 }: SeekProps) => {
+  const { colors: C } = useTheme();
   const range = max - min;
   const toNormalized = (v: number) => (v - min) / range;
   const fromNormalized = (n: number) => Math.round(min + n * range);

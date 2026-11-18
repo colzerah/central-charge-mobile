@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const vehicleStyles = StyleSheet.create({
+export const makeVehicleStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   card: {
     backgroundColor: C.ink50,
     borderRadius: 20,
@@ -52,7 +53,7 @@ export const vehicleStyles = StyleSheet.create({
   vehicleName: {
     fontSize: 20,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     letterSpacing: -0.3,
   },
@@ -75,7 +76,7 @@ export const vehicleStyles = StyleSheet.create({
   plateText: {
     fontSize: 15,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     letterSpacing: 1.5,
   },

@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import LogoAnimated from "@/src/components/LogoAnimated";
@@ -37,7 +38,7 @@ import { useAuth } from "@/src/hooks/useAuth";
 import { useOnboarding } from "@/src/hooks/useOnboarding";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewLogin() {
   useFrameworkReady();
@@ -46,6 +47,7 @@ export default function ViewLogin() {
 }
 
 function LoginContent() {
+  const styles = useThemedStyles(makeStyles);
   const dispatch = useAppDispatch();
   const { signIn, isAuthLoading } = useAuth();
   const { localization, camera, allowLocationAccess } = usePermissions();

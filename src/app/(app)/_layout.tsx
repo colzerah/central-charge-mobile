@@ -2,14 +2,15 @@ import { Stack, router } from "expo-router";
 import { useEffect } from "react";
 
 import Header from "@/src/components/Header";
+import { useTheme } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
-import { C } from "@/src/theme";
 
 // Este grupo só é montado quando autenticado: o Stack.Protected em
 // src/app/_layout.tsx já garante isso, então não precisa checar de novo aqui.
 export default function AppLayout() {
   // Os headers abaixo são traduzidos e precisam atualizar ao trocar o idioma
   const { t } = useTranslation();
+  const { colors } = useTheme();
 
   // No Android, apertar voltar na raiz do app manda a Activity pra segundo
   // plano em vez de encerrá-la (ver MainActivity.invokeDefaultOnBackPressed,
@@ -29,7 +30,7 @@ export default function AppLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: C.ink0 },
+        contentStyle: { backgroundColor: colors.ink0 },
       }}
     >
       <Stack.Screen

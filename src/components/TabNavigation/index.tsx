@@ -1,10 +1,13 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { C } from "@/src/theme";
 import Icon from "../Icon";
 import { MaskedTabBar } from "../shared/ui/organisms/masked-tab-bar";
 import { TabNavigationProps } from "./TabNavigationDTO";
-import { tabNavigationStyles } from "./styles";
+import { makeTabNavigationStyles } from "./styles";
 
 const TabNavigation = ({ items, onPress, value, style }: TabNavigationProps) => {
+  const { colors: C } = useTheme();
+  const tabNavigationStyles = useThemedStyles(makeTabNavigationStyles);
   return (
     <MaskedTabBar
       value={value}

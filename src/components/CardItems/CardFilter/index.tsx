@@ -1,10 +1,11 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Pressable, Text, View } from "react-native";
 import { CardFilterProps } from "./CardFilterDTO";
 
 import { C } from "@/src/theme";
 import CheckBox from "../../CheckBox";
 import Icon from "../../Icon";
-import { cardInfoStyles } from "./styles";
+import { makeCardInfoStyles } from "./styles";
 
 const CardFilter = ({
   label,
@@ -13,6 +14,8 @@ const CardFilter = ({
   isActive = false,
   count = 0,
 }: CardFilterProps) => {
+  const { colors: C } = useTheme();
+  const cardInfoStyles = useThemedStyles(makeCardInfoStyles);
   const iconType = {
     SUCCESS: <Icon name="Check" color={C.success} size={19} />,
     WARNING: <Icon name="Car" color={C.warning} size={18} />,

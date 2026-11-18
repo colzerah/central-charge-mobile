@@ -1,9 +1,12 @@
-import { C } from "@/src/theme";
-import { StyleSheet } from "react-native";
+import type { ThemeColors } from "@/src/theme";
+import { PixelRatio, StyleSheet } from "react-native";
 
-const SCAN_BOX_SIZE = 280;
+// Arredondados para pixels físicos para a borda sair igual nos quatro lados
+const SCAN_BOX_SIZE = PixelRatio.roundToNearestPixel(280);
+const SCAN_BOX_BORDER = PixelRatio.roundToNearestPixel(2);
 
-export const scanStyles = StyleSheet.create({
+export const makeScanStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
@@ -16,7 +19,7 @@ export const scanStyles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     marginBottom: 8,
   },
@@ -31,11 +34,21 @@ export const scanStyles = StyleSheet.create({
     width: SCAN_BOX_SIZE,
     height: SCAN_BOX_SIZE,
     borderRadius: 24,
-    borderWidth: 2,
-    borderColor: C.brand400,
     overflow: "hidden",
     backgroundColor: C.ink50,
     marginBottom: 100,
+  },
+  scanBoxBorder: {
+    ...StyleSheet.absoluteFill,
+    borderRadius: 24,
+    borderWidth: SCAN_BOX_BORDER,
+    borderColor: C.brand400,
+  },
+  cameraPlaceholder: {
+    ...StyleSheet.absoluteFill,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: C.ink50,
   },
   permissionBox: {
     flex: 1,

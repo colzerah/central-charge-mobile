@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const headerStyles = StyleSheet.create({
+export const makeHeaderStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   header: {
     position: "relative",
     backgroundColor: C.ink50,
@@ -34,7 +35,7 @@ export const headerStyles = StyleSheet.create({
   title: {
     fontSize: 17,
     fontWeight: "700",
-    color: C.white,
+    color: C.text,
     fontFamily: "Inter-Bold",
     letterSpacing: -0.2,
   },

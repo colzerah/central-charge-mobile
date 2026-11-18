@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
-import { C } from "@/src/theme";
+import { C as StaticC, type ThemeColors } from "@/src/theme";
+
+// Temas do botão laranja/desabilitado: mesmas cores nos dois temas do app
+const C = StaticC;
 
 export const defaultTheme = {
   background: C.brand500,
@@ -31,7 +34,8 @@ export const shadowStyle = {
   boxShadow: `0px 6px 14px ${C.brand500}66`,
 };
 
-export const radiantButtonStyles = StyleSheet.create({
+export const makeRadiantButtonStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
@@ -39,7 +43,7 @@ export const radiantButtonStyles = StyleSheet.create({
     gap: 8,
   },
   text: {
-    color: C.white,
+    color: C.text,
     fontSize: 17,
     fontWeight: "700",
     fontFamily: "Inter-Bold",

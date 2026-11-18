@@ -1,11 +1,14 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { Text, View } from "react-native";
 import { C } from "~/theme";
 import { DateBadgeProps } from "./DateBadgeDTO";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 // refatorar com os padroes do button
 
 const DateBadge = ({ day, month, bg = true }: DateBadgeProps) => {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const formattedMonth = month.toUpperCase().slice(0, 3);
   const bgColor = { backgroundColor: bg ? C.ink100 : "transparent" };
   return (

@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import RechargeCard from "@/src/components/RechargeCard";
 import SummaryCard from "@/src/components/SummaryCard";
@@ -20,9 +21,11 @@ import {
   RECHARGES_MOCK,
   ViewRechargesProps,
 } from "./RechargesDTO";
-import { rechargesStyles } from "./styles";
+import { makeRechargesStyles } from "./styles";
 
 const ViewRecharges = ({ tabs }: ViewRechargesProps) => {
+  const { colors: C } = useTheme();
+  const rechargesStyles = useThemedStyles(makeRechargesStyles);
   const [refreshing, setRefreshing] = useState(false);
   const { t, language } = useTranslation();
 

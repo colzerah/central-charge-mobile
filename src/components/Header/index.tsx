@@ -1,13 +1,15 @@
-import { C } from "@/src/theme";
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { router } from "expo-router";
 import { ArrowLeft, ChevronLeft } from "lucide-react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScreenHeaderBackButtonProps, ScreenHeaderProps } from "./HeaderDTO";
-import { headerStyles } from "./styles";
+import { makeHeaderStyles } from "./styles";
 
 function Header({ title, subtitle, onBack, right }: ScreenHeaderProps) {
   const insets = useSafeAreaInsets();
+  const { colors: C } = useTheme();
+  const headerStyles = useThemedStyles(makeHeaderStyles);
 
   const handleBack = () => {
     if (onBack) onBack();
@@ -27,7 +29,7 @@ function Header({ title, subtitle, onBack, right }: ScreenHeaderProps) {
           onPress={handleBack}
           activeOpacity={0.7}
         >
-          <ChevronLeft color={C.white} size={22} strokeWidth={2.4} />
+          <ChevronLeft color={C.text} size={22} strokeWidth={2.4} />
         </TouchableOpacity>
 
         <View style={headerStyles.titleWrap}>
@@ -46,6 +48,8 @@ function Header({ title, subtitle, onBack, right }: ScreenHeaderProps) {
 }
 
 export const HeaderBackButton = ({ onBack }: ScreenHeaderBackButtonProps) => {
+  const { colors: C } = useTheme();
+  const headerStyles = useThemedStyles(makeHeaderStyles);
   const handleBack = () => {
     if (onBack) onBack();
     else router.back();

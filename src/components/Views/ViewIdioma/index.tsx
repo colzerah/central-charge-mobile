@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import RadioList from "@/src/components/RadioList";
 import {
   useChangeLanguage,
@@ -5,9 +6,10 @@ import {
 } from "@/src/hooks/useTranslation";
 import { getLanguages } from "@/src/utils/enum";
 import { ScrollView, Text } from "react-native";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 export default function ViewIdioma() {
+  const styles = useThemedStyles(makeStyles);
   const { t, language } = useTranslation();
   const changeLanguage = useChangeLanguage();
 

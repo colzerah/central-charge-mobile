@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import InputOpt from "@/src/components/InputOpt";
@@ -23,12 +24,14 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./styles";
+import { makeStyles } from "./styles";
 
 const generateOtp = () =>
   Math.floor(100000 + Math.random() * 900000).toString();
 
 export default function ViewSendCode() {
+  const { colors: C } = useTheme();
+  const styles = useThemedStyles(makeStyles);
   const { phone } = useLocalSearchParams<{ phone: string }>();
   const { t } = useTranslation();
 

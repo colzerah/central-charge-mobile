@@ -1,3 +1,4 @@
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
 import { useTranslation } from "@/src/hooks/useTranslation";
 import { Image, Pressable, Text, View } from "react-native";
 import { CardBrandProps } from "./CardBrandDTO";
@@ -5,7 +6,7 @@ import { CardBrandProps } from "./CardBrandDTO";
 import { C } from "@/src/theme";
 import { COLOR_PALETTE } from "@/src/utils/enum";
 import Icon from "../../Icon";
-import { cardInfoStyles } from "./styles";
+import { makeCardInfoStyles } from "./styles";
 
 const CardBrand = ({
   label,
@@ -15,6 +16,8 @@ const CardBrand = ({
   uri,
   indexColor = 0,
 }: CardBrandProps) => {
+  const { colors: C } = useTheme();
+  const cardInfoStyles = useThemedStyles(makeCardInfoStyles);
   const { t } = useTranslation();
   return (
     <Pressable

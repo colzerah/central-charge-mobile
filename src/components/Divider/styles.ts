@@ -1,7 +1,8 @@
-import { C } from "@/src/theme";
+import type { ThemeColors } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
-export const dividerStyles = StyleSheet.create({
+export const makeDividerStyles = (C: ThemeColors) =>
+  StyleSheet.create({
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
