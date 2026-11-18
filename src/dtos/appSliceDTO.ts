@@ -1,4 +1,4 @@
-import { MarketsInterface } from "../app/(app)/(tabs)/home";
+import { MarketsInterface } from "../components/Views/ViewHome/ViewHomeDTO";
 import { AppTheme } from "../theme";
 import { AppLanguage } from "./languageDTO";
 

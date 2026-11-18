@@ -1,5 +1,3 @@
-import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
-import { useTranslation } from "@/src/hooks/useTranslation";
 import BackgroundGradient from "@/src/components/BackgroundGradient";
 import Button from "@/src/components/Button";
 import ButtonIcon from "@/src/components/ButtonIcon";
@@ -9,8 +7,10 @@ import Icon from "@/src/components/Icon";
 import StationCard from "@/src/components/StationCard";
 import SummaryCard from "@/src/components/SummaryCard";
 import TimeTable from "@/src/components/TimeTable";
+import { useTheme, useThemedStyles } from "@/src/hooks/useTheme";
+import { useTranslation } from "@/src/hooks/useTranslation";
 import { useAppSelector } from "@/src/redux/store";
-import { C } from "@/src/theme";
+import { openPhoneDialer } from "@/src/utils/phoneDialer";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -89,7 +89,9 @@ export default function ViewPinDetalhes() {
             <CardInfo
               iconName="Phone"
               description={values.pinSelected?.supportNumber!}
-              onPress={() => console.log("press telefone")}
+              onPress={() =>
+                openPhoneDialer(values.pinSelected?.supportNumber!)
+              }
             />
           </View>
           <View style={pinDetailStyles.viewPressError}>
@@ -107,13 +109,21 @@ export default function ViewPinDetalhes() {
                 strokeWidth={2.2}
               />
               <Text style={pinDetailStyles.titleError}>
-                {t("stationDetails.reportProblem") /* pt: "Relatar um problema" */}
+                {
+                  t(
+                    "stationDetails.reportProblem",
+                  ) /* pt: "Relatar um problema" */
+                }
               </Text>
             </Pressable>
           </View>
           <View style={pinDetailStyles.section}>
             <Text style={pinDetailStyles.title}>
-              {t("stationDetails.schedule") /* pt: "HÓRARIOS DE FUNCIONAMENTO" */}
+              {
+                t(
+                  "stationDetails.schedule",
+                ) /* pt: "HÓRARIOS DE FUNCIONAMENTO" */
+              }
             </Text>
           </View>
           <View>

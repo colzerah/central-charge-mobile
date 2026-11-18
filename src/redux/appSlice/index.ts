@@ -1,4 +1,5 @@
-import { MarketsInterface } from "@/src/app/(app)/(tabs)/home";
+// import { MarketsInterface } from "@/src/app/(app)/(tabs)/home";
+import { MarketsInterface } from "@/src/components/Views/ViewHome/ViewHomeDTO";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState } from "~/dtos/appSliceDTO";
 import { AppLanguage } from "~/dtos/languageDTO";
